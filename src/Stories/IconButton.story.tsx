@@ -2,16 +2,18 @@ import Roact from "@rbxts/roact";
 import Themes from "Plugin/Themes";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import IconButton from "UI/UIUtils/IconButton";
+import Signal from "Utils/Signal";
 
-print("Sup");
-
-function Test(target: ScreenGui) {
+function Test(
+	target: ScreenGui,
+	inputHandler: { InputBegan: Signal<(input: InputObject, _: boolean, inPlugin: boolean) => void> },
+) {
 	const NewStoryTool = (
 		<ThemeContext.Provider value={{ Theme: Themes.Dark }}>
 			<IconButton
 				ButtonName="IconButton"
 				Icon={{
-					RectOffset: new Vector2(0, 0),
+					RectOffset: new Vector2(128, 128),
 					RectSize: new Vector2(64, 64),
 				}}
 				Position={UDim2.fromScale(0.5, 0.5)}
@@ -25,9 +27,9 @@ function Test(target: ScreenGui) {
 		</ThemeContext.Provider>
 	);
 	const Handler = Roact.mount(NewStoryTool, target);
-	return function () {
+	return () => {
 		Roact.unmount(Handler);
 	};
 }
 
-export = [110, 70];
+export = Test;

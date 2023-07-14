@@ -2,7 +2,7 @@ import { useAsyncEffect, useDebounceEffect } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
 import { Copy, Filter } from "Utils/TableUtil";
 
-export const useDescriptor = () => {
+export const useDescriptor = (mouseIconContext: IsMouseIconContext) => {
 	const [descTable, setDescTable] = useState<string[][]>([]);
 	//descTable is a table of [index (Button name who activated desc), desct (Desc text, this one can change, even if the button is the same)]
 	const [mouseDesc, setMouseDesc] = useState<string | undefined>(undefined);
@@ -54,5 +54,11 @@ export const useDescriptor = () => {
 	useEffect(() => {
 		setMouseDesc(descTable[0] && descTable[0][1]);
 	}, [descTable]);
+	useEffect(() => {
+		const descIndex = descTable[0];
+		if (!descIndex) return;
+		if (mouseDesc) mouseIconContext.setMouseIcon(descIndex[0], "Select");
+		else mouseIconContext.unsetMouseIcon(descIndex[0]);
+	}, [mouseDesc]);
 	return $tuple(mouseDesc, descVisible, GetMouseDesc, SetMouseDesc, RemoveMouseDesc);
 };

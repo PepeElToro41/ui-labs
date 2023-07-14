@@ -1,7 +1,9 @@
 import Roact from "@rbxts/roact";
 
 export const PluginContext = Roact.createContext({
-	pluginMouse: identity<PluginMouse | Mouse | undefined>(undefined),
+	PluginObject: identity<typeof plugin | undefined>(undefined),
+	DockWidget: identity<DockWidgetPluginGui | undefined>(undefined),
+	WarnOnOpen: (warnMsg: string) => {},
 	ExternalControls: {
 		getHierarchy: () => {
 			const test = [] as PluginHierarchy;

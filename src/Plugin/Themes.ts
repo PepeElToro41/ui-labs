@@ -17,6 +17,8 @@ const Dark = {
 		//FOLDERS
 		FolderImage: Color3.fromRGB(196, 135, 232),
 		FolderDisabledImage: Color3.fromRGB(122, 84, 145),
+		//BOOKS
+		BookImage: Color3.fromRGB(48, 222, 156),
 	},
 	StoryDisplayed: {
 		//NODE
@@ -66,6 +68,8 @@ const Light: Theme = {
 		//FOLDERS
 		FolderImage: Color3.fromRGB(196, 97, 255),
 		FolderDisabledImage: Color3.fromRGB(102, 48, 135),
+		//BOOKS
+		BookImage: Color3.fromRGB(0, 191, 112),
 	},
 	StoryDisplayed: {
 		//NODE

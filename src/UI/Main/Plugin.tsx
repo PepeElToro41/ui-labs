@@ -2,9 +2,12 @@ import Roact from "@rbxts/roact";
 import App from "./App";
 import { useMemo, withHooks } from "@rbxts/roact-hooked";
 import { PluginContext } from "UI/Contexts/PluginContext";
+import { TweenService } from "@rbxts/services";
 
 interface PluginProps {
-	PluginMouse: PluginMouse | Mouse;
+	PluginObject?: typeof plugin;
+	DockWidget?: DockWidgetPluginGui;
+	WarnOnOpen?: (warnMsg: string) => void;
 	ExternalControls: {
 		setHierarchy: (settings: PluginHierarchy) => void;
 		getHierarchy: () => PluginHierarchy;
@@ -17,16 +20,21 @@ function setProps(props: PluginProps) {
 }
 
 function PluginCreate(setprops: PluginProps) {
+	const newHum = new Instance("Humanoid");
+	TweenService.Create(newHum, new TweenInfo(1), { CameraOffset: new Vector3(0, 0, 0) });
+
 	const props = identity<Required<PluginProps>>(setProps(setprops) as Required<PluginProps>);
 	const contextValue = useMemo(() => {
 		return {
-			pluginMouse: props.PluginMouse,
+			PluginObject: props.PluginObject,
+			WarnOnOpen: props.WarnOnOpen ?? warn,
+			DockWidget: props.DockWidget,
 			ExternalControls: {
 				setHierarchy: props.ExternalControls.setHierarchy,
 				getHierarchy: props.ExternalControls.getHierarchy,
 			},
 		};
-	}, [props.PluginMouse, props.ExternalControls]);
+	}, [props.PluginObject, props.ExternalControls, props.WarnOnOpen]);
 	//Theme effects
 	return (
 		<PluginContext.Provider value={contextValue}>

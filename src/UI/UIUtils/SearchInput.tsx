@@ -50,7 +50,8 @@ function SearchInputCreate(setprops: SearchInputProps) {
 				PlaceholderColor3={theme.SearchPlaceholder}
 				PlaceholderText={props.Placeholder ?? ""}
 				Position={new UDim2(0, 30, 0.5, 0)}
-				Size={new UDim2(0, 200, 0.8, 0)}
+				Size={new UDim2(1, -35, 0.8, 0)}
+				TextTruncate={Enum.TextTruncate.AtEnd}
 				Text={""}
 				TextColor3={theme.TextColor}
 				TextSize={13}

@@ -23,8 +23,7 @@
                 "transform": "rbxts-transformer-t",
             }
         ],
-
-        "types": ["@rbxts/types/plugin"],
+      "types": ["@rbxts/types/plugin"],
 		"rootDir": "src",
 		"outDir": "out",
 		"baseUrl": "src",

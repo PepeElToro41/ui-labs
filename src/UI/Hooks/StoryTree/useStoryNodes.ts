@@ -1,157 +1,135 @@
-import useStorySearch from "./useStorySearch";
-import Configs from "Plugin/Configs";
-import { DecodePath, GetLabelName, GetUID } from "Utils/NodeUtils";
-import { Copy } from "Utils/TableUtil";
+import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
+import Configs from "Plugin/Configs";
+import { RemoveExtension } from "Utils/NodeUtils";
+import { HasUILib } from "Utils/StoryUtils";
+import useStoryBook from "./Searches/useStoryBook";
+import useStoryFolder from "./Searches/useStoryFolder";
+import useStorySearch from "./Searches/useStorySearch";
 
-function FindBindedModule(bindInfo: HierarchyModuleBind, available: ModuleScript[]): ModuleScript | void {
-	let parent: Instance | undefined = undefined;
-	if (bindInfo.ReferencePath) {
-		parent = DecodePath(bindInfo.ReferencePath);
-	}
-	for (let index = 0; index < available.size(); index++) {
-		const module = available[index];
-		if (parent && module.Parent === parent) {
-			//The module was found with the path
-			if (bindInfo.UID) {
-				//The bindInfo can provide a UID, checking if it matches
-				if (GetUID(module) === bindInfo.UID) {
-					return module;
-				}
-			} else {
-				//The bindInfo does not provide a UID, checking Name
-				if (module.Name === bindInfo.ReferencePath!.ModuleName) {
-					return module;
+function GenerateFolders(nodes: MainNodes, storyFolders: StoryFolders, storyList: ModuleScript[]) {}
+function GenerateBooks(nodes: MainNodes, storyBooks: StoryBooks, storyList: ModuleScript[], LibsInfo: UILibsPartial) {
+	const setNodes = nodes;
+	const setStoryList = storyList;
+	const IterateChildren = (children: Instance[], currentParentNode: BookNode | BookFolderNode, bookBind: BookNode) => {
+		let totalFound = 0;
+		const insidePush: (BookStoryNode | BookFolderNode)[] = [];
+		children.forEach((child) => {
+			if (child.IsA("ModuleScript") && setStoryList.includes(child)) {
+				//Pushing a story with BookNodeBinded
+				//print("APPLYING WITH BOOKNODE", bookBind);
+				insidePush.push({
+					DisplayName: RemoveExtension(child, ".story"),
+					BookNodeBinded: bookBind,
+					Module: child,
+				});
+				setStoryList.remove(setStoryList.indexOf(child));
+				totalFound++;
+			} else if (child.GetChildren().size() > 0) {
+				//Pushing a folder this folder extends BookFolderNode, so it has BookNodeBinded which gets passed down
+				const newParentNode: BookFolderNode = {
+					DisplayName: child.Name,
+					BookNodeBinded: bookBind,
+					InstanceBinded: child,
+					Inside: [],
+				};
+				const foundAmount = IterateChildren(child.GetChildren(), newParentNode, bookBind);
+				if (foundAmount > 0) {
+					currentParentNode.Inside.push(newParentNode);
+					totalFound++;
 				}
 			}
-		} else {
-			//The module was not found with path, checking by UID
-			if (bindInfo.UID) {
-				if (GetUID(module) === bindInfo.UID) {
-					return module;
-				}
-			}
+		});
+		insidePush.forEach((newNode) => {
+			currentParentNode.Inside.push(newNode);
+		});
+		return totalFound;
+	};
+
+	storyBooks.forEach((book, module) => {
+		let UILibs = LibsInfo || {};
+		//print("Iterating book", module.GetFullName());
+		if (HasUILib(book)) {
+			UILibs = {
+				roact: book.roact ?? undefined,
+				react: book.react ?? undefined,
+				reactRoblox: book.reactRoblox ?? undefined,
+			};
 		}
-	}
-}
-function GenerateNodes(storyList: ModuleScript[], hierarchy: PluginHierarchy) {
-	const storiesUnknown = table.clone(storyList); //Saves all nodes that are not in the hierarchy
-	const nodesList: FolderNode[] = [];
-	const Iterate = (folder: HierarchyFolder, currentFolder?: FolderNode) => {
-		const folderNode: FolderNode = {
-			DisplayName: folder.DisplayName,
+		const newParentNode: BookNode = {
+			DisplayName: book.name ?? RemoveExtension(module, Configs.Extensions.StoryBook),
+			ModuleBookBinded: module,
+			UILibs: UILibs,
 			Inside: [],
 		};
-		folder.Inside.forEach((member) => {
-			if ("Inside" in member) {
-				Iterate(member, folderNode);
-			} else {
-				const module = FindBindedModule(member, storiesUnknown);
-				if (module) {
-					folderNode.Inside.push({
-						DisplayName: GetLabelName(module),
-						Module: module,
-					});
-					storiesUnknown.remove(storiesUnknown.indexOf(module));
-				}
-			}
-		});
-		if (currentFolder) {
-			currentFolder.Inside.push(folderNode);
+		if (book.groupRoots) {
+			IterateChildren(book.storyRoots, newParentNode, newParentNode);
 		} else {
-			nodesList.push(folderNode);
+			book.storyRoots.forEach((child) => {
+				IterateChildren(child.GetChildren(), newParentNode, newParentNode);
+			});
 		}
-	};
-	hierarchy.forEach((folder) => {
-		Iterate(folder);
+		setNodes.push(newParentNode);
 	});
-	//Creating unknown folder
-	if (storiesUnknown.size() > 0) {
-		nodesList.push({
-			DisplayName: "Unknown",
-			Unknown: true,
-			Inside: storiesUnknown.map((module) => {
-				return {
-					DisplayName: GetLabelName(module),
-					Module: module,
-				};
-			}),
-		});
-	}
-	return nodesList;
 }
-function FixNodes(storyList: ModuleScript[], nodes: FolderNode[]) {
-	const newStoryNodes: FolderNode[] = [];
-	const storiesUnknown = table.clone(storyList); //Saves all nodes that are not in the hierarchy
-	const Iterate = (folderNode: FolderNode, currentFolder?: FolderNode) => {
-		if (folderNode.Unknown === true) {
-			return;
-		}
-		const newFolderNode: FolderNode = {
-			DisplayName: folderNode.DisplayName,
-			Inside: [],
-		};
-		folderNode.Inside.forEach((nodeMember) => {
-			if ("Inside" in nodeMember) {
-				Iterate(nodeMember, newFolderNode);
-			} else {
-				const bindedModule = storyList.find((module) => {
-					return module === nodeMember.Module;
-				});
-				if (!bindedModule) return;
-				if (!game.IsAncestorOf(bindedModule)) return;
-				storiesUnknown.remove(storiesUnknown.indexOf(bindedModule));
-				newFolderNode.Inside.push({
-					DisplayName: GetLabelName(bindedModule),
-					Module: bindedModule,
-				});
-			}
-		});
-		if (currentFolder) {
-			currentFolder.Inside.push(newFolderNode);
+
+function GenerateUnknown(nodes: MainNodes, storyList: ModuleScript[]) {
+	const setNodes = nodes;
+	const nodesMap = new Map<Instance, FolderNode>();
+	storyList.forEach((module) => {
+		if (!module.Parent) return;
+		const moduleMapNode = nodesMap.get(module.Parent);
+		if (moduleMapNode) {
+			moduleMapNode.Inside.push({
+				DisplayName: RemoveExtension(module, Configs.Extensions.Story),
+				Module: module,
+			});
 		} else {
-			newStoryNodes.push(newFolderNode);
+			const newParentNode: FolderNode = {
+				DisplayName: module.Parent.Name,
+				Inside: [],
+				InstanceBinded: module.Parent,
+				Unknown: true,
+			};
+			newParentNode.Inside.push({
+				DisplayName: RemoveExtension(module, Configs.Extensions.Story),
+				Module: module,
+			});
+			nodesMap.set(module.Parent, newParentNode);
 		}
-	};
-	nodes.forEach((node) => {
-		Iterate(node);
 	});
-	if (storiesUnknown.size() > 0) {
-		newStoryNodes.push({
-			DisplayName: "Unknown",
-			Unknown: true,
-			Inside: storiesUnknown.map((module) => {
-				return {
-					DisplayName: GetLabelName(module),
-					Module: module,
-				};
-			}),
-		});
-	}
+	nodesMap.forEach((node) => {
+		setNodes.push(node);
+	});
+}
+
+function GenerateNodes(
+	storyList: ModuleScript[],
+	storyFolders: StoryFolders,
+	storyBooks: StoryBooks | undefined,
+	LibsInfo: UILibsPartial,
+) {
+	const newStoryNodes: MainNodes = [];
+	const setStoryList = table.clone(storyList);
+	GenerateFolders(newStoryNodes, storyFolders, setStoryList);
+	if (storyBooks) GenerateBooks(newStoryNodes, storyBooks, setStoryList, LibsInfo);
+	GenerateUnknown(newStoryNodes, setStoryList);
 	return newStoryNodes;
 }
 
-//This hook holds the story nodes (AKA the hierarchy that is shown in the explorer)
-export = (
-	storyList: ModuleScript[],
-	getHierarchy: () => PluginHierarchy,
-	recalculateHierarchy: (nodes: FolderNode[]) => void,
-) => {
-	const [storyNodes, setNodes] = useState<FolderNode[]>(() => {
-		return GenerateNodes(storyList as ModuleScript[], getHierarchy());
+export = (search: (keyof Services)[], LibsInfo: UILibsPartial | undefined) => {
+	const [storyList] = useStorySearch(search);
+	const [storyFolders] = useStoryFolder(search);
+	const [storyBooks] = useStoryBook(search);
+	const [storyNodes, setNodes] = useState<MainNodes>(() => {
+		return GenerateNodes(storyList as ModuleScript[], storyFolders, undefined, LibsInfo ?? {});
 	});
-	const newFolder = useCallback((folderName: string, folderParent?: FolderNode) => {}, []);
-	const RecalculateNodes = useCallback(() => {
-		setNodes((oldNodes) => {
-			const GeneratedNodes = FixNodes(storyList as ModuleScript[], oldNodes);
-			return GeneratedNodes;
-		});
-	}, [storyList, setNodes]);
-	useEffect(() => {
-		RecalculateNodes();
-	}, [storyList]);
-	useEffect(() => {
-		recalculateHierarchy(Copy(storyNodes as FolderNode[]));
-	}, [storyNodes]);
-	return $tuple(storyNodes, RecalculateNodes, newFolder);
+
+	useUpdateEffect(() => {
+		if (!storyBooks) return;
+		setNodes(GenerateNodes(storyList as ModuleScript[], storyFolders, storyBooks, LibsInfo ?? {}));
+		print("UPDATING FOR CHANGE");
+	}, [storyBooks, storyList, storyFolders]);
+
+	return $tuple(storyNodes);
 };

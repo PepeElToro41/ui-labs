@@ -5,7 +5,6 @@ import IconButton from "./IconButton";
 
 interface StoryToolProps {
 	Icon: {
-		Image?: string;
 		Pos?: UDim2;
 		Size?: UDim2;
 		RectOffset: Vector2;

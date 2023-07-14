@@ -1,10 +1,13 @@
 import Roact from "@rbxts/roact";
-import { useContext, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
+import { useCallback, useContext, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
 import { DescriptorContext } from "UI/Contexts/Mouse/DescriptorContext";
+import { Detector } from "UI/UIUtils/Styles/Detector";
+import { Text } from "UI/UIUtils/Styles/Text";
 
 interface StoryNameProps {
 	StoryName?: string;
 	StoryPath: string | undefined;
+	OpenStoryModule: () => void;
 	Theme: Theme;
 }
 function setProps(props: StoryNameProps) {
@@ -22,13 +25,9 @@ function StoryNameCreate(setprops: StoryNameProps) {
 			descriptorContext.removeMouseDesc("StoryPath");
 		}
 	}, [hover, props.StoryPath]);
+
 	return (
-		<frame
-			Key="StoryName"
-			BackgroundColor3={props.Theme.StoryName}
-			BorderSizePixel={0}
-			Size={new UDim2(1, 0, 0, 35)}
-		>
+		<frame Key="StoryName" BackgroundColor3={props.Theme.StoryName} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 35)}>
 			<frame
 				Key="Divisor"
 				AnchorPoint={new Vector2(0, 1)}
@@ -37,6 +36,7 @@ function StoryNameCreate(setprops: StoryNameProps) {
 				BorderSizePixel={0}
 				Position={new UDim2(0, 0, 1, 0)}
 				Size={new UDim2(1, 0, 0, 1)}
+				ZIndex={2}
 			/>
 			<frame
 				Position={UDim2.fromScale(0.5, 0.5)}
@@ -50,9 +50,8 @@ function StoryNameCreate(setprops: StoryNameProps) {
 					VerticalAlignment={Enum.VerticalAlignment.Center}
 					Padding={new UDim(0, 15)}
 				/>
-				<textlabel
+				<Text
 					Key="StoryName"
-					BackgroundTransparency={1}
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Bold)}
 					Size={new UDim2(0, 0, 0, 20)}
 					AutomaticSize={Enum.AutomaticSize.X}
@@ -69,7 +68,7 @@ function StoryNameCreate(setprops: StoryNameProps) {
 					BorderSizePixel={0}
 					Visible={props.StoryPath !== undefined}
 				/>
-				<textbutton
+				<Detector
 					Key="StoryPath"
 					AutomaticSize={Enum.AutomaticSize.X}
 					BackgroundTransparency={hover ? 0.8 : 1}
@@ -77,19 +76,16 @@ function StoryNameCreate(setprops: StoryNameProps) {
 					BorderSizePixel={0}
 					LayoutOrder={2}
 					Size={new UDim2(0, 0, 0, 21)}
-					Text={""}
-					TextTransparency={1}
 					Visible={props.StoryPath !== undefined}
 					Event={{
 						MouseEnter: () => setHover(true),
 						MouseLeave: () => setHover(false),
+						MouseButton1Click: props.OpenStoryModule,
 					}}
 				>
-					<textlabel
+					<Text
 						Key="PathLabel"
 						AnchorPoint={new Vector2(0, 0.5)}
-						BackgroundTransparency={1}
-						FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
 						Size={new UDim2(0, 0, 0, 12)}
 						AutomaticSize={Enum.AutomaticSize.X}
 						Position={new UDim2(0, 0, 0.5, 0)}
@@ -99,8 +95,8 @@ function StoryNameCreate(setprops: StoryNameProps) {
 						TextSize={12}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					>
-						<uipadding PaddingLeft={new UDim(0, 2)} PaddingRight={new UDim(0, 2)} />
-					</textlabel>
+						<uipadding PaddingLeft={new UDim(0, 4)} PaddingRight={new UDim(0, 4)} />
+					</Text>
 					<frame
 						Key="Underlying"
 						AnchorPoint={new Vector2(0.5, 1)}
@@ -108,10 +104,10 @@ function StoryNameCreate(setprops: StoryNameProps) {
 						BackgroundTransparency={0.5}
 						BorderSizePixel={0}
 						Visible={hover}
-						Position={UDim2.fromScale(0.5, 1)}
+						Position={UDim2.fromScale(0.5, 0.9)}
 						Size={new UDim2(1, 0, 0, 1)}
 					/>
-				</textbutton>
+				</Detector>
 			</frame>
 		</frame>
 	);

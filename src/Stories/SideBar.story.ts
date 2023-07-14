@@ -3,11 +3,11 @@ import SideBar from "../UI/Main/SideBar";
 
 export = function (target: ScreenGui) {
 	const NewSideBar = Roact.createElement(SideBar, {
-		OnSelectStory: (story: StoryNode) => {},
+		OnAddResize: (size: number) => {},
 	});
 
 	const Handler = Roact.mount(NewSideBar, target);
-	return function () {
+	return () => {
 		Roact.unmount(Handler);
 	};
 };

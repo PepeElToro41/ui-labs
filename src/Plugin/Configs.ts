@@ -1,7 +1,22 @@
 const Configs = {
 	PluginName: "UI Labs",
-	IconsSprite: "rbxassetid://13795329846",
-	StoryExtension: ".story",
+	IconsSprite: "rbxassetid://13941267944",
+	Extensions: {
+		Story: ".story",
+		StoryBook: ".storybook",
+		StoryFolder: ".storyfolder",
+		Settings: ".uilabs",
+	},
+	//This is where the plugin will search for stories/storybooks and anything user-created instances
+	SearchServices: identity<(keyof Services)[]>([
+		"Workspace",
+		"ReplicatedFirst",
+		"ReplicatedStorage",
+		"ServerScriptService",
+		"ServerStorage",
+		"StarterGui",
+		"StarterPlayer",
+	]),
 	UIDAttributeName: "__uilabs_uid",
 	HotReloadTag: "__hotreloaded",
 	PluginIconOffset: new Vector2(0, 64),
