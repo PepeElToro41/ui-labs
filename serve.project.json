@@ -9,7 +9,7 @@
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
 			"Plugin": {
-                "$className": "Folder",
+            "$className": "Folder",
 				"$path": "./default.project.json"
 			}
 		}

@@ -128,7 +128,6 @@ export = (search: (keyof Services)[], LibsInfo: UILibsPartial | undefined) => {
 	useUpdateEffect(() => {
 		if (!storyBooks) return;
 		setNodes(GenerateNodes(storyList as ModuleScript[], storyFolders, storyBooks, LibsInfo ?? {}));
-		print("UPDATING FOR CHANGE");
 	}, [storyBooks, storyList, storyFolders]);
 
 	return $tuple(storyNodes);

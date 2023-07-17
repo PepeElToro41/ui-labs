@@ -1,13 +1,13 @@
 import { useAsyncEffect } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
-import { StoryExecutor } from "Declarations/StoryPreview";
+import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
 import { HotReloader, HotReloaderResult } from "Utils/HotReloader";
 import Signal from "Utils/Signal";
 
 declare global {
 	interface StoryHandle {
 		NodeBinded: StoryType;
-		Result: StoryExecutor | undefined;
+		Result: UL.StoryExecutor | undefined;
 		Error: string | undefined;
 		Reloader: HotReloader;
 	}
@@ -16,10 +16,10 @@ declare global {
 export = (displayingNode: StoryType | undefined) => {
 	const [storyHandle, setStoryHandle] = useState<StoryHandle>(undefined);
 
-	const StoryHandleSetter = useCallback((ReloaderReturn: HotReloaderResult<StoryExecutor>, NodeBinded: StoryType) => {
+	const StoryHandleSetter = useCallback((ReloaderReturn: HotReloaderResult<UL.StoryExecutor>, NodeBinded: StoryType) => {
 		const [sucess, result, reloader] = ReloaderReturn;
 		if (sucess) {
-			setStoryHandle({ Result: result as StoryExecutor, Error: undefined, Reloader: reloader, NodeBinded: NodeBinded });
+			setStoryHandle({ Result: result as UL.StoryExecutor, Error: undefined, Reloader: reloader, NodeBinded: NodeBinded });
 		} else {
 			setStoryHandle({
 				Result: undefined,
@@ -34,15 +34,15 @@ export = (displayingNode: StoryType | undefined) => {
 	const ReloadHandle = useCallback(() => {
 		task.spawn(() => {
 			if (!storyHandle) return;
-			storyHandle.Reloader.Reload<StoryExecutor>();
+			storyHandle.Reloader.Reload<UL.StoryExecutor>();
 		});
 	}, [storyHandle]);
 
 	useEffect(() => {
 		let reloadConnection: Signal.Connection;
 		if (displayingNode && displayingNode.Module.IsA("ModuleScript") && game.IsAncestorOf(displayingNode.Module)) {
-			reloadConnection = HotReloader.requireConnect<StoryExecutor>(displayingNode.Module, (newHandle) => {
-				StoryHandleSetter(newHandle as HotReloaderResult<StoryExecutor>, displayingNode);
+			reloadConnection = HotReloader.requireConnect<UL.StoryExecutor>(displayingNode.Module, (newHandle) => {
+				StoryHandleSetter(newHandle as HotReloaderResult<UL.StoryExecutor>, displayingNode);
 			});
 		} else {
 			if (storyHandle) {
@@ -58,7 +58,7 @@ export = (displayingNode: StoryType | undefined) => {
 		if (!storyHandle || !storyHandle.Reloader) return;
 		const node = storyHandle.NodeBinded;
 		const changedConnection = storyHandle.Reloader.onReloaded.Connect((newHandle) => {
-			StoryHandleSetter(newHandle as HotReloaderResult<StoryExecutor>, node);
+			StoryHandleSetter(newHandle as HotReloaderResult<UL.StoryExecutor>, node);
 		});
 		return () => {
 			changedConnection.Disconnect();

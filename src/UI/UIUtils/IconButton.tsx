@@ -55,6 +55,7 @@ function IconButtonCreate(setprops: IconButtonProps) {
 			descriptorContext.removeMouseDesc(props.ButtonName);
 		}
 	}, [hovered, props.Description, ...(props.Dependencies ?? [])]);
+	useEffect(() => {}, [hovered]);
 	return (
 		<Detector
 			Key={props.ButtonName}

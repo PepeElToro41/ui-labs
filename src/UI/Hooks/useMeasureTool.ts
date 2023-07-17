@@ -1,6 +1,6 @@
 import { useEventListener } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
-import Signal from "Utils/Signal";
+import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
 
 export = (
 	mouseIconContext: IsMouseIconContext,

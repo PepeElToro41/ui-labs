@@ -1,4 +1,5 @@
 import Roact from "@rbxts/roact";
+import Signal from "@rbxts/ui-labs/out/Typings/Signal";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import { Div } from "UI/UIUtils/Styles/Div";
@@ -7,7 +8,7 @@ export = function (target: ScreenGui) {
 	const ControlApply = (value: unknown) => {
 		print(value);
 	};
-
+	const listener = new Signal<() => void>();
 	const NewBoolControl = (
 		<Div
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -16,12 +17,13 @@ export = function (target: ScreenGui) {
 			BackgroundTransparency={0}
 		>
 			<ControlHolder ControlName={"Bool Test"} LayoutOrder={0}>
-				<ControlMap.boolean ControlApply={ControlApply} Default={false}></ControlMap.boolean>
+				<ControlMap.boolean ResetListen={listener} ControlApply={ControlApply} Default={false}></ControlMap.boolean>
 			</ControlHolder>
 		</Div>
 	);
 	const Handler = Roact.mount(NewBoolControl, target, "SliderControl");
 	return function () {
+		listener.Destroy();
 		Roact.unmount(Handler);
 	};
 };

@@ -1,16 +1,11 @@
 import Roact from "@rbxts/roact";
-import { HoarcekatStory, ObjectStory, SetControls, StoryExecutor, Unmounter, Updater } from "Declarations/StoryPreview";
 import { $terrify } from "rbxts-transformer-t";
 import Signal from "./Signal";
 import { CreateControls } from "./ControlsUtil";
+import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
+import { HoarcekatStory } from "@rbxts/ui-labs";
 
 export const DefWarn = "\n\nDEFAULT SETTINGS WILL BE USED";
-
-declare global {
-	type UILabsProps = {
-		inputListener?: InputSignals;
-	};
-}
 
 //--------LIBRARY UTILS--------//
 
@@ -33,7 +28,7 @@ function GetLibInTable(tbl: UILibsPartial & { use?: UseLibType }): [UseLibType, 
 }
 
 function GetMountLib(
-	storyResult: ObjectStory,
+	storyResult: UL.ObjectStory,
 	node: StoryType,
 	settings: UILabsSettings,
 ): MountLibReturn | LuaTuple<[undefined]> {
@@ -57,14 +52,37 @@ function GetMountLib(
 
 function GetElementFromReturn(
 	UseLib: LibLike.Roact | LibLike.React,
-	element: ObjectStory["story"],
-	props: UILabsProps,
+	element: UL.ObjectStory["story"],
+	props: UL.UILabsProps,
 ): Roact.Element | undefined {
 	if (typeIs(element, "function")) {
-		return UseLib.createElement<UILabsProps>(element, props);
+		return UseLib.createElement<UL.UILabsProps>(element as never, props);
 	} else if (typeIs(element, "table")) {
 		return element;
 	}
+}
+function ExtractControls(controls: UL.SetRuntimeControls) {
+	const extractedControls: Record<string, UL.AllExtractControls> = {};
+	for (const [key, control] of pairs(controls)) {
+		const gotValue = control.Bind.Current as UL.AllExtractControls;
+		extractedControls[key] = gotValue;
+	}
+	return extractedControls;
+}
+function CreateProps(inputListener: InputSignals | undefined, controls: UL.SetRuntimeControls | undefined): UL.UILabsProps {
+	const props = {
+		InputListener: inputListener,
+		Controls: controls ? ExtractControls(controls) : undefined,
+	};
+	return props;
+}
+function ConnectControls(controls: UL.SetRuntimeControls, callback: () => void) {
+	const connections = new Array<Signal.Connection>();
+	for (const [key, control] of pairs(controls)) {
+		const connection = control.Bind.Changed.Connect(callback);
+		connections.push(connection);
+	}
+	return connections;
 }
 
 //--------STORY MOUNTERS--------//
@@ -74,8 +92,14 @@ function MountHoarcekatStory(execute: HoarcekatStory, target: Frame, inputListen
 	return unmounter;
 }
 
-function MountRoactStory(UseRoact: LibLike.Roact, story: ObjectStory["story"], target: Frame, props: UILabsProps) {
-	const element = GetElementFromReturn(UseRoact, story, props);
+function MountRoactStory(
+	UseRoact: LibLike.Roact,
+	story: UL.ObjectStory["story"],
+	target: Frame,
+	inputListener: InputSignals | undefined,
+	controls: UL.SetRuntimeControls | undefined,
+) {
+	const element = GetElementFromReturn(UseRoact, story, CreateProps(inputListener, controls));
 	if (!element) {
 		warn(
 			"No element was found to mount the story\n an element can be a Roact element or a function that returns a Roact element",
@@ -83,12 +107,22 @@ function MountRoactStory(UseRoact: LibLike.Roact, story: ObjectStory["story"], t
 		return $tuple(undefined);
 	}
 	const roactTree = UseRoact.mount(element, target);
-	const updater = (props: UILabsProps) => {
+	const updater = (props: UL.UILabsProps) => {
 		const newElement = GetElementFromReturn(UseRoact, story, props);
 		if (!newElement) return;
 		UseRoact.update(roactTree, newElement);
 	};
+	const changeConnections = controls
+		? ConnectControls(controls, () => {
+				updater(CreateProps(inputListener, controls));
+		  })
+		: undefined;
 	const cleanup = () => {
+		if (changeConnections) {
+			for (const connection of changeConnections) {
+				connection.Disconnect();
+			}
+		}
 		UseRoact.unmount(roactTree);
 	};
 	return $tuple(cleanup, updater);
@@ -97,11 +131,12 @@ function MountRoactStory(UseRoact: LibLike.Roact, story: ObjectStory["story"], t
 function MountReactStory(
 	UseReact: LibLike.React,
 	UseReactRoblox: LibLike.ReactRoblox,
-	story: ObjectStory["story"],
+	story: UL.ObjectStory["story"],
 	target: Frame,
-	props: UILabsProps,
+	inputListener: InputSignals | undefined,
+	controls: UL.SetRuntimeControls | undefined,
 ) {
-	const element = GetElementFromReturn(UseReact, story, props);
+	const element = GetElementFromReturn(UseReact, story, CreateProps(inputListener, controls));
 	if (!element) {
 		warn(
 			"No element was found to mount the story\n an element can be a React element or a function that returns a React element",
@@ -110,15 +145,29 @@ function MountReactStory(
 	}
 	const root = UseReactRoblox.createRoot(target);
 	root.render(element);
-	const updater = () => {};
+	const updater = (props: UL.UILabsProps) => {
+		const newElement = GetElementFromReturn(UseReact, story, props);
+		if (!newElement) return;
+		root.render(newElement);
+	};
+	const changeConnections = controls
+		? ConnectControls(controls, () => {
+				updater(CreateProps(inputListener, controls));
+		  })
+		: undefined;
 	const cleanup = () => {
+		if (changeConnections) {
+			for (const connection of changeConnections) {
+				connection.Disconnect();
+			}
+		}
 		root.unmount();
 	};
 	return $tuple(cleanup, updater);
 }
 
-function SetActionsApi(storyName: string, summary: string | undefined, controls: SetControls | undefined, API: ActionsAPI) {
-	print("SETTING SUMMARY", summary);
+//--------STORY MOUNTING--------//
+function SetActionsApi(storyName: string, summary: string | undefined, controls: UL.SetControls | undefined, API: ActionsAPI) {
 	API.SetSummary(
 		summary
 			? {
@@ -127,44 +176,51 @@ function SetActionsApi(storyName: string, summary: string | undefined, controls:
 			  }
 			: undefined,
 	);
+	return API.SetControls(controls);
 }
-
-//--------STORY MOUNTING--------//
 
 export function LoadStoryModule(
 	handle: StoryHandle,
 	settings: UILabsSettings,
 	target: Frame,
-	ActionsAPI: ActionsAPI,
+	ActionsContext: ActionContextType,
 	inputListener?: InputSignals,
-): LuaTuple<[UseLibType | "Hoarcekat" | undefined, Unmounter?, Updater?]> {
+): LuaTuple<[UseLibType | "Hoarcekat" | undefined, UL.Unmounter?, UL.Updater?]> {
 	const result = handle.Result;
+	const ActionsAPI = ActionsContext.ActionsAPI;
+	ActionsAPI.SetSummary(undefined); //Resetting Summary
+	ActionsAPI.SetControls(undefined); //Resetting Controls
+	ActionsAPI.ReloadControls.Fire();
 	if (typeIs(result, "function")) {
-		return $tuple("Hoarcekat", MountHoarcekatStory(result satisfies StoryExecutor, target, inputListener));
+		return $tuple("Hoarcekat", MountHoarcekatStory(result satisfies UL.StoryExecutor, target, inputListener));
 	} else if (typeIs(result, "table")) {
 		if (!("story" in result)) {
 			warn('Story table didnt have a "story" key, this is required to mount the story');
 			return $tuple(undefined);
 		}
 		const [LibName, LibToUse] = GetMountLib(result, handle.NodeBinded, settings);
+		//CreateControls is a function that checks for primitives and converts them to a table control
 		const controls = result.controls ? CreateControls(result.controls) : undefined;
-		SetActionsApi(handle.NodeBinded.DisplayName, result.summary, controls, ActionsAPI);
-		const props = {
-			inputListener: inputListener,
-			controls: controls,
-		};
+		const runtimeControls = SetActionsApi(handle.NodeBinded.DisplayName, result.summary, controls, ActionsAPI);
 		if (LibName === undefined) {
 			warn("No lib was found to mount the story, Internal's Roact will be used instead");
-			const [cleanup, updater] = MountRoactStory(Roact, result.story, target, props);
+			const [cleanup, updater] = MountRoactStory(Roact, result.story, target, inputListener, runtimeControls);
 			if (!cleanup) return $tuple(undefined);
 			return $tuple("Roact", cleanup, updater);
 		}
 		if (LibName === "Roact") {
-			const [cleanup, updater] = MountRoactStory(LibToUse.roact!, result.story, target, props);
+			const [cleanup, updater] = MountRoactStory(LibToUse.roact!, result.story, target, inputListener, runtimeControls);
 			if (!cleanup) return $tuple(undefined);
 			return $tuple("Roact", cleanup, updater);
 		} else if (LibName === "React") {
-			const [cleanup, updater] = MountReactStory(LibToUse.react!, LibToUse.reactRoblox!, result.story, target, props);
+			const [cleanup, updater] = MountReactStory(
+				LibToUse.react!,
+				LibToUse.reactRoblox!,
+				result.story,
+				target,
+				inputListener,
+				runtimeControls,
+			);
 			if (!cleanup) return $tuple(undefined);
 			return $tuple("React", cleanup, updater);
 		}

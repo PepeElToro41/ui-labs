@@ -1,7 +1,7 @@
 import { useAsyncEffect, useEventListener } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useContext, useEffect, useMemo, useRef, useState, withHooksPure } from "@rbxts/roact-hooked";
-import { Unmounter } from "Declarations/StoryPreview";
+import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
 import { ActionsContext } from "UI/Contexts/ActionsContext";
 import { useConnections } from "UI/Contexts/GlobalConnections";
 import { MouseIconContext } from "UI/Contexts/Mouse/MouseIconContext";
@@ -17,22 +17,16 @@ interface StoryPreviewProps {
 	StoryHandle: StoryHandle | undefined;
 }
 
-function setProps(props: StoryPreviewProps) {
-	return props;
-}
-
 function getFramePos(frame: Frame, pos: Vector2) {
 	return pos.sub(frame.AbsolutePosition);
 }
 
-function StoryPreviewCreate(setprops: StoryPreviewProps) {
-	const props = identity<Required<StoryPreviewProps>>(setProps(setprops) as Required<StoryPreviewProps>);
+function StoryPreviewCreate(props: StoryPreviewProps) {
 	//Preview states
 	const [onViewport, setOnViewport] = useState(false);
 	const [previewFrame, setPreviewFrame] = useState<Frame | undefined>(undefined);
 	const pluginPreviewRef = useRef<Frame>();
 	const viewportPreviewRef = useRef<Frame>();
-	const pluginObject = useContext(PluginContext).PluginObject;
 	const connections = useConnections();
 	const toolbarConnections = connections.Toolbar;
 	const mouseIconContext = useContext(MouseIconContext);
@@ -94,9 +88,12 @@ function StoryPreviewCreate(setprops: StoryPreviewProps) {
 	});
 	//This one loads the story module to be the final UI preview
 	useEffect(() => {
-		if (!props.StoryHandle) return;
-		print("RELOADING WITH HANDLE", props.StoryHandle);
-		let Unmounter: Unmounter | undefined;
+		if (!props.StoryHandle) {
+			actionsContext.ActionsAPI.SetSummary(undefined); //Resetting Summary
+			actionsContext.ActionsAPI.SetControls(undefined); //Resetting Controls
+			return;
+		}
+		let Unmounter: UL.Unmounter | undefined;
 		const frame = previewFrame;
 		if (!frame) return;
 		if (props.StoryHandle && !props.StoryHandle.Error && props.StoryHandle.Result) {
@@ -105,7 +102,7 @@ function StoryPreviewCreate(setprops: StoryPreviewProps) {
 				props.StoryHandle,
 				settings,
 				frame,
-				actionsContext.ActionsAPI,
+				actionsContext,
 				canvasInputs,
 			);
 			if (sucess) {

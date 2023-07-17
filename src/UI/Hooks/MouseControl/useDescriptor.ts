@@ -55,10 +55,11 @@ export const useDescriptor = (mouseIconContext: IsMouseIconContext) => {
 		setMouseDesc(descTable[0] && descTable[0][1]);
 	}, [descTable]);
 	useEffect(() => {
-		const descIndex = descTable[0];
-		if (!descIndex) return;
-		if (mouseDesc) mouseIconContext.setMouseIcon(descIndex[0], "Select");
-		else mouseIconContext.unsetMouseIcon(descIndex[0]);
+		if (mouseDesc) {
+			mouseIconContext.setMouseIcon("Description", "Select");
+		} else {
+			mouseIconContext.unsetMouseIcon("Description");
+		}
 	}, [mouseDesc]);
 	return $tuple(mouseDesc, descVisible, GetMouseDesc, SetMouseDesc, RemoveMouseDesc);
 };

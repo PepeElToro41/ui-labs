@@ -1,4 +1,5 @@
 const Dark = {
+	PureColor: Color3.fromRGB(0, 0, 0),
 	TextColor: Color3.fromRGB(255, 255, 255),
 	TextDisabledColor: Color3.fromRGB(150, 150, 150),
 	Divisor: new Color3(0.59, 0.59, 0.59),
@@ -48,8 +49,20 @@ const Dark = {
 	//Descriptor
 	Descriptor: Color3.fromRGB(214, 214, 214),
 	DescriptorText: Color3.fromRGB(38, 38, 38),
+	//Actions
+	ActionWindow: Color3.fromRGB(31, 31, 31),
+	//Controls
+	ControlTheme: {
+		Bool: {
+			OffBackground: Color3.fromRGB(80, 94, 132),
+		},
+		Slider: {
+			NonFillColor: Color3.fromRGB(56, 82, 106),
+		},
+	},
 };
 const Light: Theme = {
+	PureColor: Color3.fromRGB(255, 255, 255),
 	TextColor: Color3.fromRGB(38, 38, 38),
 	TextDisabledColor: Color3.fromRGB(92, 92, 92),
 	Divisor: new Color3(0, 0, 0),
@@ -93,12 +106,23 @@ const Light: Theme = {
 	//Story Editor
 	StoryName: Color3.fromRGB(255, 255, 255),
 	StoryPathText: Color3.fromRGB(56, 128, 56),
-	EditorBackground: Color3.fromRGB(201, 201, 201),
+	EditorBackground: Color3.fromRGB(181, 181, 181),
 	EditorPattern: new Color3(0, 0, 0),
 	ToolIconActive: Color3.fromRGB(25, 133, 216),
 	//Descriptor
 	Descriptor: Color3.fromRGB(82, 83, 102),
 	DescriptorText: Color3.fromRGB(255, 255, 255),
+	//Actions
+	ActionWindow: Color3.fromRGB(204, 204, 204),
+	//Controls
+	ControlTheme: {
+		Bool: {
+			OffBackground: Color3.fromRGB(138, 163, 196),
+		},
+		Slider: {
+			NonFillColor: Color3.fromRGB(133, 161, 189),
+		},
+	},
 };
 
 declare global {

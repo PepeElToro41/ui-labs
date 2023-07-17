@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve": "rojo serve",
     "build": "rbxtsc",
-    "watch": "rbxtsc -w",
-    "prepare": "husky install"
+    "watch": "rbxtsc -w"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +30,7 @@
     "@rbxts/roact": "^1.4.4-ts.0",
     "@rbxts/roact-hooked": "^2.6.0",
     "@rbxts/services": "^1.5.1",
+    "@rbxts/ui-labs": "^1.0.0",
     "rbxts-transformer-t": "^1.1.5"
   }
 }

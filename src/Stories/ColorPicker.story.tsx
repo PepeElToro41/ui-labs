@@ -15,7 +15,13 @@ function PickerHolderCreate(props: {}) {
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			Position={UDim2.fromScale(0.5, 0.5)}
 		>
-			<ColorPicker CanvasBind={sizeBind} Position={position} StartColor={Color3.fromRGB(255, 100, 100)}></ColorPicker>
+			<ColorPicker
+				CanvasBind={sizeBind}
+				Position={position}
+				StartColor={Color3.fromRGB(255, 100, 100)}
+				ColorApply={() => {}}
+				SelfClose={() => {}}
+			></ColorPicker>
 		</PositionBinder>
 	);
 }

@@ -1,7 +1,8 @@
-import { Instant, Spring, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Instant, Spring, useEventListener, useMotor, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useBinding, useCallback, useEffect, useMemo, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { useBinding, useCallback, useContext, useEffect, useMemo, useRef, useState, withHooks } from "@rbxts/roact-hooked";
 import { RunService } from "@rbxts/services";
+import ThemeContext from "UI/Contexts/ThemeContext";
 import { useTween } from "UI/Hooks/Utils/useTween";
 import SlideDrag from "UI/UIUtils/SlideDrag";
 import { Detector } from "UI/UIUtils/Styles/Detector";
@@ -22,14 +23,15 @@ function setProps(props: SliderControlProps) {
 	return props;
 }
 
-function Mark(props: { Amount: number; Position: number; Percent: Roact.Binding<number> }) {
+function Mark(props: { Amount: number; Position: number; Percent: Roact.Binding<number>; Theme: Theme }) {
+	const theme = props.Theme;
 	const size = (1 / props.Amount) * props.Position;
 	return (
 		<frame
 			Key={"Mark" + props.Position}
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			BackgroundColor3={props.Percent.map((percent) => {
-				return percent >= size ? Color3.fromRGB(0, 175, 255) : Color3.fromRGB(56, 82, 106);
+				return percent >= size ? Color3.fromRGB(0, 175, 255) : theme.ControlTheme.Slider.NonFillColor;
 			})}
 			BorderSizePixel={0}
 			Position={new UDim2(size, 0, 0.5, 0)}
@@ -48,6 +50,7 @@ function GetPercent(props: SliderControlProps, amount: number) {
 
 function SliderControlCreate(setprops: SliderControlProps) {
 	const props = identity<Required<SliderControlProps>>(setProps(setprops) as Required<SliderControlProps>);
+	const theme = useContext(ThemeContext).Theme;
 	const [amount, _setAmount] = useState(props.Default);
 	const [percSize, setPercSize] = useMotor(GetPercent(props, amount));
 	const [handleSize, tweenHandleSize] = useTween(handleSizeInfo, 12);
@@ -59,6 +62,16 @@ function SliderControlCreate(setprops: SliderControlProps) {
 		return markSize >= MINSIZE_MARK;
 	}, [props.Max, props.Min, props.Step]);
 	//---HANDLING AMOUNT---
+
+	const resetControls = () => {
+		_setAmount(props.Default);
+	};
+	useUpdateEffect(() => {
+		resetControls();
+	}, [props.Default]);
+	useEventListener(props.ResetListen, () => {
+		resetControls();
+	});
 	useEffect(() => {
 		const percent = GetPercent(props, amount);
 		if (markVisible) {
@@ -82,8 +95,8 @@ function SliderControlCreate(setprops: SliderControlProps) {
 	const marks = useMemo(() => {
 		const allMarks: Roact.Element[] = [];
 		//First and Last mark (always there)
-		allMarks.push(<Mark Amount={1} Position={0} Percent={percSize}></Mark>);
-		allMarks.push(<Mark Amount={1} Position={1} Percent={percSize}></Mark>);
+		allMarks.push(<Mark Amount={1} Position={0} Percent={percSize} Theme={theme}></Mark>);
+		allMarks.push(<Mark Amount={1} Position={1} Percent={percSize} Theme={theme}></Mark>);
 		if (!props.Step) return allMarks;
 
 		const markDelta = props.Max - props.Min;
@@ -92,26 +105,26 @@ function SliderControlCreate(setprops: SliderControlProps) {
 
 		const markAmount = math.floor(1 / markSize);
 		for (let i = 0; i < markAmount - 1; i++) {
-			const newMark = <Mark Amount={markAmount} Position={i + 1} Percent={percSize} />;
+			const newMark = <Mark Amount={markAmount} Position={i + 1} Percent={percSize} Theme={theme} />;
 			allMarks.push(newMark);
 		}
 		return allMarks;
-	}, [props.Min, props.Max, props.Step]);
+	}, [props.Min, props.Max, props.Step, theme]);
 
 	return (
 		<>
-			<frame Key="Entry" BackgroundColor3={Color3.fromRGB(56, 56, 56)} BorderSizePixel={0} Size={new UDim2(0, 65, 0, 22)}>
+			<frame Key="Entry" BackgroundColor3={theme.SearchInput} BorderSizePixel={0} Size={new UDim2(0, 65, 0, 22)}>
 				<uicorner CornerRadius={new UDim(0, 6)} />
 				<textbox
 					AnchorPoint={new Vector2(0.5, 0.5)}
 					BackgroundTransparency={1}
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
-					PlaceholderColor3={Color3.fromRGB(186, 186, 186)}
+					PlaceholderColor3={theme.SearchPlaceholder}
 					PlaceholderText={tostring(math.floor(amount * 100) / 100)}
 					Position={new UDim2(0.5, 0, 0.5, 0)}
 					Size={new UDim2(1, 0, 1, 0)}
 					Text={""}
-					TextColor3={Color3.fromRGB(255, 255, 255)}
+					TextColor3={theme.TextColor}
 					TextSize={12}
 					Event={{
 						FocusLost: (input) => {
@@ -142,7 +155,7 @@ function SliderControlCreate(setprops: SliderControlProps) {
 					<frame
 						Key="Slide"
 						AnchorPoint={new Vector2(0.5, 0.5)}
-						BackgroundColor3={Color3.fromRGB(56, 82, 106)}
+						BackgroundColor3={theme.ControlTheme.Slider.NonFillColor}
 						BorderSizePixel={0}
 						Position={new UDim2(0.5, 0, 0.5, 0)}
 						Size={new UDim2(1, -30, 0, 3)}
@@ -158,7 +171,6 @@ function SliderControlCreate(setprops: SliderControlProps) {
 							}}
 							SlideDir="X"
 							PercentApply={(percent) => {
-								//print("SETTING AMOUNT");
 								SetAmount(percent * (props.Max - props.Min) + props.Min);
 							}}
 							StateUpdated={(state) => {
@@ -199,7 +211,7 @@ function SliderControlCreate(setprops: SliderControlProps) {
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
 					Size={new UDim2(0, 45, 1, 0)}
 					Text={tostring(props.Min)}
-					TextColor3={Color3.fromRGB(255, 255, 255)}
+					TextColor3={theme.TextColor}
 					TextSize={12}
 					TextXAlignment={Enum.TextXAlignment.Right}
 				/>
@@ -210,7 +222,7 @@ function SliderControlCreate(setprops: SliderControlProps) {
 					LayoutOrder={2}
 					Size={new UDim2(0, 45, 1, 0)}
 					Text={tostring(props.Max)}
-					TextColor3={Color3.fromRGB(255, 255, 255)}
+					TextColor3={theme.TextColor}
 					TextSize={12}
 					TextXAlignment={Enum.TextXAlignment.Left}
 				/>

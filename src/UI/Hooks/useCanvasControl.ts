@@ -1,5 +1,5 @@
 import { useEventListener } from "@rbxts/pretty-roact-hooks";
-import { RoactContext, useEffect, useState } from "@rbxts/roact-hooked";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { GlobalConnectionsType } from "UI/Contexts/GlobalConnections";
 import Signal from "Utils/Signal";
 

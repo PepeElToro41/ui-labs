@@ -1,4 +1,6 @@
+import { useEventListener } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
+import { RunService } from "@rbxts/services";
 import { Filter } from "Utils/TableUtil";
 
 const MouseIcons = {
@@ -43,9 +45,9 @@ export = (pluginObject?: typeof plugin) => {
 
 		setMouseIcon(iconSelected && MouseIcons[iconSelected[1]]);
 	}, [iconList]);
-	useEffect(() => {
+	useEventListener(RunService.Heartbeat, () => {
 		if (!pluginObject) return;
 		pluginObject.GetMouse().Icon = mouseIcon ?? "";
-	}, [mouseIcon]);
+	});
 	return $tuple(SetIcon, UnsetIcon);
 };

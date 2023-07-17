@@ -81,6 +81,7 @@ interface ActionWindowProps {
 
 function ActionWindowCreate(props: ActionWindowProps) {
 	const [selectedWindow, _selectWindow] = useState<IsActionWindow>(props.ActiveWindows[0].WindowType);
+	const theme = useContext(ThemeContext).Theme;
 	const SelectWindow = useCallback((window: IsActionWindow) => {
 		_selectWindow(window);
 	}, []);
@@ -118,12 +119,12 @@ function ActionWindowCreate(props: ActionWindowProps) {
 			HandleAnchor="Top"
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),
-				Position: new UDim2(0, 0, 1, 0),
+				Position: new UDim2(0, 0, 1, -1),
 				LayoutOrder: 2,
 				ZIndex: 3,
 			}}
 			FrameProps={{
-				BackgroundColor3: Color3.fromRGB(31, 31, 31),
+				BackgroundColor3: theme.ActionWindow,
 				BackgroundTransparency: 0,
 				BorderSizePixel: 0,
 			}}
@@ -149,7 +150,7 @@ function ActionWindowCreate(props: ActionWindowProps) {
 						SortOrder={Enum.SortOrder.LayoutOrder}
 						VerticalAlignment={Enum.VerticalAlignment.Center}
 					/>
-					<frame
+					{/*<frame
 						Key="Close"
 						AutomaticSize={Enum.AutomaticSize.X}
 						BackgroundTransparency={1}
@@ -164,7 +165,7 @@ function ActionWindowCreate(props: ActionWindowProps) {
 							Position={new UDim2(0.5, 0, 0.4, 0)}
 							Size={new UDim2(1, 0, 1, 0)}
 						/>
-					</frame>
+               </frame>*/}
 					<uipadding PaddingLeft={new UDim(0, 8)} PaddingRight={new UDim(0, 5)} />
 				</frame>
 			</frame>

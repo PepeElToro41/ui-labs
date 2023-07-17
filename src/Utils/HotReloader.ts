@@ -123,7 +123,6 @@ export class HotReloader {
 				for (let index = 0; index < HotReloader.IgnoreList.size(); index++) {
 					const ignoreInstance = HotReloader.IgnoreList[index];
 					if (listenModule.IsDescendantOf(ignoreInstance)) {
-						print("IGNORE YES");
 						return require(listenModule);
 					}
 				}

@@ -1,6 +1,7 @@
-import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
+import { useEventListener, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useState, withHooks } from "@rbxts/roact-hooked";
+import { useContext, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
+import ThemeContext from "UI/Contexts/ThemeContext";
 
 interface StringControlProps extends Control.ControlType<string> {}
 
@@ -10,8 +11,17 @@ function setProps(props: StringControlProps) {
 
 function StringControlCreate(setprops: StringControlProps) {
 	const props = identity<Required<StringControlProps>>(setProps(setprops) as Required<StringControlProps>);
-
+	const theme = useContext(ThemeContext).Theme;
 	const [input, setInput] = useState(props.Default);
+	const resetControls = () => {
+		setInput(props.Default);
+	};
+	useUpdateEffect(() => {
+		resetControls();
+	}, [props.Default]);
+	useEventListener(props.ResetListen, () => {
+		resetControls();
+	});
 	useUpdateEffect(() => {
 		props.ControlApply(input);
 	}, [input]);
@@ -20,7 +30,7 @@ function StringControlCreate(setprops: StringControlProps) {
 		<frame
 			Key="Entry"
 			AnchorPoint={new Vector2(0, 0.5)}
-			BackgroundColor3={Color3.fromRGB(56, 56, 56)}
+			BackgroundColor3={theme.SearchInput}
 			BorderSizePixel={0}
 			Position={new UDim2(0, 0, 0.5, 0)}
 			Size={new UDim2(1, -8, 0, 25)}
@@ -35,7 +45,8 @@ function StringControlCreate(setprops: StringControlProps) {
 				Position={new UDim2(0.5, 0, 0.5, 0)}
 				Size={new UDim2(1, -20, 1, 0)}
 				Text={input}
-				TextColor3={Color3.fromRGB(255, 255, 255)}
+				PlaceholderColor3={theme.SearchPlaceholder}
+				TextColor3={theme.TextColor}
 				TextSize={12}
 				TextXAlignment={Enum.TextXAlignment.Left}
 				Event={{

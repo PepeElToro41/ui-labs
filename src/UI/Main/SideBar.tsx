@@ -5,8 +5,6 @@ import SideTools from "../Side/SideTools";
 import { useCallback, useContext, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
 import StoryTree from "../Side/StoryTree";
 import useStoryNodes from "UI/Hooks/StoryTree/useStoryNodes";
-import { PluginContext } from "UI/Contexts/PluginContext";
-import useStorySearch from "UI/Hooks/StoryTree/Searches/useStorySearch";
 import ResizableFrame from "UI/UIUtils/ResizableFrame";
 import { useSettingsContext } from "UI/Contexts/SettingsContext";
 import Configs from "Plugin/Configs";

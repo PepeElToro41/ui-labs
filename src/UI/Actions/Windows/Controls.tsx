@@ -1,13 +1,15 @@
 import Roact from "@rbxts/roact";
-import { useMemo, withHooks } from "@rbxts/roact-hooked";
-import { SetControls } from "Declarations/StoryPreview";
+import { useContext, useMemo, withHooks } from "@rbxts/roact-hooked";
+import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
+import ThemeContext from "UI/Contexts/ThemeContext";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import { Div } from "UI/UIUtils/Styles/Div";
 import { Text } from "UI/UIUtils/Styles/Text";
 
 interface ControlsProps {
-	Controls: SetControls;
+	Controls: UL.SetRuntimeControls;
+	Api: ActionsAPI;
 }
 
 function setProps(props: ControlsProps) {
@@ -16,21 +18,23 @@ function setProps(props: ControlsProps) {
 
 function ControlsCreate(setprops: ControlsProps) {
 	const props = identity<Required<ControlsProps>>(setProps(setprops) as Required<ControlsProps>);
+	const theme = useContext(ThemeContext).Theme;
 	const controlList = useMemo(() => {
 		const controlEl: Roact.Element[] = [];
 		let order = 0;
 		for (const [key, control] of pairs(props.Controls)) {
-			const applier = (value: unknown) => {
-				print("IT CHANGED LOL", value);
-			};
 			const controlType = control.ControlType;
 			const Creator = ControlMap[controlType];
 			const extraProps = ("Props" in control && control.Props) || {};
-			const newControl = Roact.createElement(Creator as never, {
-				Default: control.Default,
-				ControlApply: applier,
+			const newControl = Roact.createElement(Creator as Callback, {
 				...extraProps,
+				Default: control.Default,
+				ResetListen: props.Api.ReloadControls,
+				ControlApply: (newValue: unknown) => {
+					control.Bind.Set(newValue);
+				},
 			});
+
 			const controlHolder = (
 				<ControlHolder ControlName={key} LayoutOrder={order}>
 					{newControl}
@@ -42,10 +46,10 @@ function ControlsCreate(setprops: ControlsProps) {
 		return controlEl;
 	}, [props.Controls]);
 	return (
-		<Div Key="Controls" BackgroundTransparency={1} Size={new UDim2(1, 0, 1, 0)} ZIndex={2}>
+		<Div Key="Controls" Size={new UDim2(1, 0, 1, 0)} ZIndex={2}>
 			<uilistlayout SortOrder={Enum.SortOrder.LayoutOrder} />
-			<frame Key="Title" BackgroundTransparency={1} Size={new UDim2(1, 100, 0, 30)}>
-				<frame Key="Contents" BackgroundTransparency={1} Size={new UDim2(1, 0, 1, 0)}>
+			<Div Key="Title" Size={new UDim2(1, 100, 0, 30)}>
+				<Div Key="Contents">
 					<uipadding PaddingLeft={new UDim(0, 20)} />
 					<uilistlayout
 						FillDirection={Enum.FillDirection.Horizontal}
@@ -56,20 +60,20 @@ function ControlsCreate(setprops: ControlsProps) {
 						Key="NameLabel"
 						Size={new UDim2(0, 200, 1, 0)}
 						Text="Name"
-						TextColor3={Color3.fromRGB(176, 176, 176)}
+						TextColor3={theme.TextDisabledColor}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>
 					<Text
 						Key="ControlLabel"
 						Size={new UDim2(0, 200, 1, 0)}
 						Text="Control"
-						TextColor3={Color3.fromRGB(176, 176, 176)}
+						TextColor3={theme.TextDisabledColor}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>
-				</frame>
+				</Div>
 				<frame
 					Key="Divisor1"
-					BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+					BackgroundColor3={theme.Divisor}
 					BackgroundTransparency={0.85}
 					BorderSizePixel={0}
 					Position={new UDim2(0, 0, 1, 0)}
@@ -77,12 +81,12 @@ function ControlsCreate(setprops: ControlsProps) {
 				/>
 				<frame
 					Key="Divisor2"
-					BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+					BackgroundColor3={theme.Divisor}
 					BackgroundTransparency={0.85}
 					BorderSizePixel={0}
 					Size={new UDim2(1, 0, 0, 1)}
 				/>
-			</frame>
+			</Div>
 			<scrollingframe
 				Key="ControlList"
 				Active={true}

@@ -1,6 +1,7 @@
-import { useBindingListener } from "@rbxts/pretty-roact-hooks";
+import { useBindingListener, useEventListener } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useBinding, useCallback, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { useBinding, useCallback, useContext, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { OverlayContext } from "UI/Contexts/OverlayContext";
 import SlideDrag from "UI/UIUtils/SlideDrag";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Div } from "UI/UIUtils/Styles/Div";
@@ -11,6 +12,8 @@ interface ColorPickerProps {
 	AlphaChanel?: number;
 	Position: Roact.Binding<UDim2>;
 	CanvasBind: Roact.Binding<[Vector2, Vector2]>;
+	ColorApply: (newColor: Color3) => void;
+	SelfClose: () => void;
 }
 
 const alphaLight = "rbxassetid://14013453480";
@@ -80,6 +83,7 @@ function Entry<T extends Color3 | number>(props: {
 }) {
 	return (
 		<frame
+			Key="Holder"
 			BackgroundTransparency={1}
 			LayoutOrder={props.LayoutOrder}
 			Position={new UDim2(0, 0, 0, 105)}
@@ -91,6 +95,7 @@ function Entry<T extends Color3 | number>(props: {
 				VerticalAlignment={Enum.VerticalAlignment.Center}
 			/>
 			<textlabel
+				Key="EntryName"
 				BackgroundTransparency={1}
 				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
 				RichText={true}
@@ -100,9 +105,15 @@ function Entry<T extends Color3 | number>(props: {
 				TextSize={12}
 				TextXAlignment={Enum.TextXAlignment.Left}
 			/>
-			<frame BackgroundColor3={Color3.fromRGB(48, 48, 48)} BorderSizePixel={0} Size={new UDim2(1, -40, 1, 0)}>
+			<frame
+				Key="Background"
+				BackgroundColor3={Color3.fromRGB(48, 48, 48)}
+				BorderSizePixel={0}
+				Size={new UDim2(1, -40, 1, 0)}
+			>
 				<uicorner CornerRadius={new UDim(0, 4)} />
 				<textbox
+					Key="Entry"
 					BackgroundTransparency={1}
 					TextTruncate={Enum.TextTruncate.AtEnd}
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
@@ -151,6 +162,8 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 	const [flipped, setFlipped] = useState(false);
 	const [pickerPosition, setPickerPosition] = useBinding([new Vector2(), new Vector2()]);
 	const frameRef = useRef<Frame>();
+	const [inside, setInside] = useBinding(false);
+	const { OverlayInput } = useContext(OverlayContext);
 	const colorApply = useCallback((newColor: Color3) => {
 		setColor((oldColor) => {
 			if (oldColor === newColor) return oldColor;
@@ -163,7 +176,15 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 		setHandlers(newHandlers);
 		setColor(newColor);
 	}, []);
-
+	useEventListener(OverlayInput, (input) => {
+		if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
+		if (!inside.getValue()) {
+			props.SelfClose();
+		}
+	});
+	useEffect(() => {
+		props.ColorApply(color);
+	}, [color]);
 	const calculateFlip = useCallback(() => {
 		const frame = frameRef.getValue();
 		if (!frame) return;
@@ -191,14 +212,23 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 			AnchorPoint={new Vector2(0, flipped ? 0 : 1)}
 			AutomaticSize={Enum.AutomaticSize.Y}
 			BackgroundTransparency={1}
-			BackgroundColor3={Color3.fromRGB(22, 22, 22)}
 			BorderSizePixel={0}
 			Position={props.Position}
 			Size={new UDim2(0, 145, 0, 0)}
 			Ref={frameRef}
 		>
 			<uilistlayout SortOrder={Enum.SortOrder.LayoutOrder}></uilistlayout>
-			<Div Key="Contents" AutomaticSize={Enum.AutomaticSize.Y} Size={new UDim2(1, 0, 0, 0)}>
+			<frame
+				Key="Contents"
+				AutomaticSize={Enum.AutomaticSize.Y}
+				Size={new UDim2(1, 0, 0, 0)}
+				BackgroundColor3={Color3.fromRGB(22, 22, 22)}
+				BorderSizePixel={0}
+				Event={{
+					MouseEnter: () => setInside(true),
+					MouseLeave: () => setInside(false),
+				}}
+			>
 				<uicorner CornerRadius={new UDim(0, 6)} />
 				<uistroke Color={Color3.fromRGB(154, 154, 154)} Transparency={0.7} />
 				<uilistlayout
@@ -420,10 +450,10 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 						/>
 					</frame>
 				</Div>
-			</Div>
+			</frame>
 			<frame
 				Key="Separator"
-				Size={new UDim2(1, 0, 0, 10)}
+				Size={new UDim2(1, 0, 0, 20)}
 				BackgroundTransparency={1}
 				LayoutOrder={flipped ? -1 : 1}
 			></frame>

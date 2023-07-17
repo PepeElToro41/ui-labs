@@ -1,10 +1,33 @@
 import Roact from "@rbxts/roact";
-import { PrimitiveControls } from "Declarations/StoryPreview";
+import { useEffect, withHooks } from "@rbxts/roact-hooked";
+import { PrimitiveControls } from "@rbxts/ui-labs";
 import ActionWindow from "UI/Actions/ActionWindow";
 import { CreateWindow } from "UI/Actions/WindowMap";
+import { useActions } from "UI/Contexts/ActionsContext";
+import { ControlBinder } from "Utils/ControlsUtil";
 
-export = function (target: ScreenGui) {
-	const NewActionWindow = (
+const Controls = {
+	"String Control Test": identity<PrimitiveControls["string"]>({
+		ControlType: "string",
+		Default: "",
+	}),
+	"Number Control Test": identity<PrimitiveControls["number"]>({
+		ControlType: "number",
+		Default: 5,
+	}),
+	"Boolean Control Test": identity<PrimitiveControls["boolean"]>({
+		ControlType: "boolean",
+		Default: true,
+	}),
+};
+
+const NewActionWindow = withHooks((props: {}) => {
+	const actions = useActions();
+	const { ActionsData, ActionsAPI } = actions;
+	useEffect(() => {
+		ActionsAPI.SetControls(Controls);
+	}, []);
+	return (
 		<ActionWindow
 			Key="ActionWindow"
 			ActiveWindows={[
@@ -16,25 +39,16 @@ export = function (target: ScreenGui) {
 						'\n\n<font size="30"> RICH TEXT</font>',
 				}),
 				CreateWindow("Controls", {
-					Controls: {
-						"String Control Test": identity<PrimitiveControls["string"]>({
-							ControlType: "string",
-							Default: "",
-						}),
-						"Number Control Test": identity<PrimitiveControls["number"]>({
-							ControlType: "number",
-							Default: 5,
-						}),
-						"Boolean Control Test": identity<PrimitiveControls["boolean"]>({
-							ControlType: "boolean",
-							Default: true,
-						}),
-					},
+					Controls: ActionsData.Controls ?? {},
+					Api: ActionsAPI,
 				}),
 			]}
 		></ActionWindow>
 	);
-	const Handler = Roact.mount(NewActionWindow, target, "ActionWindow");
+});
+
+export = (target: ScreenGui) => {
+	const Handler = Roact.mount(<NewActionWindow></NewActionWindow>, target, "ActionWindow");
 	return function () {
 		Roact.unmount(Handler);
 	};

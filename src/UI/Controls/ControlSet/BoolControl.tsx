@@ -1,7 +1,8 @@
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring, useEventListener, useMotor, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { useContext, useEffect, useRef, useState, withHooks, withHooksPure } from "@rbxts/roact-hooked";
 import { TweenService } from "@rbxts/services";
+import ThemeContext from "UI/Contexts/ThemeContext";
 import { useTween } from "UI/Hooks/Utils/useTween";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Div } from "UI/UIUtils/Styles/Div";
@@ -19,10 +20,19 @@ function setProps(props: BoolControlProps) {
 function BoolControlCreate(setprops: BoolControlProps) {
 	const props = identity<Required<BoolControlProps>>(setProps(setprops) as Required<BoolControlProps>);
 	const [enabled, setEnabled] = useState(props.Default);
-
+	const theme = useContext(ThemeContext).Theme;
 	const [hoverSize, setHoverSize] = useTween(hoverInfo, 40);
-
 	const handleRef = useRef<Frame>();
+	const resetControls = () => {
+		setEnabled(props.Default);
+	};
+
+	useEventListener(props.ResetListen, () => {
+		resetControls();
+	});
+	useUpdateEffect(() => {
+		resetControls();
+	}, [props.Default]);
 	useEffect(() => {
 		props.ControlApply(enabled);
 		const handle = handleRef.getValue();
@@ -49,7 +59,7 @@ function BoolControlCreate(setprops: BoolControlProps) {
 			/>
 			<frame
 				Key="BoolFrame"
-				BackgroundColor3={enabled ? Color3.fromRGB(0, 175, 255) : Color3.fromRGB(80, 94, 132)}
+				BackgroundColor3={enabled ? Color3.fromRGB(0, 175, 255) : theme.ControlTheme.Bool.OffBackground}
 				BorderSizePixel={0}
 				Size={hoverSize.map((size) => new UDim2(0, size, 0, 20))}
 			>
@@ -89,10 +99,10 @@ function BoolControlCreate(setprops: BoolControlProps) {
 			</frame>
 			<Text
 				Key="StateLabel"
-				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
+				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
 				Size={new UDim2(0, 100, 0, 20)}
 				Text={enabled ? "On" : "Off"}
-				TextColor3={Color3.fromRGB(255, 255, 255)}
+				TextColor3={theme.TextColor}
 				TextSize={12}
 				TextXAlignment={Enum.TextXAlignment.Left}
 				LayoutOrder={2}

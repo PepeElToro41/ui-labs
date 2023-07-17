@@ -1,5 +1,6 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
+import { useContext, withHooks } from "@rbxts/roact-hooked";
+import ThemeContext from "UI/Contexts/ThemeContext";
 import { Div } from "UI/UIUtils/Styles/Div";
 import { Text } from "UI/UIUtils/Styles/Text";
 
@@ -16,6 +17,7 @@ function setProps(props: SummaryProps) {
 
 function SummaryCreate(setprops: SummaryProps) {
 	const props = identity<Required<SummaryProps>>(setProps(setprops) as Required<SummaryProps>);
+	const theme = useContext(ThemeContext).Theme;
 	return (
 		<Div Key="Summary" Size={new UDim2(1, 0, 1, 0)} ZIndex={2}>
 			<uilistlayout SortOrder={Enum.SortOrder.LayoutOrder} />
@@ -26,13 +28,13 @@ function SummaryCreate(setprops: SummaryProps) {
 						Key="ControlLabel"
 						Size={new UDim2(0, 200, 1, 0)}
 						Text={props.StoryName}
-						TextColor3={Color3.fromRGB(176, 176, 176)}
+						TextColor3={theme.TextDisabledColor}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>
 				</frame>
 				<frame
 					Key="Divisor1"
-					BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+					BackgroundColor3={theme.Divisor}
 					BackgroundTransparency={0.85}
 					BorderSizePixel={0}
 					Position={new UDim2(0, 0, 1, 0)}
@@ -40,7 +42,7 @@ function SummaryCreate(setprops: SummaryProps) {
 				/>
 				<frame
 					Key="Divisor2"
-					BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+					BackgroundColor3={theme.Divisor}
 					BackgroundTransparency={0.85}
 					BorderSizePixel={0}
 					Size={new UDim2(1, 0, 0, 1)}
@@ -59,7 +61,7 @@ function SummaryCreate(setprops: SummaryProps) {
 					TextWrapped={true}
 					Size={new UDim2(1, 0, 1, 0)}
 					Text={props.Summary}
-					TextColor3={Color3.fromRGB(255, 255, 255)}
+					TextColor3={theme.TextColor}
 					TextXAlignment={Enum.TextXAlignment.Left}
 					TextYAlignment={Enum.TextYAlignment.Top}
 				/>

@@ -67,9 +67,16 @@ function StoryPanelCreate(setprops: StoryPanelProps) {
 				}),
 			);
 		}
+		if (ActionsData.Controls) {
+			activeWindows.push(
+				CreateWindow("Controls", {
+					Controls: ActionsData.Controls,
+					Api: ActionsAPI,
+				}),
+			);
+		}
 		const window =
 			activeWindows.size() > 0 ? <ActionWindow Key="ActionWindow" ActiveWindows={activeWindows}></ActionWindow> : undefined;
-		print("Returning window as", window);
 		return window;
 	}, [ActionsData]);
 	return (
@@ -97,11 +104,11 @@ function StoryPanelCreate(setprops: StoryPanelProps) {
 						OpenStoryModule={OpenStoryModule}
 					></StoryName>
 					<Div Key="StoryFrame" Size={new UDim2(1, 0, 1, -35)} LayoutOrder={1}>
-						<StoryNotSelected Visible={displayedNode === undefined}></StoryNotSelected>
+						<StoryNotSelected Visible={displayedNode === undefined} Theme={theme}></StoryNotSelected>
 						<StoryPreview StoryHandle={storyHandle}></StoryPreview>
 						<StoryToolBar></StoryToolBar>
 					</Div>
-					<uilistlayout Padding={new UDim(0, 3)} SortOrder={Enum.SortOrder.LayoutOrder} />
+					<uilistlayout Padding={new UDim(0, 0)} SortOrder={Enum.SortOrder.LayoutOrder} />
 				</Div>
 				{actionWindow ? actionWindow : undefined}
 			</ActionsContext.Provider>

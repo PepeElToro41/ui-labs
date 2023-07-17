@@ -3,12 +3,13 @@ import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import SliderControl from "UI/Controls/ControlSet/SliderControl";
 import { Div } from "UI/UIUtils/Styles/Div";
+import Signal from "Utils/Signal";
 
 export = function (target: ScreenGui) {
 	const ControlApply = (value: unknown) => {
 		//print(value);
 	};
-
+	const listener = new Signal<() => void>();
 	const NewSliderControl = (
 		<Div
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -17,12 +18,20 @@ export = function (target: ScreenGui) {
 			BackgroundTransparency={0}
 		>
 			<ControlHolder ControlName={"Slider Test"} LayoutOrder={0}>
-				<ControlMap.Slider ControlApply={ControlApply} Min={10} Max={100} Step={5} Default={30}></ControlMap.Slider>
+				<ControlMap.Slider
+					ResetListen={listener}
+					ControlApply={ControlApply}
+					Min={10}
+					Max={100}
+					Step={5}
+					Default={30}
+				></ControlMap.Slider>
 			</ControlHolder>
 		</Div>
 	);
 	const Handler = Roact.mount(NewSliderControl, target, "SliderControl");
 	return function () {
+		listener.Destroy();
 		Roact.unmount(Handler);
 	};
 };

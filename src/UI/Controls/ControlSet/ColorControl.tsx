@@ -1,9 +1,12 @@
-import { Spring, useMotor, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
+import { Spring, useEventListener, useMotor, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useEffect, useState, withHooks } from "@rbxts/roact-hooked";
+import { useBinding, useCallback, useContext, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { OverlayContext } from "UI/Contexts/OverlayContext";
+import ThemeContext from "UI/Contexts/ThemeContext";
 import { Sprite } from "UI/UIUtils/Sprite";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Image } from "UI/UIUtils/Styles/Image";
+import PositionBinder from "UI/UIUtils/Styles/PositionBinder";
 import { Text } from "UI/UIUtils/Styles/Text";
 
 interface ColorControlProps extends Control.ControlType<Color3> {}
@@ -23,14 +26,35 @@ function GetContrastColor(color: Color3) {
 
 function ColorControlCreate(setprops: ColorControlProps) {
 	const props = identity<Required<ColorControlProps>>(setProps(setprops) as Required<ColorControlProps>);
+	const overlayContext = useContext(OverlayContext);
+	const { PickColor } = overlayContext;
 	const [color, setColor] = useState(props.Default);
 	const [hovered, setHover] = useState(false);
+	const [posBind, setPosBind] = useBinding(new Vector2());
+	const [pickerOpened, setPickerOpened] = useState(false);
+	const frameRef = useRef<Frame>();
+	const theme = useContext(ThemeContext).Theme;
+	const updateUdim = useCallback(() => {
+		const frame = frameRef.getValue();
+		if (!frame) return;
+		const finalPos = frame.AbsolutePosition.add(frame.AbsoluteSize.div(2));
+		setPosBind(finalPos.add(new Vector2(-23, 0)));
+	}, []);
 	const [propsMotor, setPropsMotor] = useMotor({
 		ColorSize: 24,
 		Transparency: 1,
 	});
+	const resetControls = () => {
+		setColor(props.Default);
+	};
 	useUpdateEffect(() => {
-		if (hovered) {
+		resetControls();
+	}, [props.Default]);
+	useEventListener(props.ResetListen, () => {
+		resetControls();
+	});
+	useUpdateEffect(() => {
+		if (hovered || pickerOpened) {
 			setPropsMotor({
 				ColorSize: new Spring(74),
 				Transparency: new Spring(0),
@@ -41,7 +65,11 @@ function ColorControlCreate(setprops: ColorControlProps) {
 				Transparency: new Spring(1),
 			});
 		}
-	}, [hovered]);
+	}, [hovered, pickerOpened]);
+	useUpdateEffect(() => {
+		props.ControlApply(color);
+	}, [color]);
+
 	return (
 		<>
 			<uilistlayout
@@ -50,17 +78,28 @@ function ColorControlCreate(setprops: ColorControlProps) {
 				SortOrder={Enum.SortOrder.LayoutOrder}
 				VerticalAlignment={Enum.VerticalAlignment.Center}
 			/>
-			<frame
+			<PositionBinder
+				BindSet={updateUdim}
 				Key="ColorFrame"
 				BackgroundColor3={color}
 				BorderSizePixel={0}
 				Size={propsMotor.map(({ ColorSize }) => new UDim2(0, ColorSize, 0, 24))}
+				Ref={frameRef}
 			>
 				<Detector
 					Key="Detector"
 					Event={{
 						MouseEnter: () => setHover(true),
 						MouseLeave: () => setHover(false),
+						MouseButton1Click: () => {
+							PickColor(
+								color,
+								posBind,
+								(newColor) => setColor(newColor),
+								() => setPickerOpened(false),
+							);
+							setPickerOpened(true);
+						},
 					}}
 				></Detector>
 				<uicorner CornerRadius={new UDim(0.5, 0)} />
@@ -75,9 +114,10 @@ function ColorControlCreate(setprops: ColorControlProps) {
 					TextTransparency={propsMotor.map(({ Transparency }) => Transparency)}
 					TextSize={12}
 				/>
-			</frame>
+			</PositionBinder>
 			<Sprite
 				Key="Picker"
+				ImageColor3={theme.IconsColor}
 				ImageTransparency={propsMotor.map(({ Transparency }) => Transparency)}
 				LayoutOrder={1}
 				ImageRectOffset={new Vector2(256, 0)}
