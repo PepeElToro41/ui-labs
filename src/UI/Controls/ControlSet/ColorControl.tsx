@@ -15,7 +15,7 @@ function setProps(props: ColorControlProps) {
 	return props;
 }
 
-function GetContrastColor(color: Color3) {
+export function GetContrastColor(color: Color3) {
 	const totalContrast = (color.R * 255 + color.G * 255 + color.B * 255) / 3;
 	if (totalContrast > 255 / 2) {
 		return new Color3(0, 0, 0);
@@ -28,7 +28,7 @@ function ColorControlCreate(setprops: ColorControlProps) {
 	const props = identity<Required<ColorControlProps>>(setProps(setprops) as Required<ColorControlProps>);
 	const overlayContext = useContext(OverlayContext);
 	const { PickColor } = overlayContext;
-	const [color, setColor] = useState(props.Default);
+	const [color, setColor] = useState(props.Control.Bind.Current as Color3);
 	const [hovered, setHover] = useState(false);
 	const [posBind, setPosBind] = useBinding(new Vector2());
 	const [pickerOpened, setPickerOpened] = useState(false);
@@ -126,6 +126,5 @@ function ColorControlCreate(setprops: ColorControlProps) {
 		</>
 	);
 }
-const ColorControl = withHooks(ColorControlCreate);
 
-export = ColorControl;
+export const ColorControl = withHooks(ColorControlCreate);

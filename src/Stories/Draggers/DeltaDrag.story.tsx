@@ -1,20 +1,20 @@
 import Roact from "@rbxts/roact";
-import SlideDrag from "UI/UIUtils/SlideDrag";
+import DeltaDrag from "UI/UIUtils/Draggers/DeltaDrag";
 
 export = function (target: ScreenGui) {
 	const NewSlideDrag = (
-		<SlideDrag
+		<DeltaDrag
+			SlideDir={"X"}
+			DeltaApply={(number) => {
+				print(number);
+			}}
 			DetectProps={{
-				BackgroundTransparency: 0,
-				Size: UDim2.fromOffset(100, 5),
-				Position: UDim2.fromScale(0.5, 0.5),
 				AnchorPoint: new Vector2(0.5, 0.5),
+				Position: UDim2.fromScale(0.5, 0.5),
+				Size: UDim2.fromOffset(300, 30),
+				BackgroundTransparency: 0.5,
 			}}
-			SlideDir="X"
-			PercentApply={(percent) => {
-				print(percent);
-			}}
-		></SlideDrag>
+		></DeltaDrag>
 	);
 	const Handler = Roact.mount(NewSlideDrag, target, "SlideDrag");
 	return function () {

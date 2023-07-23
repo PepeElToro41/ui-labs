@@ -4,7 +4,6 @@ import { PrimitiveControls } from "@rbxts/ui-labs";
 import ActionWindow from "UI/Actions/ActionWindow";
 import { CreateWindow } from "UI/Actions/WindowMap";
 import { useActions } from "UI/Contexts/ActionsContext";
-import { ControlBinder } from "Utils/ControlsUtil";
 
 const Controls = {
 	"String Control Test": identity<PrimitiveControls["string"]>({

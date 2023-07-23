@@ -1,9 +1,9 @@
 import Roact from "@rbxts/roact";
 import { $terrify } from "rbxts-transformer-t";
 import Signal from "./Signal";
-import { CreateControls } from "./ControlsUtil";
 import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
 import { HoarcekatStory } from "@rbxts/ui-labs";
+import { __intern } from "@rbxts/ui-labs/out/ControlsUtil";
 
 export const DefWarn = "\n\nDEFAULT SETTINGS WILL BE USED";
 
@@ -200,7 +200,7 @@ export function LoadStoryModule(
 		}
 		const [LibName, LibToUse] = GetMountLib(result, handle.NodeBinded, settings);
 		//CreateControls is a function that checks for primitives and converts them to a table control
-		const controls = result.controls ? CreateControls(result.controls) : undefined;
+		const controls = result.controls ? __intern.CreateControls(result.controls) : undefined;
 		const runtimeControls = SetActionsApi(handle.NodeBinded.DisplayName, result.summary, controls, ActionsAPI);
 		if (LibName === undefined) {
 			warn("No lib was found to mount the story, Internal's Roact will be used instead");

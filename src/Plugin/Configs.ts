@@ -1,6 +1,6 @@
 const Configs = {
 	PluginName: "UI Labs",
-	IconsSprite: "rbxassetid://13941267944",
+	IconsSprite: "rbxassetid://14105481154",
 	Extensions: {
 		Story: ".story",
 		StoryBook: ".storybook",

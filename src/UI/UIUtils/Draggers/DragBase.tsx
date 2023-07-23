@@ -3,21 +3,19 @@ import Roact from "@rbxts/roact";
 import { useBinding, useCallback, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
 import { RunService } from "@rbxts/services";
 
-type SlideReturn = {
+export type SlideReturn = {
 	X: number;
 	Y: number;
 	XY: Vector2;
 };
 
-interface SlideDragProps<T extends keyof SlideReturn> {
+export interface DragBaseProps {
 	DetectProps: Roact.JsxInstanceProperties<TextButton>;
-	SlideDir: T;
-	NoClamp?: boolean;
-	PercentApply: (percent: SlideReturn[T]) => void;
+	MapCallback: (started: Vector2, current: Vector2, last: Vector2, slidePos: Vector2[]) => void;
 	StateUpdated?: (state: { hovering: boolean; dragging: boolean }) => void;
 }
 
-function SlideDragCreate<T extends keyof SlideReturn>(props: SlideDragProps<T>) {
+function DragBaseCreate(props: DragBaseProps) {
 	const slideRef = useRef<TextButton>();
 	const [isDragging, setIsDragging] = useState(false);
 	const [hovering, setHover] = useState(false);
@@ -39,28 +37,19 @@ function SlideDragCreate<T extends keyof SlideReturn>(props: SlideDragProps<T>) 
 	useEffect(() => {
 		if (!isDragging) return;
 		if (!slideInput) return;
+		const mouseStart = new Vector2(slideInput.Position.X, slideInput.Position.Y);
+		let oldPos = mouseStart;
 		const runListener = RunService.Heartbeat.Connect(() => {
 			const mousePos = new Vector2(slideInput.Position.X, slideInput.Position.Y);
 			const [minPos, maxPos] = slideRect.getValue();
-			let percent = mousePos.sub(minPos).div(maxPos.sub(minPos));
-			if (!props.NoClamp) {
-				percent = new Vector2(math.clamp(percent.X, 0, 1), math.clamp(percent.Y, 0, 1));
-			}
-			if (props.SlideDir === "X") {
-				const apply = props.PercentApply as (percent: number) => void;
-				apply(percent.X);
-			} else if (props.SlideDir === "Y") {
-				const apply = props.PercentApply as (percent: number) => void;
-				apply(percent.Y);
-			} else if (props.SlideDir === "XY") {
-				const apply = props.PercentApply as (percent: Vector2) => void;
-				apply(percent);
-			}
+			const rectSize = maxPos.sub(minPos);
+			props.MapCallback(mouseStart, mousePos, oldPos, [minPos, rectSize]);
+			oldPos = mousePos;
 		});
 		return () => {
 			runListener.Disconnect();
 		};
-	}, [isDragging]);
+	}, [isDragging, props.MapCallback]);
 	//Updating state
 	useUpdateEffect(() => {
 		if (!props.StateUpdated) return;
@@ -106,6 +95,5 @@ function SlideDragCreate<T extends keyof SlideReturn>(props: SlideDragProps<T>) 
 		></textbutton>
 	);
 }
-const SlideDrag = withHooks(SlideDragCreate);
 
-export = SlideDrag;
+export const DragBase = withHooks(DragBaseCreate);

@@ -32,10 +32,10 @@ function MouseControlCreate(setprops: MouseControlProps) {
 	const pluginObject = pluginContext.PluginObject;
 	const mouseFrameRef = useRef<Frame>();
 	const [mousePos, getMousePos, setMousePos] = useMouseControl(mouseFrameRef);
-	const [setMouseIcon, unsetMouseIcon] = useMouseIcon(pluginObject);
+	const [setMouseIcon, UnsetMouseIcon] = useMouseIcon(pluginObject);
 	const iconContextValue = useMemo(() => {
-		return { setMouseIcon: setMouseIcon, unsetMouseIcon: unsetMouseIcon };
-	}, [setMouseIcon, unsetMouseIcon]);
+		return { SetMouseIcon: setMouseIcon, UnsetMouseIcon: UnsetMouseIcon };
+	}, [setMouseIcon, UnsetMouseIcon]);
 	const [mouseDesc, descVisible, getMouseDesc, setMouseDesc, removeMouseDesc] = useDescriptor(iconContextValue);
 	const connections = useConnections();
 	if (pluginContext.DockWidget) {

@@ -1,11 +1,9 @@
 import { Instant, Spring, useEventListener, useMotor, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useBinding, useCallback, useContext, useEffect, useMemo, useRef, useState, withHooks } from "@rbxts/roact-hooked";
-import { RunService } from "@rbxts/services";
+import { useCallback, useContext, useEffect, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import { useTween } from "UI/Hooks/Utils/useTween";
-import SlideDrag from "UI/UIUtils/SlideDrag";
-import { Detector } from "UI/UIUtils/Styles/Detector";
+import SlideDrag from "UI/UIUtils/Draggers/SlideDrag";
 import { Div } from "UI/UIUtils/Styles/Div";
 
 interface SliderControlProps extends Control.ControlType<number> {
@@ -51,7 +49,7 @@ function GetPercent(props: SliderControlProps, amount: number) {
 function SliderControlCreate(setprops: SliderControlProps) {
 	const props = identity<Required<SliderControlProps>>(setProps(setprops) as Required<SliderControlProps>);
 	const theme = useContext(ThemeContext).Theme;
-	const [amount, _setAmount] = useState(props.Default);
+	const [amount, _setAmount] = useState(props.Control.Bind.Current as number);
 	const [percSize, setPercSize] = useMotor(GetPercent(props, amount));
 	const [handleSize, tweenHandleSize] = useTween(handleSizeInfo, 12);
 	//---HANDLING SLIDE---

@@ -1,5 +1,5 @@
 import BoolControl from "./ControlSet/BoolControl";
-import ColorControl from "./ControlSet/ColorControl";
+import { ColorControl } from "./ControlSet/ColorControl";
 import NumberControl from "./ControlSet/NumberControl";
 import RGBAControl from "./ControlSet/RGBAControl";
 import SliderControl from "./ControlSet/SliderControl";

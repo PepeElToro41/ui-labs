@@ -1,10 +1,14 @@
 import Roact from "@rbxts/roact";
 import { SpecialControls, WithControls } from "@rbxts/ui-labs";
+import { Named, Number, Ordered, RGBA } from "@rbxts/ui-labs/out/ControlsUtil";
 
 const controls = {
 	"Text Label": "String test",
 	Rounded: true,
+	"Back Color": RGBA(Color3.fromRGB(59, 59, 59), 0),
 	"Text Color": Color3.fromRGB(255, 255, 255),
+	//"Back Color": Color3.fromRGB(59, 59, 59),
+	"Box Size": Number(200, undefined, undefined, new NumberRange(5, 400)),
 	"Text Size": identity<SpecialControls["Slider"]>({
 		ControlType: "Slider",
 		Default: 30,
@@ -24,10 +28,11 @@ const returner: WithControls<typeof controls> = {
 	story: (props) => {
 		return (
 			<frame
-				Size={UDim2.fromOffset(300, 120)}
-				BackgroundColor3={Color3.fromRGB(59, 59, 59)}
+				Size={UDim2.fromOffset(props.Controls["Box Size"], 120)}
+				BackgroundColor3={props.Controls["Back Color"].Color}
 				Position={UDim2.fromScale(0.5, 0.5)}
 				BorderSizePixel={0}
+				BackgroundTransparency={props.Controls["Back Color"].Transparency}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 			>
 				<uicorner CornerRadius={props.Controls.Rounded ? new UDim(0.4, 0) : new UDim(0, 0)}></uicorner>

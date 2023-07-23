@@ -8,7 +8,7 @@ const Dark = {
 	IconsColor: new Color3(1, 1, 1),
 	IconsDisableColor: Color3.fromRGB(105, 105, 105),
 	SearchInput: Color3.fromRGB(49, 49, 53),
-	SearchPlaceholder: Color3.fromRGB(136, 136, 136),
+	SearchPlaceholder: Color3.fromRGB(161, 161, 161),
 	//Story Node
 	StoryIdle: {
 		Entry: Color3.fromRGB(82, 82, 92),
@@ -60,6 +60,8 @@ const Dark = {
 			NonFillColor: Color3.fromRGB(56, 82, 106),
 		},
 	},
+	//Overlay
+	ColorPickerWindow: Color3.fromRGB(24, 24, 24),
 };
 const Light: Theme = {
 	PureColor: Color3.fromRGB(255, 255, 255),
@@ -71,7 +73,7 @@ const Light: Theme = {
 	IconsColor: new Color3(0, 0, 0),
 	IconsDisableColor: Color3.fromRGB(145, 145, 145),
 	SearchInput: Color3.fromRGB(156, 156, 161),
-	SearchPlaceholder: Color3.fromRGB(89, 89, 89),
+	SearchPlaceholder: Color3.fromRGB(94, 94, 94),
 	//Story Node
 	StoryIdle: {
 		Entry: Color3.fromRGB(161, 161, 161),
@@ -87,12 +89,12 @@ const Light: Theme = {
 	StoryDisplayed: {
 		//NODE
 		Entry: Color3.fromRGB(92, 181, 247),
-		Disabled: Color3.fromRGB(79, 128, 161),
+		Disabled: Color3.fromRGB(158, 194, 222),
 		Text: Color3.fromRGB(27, 37, 48),
-		DisabledText: Color3.fromRGB(38, 54, 69),
+		DisabledText: Color3.fromRGB(79, 99, 117),
 		//IMAGE
 		Image: Color3.fromRGB(17, 31, 44),
-		DisabledImage: Color3.fromRGB(33, 56, 82),
+		DisabledImage: Color3.fromRGB(79, 99, 117),
 	},
 	StorySelected: {},
 	//Image Button
@@ -123,6 +125,8 @@ const Light: Theme = {
 			NonFillColor: Color3.fromRGB(133, 161, 189),
 		},
 	},
+	//Overlay
+	ColorPickerWindow: Color3.fromRGB(212, 212, 212),
 };
 
 declare global {

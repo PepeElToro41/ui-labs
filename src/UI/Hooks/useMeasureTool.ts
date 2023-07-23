@@ -36,8 +36,8 @@ export = (
 		}
 	}, [toolActivated]);
 	useEffect(() => {
-		if (toolStarted) mouseIconContext.setMouseIcon("Measure", "Cross");
-		else mouseIconContext.unsetMouseIcon("Measure");
+		if (toolStarted) mouseIconContext.SetMouseIcon("Measure", "Cross");
+		else mouseIconContext.UnsetMouseIcon("Measure");
 	}, [toolStarted]);
 	return;
 };

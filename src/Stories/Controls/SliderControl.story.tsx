@@ -1,4 +1,6 @@
 import Roact from "@rbxts/roact";
+import { Number, Slider, __ControlBinder } from "@rbxts/ui-labs/out/ControlsUtil";
+import { AddControlBinding } from "UI/Contexts/ActionsContext";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import SliderControl from "UI/Controls/ControlSet/SliderControl";
@@ -10,6 +12,7 @@ export = function (target: ScreenGui) {
 		//print(value);
 	};
 	const listener = new Signal<() => void>();
+	const control = AddControlBinding(Slider(30, 10, 100, 5));
 	const NewSliderControl = (
 		<Div
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -21,6 +24,7 @@ export = function (target: ScreenGui) {
 				<ControlMap.Slider
 					ResetListen={listener}
 					ControlApply={ControlApply}
+					Control={control}
 					Min={10}
 					Max={100}
 					Step={5}

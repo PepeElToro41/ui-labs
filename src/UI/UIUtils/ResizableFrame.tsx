@@ -41,12 +41,12 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 	useEffect(() => {
 		if (mouseInput) {
 			if (isWidthResizable) {
-				mouseIcon.setMouseIcon("ResizingFrame", "ResizeH");
+				mouseIcon.SetMouseIcon("ResizingFrame", "ResizeH");
 			} else if (isHeightResizable) {
-				mouseIcon.setMouseIcon("ResizingFrame", "ResizeV");
+				mouseIcon.SetMouseIcon("ResizingFrame", "ResizeV");
 			}
 		} else {
-			mouseIcon.unsetMouseIcon("ResizingFrame");
+			mouseIcon.UnsetMouseIcon("ResizingFrame");
 		}
 	}, [mouseInput]);
 	useEffect(() => {

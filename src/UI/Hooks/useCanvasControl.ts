@@ -66,12 +66,12 @@ export const useCanvasControl = (iconContext: IsMouseIconContext, inputConnectio
 	}, [ctrlPressed, mouseHeld]);
 	//Icon Control
 	useEffect(() => {
-		if (ctrlPressed) iconContext.setMouseIcon("CanvasMove", "Move");
-		else iconContext.unsetMouseIcon("CanvasMove");
+		if (ctrlPressed) iconContext.SetMouseIcon("CanvasMove", "Move");
+		else iconContext.UnsetMouseIcon("CanvasMove");
 	}, [ctrlPressed]);
 	useEffect(() => {
-		if (shiftPressed) iconContext.setMouseIcon("CanvasResize", "ResizeAll");
-		else iconContext.unsetMouseIcon("CanvasResize");
+		if (shiftPressed) iconContext.SetMouseIcon("CanvasResize", "ResizeAll");
+		else iconContext.UnsetMouseIcon("CanvasResize");
 	}, [shiftPressed]);
 	return $tuple(zoom, posShift, setZoom, setPosShift);
 };

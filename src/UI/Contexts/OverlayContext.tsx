@@ -12,6 +12,8 @@ export type OverlayContextType = {
 		posBind: Roact.Binding<Vector2>,
 		applierCallback: (setColor: Color3) => void,
 		onClose: () => void,
+		startAlpha?: number,
+		alphaCallback?: (setAlpha: number) => void,
 	) => void;
 };
 export const OverlayContext = Roact.createContext<OverlayContextType>({

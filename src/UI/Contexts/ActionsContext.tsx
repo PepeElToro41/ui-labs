@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { useState, useMemo, useContext, useEffect, useCallback } from "@rbxts/roact-hooked";
+import { __ControlBinder } from "@rbxts/ui-labs/out/ControlsUtil";
 import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
-import { ControlBinder } from "Utils/ControlsUtil";
 import Signal from "Utils/Signal";
 
 declare global {
@@ -21,19 +21,25 @@ declare global {
 	type SummaryType = { StoryName: string; Summary: string };
 }
 
-function AddControlBindings(controls: UL.SetControls): UL.SetRuntimeControls {
+export function AddControlBindings(controls: UL.SetControls): UL.SetRuntimeControls {
 	const newControls: UL.SetRuntimeControls = {};
 	for (const [key, control] of pairs(controls)) {
-		const newBinder = new ControlBinder(control);
-		const newControl = {
-			...control,
-			Bind: newBinder,
-		} as UL.RuntimeControls;
+		const newControl = AddControlBinding(control);
 		newControls[key] = newControl;
 	}
 	return newControls;
 }
-function DestroyControlBindings(controls: UL.SetRuntimeControls) {
+
+export function AddControlBinding(control: UL.AllControlTypes) {
+	const newBinder = new __ControlBinder(control);
+	const newControl = {
+		...control,
+		Bind: newBinder,
+	} as UL.RuntimeControls;
+	return newControl;
+}
+
+export function DestroyControlBindings(controls: UL.SetRuntimeControls) {
 	for (const [, control] of pairs(controls)) {
 		control.Bind.Destroy();
 	}

@@ -21,7 +21,6 @@ function ControlsCreate(setprops: ControlsProps) {
 	const theme = useContext(ThemeContext).Theme;
 	const controlList = useMemo(() => {
 		const controlEl: Roact.Element[] = [];
-		let order = 0;
 		for (const [key, control] of pairs(props.Controls)) {
 			const controlType = control.ControlType;
 			const Creator = ControlMap[controlType];
@@ -30,18 +29,18 @@ function ControlsCreate(setprops: ControlsProps) {
 				...extraProps,
 				Default: control.Default,
 				ResetListen: props.Api.ReloadControls,
+				Control: control,
 				ControlApply: (newValue: unknown) => {
 					control.Bind.Set(newValue);
 				},
 			});
 
 			const controlHolder = (
-				<ControlHolder ControlName={key} LayoutOrder={order}>
+				<ControlHolder ControlName={control.DisplayName ?? key} LayoutOrder={control.Order ?? 0}>
 					{newControl}
 				</ControlHolder>
 			);
 			controlEl.push(controlHolder);
-			order++;
 		}
 		return controlEl;
 	}, [props.Controls]);
@@ -93,7 +92,6 @@ function ControlsCreate(setprops: ControlsProps) {
 				AutomaticCanvasSize={Enum.AutomaticSize.Y}
 				BackgroundTransparency={1}
 				CanvasSize={new UDim2(0, 0, 0, 0)}
-				ClipsDescendants={false}
 				ScrollBarThickness={2}
 				Size={new UDim2(1, 0, 1, -30)}
 				ZIndex={2}

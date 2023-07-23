@@ -1,15 +1,19 @@
 import Roact from "@rbxts/roact";
-import Signal from "@rbxts/ui-labs/out/Typings/Signal";
+import { Number, String, __ControlBinder } from "@rbxts/ui-labs/out/ControlsUtil";
+import { AddControlBinding } from "UI/Contexts/ActionsContext";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import StringControl from "UI/Controls/ControlSet/StringControl";
 import { Div } from "UI/UIUtils/Styles/Div";
+import Signal from "Utils/Signal";
 
 export = function (target: ScreenGui) {
+	const listener = new Signal<() => void>();
+
 	const ControlApply = (value: unknown) => {
 		print(value);
 	};
-	const listener = new Signal<() => void>();
+	const control = AddControlBinding(String("Hello"));
 	const NewBoolControl = (
 		<Div
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -18,7 +22,12 @@ export = function (target: ScreenGui) {
 			BackgroundTransparency={0}
 		>
 			<ControlHolder ControlName={"String Test"} LayoutOrder={0}>
-				<ControlMap.string ResetListen={listener} ControlApply={ControlApply} Default={"Hello"}></ControlMap.string>
+				<ControlMap.string
+					Control={control}
+					ResetListen={listener}
+					ControlApply={ControlApply}
+					Default={"Hello"}
+				></ControlMap.string>
 			</ControlHolder>
 		</Div>
 	);

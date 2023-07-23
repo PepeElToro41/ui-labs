@@ -28,6 +28,8 @@ function OverlayCreate(setprops: OverlayProps) {
 			posBind: Roact.Binding<Vector2>,
 			applierCallback: (setColor: Color3) => void,
 			onClose: () => void,
+			startAlpha?: number,
+			alphaCallback?: (setAlpha: number) => void,
 		) => {
 			setOverlays((oldOverlays) => {
 				return {
@@ -36,6 +38,8 @@ function OverlayCreate(setprops: OverlayProps) {
 						<ColorPicker
 							StartColor={startColor}
 							ColorApply={applierCallback}
+							AlphaApply={alphaCallback}
+							AlphaChanel={startAlpha}
 							Position={posBind.map((absPos) => {
 								const framePos = GetFramePos(overlayBind.getValue()[0], posBind.getValue());
 								return UDim2.fromOffset(framePos.X, framePos.Y);

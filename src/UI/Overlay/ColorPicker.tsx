@@ -2,7 +2,8 @@ import { useBindingListener, useEventListener } from "@rbxts/pretty-roact-hooks"
 import Roact from "@rbxts/roact";
 import { useBinding, useCallback, useContext, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
 import { OverlayContext } from "UI/Contexts/OverlayContext";
-import SlideDrag from "UI/UIUtils/SlideDrag";
+import ThemeContext from "UI/Contexts/ThemeContext";
+import SlideDrag from "UI/UIUtils/Draggers/SlideDrag";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Div } from "UI/UIUtils/Styles/Div";
 import PositionBinder from "UI/UIUtils/Styles/PositionBinder";
@@ -12,7 +13,8 @@ interface ColorPickerProps {
 	AlphaChanel?: number;
 	Position: Roact.Binding<UDim2>;
 	CanvasBind: Roact.Binding<[Vector2, Vector2]>;
-	ColorApply: (newColor: Color3) => void;
+	ColorApply: (color: Color3) => void;
+	AlphaApply?: (alpha: number) => void;
 	SelfClose: () => void;
 }
 
@@ -80,7 +82,9 @@ function Entry<T extends Color3 | number>(props: {
 	Parser: ParserFn<T>;
 	Decoder: DecoderFn<T>;
 	Applier: (Color: Widen<T>) => void;
+	Theme: Theme;
 }) {
+	const theme = props.Theme;
 	return (
 		<frame
 			Key="Holder"
@@ -101,16 +105,11 @@ function Entry<T extends Color3 | number>(props: {
 				RichText={true}
 				Size={new UDim2(0, 40, 1, 0)}
 				Text={props.Text}
-				TextColor3={Color3.fromRGB(255, 255, 255)}
+				TextColor3={theme.TextColor}
 				TextSize={12}
 				TextXAlignment={Enum.TextXAlignment.Left}
 			/>
-			<frame
-				Key="Background"
-				BackgroundColor3={Color3.fromRGB(48, 48, 48)}
-				BorderSizePixel={0}
-				Size={new UDim2(1, -40, 1, 0)}
-			>
+			<frame Key="Background" BackgroundColor3={theme.SearchInput} BorderSizePixel={0} Size={new UDim2(1, -40, 1, 0)}>
 				<uicorner CornerRadius={new UDim(0, 4)} />
 				<textbox
 					Key="Entry"
@@ -122,7 +121,8 @@ function Entry<T extends Color3 | number>(props: {
 					AnchorPoint={new Vector2(0.5, 0.5)}
 					Size={new UDim2(1, -8, 1, 0)}
 					Text={""}
-					TextColor3={Color3.fromRGB(255, 255, 255)}
+					TextColor3={theme.TextColor}
+					PlaceholderColor3={theme.SearchPlaceholder}
 					TextSize={11}
 					Event={{
 						FocusLost: (textBox: TextBox) => {
@@ -156,6 +156,7 @@ function PredictY(pickerPos: Vector2, pickerSize: Vector2, flipped: boolean) {
 
 function ColorPickerCreate(setprops: ColorPickerProps) {
 	const props = identity<Required<ColorPickerProps>>(setProps(setprops) as Required<ColorPickerProps>);
+	const theme = useContext(ThemeContext).Theme;
 	const [color, setColor] = useState(props.StartColor);
 	const [handlers, setHandlers] = useState(GetHandlers(color));
 	const [alpha, setAlpha] = useState(props.AlphaChanel ?? 1);
@@ -184,7 +185,11 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 	});
 	useEffect(() => {
 		props.ColorApply(color);
-	}, [color]);
+	}, [color, alpha]);
+	useEffect(() => {
+		if (!props.AlphaApply) return;
+		props.AlphaApply(alpha);
+	}, [alpha]);
 	const calculateFlip = useCallback(() => {
 		const frame = frameRef.getValue();
 		if (!frame) return;
@@ -222,7 +227,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 				Key="Contents"
 				AutomaticSize={Enum.AutomaticSize.Y}
 				Size={new UDim2(1, 0, 0, 0)}
-				BackgroundColor3={Color3.fromRGB(22, 22, 22)}
+				BackgroundColor3={theme.ColorPickerWindow}
 				BorderSizePixel={0}
 				Event={{
 					MouseEnter: () => setInside(true),
@@ -230,7 +235,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 				}}
 			>
 				<uicorner CornerRadius={new UDim(0, 6)} />
-				<uistroke Color={Color3.fromRGB(154, 154, 154)} Transparency={0.7} />
+				<uistroke Color={theme.Divisor} Transparency={0.8} />
 				<uilistlayout
 					SortOrder={Enum.SortOrder.LayoutOrder}
 					HorizontalAlignment={Enum.HorizontalAlignment.Center}
@@ -264,7 +269,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 							ZIndex={3}
 						>
 							<uicorner CornerRadius={new UDim(0, 6)} />
-							<uistroke Color={Color3.fromRGB(255, 255, 255)} />
+							<uistroke Color={theme.TextColor} />
 						</frame>
 						<SlideDrag
 							Key="ValueSlider"
@@ -333,10 +338,10 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 							Size={new UDim2(0, 8, 0, 8)}
 						>
 							<uicorner CornerRadius={new UDim(0.5, 0)} />
-							<uistroke Color={Color3.fromRGB(255, 255, 255)} Thickness={2} />
+							<uistroke Color={theme.TextColor} Thickness={2} />
 						</frame>
 					</frame>
-					{props.AlphaChanel ? (
+					{props.AlphaChanel !== undefined ? (
 						<frame Key="AlphaPicker" BackgroundTransparency={1} Size={new UDim2(1, -5, 0, 10)} LayoutOrder={2}>
 							<SlideDrag
 								DetectProps={{
@@ -383,7 +388,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 								ZIndex={3}
 							>
 								<uicorner CornerRadius={new UDim(0.5, 0)} />
-								<uistroke Color={Color3.fromRGB(255, 255, 255)} Thickness={2} />
+								<uistroke Color={theme.TextColor} Thickness={2} />
 							</frame>
 						</frame>
 					) : undefined}
@@ -395,6 +400,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 						Parser={Parsers.Hex}
 						Decoder={Decoders.Hex}
 						Applier={colorApply}
+						Theme={theme}
 					></Entry>
 					<Entry
 						Key="RBGEntry"
@@ -404,6 +410,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 						Parser={Parsers.RGB}
 						Decoder={Decoders.RBG}
 						Applier={colorApply}
+						Theme={theme}
 					></Entry>
 					{props.AlphaChanel ? (
 						<Entry
@@ -414,6 +421,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 							Parser={Parsers.Alpha}
 							Decoder={Decoders.Alpha}
 							Applier={(alpha) => setAlpha(alpha)}
+							Theme={theme}
 						></Entry>
 					) : undefined}
 				</Div>

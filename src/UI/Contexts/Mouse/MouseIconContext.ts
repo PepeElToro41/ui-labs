@@ -1,8 +1,8 @@
 import Roact from "@rbxts/roact";
 
 const ContextValue = {
-	setMouseIcon: (index: string, icon: MouseIcon) => {},
-	unsetMouseIcon: (index: string) => {},
+	SetMouseIcon: (index: string, icon: MouseIcon) => {},
+	UnsetMouseIcon: (index: string) => {},
 };
 
 declare global {

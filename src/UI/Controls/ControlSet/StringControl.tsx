@@ -12,7 +12,7 @@ function setProps(props: StringControlProps) {
 function StringControlCreate(setprops: StringControlProps) {
 	const props = identity<Required<StringControlProps>>(setProps(setprops) as Required<StringControlProps>);
 	const theme = useContext(ThemeContext).Theme;
-	const [input, setInput] = useState(props.Default);
+	const [input, setInput] = useState(props.Control.Bind.Current as string);
 	const resetControls = () => {
 		setInput(props.Default);
 	};

@@ -25,11 +25,11 @@ function ActionTabCreate(props: {
 		} else {
 			tweenSize(0);
 		}
-	}, [props.SelectedWindow]);
+	}, [props.SelectedWindow, props.Index]);
 	const active = props.Index === props.SelectedWindow;
 	return (
 		<frame
-			Key="Tab"
+			Key={"Tab" + props.Index}
 			AutomaticSize={Enum.AutomaticSize.X}
 			BackgroundTransparency={1}
 			Size={new UDim2(0, 0, 1, 0)}
@@ -93,6 +93,18 @@ function ActionWindowCreate(props: ActionWindowProps) {
 			windows[window.WindowType] = window.Window;
 		});
 		return windows;
+	}, [props.ActiveWindows]);
+	useUpdateEffect(() => {
+		let toSelect: IsActiveWindow | undefined = props.ActiveWindows[0];
+		props.ActiveWindows.forEach((window) => {
+			if (window.WindowType === selectedWindow) {
+				toSelect = window;
+			}
+		});
+		if (toSelect) {
+			_selectWindow(toSelect.WindowType);
+		}
+		//_selectWindow(props.ActiveWindows[0].WindowType);
 	}, [props.ActiveWindows]);
 	const AllTabs = useMemo(() => {
 		const tabs: Roact.Element[] = [];

@@ -19,7 +19,7 @@ function setProps(props: BoolControlProps) {
 
 function BoolControlCreate(setprops: BoolControlProps) {
 	const props = identity<Required<BoolControlProps>>(setProps(setprops) as Required<BoolControlProps>);
-	const [enabled, setEnabled] = useState(props.Default);
+	const [enabled, setEnabled] = useState(props.Control.Bind.Current as boolean);
 	const theme = useContext(ThemeContext).Theme;
 	const [hoverSize, setHoverSize] = useTween(hoverInfo, 40);
 	const handleRef = useRef<Frame>();
@@ -32,7 +32,7 @@ function BoolControlCreate(setprops: BoolControlProps) {
 	});
 	useUpdateEffect(() => {
 		resetControls();
-	}, [props.Default]);
+	}, [props.Control.Default]);
 	useEffect(() => {
 		props.ControlApply(enabled);
 		const handle = handleRef.getValue();
