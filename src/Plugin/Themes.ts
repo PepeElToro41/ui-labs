@@ -61,6 +61,7 @@ const Dark = {
 		},
 		EnumList: {
 			ListLabel: Color3.fromRGB(24, 24, 24),
+			ListEntry: Color3.fromRGB(82, 82, 92),
 		},
 	},
 	//Overlay
@@ -111,14 +112,14 @@ const Light: Theme = {
 	//Story Editor
 	StoryName: Color3.fromRGB(255, 255, 255),
 	StoryPathText: Color3.fromRGB(56, 128, 56),
-	EditorBackground: Color3.fromRGB(181, 181, 181),
+	EditorBackground: Color3.fromRGB(183, 183, 183),
 	EditorPattern: new Color3(0, 0, 0),
 	ToolIconActive: Color3.fromRGB(25, 133, 216),
 	//Descriptor
 	Descriptor: Color3.fromRGB(82, 83, 102),
 	DescriptorText: Color3.fromRGB(255, 255, 255),
 	//Actions
-	ActionWindow: Color3.fromRGB(204, 204, 204),
+	ActionWindow: Color3.fromRGB(201, 201, 201),
 	//Controls
 	ControlTheme: {
 		Bool: {
@@ -128,7 +129,8 @@ const Light: Theme = {
 			NonFillColor: Color3.fromRGB(133, 161, 189),
 		},
 		EnumList: {
-			ListLabel: Color3.fromRGB(212, 212, 212),
+			ListLabel: Color3.fromRGB(214, 214, 214),
+			ListEntry: Color3.fromRGB(161, 161, 161),
 		},
 	},
 	//Overlay

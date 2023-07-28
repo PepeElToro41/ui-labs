@@ -7,6 +7,7 @@ import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Div } from "UI/UIUtils/Styles/Div";
 import { Text } from "UI/UIUtils/Styles/Text";
 import { GenerateLabel } from "./ListLabels/ListMap";
+import ThemeContext from "UI/Contexts/ThemeContext";
 
 interface MenuDropperProps {
 	Description: boolean;
@@ -24,12 +25,17 @@ function MenuItemCreate<T extends boolean>(props: {
 	Label: T extends true ? string : number;
 	Value: _EnumListType;
 	Apply: (index: T extends true ? string : number) => void;
+	Theme: Theme;
 }) {
 	const [hover, setHover] = useState(false);
+
+	const setLabel = useMemo(() => {
+		return GenerateLabel({ Value: props.Value, Description: props.Description, Theme: props.Theme });
+	}, [props.Label, props.Description, props.Theme]);
 	return (
 		<frame
 			Key={props.Label}
-			BackgroundColor3={Color3.fromRGB(56, 56, 56)}
+			BackgroundColor3={props.Theme.ControlTheme.EnumList.ListEntry}
 			BorderSizePixel={0}
 			BackgroundTransparency={hover ? 0 : 1}
 			Size={new UDim2(1, 0, 0, 25)}
@@ -50,7 +56,7 @@ function MenuItemCreate<T extends boolean>(props: {
 					<Text
 						Key={"Label"}
 						FontFace={Font.fromEnum(Enum.Font.Gotham)}
-						TextColor3={Color3.fromRGB(255, 255, 255)}
+						TextColor3={props.Theme.TextColor}
 						TextSize={12}
 						Text={props.Description ? (props.Label as string) : tostring(props.Value)}
 						TextXAlignment={Enum.TextXAlignment.Left}
@@ -58,7 +64,7 @@ function MenuItemCreate<T extends boolean>(props: {
 						Size={UDim2.fromScale(0, 1)}
 					/>
 				) : (
-					GenerateLabel({ Value: props.Value, Description: props.Description })
+					setLabel
 				)}
 			</Div>
 			{props.Description ? (
@@ -69,7 +75,7 @@ function MenuItemCreate<T extends boolean>(props: {
 					Position={new UDim2(1, -8, 0, 0)}
 					Size={UDim2.fromScale(0, 1)}
 				>
-					{GenerateLabel({ Value: props.Value, Description: props.Description })}
+					{setLabel}
 				</Div>
 			) : undefined}
 		</frame>
@@ -86,6 +92,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 	const { OverlayInput } = useContext(OverlayContext);
 	const [inside, setInside] = useBinding(false);
 	const [flipped, setFlipped] = useState(false);
+	const theme = useContext(ThemeContext).Theme;
 	const dropdown = useMemo(() => {
 		const setDropdown: Roact.Element[] = [];
 		if (props.Description) {
@@ -96,6 +103,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 						Description={true}
 						Label={key}
 						Value={value}
+						Theme={theme}
 						Apply={(index) => {
 							props.ApplierCallback(_Dropdown[index], index);
 							props.SelfClose();
@@ -111,6 +119,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 						Description={false}
 						Label={index}
 						Value={value}
+						Theme={theme}
 						Apply={(index) => {
 							props.ApplierCallback(_Dropdown[index], index);
 							props.SelfClose();
@@ -177,7 +186,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 			<frame
 				Key={"Drop"}
 				AutomaticSize={Enum.AutomaticSize.Y}
-				BackgroundColor3={Color3.fromRGB(25, 25, 25)}
+				BackgroundColor3={theme.ControlTheme.EnumList.ListLabel}
 				BorderColor3={Color3.fromRGB(0, 0, 0)}
 				BorderSizePixel={0}
 				ZIndex={3}
@@ -188,7 +197,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 					MouseLeave: () => setInside(false),
 				}}
 			>
-				<uistroke Color={Color3.fromRGB(255, 255, 255)} Transparency={0.8} />
+				<uistroke Color={theme.Divisor} Transparency={0.8} />
 				<uicorner CornerRadius={new UDim(0, 6)} />
 				<uilistlayout SortOrder={Enum.SortOrder.LayoutOrder} />
 				{dropdown}

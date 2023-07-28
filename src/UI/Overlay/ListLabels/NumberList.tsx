@@ -2,6 +2,7 @@ import Roact from "@rbxts/roact";
 
 interface NumberListProps {
 	Value: number;
+	Theme: Theme;
 }
 
 function setProps(props: NumberListProps) {
@@ -15,7 +16,7 @@ export function NumberList(setprops: NumberListProps) {
 			Key={"Label"}
 			FontFace={Font.fromEnum(Enum.Font.Gotham)}
 			Text={tostring(props.Value)}
-			TextColor3={Color3.fromRGB(168, 168, 168)}
+			TextColor3={props.Theme.TextDisabledColor}
 			TextSize={12}
 			TextXAlignment={Enum.TextXAlignment.Right}
 			AutomaticSize={Enum.AutomaticSize.X}

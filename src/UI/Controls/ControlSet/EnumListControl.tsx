@@ -9,6 +9,7 @@ import { OverlayContext } from "UI/Contexts/OverlayContext";
 import PositionBinder from "UI/UIUtils/Styles/PositionBinder";
 import { GenerateLabel } from "UI/Overlay/ListLabels/ListMap";
 import { useEventListener } from "@rbxts/pretty-roact-hooks";
+import ThemeContext from "UI/Contexts/ThemeContext";
 
 interface EnumListControlProps extends Control.ControlType<_EnumListType> {
 	DefaultIndex: string;
@@ -28,7 +29,7 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 	const [listOpened, setListOpened] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState((props.Control as SpecialControls["EnumList"]).Props.Indexed);
 	const [canOpen, setCanOpen] = useState(true);
-
+	const theme = useContext(ThemeContext).Theme;
 	const resetControls = () => {
 		setSelectedIndex((props.Control as SpecialControls["EnumList"]).Props.DefaultIndex);
 	};
@@ -51,12 +52,12 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 				BindSet={setPosBind}
 				Key={"DropFrame"}
 				AutomaticSize={Enum.AutomaticSize.X}
-				BackgroundColor3={hovered ? Color3.fromRGB(54, 54, 54) : Color3.fromRGB(25, 25, 25)}
+				BackgroundColor3={hovered ? theme.ControlTheme.EnumList.ListEntry : theme.ControlTheme.EnumList.ListLabel}
 				BorderSizePixel={0}
 				Size={UDim2.fromOffset(0, 25)}
 			>
 				<uicorner CornerRadius={new UDim(0, 6)}></uicorner>
-				<uistroke Color={hovered ? Color3.fromRGB(25, 25, 25) : new Color3(1, 1, 1)} Transparency={0.8}></uistroke>
+				<uistroke Color={theme.Divisor} Transparency={hovered ? 1 : 0.8}></uistroke>
 				<Detector
 					Key="Detector"
 					Size={UDim2.fromScale(1, 1)}
@@ -112,7 +113,7 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 							)
 						}
 						Text={selectedIndex}
-						TextColor3={new Color3(1, 1, 1)}
+						TextColor3={theme.TextColor}
 						TextSize={12}
 						TextTruncate={Enum.TextTruncate.AtEnd}
 						TextXAlignment={Enum.TextXAlignment.Left}
@@ -136,7 +137,7 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 						Position={new UDim2(1, -25, 0.5, 0)}
 						Size={UDim2.fromScale(0, 1)}
 					>
-						{GenerateLabel({ Value: props.EnumList[selectedIndex], Description: true })}
+						{GenerateLabel({ Value: props.EnumList[selectedIndex], Description: true, Theme: theme })}
 						<uilistlayout
 							HorizontalAlignment={Enum.HorizontalAlignment.Right}
 							VerticalAlignment={Enum.VerticalAlignment.Center}
@@ -149,6 +150,7 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 						AnchorPoint={new Vector2(1, 0.5)}
 						AutomaticSize={Enum.AutomaticSize.X}
 						BackgroundTransparency={1}
+						ImageColor3={theme.IconsColor}
 						LayoutOrder={2}
 						Position={new UDim2(1, -5, 0.5, 0)}
 						Size={UDim2.fromOffset(15, 15)}
