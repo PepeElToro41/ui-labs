@@ -1,4 +1,5 @@
 import Roact from "@rbxts/roact";
+import { _EnumListType } from "@rbxts/ui-labs/out/ControlsUtil";
 import { IsOverlayMap } from "UI/Overlay/OverlayMap";
 import Signal from "Utils/Signal";
 
@@ -14,6 +15,15 @@ export type OverlayContextType = {
 		onClose: () => void,
 		startAlpha?: number,
 		alphaCallback?: (setAlpha: number) => void,
+	) => void;
+	DropMenu: (
+		description: boolean,
+		selected: string,
+		dropdown: Record<string, _EnumListType> | Array<_EnumListType>,
+		transformBind: Roact.Binding<Vector2[]>,
+		sizeBind: Roact.Binding<Vector2>,
+		applierCallback: (value: _EnumListType, index: string | number) => void,
+		onClose: () => void,
 	) => void;
 };
 export const OverlayContext = Roact.createContext<OverlayContextType>({

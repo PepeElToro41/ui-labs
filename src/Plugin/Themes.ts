@@ -59,6 +59,9 @@ const Dark = {
 		Slider: {
 			NonFillColor: Color3.fromRGB(56, 82, 106),
 		},
+		EnumList: {
+			ListLabel: Color3.fromRGB(24, 24, 24),
+		},
 	},
 	//Overlay
 	ColorPickerWindow: Color3.fromRGB(24, 24, 24),
@@ -123,6 +126,9 @@ const Light: Theme = {
 		},
 		Slider: {
 			NonFillColor: Color3.fromRGB(133, 161, 189),
+		},
+		EnumList: {
+			ListLabel: Color3.fromRGB(212, 212, 212),
 		},
 	},
 	//Overlay

@@ -7,9 +7,10 @@ import { Sprite } from "UI/UIUtils/Sprite";
 import { Div } from "UI/UIUtils/Styles/Div";
 
 interface NumberControlProps extends Control.ControlType<number> {
-	Sensibility?: number;
 	Step?: number;
 	Clamp?: NumberRange;
+	Dragger?: boolean;
+	Sensibility?: number;
 }
 
 function setProps(props: NumberControlProps) {
@@ -24,8 +25,7 @@ function StepAmount(amount: number, step?: number, start?: number) {
 	return start + steppedDelta;
 }
 
-function NumberControlCreate(setprops: NumberControlProps) {
-	const props = identity<Required<NumberControlProps>>(setProps(setprops) as Required<NumberControlProps>);
+function NumberControlCreate(props: NumberControlProps) {
 	const theme = useContext(ThemeContext).Theme;
 	const [inside, setInside] = useBinding(false);
 	const mouseIconContext = useContext(MouseIconContext);
@@ -75,19 +75,31 @@ function NumberControlCreate(setprops: NumberControlProps) {
 				SortOrder={Enum.SortOrder.LayoutOrder}
 				VerticalAlignment={Enum.VerticalAlignment.Center}
 			/>
-			<frame Key="Entry" BackgroundColor3={theme.SearchInput} BorderSizePixel={0} Size={new UDim2(0, 65, 0, 22)}>
+			<frame
+				Key="Entry"
+				AutomaticSize={Enum.AutomaticSize.X}
+				BackgroundColor3={theme.SearchInput}
+				BorderSizePixel={0}
+				Size={new UDim2(0, 65, 0, 22)}
+			>
 				<uicorner CornerRadius={new UDim(0, 6)} />
+				<uipadding PaddingLeft={new UDim(0, 8)} PaddingRight={new UDim(0, 8)}></uipadding>
+				<uilistlayout
+					HorizontalAlignment={Enum.HorizontalAlignment.Center}
+					VerticalAlignment={Enum.VerticalAlignment.Center}
+					SortOrder={Enum.SortOrder.LayoutOrder}
+				/>
 				<textbox
-					AnchorPoint={new Vector2(0.5, 0.5)}
+					AutomaticSize={Enum.AutomaticSize.X}
 					BackgroundTransparency={1}
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.ExtraLight)}
 					PlaceholderColor3={theme.SearchPlaceholder}
 					PlaceholderText={tostring(math.floor(returnAmount * 100) / 100)}
-					Position={new UDim2(0.5, 0, 0.5, 0)}
-					Size={new UDim2(1, 0, 1, 0)}
+					Size={new UDim2(0, 0, 1, 0)}
 					Text={""}
 					TextColor3={theme.TextColor}
 					TextSize={12}
+					ClipsDescendants={true}
 					Event={{
 						FocusLost: (input) => {
 							const number = tonumber(input.Text);
@@ -97,37 +109,48 @@ function NumberControlCreate(setprops: NumberControlProps) {
 							input.Text = "";
 						},
 					}}
-				/>
+				>
+					<uisizeconstraint MaxSize={new Vector2(160, math.huge)} />
+				</textbox>
 			</frame>
-			<Div Size={UDim2.fromScale(0.75, 0.75)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
-				<Sprite
-					Size={UDim2.fromScale(1, 1)}
-					ImageRectOffset={new Vector2(64, 320)}
-					ImageColor3={inside.map((inside) => {
-						return inside ? theme.IconsColor : theme.IconsDisableColor;
-					})}
-				></Sprite>
-				<DeltaDrag
-					DetectProps={{
-						ZIndex: 2,
-					}}
-					SlideDir={"X"}
-					StateUpdated={(state) => {
-						const { hovering, dragging } = state;
-						if (hovering || dragging) {
-							setInside(true);
-						} else {
-							setInside(false);
-						}
-						if (dragging) {
-							mouseIconContext.SetMouseIcon("NumberDrag", "ResizeH");
-						} else {
-							mouseIconContext.UnsetMouseIcon("NumberDrag");
-						}
-					}}
-					DeltaApply={SetDelta}
-				></DeltaDrag>
-			</Div>
+			{props.Dragger ? (
+				<Div
+					Key="Dragger"
+					Size={UDim2.fromScale(0.75, 0.75)}
+					LayoutOrder={1}
+					SizeConstraint={Enum.SizeConstraint.RelativeYY}
+				>
+					<Sprite
+						Key="DraggerImage"
+						Size={UDim2.fromScale(1, 1)}
+						ImageRectOffset={new Vector2(64, 320)}
+						ImageColor3={inside.map((inside) => {
+							return inside ? theme.IconsColor : theme.IconsDisableColor;
+						})}
+					></Sprite>
+					<DeltaDrag
+						Key="DraggerDetector"
+						DetectProps={{
+							ZIndex: 2,
+						}}
+						SlideDir={"X"}
+						StateUpdated={(state) => {
+							const { hovering, dragging } = state;
+							if (hovering || dragging) {
+								setInside(true);
+							} else {
+								setInside(false);
+							}
+							if (dragging) {
+								mouseIconContext.SetMouseIcon("NumberDrag", "ResizeH");
+							} else {
+								mouseIconContext.UnsetMouseIcon("NumberDrag");
+							}
+						}}
+						DeltaApply={SetDelta}
+					></DeltaDrag>
+				</Div>
+			) : undefined}
 		</>
 	);
 }

@@ -12,7 +12,6 @@ function setProps(props: PositionBinderProps) {
 function PositionBinderCreate(props: PositionBinderProps) {
 	const setter = useMemo(() => props.BindSet!, []);
 	const frameRef = useRef<Frame>();
-	useBinding;
 	props.BindSet = undefined;
 	useEffect(() => {
 		const frame = frameRef.getValue();

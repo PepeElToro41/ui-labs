@@ -1,9 +1,8 @@
 import Roact from "@rbxts/roact";
-import { Color } from "@rbxts/ui-labs/out/ControlsUtil";
+import { EnumList } from "@rbxts/ui-labs/out/ControlsUtil";
 import { AddControlBinding } from "UI/Contexts/ActionsContext";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
-import StringControl from "UI/Controls/ControlSet/StringControl";
 import { Div } from "UI/UIUtils/Styles/Div";
 import Signal from "Utils/Signal";
 
@@ -12,7 +11,15 @@ export = function (target: ScreenGui) {
 		print(value);
 	};
 	const listener = new Signal<() => void>();
-	const control = AddControlBinding(Color(Color3.fromRGB(255, 100, 100)));
+	const enumList = EnumList(
+		{
+			Test1: "Test1",
+			Test2: "Test2",
+			Test3: "Test3",
+		},
+		"Test1",
+	);
+	const control = AddControlBinding(enumList);
 	const NewBoolControl = (
 		<Div
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -21,12 +28,14 @@ export = function (target: ScreenGui) {
 			BackgroundTransparency={0}
 		>
 			<ControlHolder ControlName={"Color Test"} LayoutOrder={0}>
-				<ControlMap.Color3
+				<ControlMap.EnumList
+					DefaultIndex="Test1"
+					EnumList={enumList.Props.EnumList}
 					Control={control}
 					ResetListen={listener}
 					ControlApply={ControlApply}
 					Default={Color3.fromRGB(255, 100, 100)}
-				></ControlMap.Color3>
+				></ControlMap.EnumList>
 			</ControlHolder>
 		</Div>
 	);

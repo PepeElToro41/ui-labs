@@ -198,6 +198,7 @@ function SliderControlCreate(setprops: SliderControlProps) {
 						<Div Key="Marks">{marks}</Div>
 					</frame>
 				</Div>
+				<uisizeconstraint MinSize={new Vector2(180, 0)}></uisizeconstraint>
 				<uilistlayout
 					FillDirection={Enum.FillDirection.Horizontal}
 					Padding={new UDim(0, 5)}

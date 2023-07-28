@@ -1,6 +1,6 @@
 import Roact from "@rbxts/roact";
 import { useContext, useMemo, withHooks } from "@rbxts/roact-hooked";
-import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
+import { _UILabsInternal as UL, _UILabsControls as ULC } from "@rbxts/ui-labs/out/Internal";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
@@ -8,7 +8,7 @@ import { Div } from "UI/UIUtils/Styles/Div";
 import { Text } from "UI/UIUtils/Styles/Text";
 
 interface ControlsProps {
-	Controls: UL.SetRuntimeControls;
+	Controls: ULC.RuntimeControls;
 	Api: ActionsAPI;
 }
 

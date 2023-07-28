@@ -1,7 +1,7 @@
 import Roact, { PropsWithChildren } from "@rbxts/roact";
 import { useContext, withHooks, withHooksPure } from "@rbxts/roact-hooked";
 import { __ControlBinder } from "@rbxts/ui-labs/out/ControlsUtil";
-import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
+import { _UILabsInternal as UL, _UILabsControls as ULC } from "@rbxts/ui-labs/out/Internal";
 import Signal from "@rbxts/ui-labs/out/Signal";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import { Div } from "UI/UIUtils/Styles/Div";
@@ -12,7 +12,7 @@ declare global {
 		interface ControlType<T> {
 			ControlApply: (value: T) => void;
 			Default: T;
-			Control: UL.RuntimeControls;
+			Control: ULC.IsRuntimeControl;
 			ResetListen: Signal<() => void>;
 		}
 	}

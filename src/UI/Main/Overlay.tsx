@@ -1,7 +1,9 @@
 import Roact, { Children, PropsWithChildren } from "@rbxts/roact";
 import { useBinding, useCallback, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
+import { _EnumListType } from "@rbxts/ui-labs/out/ControlsUtil";
 import { OverlayContext, OverlayContextType } from "UI/Contexts/OverlayContext";
 import ColorPicker from "UI/Overlay/ColorPicker";
+import MenuDropper from "UI/Overlay/MenuDropper";
 import { IsOverlayMap } from "UI/Overlay/OverlayMap";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { Div } from "UI/UIUtils/Styles/Div";
@@ -32,25 +34,63 @@ function OverlayCreate(setprops: OverlayProps) {
 			alphaCallback?: (setAlpha: number) => void,
 		) => {
 			setOverlays((oldOverlays) => {
+				const newPicker = (
+					<ColorPicker
+						StartColor={startColor}
+						ColorApply={applierCallback}
+						AlphaApply={alphaCallback}
+						AlphaChanel={startAlpha}
+						Position={posBind.map((absPos) => {
+							const framePos = GetFramePos(overlayBind.getValue()[0], posBind.getValue());
+							return UDim2.fromOffset(framePos.X, framePos.Y);
+						})}
+						CanvasBind={overlayBind}
+						SelfClose={() => {
+							onClose();
+							CloseOverlay("ColorPicker");
+						}}
+					></ColorPicker>
+				);
 				return {
 					...oldOverlays,
-					ColorPicker: (
-						<ColorPicker
-							StartColor={startColor}
-							ColorApply={applierCallback}
-							AlphaApply={alphaCallback}
-							AlphaChanel={startAlpha}
-							Position={posBind.map((absPos) => {
-								const framePos = GetFramePos(overlayBind.getValue()[0], posBind.getValue());
-								return UDim2.fromOffset(framePos.X, framePos.Y);
-							})}
-							CanvasBind={overlayBind}
-							SelfClose={() => {
-								onClose();
-								CloseOverlay("ColorPicker");
-							}}
-						></ColorPicker>
-					),
+					ColorPicker: newPicker,
+				};
+			});
+		},
+		[],
+	);
+	const DropMenu = useCallback(
+		(
+			description: boolean,
+			selected: string,
+			dropdown: Record<string, _EnumListType> | Array<_EnumListType>,
+			posBind: Roact.Binding<Vector2[]>,
+			sizeBind: Roact.Binding<Vector2>,
+			applierCallback: (value: _EnumListType, index: string | number) => void,
+			onClose: () => void,
+		) => {
+			setOverlays((oldOverlays) => {
+				const newDropper = (
+					<MenuDropper
+						Description={description}
+						Selected={selected}
+						Dropdown={dropdown}
+						PosBind={posBind.map((absPos) => {
+							const framePos = GetFramePos(overlayBind.getValue()[0], posBind.getValue()[0]);
+							return [framePos, absPos[1]];
+						})}
+						CanvasBind={overlayBind}
+						SizeBind={sizeBind}
+						ApplierCallback={applierCallback}
+						SelfClose={() => {
+							onClose();
+							CloseOverlay("MenuDropper");
+						}}
+					></MenuDropper>
+				);
+				return {
+					...oldOverlays,
+					MenuDropper: newDropper,
 				};
 			});
 		},
@@ -71,6 +111,7 @@ function OverlayCreate(setprops: OverlayProps) {
 			OverlayBind: overlayBind,
 			OverlayInput: new Signal<(input: InputObject) => void>(),
 			PickColor: PickColor,
+			DropMenu: DropMenu,
 			CloseOverlay: CloseOverlay,
 		};
 		return value;
@@ -89,7 +130,7 @@ function OverlayCreate(setprops: OverlayProps) {
 					},
 				}}
 			>
-				{overlays.ColorPicker}
+				{[overlays.ColorPicker, overlays.MenuDropper]}
 			</PositionBinder>
 			{props[Children]}
 		</OverlayContext.Provider>

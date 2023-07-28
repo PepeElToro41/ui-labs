@@ -1,14 +1,31 @@
 import Roact from "@rbxts/roact";
 import { SpecialControls, WithControls } from "@rbxts/ui-labs";
-import { Named, Number, Ordered, RGBA } from "@rbxts/ui-labs/out/ControlsUtil";
+import { EnumList, Number, RGBA } from "@rbxts/ui-labs/out/ControlsUtil";
 
 const controls = {
 	"Text Label": "String test",
 	Rounded: true,
+	EnumList: EnumList(
+		{
+			Small: 10,
+			Medium: 15,
+			Large: 20,
+		},
+		"Medium",
+	),
+	"Text Color": EnumList(
+		{
+			White: Color3.fromRGB(255, 255, 255),
+			Red: Color3.fromRGB(230, 115, 115),
+			Green: Color3.fromRGB(129, 199, 132),
+			Blue: Color3.fromRGB(100, 181, 246),
+		},
+		"White",
+	),
 	"Back Color": RGBA(Color3.fromRGB(59, 59, 59), 0),
-	"Text Color": Color3.fromRGB(255, 255, 255),
+	//"Text Color": Color3.fromRGB(255, 255, 255),
 	//"Back Color": Color3.fromRGB(59, 59, 59),
-	"Box Size": Number(200, undefined, undefined, new NumberRange(5, 400)),
+	"Box Size": Number(200, new NumberRange(5, 400), 1, true),
 	"Text Size": identity<SpecialControls["Slider"]>({
 		ControlType: "Slider",
 		Default: 30,
@@ -35,7 +52,9 @@ const returner: WithControls<typeof controls> = {
 				BackgroundTransparency={props.Controls["Back Color"].Transparency}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 			>
-				<uicorner CornerRadius={props.Controls.Rounded ? new UDim(0.4, 0) : new UDim(0, 0)}></uicorner>
+				<uicorner
+					CornerRadius={props.Controls.Rounded ? new UDim(0, props.Controls.EnumList) : new UDim(0, 0)}
+				></uicorner>
 				<textlabel
 					TextColor3={props.Controls["Text Color"]}
 					TextSize={props.Controls["Text Size"] * 0.5}

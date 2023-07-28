@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { useState, useMemo, useContext, useEffect, useCallback } from "@rbxts/roact-hooked";
 import { __ControlBinder } from "@rbxts/ui-labs/out/ControlsUtil";
-import { _UILabsInternal as UL } from "@rbxts/ui-labs/out/Internal";
+import { _UILabsInternal as UL, _UILabsControls as ULC } from "@rbxts/ui-labs/out/Internal";
 import Signal from "Utils/Signal";
 
 declare global {
@@ -11,18 +11,18 @@ declare global {
 	}
 	interface ActionsData {
 		Sumary: SummaryType | undefined;
-		Controls: UL.SetRuntimeControls | undefined;
+		Controls: ULC.RuntimeControls | undefined;
 	}
 	interface ActionsAPI {
 		SetSummary: (newSummary: SummaryType | undefined) => void;
-		SetControls: (newControls: UL.SetControls | undefined) => UL.SetRuntimeControls | undefined;
+		SetControls: (newControls: ULC.CreatedControls | undefined) => ULC.RuntimeControls | undefined;
 		ReloadControls: Signal<() => void>;
 	}
 	type SummaryType = { StoryName: string; Summary: string };
 }
 
-export function AddControlBindings(controls: UL.SetControls): UL.SetRuntimeControls {
-	const newControls: UL.SetRuntimeControls = {};
+export function AddControlBindings(controls: ULC.CreatedControls): ULC.RuntimeControls {
+	const newControls: ULC.RuntimeControls = {};
 	for (const [key, control] of pairs(controls)) {
 		const newControl = AddControlBinding(control);
 		newControls[key] = newControl;
@@ -30,16 +30,16 @@ export function AddControlBindings(controls: UL.SetControls): UL.SetRuntimeContr
 	return newControls;
 }
 
-export function AddControlBinding(control: UL.AllControlTypes) {
+export function AddControlBinding(control: ULC.IsAllControls) {
 	const newBinder = new __ControlBinder(control);
 	const newControl = {
 		...control,
 		Bind: newBinder,
-	} as UL.RuntimeControls;
+	} as ULC.IsRuntimeControl;
 	return newControl;
 }
 
-export function DestroyControlBindings(controls: UL.SetRuntimeControls) {
+export function DestroyControlBindings(controls: ULC.RuntimeControls) {
 	for (const [, control] of pairs(controls)) {
 		control.Bind.Destroy();
 	}
@@ -47,7 +47,7 @@ export function DestroyControlBindings(controls: UL.SetRuntimeControls) {
 
 export const useActions = () => {
 	const [summary, _setSummary] = useState<SummaryType | undefined>(undefined);
-	const [controls, _setControls] = useState<UL.SetRuntimeControls | undefined>(undefined);
+	const [controls, _setControls] = useState<ULC.RuntimeControls | undefined>(undefined);
 	const reloadControls = useMemo(() => {
 		return new Signal<() => void>();
 	}, []);
@@ -64,7 +64,7 @@ export const useActions = () => {
 	const SetSummary = useCallback((newSummary: SummaryType | undefined) => {
 		_setSummary(newSummary);
 	}, []);
-	const SetControls = useCallback((newControls: UL.SetControls | undefined) => {
+	const SetControls = useCallback((newControls: ULC.CreatedControls | undefined) => {
 		const setControls = newControls ? AddControlBindings(newControls) : undefined;
 		_setControls((oldControls) => {
 			if (oldControls) DestroyControlBindings(oldControls);

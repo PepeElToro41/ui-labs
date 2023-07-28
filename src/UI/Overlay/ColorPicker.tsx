@@ -190,7 +190,7 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 		if (!props.AlphaApply) return;
 		props.AlphaApply(alpha);
 	}, [alpha]);
-	const calculateFlip = useCallback(() => {
+	const CalculateFlip = useCallback(() => {
 		const frame = frameRef.getValue();
 		if (!frame) return;
 		const [canvasPos] = props.CanvasBind.getValue();
@@ -208,8 +208,8 @@ function ColorPickerCreate(setprops: ColorPickerProps) {
 			}
 		}
 	}, [flipped]);
-	useBindingListener(props.CanvasBind, () => calculateFlip());
-	useBindingListener(pickerPosition, () => calculateFlip());
+	useBindingListener(props.CanvasBind, () => CalculateFlip());
+	useBindingListener(pickerPosition, () => CalculateFlip());
 	return (
 		<PositionBinder
 			BindSet={setPickerPosition}
