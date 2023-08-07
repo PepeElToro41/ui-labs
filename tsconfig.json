@@ -18,7 +18,6 @@
 		"typeRoots": ["node_modules/@rbxts"],
 
 		// configurable
-		"types": ["@rbxts/types/plugin"],
 		"rootDir": "src",
 		"outDir": "out",
 		"baseUrl": "src",

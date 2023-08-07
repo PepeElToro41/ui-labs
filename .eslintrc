@@ -22,6 +22,8 @@
 		"plugin:prettier/recommended"
 	],
 	"rules": {
-		"prettier/prettier": "warn"
+		"prettier/prettier": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
+      "roblox-ts/lua-truthiness": "off"
 	}
 }
