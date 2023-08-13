@@ -12,6 +12,7 @@ import { FilterNodes } from "./SearchFilter";
 import Unknown from "../Nodes/ChildrenHolder/Unknown";
 import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectFilter } from "Reflex/Explorer/Filter";
+import Storybook from "../Nodes/ChildrenHolder/Storybook";
 
 interface StoryTreeProps {}
 
@@ -28,6 +29,10 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 	const nodeList = useMemo(() => {
 		const filteredNodes = filter ? FilterNodes(nodes, filter) : nodes;
 		const elementsList: Roact.Element[] = [];
+		print("FILTERING", filteredNodes);
+		filteredNodes.storybooks.forEach((node, index) => {
+			elementsList.push(<Storybook Order={index} Node={node}></Storybook>);
+		});
 		filteredNodes.unknown.forEach((node, index) => {
 			elementsList.push(<Unknown Order={index} Node={node}></Unknown>);
 		});

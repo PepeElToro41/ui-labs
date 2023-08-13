@@ -18,7 +18,7 @@ interface ChildrenHolderProps {
 	Order: number;
 	Sprite: SpriteName;
 	SpriteColor: Color3;
-	Unknown: boolean;
+	Unknown?: boolean;
 	Children: Roact.Element[];
 }
 

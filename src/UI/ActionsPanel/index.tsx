@@ -10,14 +10,14 @@ import { useTween } from "Hooks/Utils/Tween";
 
 const APPEAR_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out);
 
-interface indexProps {}
+interface ActionsPanelProps {}
 
-function setProps(props: indexProps) {
-	return props as Required<indexProps>;
+function setProps(props: ActionsPanelProps) {
+	return props as Required<ActionsPanelProps>;
 }
 
-function indexCreate(setprops: indexProps) {
-	const props = setProps(setprops as Required<indexProps>);
+function ActionsPanelCreate(setprops: ActionsPanelProps) {
+	const props = setProps(setprops as Required<ActionsPanelProps>);
 	const theme = useTheme();
 	const [anchor, tweenAnchor] = useTween(APPEAR_INFO, 1);
 
@@ -60,6 +60,6 @@ function indexCreate(setprops: indexProps) {
 		</ResizableFrame>
 	);
 }
-const index = withHooks(indexCreate);
+const ActionsPanel = withHooks(ActionsPanelCreate);
 
-export = index;
+export = ActionsPanel;

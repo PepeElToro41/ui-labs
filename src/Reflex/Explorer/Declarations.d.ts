@@ -1,29 +1,30 @@
 interface StoryNode {
-	type: "Story";
-	name: string;
-	module: ModuleScript;
-	parent: ParentNode;
+	Type: "Story";
+	Name: string;
+	Module: ModuleScript;
+	Parent: ParentNode;
 }
 
 interface StorybookNode {
-	type: "Storybook";
-	name: string;
-	module: ModuleScript;
-	children: ChildrenNode[];
+	Type: "Storybook";
+	Name: string;
+	Module: ModuleScript;
+	Result: StorybookResult;
+	Children: ChildrenNode[];
 }
 
 interface FolderNode {
-	type: "Folder";
-	instance: Instance;
-	storybook: StorybookNode;
-	parent: StorybookNode | FolderNode;
-	children: ChildrenNode[];
+	Type: "Folder";
+	Instance: Instance;
+	Storybook: StorybookNode;
+	Parent: StorybookNode | FolderNode;
+	Children: ChildrenNode[];
 }
 
 type UnknownNode = {
-	type: "Unknown";
-	instance: Instance;
-	children: StoryNode[];
+	Type: "Unknown";
+	Instance: Instance;
+	Children: StoryNode[];
 };
 
 type ParentNode = FolderNode | StorybookNode | UnknownNode; //whatever can have children

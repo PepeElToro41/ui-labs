@@ -14,12 +14,13 @@ interface StoryProps {
 	Node: StoryNode;
 	Order: number;
 	Unknown?: boolean;
-	Visible: boolean;
+	Visible?: boolean;
 }
 
 const TRANSPARENCY_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
 
 function setProps(props: StoryProps) {
+	props.Visible = props.Visible ?? true;
 	return props as Required<StoryProps>;
 }
 
@@ -36,7 +37,7 @@ function StoryCreate(setprops: StoryProps) {
 	const theme = useTheme();
 	return (
 		<frame
-			Key={props.Node.name}
+			Key={props.Node.Name}
 			BackgroundColor3={theme.Nodes.Normal[props.Unknown ? "Disabled" : "Color"]}
 			BackgroundTransparency={transparency}
 			Size={new UDim2(1, 0, 0, 25)}
@@ -65,7 +66,7 @@ function StoryCreate(setprops: StoryProps) {
 				/>
 				<Text
 					Key="NameLabel"
-					Text={props.Node.name}
+					Text={props.Node.Name}
 					LayoutOrder={2}
 					TextColor3={props.Unknown ? theme.Text.Disabled : theme.Text.Color}
 					Size={new UDim2(1, -25, 1, 0)}

@@ -14,7 +14,8 @@ export const selectFilter = (state: RootState) => state.explorer.filter;
 
 /** This producer holds the nodes, which are displayed in the explorer */
 export const FilterProducer = createProducer(initialState, {
-	setFilter: (state, search: string) => {
+	setFilter: (state, setSearch: string) => {
+		const search = setSearch === "" ? undefined : setSearch;
 		return { ...state, search };
 	},
 });

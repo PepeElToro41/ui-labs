@@ -5,6 +5,7 @@ declare global {
 	interface StorybookResult {
 		name: string;
 		storyRoots: Instance[];
+		icon: string;
 		groupRoots?: boolean;
 	}
 }

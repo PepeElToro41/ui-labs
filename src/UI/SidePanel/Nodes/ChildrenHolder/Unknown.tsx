@@ -18,15 +18,15 @@ function UnknownCreate(setprops: UnknownProps) {
 	const theme = useTheme();
 
 	const children = useMemo(() => {
-		return props.Node.children.map((child, index) => {
+		return props.Node.Children.map((child, index) => {
 			return <Story Node={child} Order={index} Visible={true} Unknown={true} />;
 		});
-	}, [props.Node.children]);
+	}, [props.Node.Children]);
 
 	return (
 		<ChildrenHolder
 			Order={props.Order}
-			Name={props.Node.instance}
+			Name={props.Node.Instance}
 			Sprite={"FolderIcon"}
 			SpriteColor={theme.Nodes.Normal.FolderIcon.Disabled}
 			Unknown={true}

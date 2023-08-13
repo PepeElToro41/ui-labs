@@ -3,19 +3,19 @@ export function FilterNodes(nodes: RootNodes, filter: string) {
 	const filteredNodes: RootNodes = { storybooks: [], unknown: [] };
 
 	nodes.storybooks.forEach((storybookNode) => {
-		const filteredChildren = FilterChildren(storybookNode.children, filter);
+		const filteredChildren = FilterChildren(storybookNode.Children, filter);
 		if (filteredChildren.size() <= 0) return;
 		filteredNodes.storybooks.push({
 			...storybookNode,
-			children: filteredChildren,
+			Children: filteredChildren,
 		});
 	});
 	nodes.unknown.forEach((unknownNode) => {
-		const filteredChildren = FilterChildren(unknownNode.children, filter);
+		const filteredChildren = FilterChildren(unknownNode.Children, filter);
 		if (filteredChildren.size() <= 0) return;
 		filteredNodes.unknown.push({
 			...unknownNode,
-			children: filteredChildren as StoryNode[],
+			Children: filteredChildren as StoryNode[],
 		});
 	});
 
@@ -26,12 +26,12 @@ export function FilterChildren(children: ChildrenNode[], filter: string) {
 	const filtered: ChildrenNode[] = [];
 
 	children.forEach((child) => {
-		if ("children" in child) {
-			const filteredChildren = FilterChildren(child.children, filter);
+		if ("Children" in child) {
+			const filteredChildren = FilterChildren(child.Children, filter);
 			if (filteredChildren.size() <= 0) return;
 			filtered.push(child);
 		} else {
-			if (!child.name.lower().match(filter.lower())[0]) return;
+			if (!child.Name.lower().match(filter.lower())[0]) return;
 			filtered.push(child);
 		}
 	});
