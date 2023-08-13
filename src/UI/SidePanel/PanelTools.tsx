@@ -10,6 +10,7 @@ function setProps(props: PanelToolsProps) {
 	return props as Required<PanelToolsProps>;
 }
 
+//This one should hold the buttons for the explorer tools, but there's none yet
 function PanelToolsCreate(setprops: PanelToolsProps) {
 	const props = setProps(setprops as Required<PanelToolsProps>);
 	return (

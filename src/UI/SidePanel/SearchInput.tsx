@@ -3,6 +3,7 @@ import { useBinding, useEffect, useState, withHooks } from "@rbxts/roact-hooked"
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import Div from "UI/Styles/Div";
+import Corner from "UI/Styles/List/Corner";
 import Sprite from "UI/Utils/Sprite";
 
 const PHASE_INFO = new TweenInfo(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
@@ -38,7 +39,7 @@ function StrokeEffect(props: { Phase: Roact.Binding<number>; FrameSize: Roact.Bi
 				Position={UDim2.fromScale(0.5, 0.5)}
 				Size={props.FrameSize.map((size) => UDim2.fromOffset(size.X, size.Y))}
 			>
-				<uicorner />
+				<Corner />
 				<uistroke Color={theme.Search.Stroke} Transparency={theme.Search.StrokeTransparency} />
 			</frame>
 		</Div>
@@ -68,8 +69,8 @@ function SearchInputCreate(setprops: SearchInputProps) {
 				AbsoluteSize: (frame) => setFrameSize(frame.AbsoluteSize),
 			}}
 		>
-			<StrokeEffect Phase={phase} FrameSize={frameSize} Theme={theme}></StrokeEffect>
-			<uicorner />
+			<StrokeEffect Phase={phase} FrameSize={frameSize} Theme={theme} />
+			<Corner />
 			<Sprite
 				Key="MagnifyIcon"
 				Sprite={"Search"}
@@ -78,7 +79,7 @@ function SearchInputCreate(setprops: SearchInputProps) {
 					Position: new UDim2(0, 6, 0.5, 0),
 					Size: new UDim2(0, 19, 0, 19),
 				}}
-			></Sprite>
+			/>
 			<textbox
 				Key="Input"
 				AnchorPoint={new Vector2(0, 0.5)}

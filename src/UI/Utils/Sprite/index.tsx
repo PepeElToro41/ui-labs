@@ -13,7 +13,7 @@ function setProps(props: SpriteProps) {
 
 export = (setprops: SpriteProps) => {
 	const props = setProps(setprops);
-	const spriteInfo = Sprites[props.Sprite];
+	const spriteInfo = Sprites[props.Sprite] as Sprite;
 	return (
 		<imagelabel
 			BackgroundTransparency={1}
@@ -21,7 +21,7 @@ export = (setprops: SpriteProps) => {
 			{...props.ImageProps}
 			Image={Configs.SpriteIcon}
 			ImageRectOffset={spriteInfo.RectOffset}
-			ImageRectSize={spriteInfo.RectSize}
+			ImageRectSize={spriteInfo.RectSize ?? new Vector2(64, 64)}
 		></imagelabel>
 	);
 };

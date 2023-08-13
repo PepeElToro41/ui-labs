@@ -1,8 +1,9 @@
-import { InferState, combineProducers } from "@rbxts/reflex";
+import { InferState, combineProducers, loggerMiddleware } from "@rbxts/reflex";
 import { ThemeProducer } from "./Theme";
-import { NodesProducer } from "./Nodes";
-import { ModulesProducer } from "./Modules";
+import { ExplorerProducer } from "./Explorer";
+import { ModuleListProducer } from "./ModuleList";
 import { StorySelectProducer } from "./StorySelect";
+import { ModuleRequireProducer } from "./ModuleRequire";
 
 declare global {
 	type RootProducer = typeof RootProducer;
@@ -11,7 +12,10 @@ declare global {
 
 export const RootProducer = combineProducers({
 	theme: ThemeProducer,
-	nodes: NodesProducer,
-	modules: ModulesProducer,
+	explorer: ExplorerProducer,
+	moduleList: ModuleListProducer,
+	moduleRequire: ModuleRequireProducer,
 	storySelect: StorySelectProducer,
 });
+
+//RootProducer.applyMiddleware(loggerMiddleware);

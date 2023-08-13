@@ -4,6 +4,7 @@ interface PaddingProps {
 	Padding?: number;
 	PaddingX?: number;
 	PaddingY?: number;
+	ExtraPadding?: Roact.JsxInstanceProperties<UIPadding>;
 }
 
 function setProps(props: PaddingProps) {
@@ -23,6 +24,7 @@ export = (setprops: PaddingProps) => {
 			PaddingRight={new UDim(0, props.PaddingX ?? 0)}
 			PaddingTop={new UDim(0, props.PaddingY ?? 0)}
 			PaddingBottom={new UDim(0, props.PaddingY ?? 0)}
-		></uipadding>
+			{...props.ExtraPadding}
+		/>
 	);
 };

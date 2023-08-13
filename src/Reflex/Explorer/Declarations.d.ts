@@ -14,19 +14,23 @@ interface StorybookNode {
 
 interface FolderNode {
 	type: "Folder";
-	name: string;
-	instance: Folder;
-	parent: ParentNode;
+	instance: Instance;
+	storybook: StorybookNode;
+	parent: StorybookNode | FolderNode;
+	children: ChildrenNode[];
 }
 
 type UnknownNode = {
 	type: "Unknown";
-	name: string;
 	instance: Instance;
 	children: StoryNode[];
 };
 
 type ParentNode = FolderNode | StorybookNode | UnknownNode; //whatever can have children
-type ChildrenNode = StoryNode | FolderNode; //whatever can be children
+type ChildrenNode = StoryNode | FolderNode; //whatever can have a parent
+type DefinedNode = StoryNode | FolderNode | StorybookNode; //whatever has a name and it's not unknown
 
-type RootNodes = UnknownNode | StorybookNode; //what is at the root of the explorer
+type RootNodes = {
+	storybooks: StorybookNode[];
+	unknown: UnknownNode[];
+}; //what is at the root of the explorer

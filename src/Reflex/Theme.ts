@@ -1,5 +1,5 @@
 import { createProducer } from "@rbxts/reflex";
-import Themes from "Plugin/Themes";
+import Themes from "Themes";
 
 interface ThemeState {
 	theme: Theme;

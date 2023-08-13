@@ -7,6 +7,7 @@ import Padding from "UI/Styles/Padding";
 import SearchInput from "./SearchInput";
 import PanelTools from "./PanelTools";
 import StoryTree from "./StoryTree";
+import { useProducer } from "@rbxts/roact-reflex";
 
 interface SidePanelProps {}
 
@@ -17,12 +18,15 @@ function setProps(props: SidePanelProps) {
 function SidePanelCreate(setprops: SidePanelProps) {
 	const props = setProps(setprops as Required<SidePanelProps>);
 	const theme = useTheme();
+
+	const { setFilter } = useProducer<RootProducer>();
+
 	return (
 		<ResizableFrame
 			Key="SidePanel"
 			BaseSize={new UDim2(0, 250, 1, 0)}
-			ResizeRange={new NumberRange(-100, 300)}
-			MaxBeforeCollapse={-180}
+			ResizeRange={new NumberRange(-130, 300)}
+			MaxBeforeCollapse={-200}
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),
 				Position: new UDim2(0, 0, 1, 0),
@@ -38,10 +42,10 @@ function SidePanelCreate(setprops: SidePanelProps) {
 			<List HorizontalAlignment={"Center"} Padding={new UDim(0, 10)} />
 			<SearchInput
 				Key="SearchInput"
-				OnSearchChanged={() => {}}
 				LayoutOrder={1}
 				Size={new UDim2(1, 0, 0, 27)}
 				Placeholder="Search Story"
+				OnSearchChanged={setFilter}
 			></SearchInput>
 			<PanelTools></PanelTools>
 			<StoryTree></StoryTree>

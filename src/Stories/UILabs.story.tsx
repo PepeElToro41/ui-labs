@@ -1,3 +1,4 @@
+import { loggerMiddleware } from "@rbxts/reflex";
 import Roact from "@rbxts/roact";
 import { ReflexProvider } from "@rbxts/roact-reflex";
 import { WithControls } from "@rbxts/ui-labs";

@@ -10,6 +10,6 @@ export = (props: BottomListProps) => {
 			FillDirection={Enum.FillDirection.Vertical}
 			VerticalAlignment={Enum.VerticalAlignment.Bottom}
 			{...props}
-		></uilistlayout>
+		/>
 	);
 };
