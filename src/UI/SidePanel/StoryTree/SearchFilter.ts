@@ -1,5 +1,4 @@
 export function FilterNodes(nodes: RootNodes, filter: string) {
-	print("FILTERING WITH", filter);
 	const filteredNodes: RootNodes = { storybooks: [], unknown: [] };
 
 	nodes.storybooks.forEach((storybookNode) => {

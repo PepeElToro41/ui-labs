@@ -8,16 +8,16 @@ const Light: Theme = {
 		Disabled: Color3.fromRGB(92, 92, 92),
 	},
 	Icon: {
-		Color: Color3.fromRGB(255, 255, 255),
-		Disabled: Color3.fromRGB(105, 105, 105),
+		Color: Color3.fromRGB(31, 31, 31),
+		Disabled: Color3.fromRGB(94, 94, 94),
 	},
 	Divisor: {
 		Color: Color3.fromRGB(0, 0, 0),
 		Transparency: 0.7,
 	},
 	Topbar: {
-		Color: Color3.fromRGB(38, 33, 74),
-		Logo: Color3.fromRGB(242, 210, 255),
+		Color: Color3.fromRGB(163, 133, 235),
+		Logo: Color3.fromRGB(54, 28, 64),
 	},
 	Search: {
 		Color: Color3.fromRGB(156, 156, 161),
@@ -38,29 +38,37 @@ const Light: Theme = {
 	},
 	Nodes: {
 		Normal: {
-			Color: Color3.fromRGB(82, 82, 92),
-			Disabled: Color3.fromRGB(54, 54, 59),
+			Color: Color3.fromRGB(128, 128, 128),
+			Disabled: Color3.fromRGB(171, 171, 171),
 			StoryIcon: {
-				Color: Color3.fromRGB(115, 179, 237),
+				Color: Color3.fromRGB(56, 135, 255),
 				Disabled: Color3.fromRGB(71, 107, 140),
 			},
 			FolderIcon: {
-				Color: Color3.fromRGB(196, 135, 232),
-				Disabled: Color3.fromRGB(122, 84, 145),
+				Color: Color3.fromRGB(176, 97, 224),
+				Disabled: Color3.fromRGB(191, 148, 217),
 			},
-			Book: Color3.fromRGB(48, 222, 156),
+			Book: Color3.fromRGB(0, 199, 115),
 		},
 		StorySelected: {
-			Color: Color3.fromRGB(39, 141, 209),
-			Disabled: Color3.fromRGB(39, 141, 209),
+			Color: Color3.fromRGB(79, 199, 255),
+			Disabled: Color3.fromRGB(150, 212, 252),
 			Text: {
-				Color: Color3.fromRGB(27, 37, 48),
-				Disabled: Color3.fromRGB(23, 28, 33),
+				Color: Color3.fromRGB(41, 51, 61),
+				Disabled: Color3.fromRGB(97, 115, 130),
 			},
 			StoryIcon: {
-				Color: Color3.fromRGB(31, 48, 66),
-				Disabled: Color3.fromRGB(28, 36, 46),
+				Color: Color3.fromRGB(48, 64, 79),
+				Disabled: Color3.fromRGB(79, 99, 120),
 			},
+		},
+	},
+	StoryTitle: {
+		Color: Color3.fromRGB(250, 250, 250),
+		Path: {
+			Underline: Color3.fromRGB(120, 190, 120),
+			PathText: Color3.fromRGB(120, 190, 120),
+			ButtonColor: Color3.fromRGB(89, 89, 99),
 		},
 	},
 };

@@ -26,7 +26,7 @@ function BackgroundPatternCreate(setprops: BackgroundPatternProps) {
 			></imagelabel>
 			<frame
 				Key={"Fader1"}
-				BackgroundColor3={Color3.fromRGB(34, 34, 34)}
+				BackgroundColor3={theme.StoryPanel.Color}
 				BorderColor3={Color3.fromRGB(0, 0, 0)}
 				BorderSizePixel={0}
 				Size={new UDim2(0, 40, 1, 0)}
@@ -45,7 +45,7 @@ function BackgroundPatternCreate(setprops: BackgroundPatternProps) {
 			<frame
 				Key={"Fader2"}
 				AnchorPoint={new Vector2(1, 0)}
-				BackgroundColor3={Color3.fromRGB(34, 34, 34)}
+				BackgroundColor3={theme.StoryPanel.Color}
 				BorderColor3={Color3.fromRGB(0, 0, 0)}
 				BorderSizePixel={0}
 				Position={UDim2.fromScale(1, 0)}

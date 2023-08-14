@@ -29,7 +29,6 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 	const nodeList = useMemo(() => {
 		const filteredNodes = filter ? FilterNodes(nodes, filter) : nodes;
 		const elementsList: Roact.Element[] = [];
-		print("FILTERING", filteredNodes);
 		filteredNodes.storybooks.forEach((node, index) => {
 			elementsList.push(<Storybook Order={index} Node={node}></Storybook>);
 		});

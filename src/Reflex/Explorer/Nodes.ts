@@ -19,7 +19,6 @@ export const NodesProducer = createProducer(initialState, {
 		return { ...state, nodes };
 	},
 	setNodes: (state, nodes: RootNodes) => {
-		print("setting nodes", nodes);
 		return { ...state, nodes };
 	},
 });

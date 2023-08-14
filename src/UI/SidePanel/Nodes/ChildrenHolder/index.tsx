@@ -7,7 +7,7 @@ import { selectFilter } from "Reflex/Explorer/Filter";
 import Detector from "UI/Styles/Detector";
 import Div from "UI/Styles/Div";
 import List from "UI/Styles/List";
-import Corner from "UI/Styles/List/Corner";
+import Corner from "UI/Styles/Corner";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
@@ -118,7 +118,7 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 						Sprite={expanded ? "Collapse" : "Expand"}
 						ImageProps={{
 							LayoutOrder: 3,
-							ImageColor3: props.SpriteColor,
+							ImageColor3: props.Unknown ? theme.Icon.Disabled : theme.Icon.Color,
 							Size: new UDim2(0, 16, 0, 16),
 						}}
 					/>

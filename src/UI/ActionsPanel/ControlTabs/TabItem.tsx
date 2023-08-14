@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 import { useState, withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Detector from "UI/Styles/Detector";
-import Corner from "UI/Styles/List/Corner";
+import Corner from "UI/Styles/Corner";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 

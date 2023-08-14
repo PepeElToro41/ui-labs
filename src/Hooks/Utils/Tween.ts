@@ -77,6 +77,7 @@ export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Wi
 	);
 	const set = useCallback(
 		(value: Widen<T>) => {
+			setGoal([valueBind.getValue(), value]);
 			instance.Value = 1;
 			setValueBind(value);
 		},

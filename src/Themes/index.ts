@@ -1,5 +1,8 @@
 import Dark from "./Dark";
+import DarkRed from "./DarkRed";
 import Light from "./Light";
+import DarkMono from "./DarkMono";
+import LightMono from "./LightMono";
 
 declare global {
 	type Theme = typeof Dark & { ThemeName?: keyof typeof Themes };
@@ -7,9 +10,12 @@ declare global {
 }
 
 const Themes = {
-	Default: Dark as Theme,
+	Default: DarkMono as Theme,
 	Dark: Dark as Theme,
 	Light: Light,
+	DarkRed: DarkRed,
+	DarkMono: DarkMono,
+	LightMono: LightMono,
 };
 
 for (const [themeName, theme] of pairs(Themes)) {

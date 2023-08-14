@@ -21,7 +21,7 @@ function BrandingCreate(setprops: BrandingProps) {
 		<Div Key="Branding" Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 			<LeftList VerticalAlignment={"Center"} Padding={new UDim(0, 5)}></LeftList>
 			<Sprite Sprite={"UILogo"} ImageProps={{ ImageColor3: theme.Topbar.Logo, Size: UDim2.fromOffset(28, 28) }}></Sprite>
-			<Text Key="PluginName" TextXAlignment={"Left"} Text={Configs.PluginName} Size={new UDim2(0, 60, 1, 0)} />
+			<Text Key="PluginName" Weight="Bold" TextXAlignment={"Left"} Text={Configs.PluginName} Size={new UDim2(0, 60, 1, 0)} />
 		</Div>
 	);
 }

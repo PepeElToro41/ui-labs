@@ -1,4 +1,4 @@
-const Dark = {
+const DarkMono: Theme = {
 	PureColor: {
 		Color: Color3.fromRGB(36, 36, 36),
 		Inverse: new Color3(1, 1, 1),
@@ -16,16 +16,16 @@ const Dark = {
 		Transparency: 0.7,
 	},
 	Topbar: {
-		Color: Color3.fromRGB(33, 33, 56),
-		Logo: Color3.fromRGB(242, 210, 255),
+		Color: Color3.fromRGB(38, 38, 38),
+		Logo: Color3.fromRGB(255, 255, 255),
 	},
 	Search: {
-		Color: Color3.fromRGB(49, 49, 53),
-		Placeholder: Color3.fromRGB(161, 161, 161),
+		Color: Color3.fromRGB(33, 33, 33),
+		Placeholder: Color3.fromRGB(130, 130, 130),
 		Stroke: Color3.fromRGB(150, 150, 150),
 		StrokeTransparency: 0.3,
 	},
-	SidePanel: Color3.fromRGB(24, 24, 24),
+	SidePanel: Color3.fromRGB(48, 48, 48),
 	StoryPanel: {
 		Color: Color3.fromRGB(34, 34, 34),
 		PatternColor: Color3.fromRGB(255, 255, 255),
@@ -41,18 +41,18 @@ const Dark = {
 			Color: Color3.fromRGB(82, 82, 92),
 			Disabled: Color3.fromRGB(54, 54, 59),
 			StoryIcon: {
-				Color: Color3.fromRGB(115, 179, 237),
-				Disabled: Color3.fromRGB(71, 107, 140),
+				Color: Color3.fromRGB(168, 168, 168),
+				Disabled: Color3.fromRGB(99, 99, 99),
 			},
 			FolderIcon: {
-				Color: Color3.fromRGB(196, 135, 232),
-				Disabled: Color3.fromRGB(122, 84, 145),
+				Color: Color3.fromRGB(0, 0, 0),
+				Disabled: Color3.fromRGB(33, 33, 33),
 			},
-			Book: Color3.fromRGB(48, 222, 156),
+			Book: Color3.fromRGB(255, 255, 255),
 		},
 		StorySelected: {
-			Color: Color3.fromRGB(39, 141, 209),
-			Disabled: Color3.fromRGB(39, 141, 209),
+			Color: Color3.fromRGB(255, 255, 255),
+			Disabled: Color3.fromRGB(150, 150, 150),
 			StoryIcon: {
 				Color: Color3.fromRGB(31, 48, 66),
 				Disabled: Color3.fromRGB(28, 36, 46),
@@ -67,11 +67,11 @@ const Dark = {
 		Color: Color3.fromRGB(39, 39, 39),
 
 		Path: {
-			Underline: Color3.fromRGB(120, 190, 120),
-			PathText: Color3.fromRGB(120, 190, 120),
+			Underline: Color3.fromRGB(181, 181, 181),
+			PathText: Color3.fromRGB(171, 171, 171),
 			ButtonColor: Color3.fromRGB(89, 89, 99),
 		},
 	},
 };
 
-export = Dark;
+export = DarkMono;

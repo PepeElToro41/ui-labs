@@ -3,7 +3,7 @@ import { useBinding, useEffect, useState, withHooks } from "@rbxts/roact-hooked"
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import Div from "UI/Styles/Div";
-import Corner from "UI/Styles/List/Corner";
+import Corner from "UI/Styles/Corner";
 import Sprite from "UI/Utils/Sprite";
 
 const PHASE_INFO = new TweenInfo(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
@@ -75,6 +75,7 @@ function SearchInputCreate(setprops: SearchInputProps) {
 				Key="MagnifyIcon"
 				Sprite={"Search"}
 				ImageProps={{
+					ImageColor3: theme.Icon.Disabled,
 					AnchorPoint: new Vector2(0, 0.5),
 					Position: new UDim2(0, 6, 0.5, 0),
 					Size: new UDim2(0, 19, 0, 19),

@@ -9,6 +9,10 @@ interface DivisorProps {
 	Size?: UDim;
 	Thickness?: number;
 	Color?: Color3;
+	Transparency?: number;
+	Order?: number;
+	ZIndex?: number;
+	Visible?: boolean;
 }
 
 function setProps(props: DivisorProps) {
@@ -27,9 +31,12 @@ function DivisorCreate(setprops: DivisorProps) {
 			Key={"Divisor"}
 			AnchorPoint={props.Direction === "X" ? new Vector2(props.Anchor, 0.5) : new Vector2(0.5, props.Anchor)}
 			BackgroundColor3={props.Color ?? theme.Divisor.Color}
-			BackgroundTransparency={theme.Divisor.Transparency}
+			BackgroundTransparency={props.Transparency ?? theme.Divisor.Transparency}
 			BorderSizePixel={0}
+			LayoutOrder={props.Order ?? 0}
 			Position={props.Position ?? UDim2.fromScale(0.5, 0.5)}
+			ZIndex={props.ZIndex ?? 1}
+			Visible={props.Visible ?? true}
 			Size={
 				props.Direction === "X"
 					? new UDim2(props.Size.Scale, props.Size.Offset, 0, props.Thickness)

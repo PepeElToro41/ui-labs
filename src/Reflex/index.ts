@@ -18,4 +18,4 @@ export const RootProducer = combineProducers({
 	storySelect: StorySelectProducer,
 });
 
-//RootProducer.applyMiddleware(loggerMiddleware);
+RootProducer.applyMiddleware(loggerMiddleware);
