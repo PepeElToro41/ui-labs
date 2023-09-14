@@ -13,19 +13,20 @@ function StringControlCreate(setprops: StringControlProps) {
 	const props = identity<Required<StringControlProps>>(setProps(setprops) as Required<StringControlProps>);
 	const theme = useContext(ThemeContext).Theme;
 	const [input, setInput] = useState(props.Control.Bind.Current as string);
-	const resetControls = () => {
+
+	const ResetControl = () => {
 		setInput(props.Default);
 	};
 	useUpdateEffect(() => {
-		resetControls();
-	}, [props.Default]);
-	useEventListener(props.ResetListen, () => {
-		resetControls();
+		ResetControl();
+	}, [props.Control]);
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
 	});
+
 	useUpdateEffect(() => {
 		props.ControlApply(input);
 	}, [input]);
-
 	return (
 		<frame
 			Key="Entry"

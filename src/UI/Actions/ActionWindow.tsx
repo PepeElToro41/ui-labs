@@ -6,6 +6,7 @@ import ResizableFrame from "UI/UIUtils/ResizableFrame";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import { Detector } from "UI/UIUtils/Styles/Detector";
 import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
+import { PathfindingService } from "@rbxts/services";
 
 const LabelInfo = new TweenInfo(0.3, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, 0, false, 0);
 
@@ -125,8 +126,8 @@ function ActionWindowCreate(props: ActionWindowProps) {
 	return (
 		<ResizableFrame
 			Key="ActionPanel"
-			ResizeRange={new NumberRange(-120, 200)}
-			MaxBeforeCollapse={-190}
+			ResizeRange={new NumberRange(-160, 200)}
+			MaxBeforeCollapse={-200}
 			BaseSize={new UDim2(1, 0, 0, 233)}
 			HandleAnchor="Top"
 			HolderProps={{

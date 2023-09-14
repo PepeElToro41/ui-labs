@@ -50,7 +50,7 @@ function SideBarCreate(setprops: SideBarProps) {
 		<ResizableFrame
 			Key="SideBar"
 			BaseSize={new UDim2(0, 250, 1, 0)}
-			ResizeRange={new NumberRange(-80, 300)}
+			ResizeRange={new NumberRange(-100, 300)}
 			MaxBeforeCollapse={-180}
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),

@@ -40,14 +40,14 @@ function RGBAControlCreate(setprops: RGBAControlProps) {
 		ColorSize: 24,
 		Transparency: 1,
 	});
-	const resetControls = () => {
+	const ResetControl = () => {
 		setColor(props.Default);
 	};
 	useUpdateEffect(() => {
-		resetControls();
-	}, [props.Default]);
-	useEventListener(props.ResetListen, () => {
-		resetControls();
+		ResetControl();
+	}, [props.Control]);
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
 	});
 	useUpdateEffect(() => {
 		if (hovered || pickerOpened) {

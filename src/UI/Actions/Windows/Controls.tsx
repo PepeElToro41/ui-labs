@@ -6,6 +6,7 @@ import ControlHolder from "UI/Controls/ControlHolder";
 import ControlMap from "UI/Controls/ControlMap";
 import { Div } from "UI/UIUtils/Styles/Div";
 import { Text } from "UI/UIUtils/Styles/Text";
+import Signal from "Utils/Signal";
 
 interface ControlsProps {
 	Controls: ULC.RuntimeControls;
@@ -25,10 +26,11 @@ function ControlsCreate(setprops: ControlsProps) {
 			const controlType = control.ControlType;
 			const Creator = ControlMap[controlType];
 			const extraProps = ("Props" in control && control.Props) || {};
+			const resetter = new Signal();
 			const newControl = Roact.createElement(Creator as Callback, {
 				...extraProps,
 				Default: control.Default,
-				ResetListen: props.Api.ReloadControls,
+				ResetSignal: resetter,
 				Control: control,
 				ControlApply: (newValue: unknown) => {
 					control.Bind.Set(newValue);
@@ -36,7 +38,7 @@ function ControlsCreate(setprops: ControlsProps) {
 			});
 
 			const controlHolder = (
-				<ControlHolder ControlName={control.DisplayName ?? key} LayoutOrder={control.Order ?? 0}>
+				<ControlHolder ControlName={control.DisplayName ?? key} LayoutOrder={control.Order ?? 0} ResetSignal={resetter}>
 					{newControl}
 				</ControlHolder>
 			);

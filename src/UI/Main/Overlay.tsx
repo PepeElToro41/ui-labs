@@ -62,7 +62,7 @@ function OverlayCreate(setprops: OverlayProps) {
 	const DropMenu = useCallback(
 		(
 			description: boolean,
-			selected: string,
+			selected: string | number,
 			dropdown: Record<string, _EnumListType> | Array<_EnumListType>,
 			posBind: Roact.Binding<Vector2[]>,
 			sizeBind: Roact.Binding<Vector2>,

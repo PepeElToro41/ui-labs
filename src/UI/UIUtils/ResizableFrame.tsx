@@ -32,12 +32,14 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 	const [resizeAdd, setResizeAdd] = useState(new Vector3(0, 0, 0));
 	const [collapsed, setCollapsed] = useState(false);
 	const mouseIcon = useContext(MouseIconContext);
-	//CONSTANTS
+
+	//DEFINED
 	const isWidthResizable = props.HandleAnchor === "Left" || props.HandleAnchor === "Right";
 	const isHeightResizable = props.HandleAnchor === "Top" || props.HandleAnchor === "Bottom";
 	const resizeMultiply = new Vector3(props.HandleAnchor === "Left" ? -1 : 1, props.HandleAnchor === "Top" ? -1 : 1).mul(
 		new Vector3(isWidthResizable ? 1 : 0, isHeightResizable ? 1 : 0, 0),
 	);
+
 	useEffect(() => {
 		if (mouseInput) {
 			if (isWidthResizable) {

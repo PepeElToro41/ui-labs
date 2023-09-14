@@ -1,3 +1,4 @@
+import { useEventListener, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useBinding, useCallback, useContext, useEffect, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
 import { MouseIconContext } from "UI/Contexts/Mouse/MouseIconContext";
@@ -35,6 +36,16 @@ function NumberControlCreate(props: NumberControlProps) {
 
 	const [amount, _setAmount] = useState(props.Control.Bind.Current as number);
 	const [returnAmount, setReturnAmount] = useState(props.Control.Bind.Current as number);
+
+	const ResetControl = useCallback(() => {
+		SetAmount(props.Default);
+	}, []);
+	useUpdateEffect(() => {
+		ResetControl();
+	}, [props.Control]);
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
+	});
 
 	const MapAmount = useCallback(
 		(mapper: (oldNumber: number) => number) => {

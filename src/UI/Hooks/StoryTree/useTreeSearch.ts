@@ -26,6 +26,7 @@ function ServiceForEach(serviceTable: ServiceNames, iterator: (service: Instance
 		iterator(service);
 	});
 }
+
 function DescendantsOfService(serviceTable: ServiceNames) {
 	const descendants: Instance[] = [];
 	ServiceForEach(serviceTable, (service) => {
@@ -60,7 +61,7 @@ export = <T extends keyof Instances>(
 						//It's already in the list, cloning to force update in case name changed
 						return table.clone(oldList);
 					} else {
-						//It's not in the list, there was a new instance or an old instance changed to a predicator, adding it
+						//It's not in the list, new instance added or an old instance passed the predicator, adding it
 						const newList = table.clone(oldList);
 						newList.push(instance);
 						return newList;

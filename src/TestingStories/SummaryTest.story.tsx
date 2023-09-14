@@ -1,18 +1,11 @@
 import Roact from "@rbxts/roact";
 import { SpecialControls, WithControls } from "@rbxts/ui-labs";
-import { EnumList, Number, RGBA } from "@rbxts/ui-labs/out/ControlsUtil";
+import { Choose, EnumList, Number, RGBA, Slider } from "@rbxts/ui-labs/out/ControlsUtil";
 
 const controls = {
 	"Text Label": "String test",
 	Rounded: true,
-	EnumList: EnumList(
-		{
-			Small: 10,
-			Medium: 15,
-			Large: 20,
-		},
-		"Medium",
-	),
+	ChooseList: Choose(["One", "Two", "Three"]),
 	"Text Color": EnumList(
 		{
 			White: Color3.fromRGB(255, 255, 255),
@@ -22,19 +15,19 @@ const controls = {
 		},
 		"White",
 	),
+	RoundSize: EnumList(
+		{
+			Small: new UDim(0, 10),
+			Medium: new UDim(0, 20),
+			Large: new UDim(0, 30),
+		},
+		"Small",
+	),
 	"Back Color": RGBA(Color3.fromRGB(59, 59, 59), 0),
 	//"Text Color": Color3.fromRGB(255, 255, 255),
 	//"Back Color": Color3.fromRGB(59, 59, 59),
 	"Box Size": Number(200, new NumberRange(5, 400), 1, true),
-	"Text Size": identity<SpecialControls["Slider"]>({
-		ControlType: "Slider",
-		Default: 30,
-		Props: {
-			Min: 20,
-			Max: 60,
-			Step: 5,
-		},
-	}),
+	"Text Size": Slider(30, 20, 60, 5),
 };
 
 const returner: WithControls<typeof controls> = {
@@ -45,22 +38,20 @@ const returner: WithControls<typeof controls> = {
 	story: (props) => {
 		return (
 			<frame
-				Size={UDim2.fromOffset(props.Controls["Box Size"], 120)}
-				BackgroundColor3={props.Controls["Back Color"].Color}
+				Size={UDim2.fromOffset(props.controls["Box Size"], 120)}
+				BackgroundColor3={props.controls["Back Color"].Color}
 				Position={UDim2.fromScale(0.5, 0.5)}
 				BorderSizePixel={0}
-				BackgroundTransparency={props.Controls["Back Color"].Transparency}
+				BackgroundTransparency={props.controls["Back Color"].Transparency}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 			>
-				<uicorner
-					CornerRadius={props.Controls.Rounded ? new UDim(0, props.Controls.EnumList) : new UDim(0, 0)}
-				></uicorner>
+				<uicorner CornerRadius={props.controls.Rounded ? props.controls.RoundSize : new UDim(0, 0)}></uicorner>
 				<textlabel
-					TextColor3={props.Controls["Text Color"]}
-					TextSize={props.Controls["Text Size"] * 0.5}
+					TextColor3={props.controls["Text Color"]}
+					TextSize={props.controls["Text Size"] * 0.5}
 					Size={UDim2.fromScale(1, 1)}
 					BackgroundTransparency={1}
-					Text={props.Controls["Text Label"]}
+					Text={props.controls["Text Label"]}
 				></textlabel>
 			</frame>
 		);

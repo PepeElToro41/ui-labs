@@ -20,9 +20,9 @@ export = function (target: ScreenGui) {
 			BackgroundColor3={Color3.fromRGB(31, 31, 31)}
 			BackgroundTransparency={0}
 		>
-			<ControlHolder ControlName={"Slider Test"} LayoutOrder={0}>
+			<ControlHolder ControlName={"Slider Test"} LayoutOrder={0} ResetSignal={listener}>
 				<ControlMap.Slider
-					ResetListen={listener}
+					ResetSignal={listener}
 					ControlApply={ControlApply}
 					Control={control}
 					Min={10}

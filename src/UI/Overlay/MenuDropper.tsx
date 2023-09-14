@@ -11,7 +11,7 @@ import ThemeContext from "UI/Contexts/ThemeContext";
 
 interface MenuDropperProps {
 	Description: boolean;
-	Selected: string;
+	Selected: string | number;
 	Dropdown: Record<string, _EnumListType> | _EnumListType[];
 	CanvasBind: Roact.Binding<[Vector2, Vector2]>;
 	PosBind: Roact.Binding<Vector2[]>;
@@ -25,6 +25,7 @@ function MenuItemCreate<T extends boolean>(props: {
 	Label: T extends true ? string : number;
 	Value: _EnumListType;
 	Apply: (index: T extends true ? string : number) => void;
+	Order?: number;
 	Theme: Theme;
 }) {
 	const [hover, setHover] = useState(false);
@@ -37,6 +38,7 @@ function MenuItemCreate<T extends boolean>(props: {
 			Key={props.Label}
 			BackgroundColor3={props.Theme.ControlTheme.EnumList.ListEntry}
 			BorderSizePixel={0}
+			LayoutOrder={props.Order ?? 0}
 			BackgroundTransparency={hover ? 0 : 1}
 			Size={new UDim2(1, 0, 0, 25)}
 		>
@@ -120,6 +122,7 @@ function MenuDropperCreate(props: MenuDropperProps) {
 						Label={index}
 						Value={value}
 						Theme={theme}
+						Order={index}
 						Apply={(index) => {
 							props.ApplierCallback(_Dropdown[index], index);
 							props.SelfClose();

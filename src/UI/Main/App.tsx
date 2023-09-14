@@ -9,9 +9,9 @@ import AppPanel from "./AppPanel";
 import TopBar from "./TopBar";
 import { GlobalConnections } from "UI/Contexts/GlobalConnections";
 import LogoStart from "./LogoStart";
-import { useSettings, DefUILabsSettings } from "UI/Hooks/StoryTree/Searches/useSettings";
 import { SettingsContext } from "UI/Contexts/SettingsContext";
 import Overlay from "./Overlay";
+import { DefUILabsSettings } from "UI/Hooks/StoryTree/Searches/useSettings";
 interface AppProps {}
 
 function setProps(props: AppProps) {
@@ -22,7 +22,7 @@ function AppCreate(setprops: AppProps) {
 	const props = identity<Required<AppProps>>(setProps(setprops) as Required<AppProps>);
 	const [selectedTheme, setTheme] = useState<Theme>(Themes.Default);
 	const [displayedStoryNode, displayStoryNode, updateDisplayNode] = useStoryDisplaying();
-	const settings = useSettings()[0] ?? DefUILabsSettings;
+	const settings = DefUILabsSettings;
 	const setThemeName = useCallback((themeName: IsTheme) => {
 		setTheme(Themes[themeName]);
 	}, []);

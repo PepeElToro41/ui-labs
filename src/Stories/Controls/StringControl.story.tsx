@@ -21,10 +21,10 @@ export = function (target: ScreenGui) {
 			BackgroundColor3={Color3.fromRGB(31, 31, 31)}
 			BackgroundTransparency={0}
 		>
-			<ControlHolder ControlName={"String Test"} LayoutOrder={0}>
+			<ControlHolder ControlName={"String Test"} LayoutOrder={0} ResetSignal={listener}>
 				<ControlMap.string
 					Control={control}
-					ResetListen={listener}
+					ResetSignal={listener}
 					ControlApply={ControlApply}
 					Default={"Hello"}
 				></ControlMap.string>

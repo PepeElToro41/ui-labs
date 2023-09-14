@@ -8,7 +8,7 @@ import { Detector } from "UI/UIUtils/Styles/Detector";
 import { OverlayContext } from "UI/Contexts/OverlayContext";
 import PositionBinder from "UI/UIUtils/Styles/PositionBinder";
 import { GenerateLabel } from "UI/Overlay/ListLabels/ListMap";
-import { useEventListener } from "@rbxts/pretty-roact-hooks";
+import { useEventListener, useUpdateEffect } from "@rbxts/pretty-roact-hooks";
 import ThemeContext from "UI/Contexts/ThemeContext";
 
 interface EnumListControlProps extends Control.ControlType<_EnumListType> {
@@ -30,12 +30,17 @@ function EnumListControlCreate(setprops: EnumListControlProps) {
 	const [selectedIndex, setSelectedIndex] = useState((props.Control as SpecialControls["EnumList"]).Props.Indexed);
 	const [canOpen, setCanOpen] = useState(true);
 	const theme = useContext(ThemeContext).Theme;
-	const resetControls = () => {
+
+	const ResetControl = () => {
 		setSelectedIndex((props.Control as SpecialControls["EnumList"]).Props.DefaultIndex);
 	};
-	useEventListener(props.ResetListen, () => {
-		resetControls();
+	useUpdateEffect(() => {
+		ResetControl();
+	}, [props.Control]);
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
 	});
+
 	useEffect(() => {
 		(props.Control as SpecialControls["EnumList"]).Props.Indexed = selectedIndex;
 		props.ControlApply(props.EnumList[selectedIndex]);

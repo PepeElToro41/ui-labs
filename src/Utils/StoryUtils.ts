@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { $terrify } from "rbxts-transformer-t";
 import Signal from "./Signal";
-import { _UILabsInternal as UL, _UILabsControls as ULC } from "@rbxts/ui-labs/out/Internal";
+import { UILabsProps, _UILabsInternal as UL, _UILabsControls as ULC } from "@rbxts/ui-labs/out/Internal";
 import { HoarcekatStory, ObjectStory, _StoryExecutor } from "@rbxts/ui-labs";
 import { __intern } from "@rbxts/ui-labs/out/ControlsUtil";
 
@@ -53,10 +53,10 @@ function GetMountLib(
 function GetElementFromReturn(
 	UseLib: LibLike.Roact | LibLike.React,
 	element: ObjectStory["story"],
-	props: UL.UILabsProps,
+	props: UILabsProps,
 ): Roact.Element | undefined {
 	if (typeIs(element, "function")) {
-		return UseLib.createElement<UL.UILabsProps>(element as never, props);
+		return element(props);
 	} else if (typeIs(element, "table")) {
 		return element;
 	}
@@ -69,10 +69,10 @@ function ExtractControls(controls: ULC.RuntimeControls) {
 	}
 	return extractedControls;
 }
-function CreateProps(inputListener: InputSignals | undefined, controls: ULC.RuntimeControls | undefined): UL.UILabsProps {
+function CreateProps(inputListener: InputSignals | undefined, controls: ULC.RuntimeControls | undefined): UILabsProps {
 	const props = {
-		InputListener: inputListener,
-		Controls: controls ? ExtractControls(controls) : undefined,
+		inputListener: inputListener,
+		controls: controls ? ExtractControls(controls) : undefined,
 	};
 	return props;
 }
@@ -107,7 +107,7 @@ function MountRoactStory(
 		return $tuple(undefined);
 	}
 	const roactTree = UseRoact.mount(element, target);
-	const updater = (props: UL.UILabsProps) => {
+	const updater = (props: UILabsProps) => {
 		const newElement = GetElementFromReturn(UseRoact, story, props);
 		if (!newElement) return;
 		UseRoact.update(roactTree, newElement);
@@ -145,7 +145,7 @@ function MountReactStory(
 	}
 	const root = UseReactRoblox.createRoot(target);
 	root.render(element);
-	const updater = (props: UL.UILabsProps) => {
+	const updater = (props: UILabsProps) => {
 		const newElement = GetElementFromReturn(UseReact, story, props);
 		if (!newElement) return;
 		root.render(newElement);

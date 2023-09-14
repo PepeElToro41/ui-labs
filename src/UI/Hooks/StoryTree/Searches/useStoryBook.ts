@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
 import Configs from "Plugin/Configs";
-import { useSettingsContext } from "UI/Contexts/SettingsContext";
 import { HotReloader, HotReloaderResult } from "Utils/HotReloader";
 import { DuplicateMap, ExtensionPredicator } from "Utils/NodeUtils";
 import useTreeSearch from "../useTreeSearch";

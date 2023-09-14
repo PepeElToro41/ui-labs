@@ -44,15 +44,16 @@ function ColorControlCreate(setprops: ColorControlProps) {
 		ColorSize: 24,
 		Transparency: 1,
 	});
-	const resetControls = () => {
+	const ResetControl = () => {
 		setColor(props.Default);
 	};
 	useUpdateEffect(() => {
-		resetControls();
+		ResetControl();
 	}, [props.Default]);
-	useEventListener(props.ResetListen, () => {
-		resetControls();
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
 	});
+
 	useUpdateEffect(() => {
 		if (hovered || pickerOpened) {
 			setPropsMotor({

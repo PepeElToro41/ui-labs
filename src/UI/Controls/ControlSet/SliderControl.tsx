@@ -61,15 +61,16 @@ function SliderControlCreate(setprops: SliderControlProps) {
 	}, [props.Max, props.Min, props.Step]);
 	//---HANDLING AMOUNT---
 
-	const resetControls = () => {
+	const ResetControl = () => {
 		_setAmount(props.Default);
 	};
 	useUpdateEffect(() => {
-		resetControls();
-	}, [props.Default]);
-	useEventListener(props.ResetListen, () => {
-		resetControls();
+		ResetControl();
+	}, [props.Control]);
+	useEventListener(props.ResetSignal, () => {
+		ResetControl();
 	});
+
 	useEffect(() => {
 		const percent = GetPercent(props, amount);
 		if (markVisible) {

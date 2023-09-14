@@ -18,7 +18,7 @@ export type OverlayContextType = {
 	) => void;
 	DropMenu: (
 		description: boolean,
-		selected: string,
+		selected: string | number,
 		dropdown: Record<string, _EnumListType> | Array<_EnumListType>,
 		transformBind: Roact.Binding<Vector2[]>,
 		sizeBind: Roact.Binding<Vector2>,
