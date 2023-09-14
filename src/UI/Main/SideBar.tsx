@@ -1,19 +1,17 @@
 import Roact from "@rbxts/roact";
 import SearchInput from "../UIUtils/SearchInput";
-import CreateFolder from "../Side/StoryNodes/StoryFolder";
 import ThemeContext from "UI/Contexts/ThemeContext";
 import SideTools from "../Side/SideTools";
 import { useCallback, useContext, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
 import StoryTree from "../Side/StoryTree";
-import useHierarchy from "UI/Hooks/StoryTree/useHierarchy";
 import useStoryNodes from "UI/Hooks/StoryTree/useStoryNodes";
-import { PluginContext } from "UI/Contexts/PluginContext";
+import ResizableFrame from "UI/UIUtils/ResizableFrame";
+import { useSettingsContext } from "UI/Contexts/SettingsContext";
 import Configs from "Plugin/Configs";
-import { StoryContext } from "UI/Contexts/StoryContext";
-import useStorySearch from "UI/Hooks/StoryTree/useStorySearch";
-import { useEventListener } from "@rbxts/pretty-roact-hooks";
 
-interface SideBarProps {}
+interface SideBarProps {
+	OnAddResize: (add: number) => void;
+}
 
 function setProps(props: SideBarProps) {
 	return props;
@@ -22,17 +20,16 @@ function setProps(props: SideBarProps) {
 function SideBarCreate(setprops: SideBarProps) {
 	const props = identity<Required<SideBarProps>>(setProps(setprops) as Required<SideBarProps>);
 	const [search, setSearch] = useState<string | undefined>(undefined);
-	const externalControls = useContext(PluginContext).ExternalControls;
-	const [getHierarchy, recalculateHierarchy, setHierarchy] = useHierarchy(
-		Configs.DefaultHierarchy,
-		externalControls.setHierarchy,
-		"Path",
-	);
-	const [storyList, triggerHierarchy, triggerNodes] = useStorySearch();
-	const [storyNodes, recalculateNodes, newFolder] = useStoryNodes(storyList, getHierarchy, recalculateHierarchy);
-	useEventListener(triggerHierarchy, () => {
-		recalculateHierarchy(storyNodes);
-	});
+	const settings = useSettingsContext();
+	const searchService = settings.ServiceSearch ?? Configs.SearchServices;
+	const LibsInfo = useMemo<UILibsPartial>(() => {
+		return {
+			react: settings.react,
+			roact: settings.roact,
+			reactRoblox: settings.reactRoblox,
+		};
+	}, [settings]);
+	const [storyNodes] = useStoryNodes(searchService, LibsInfo);
 	const mapSearch = useCallback((searchSet: string | undefined) => {
 		if (typeIs(searchSet, "string") && searchSet !== "") {
 			setSearch(searchSet);
@@ -41,14 +38,30 @@ function SideBarCreate(setprops: SideBarProps) {
 		}
 	}, []);
 	const theme = useContext(ThemeContext).Theme;
+	const OnResized = useCallback((collapsed: boolean, size: number) => {
+		if (collapsed) {
+			props.OnAddResize(0);
+		} else {
+			props.OnAddResize(250 + size);
+		}
+	}, []);
+
 	return (
-		<frame
+		<ResizableFrame
 			Key="SideBar"
-			AnchorPoint={new Vector2(0, 1)}
-			BackgroundColor3={theme.SideBar}
-			BorderSizePixel={0}
-			Position={new UDim2(0, 0, 1, 0)}
-			Size={new UDim2(0, 250, 1, 0)}
+			BaseSize={new UDim2(0, 250, 1, 0)}
+			ResizeRange={new NumberRange(-100, 300)}
+			MaxBeforeCollapse={-180}
+			HolderProps={{
+				AnchorPoint: new Vector2(0, 1),
+				Position: new UDim2(0, 0, 1, 0),
+			}}
+			OnResized={(collapsed: boolean, size: number) => OnResized(collapsed, size)}
+			FrameProps={{
+				BackgroundColor3: theme.SideBar,
+				BackgroundTransparency: 0,
+				BorderSizePixel: 0,
+			}}
 		>
 			<uipadding
 				PaddingBottom={new UDim(0, 12)}
@@ -71,7 +84,7 @@ function SideBarCreate(setprops: SideBarProps) {
 			></SearchInput>
 			<SideTools LayoutOrder={2}></SideTools>
 			<StoryTree Filter={search} Folders={storyNodes}></StoryTree>
-		</frame>
+		</ResizableFrame>
 	);
 }
 const SideBar = withHooks(SideBarCreate);

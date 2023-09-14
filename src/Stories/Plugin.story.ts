@@ -3,9 +3,7 @@ import Configs from "Plugin/Configs";
 import Plugin from "UI/Main/Plugin";
 
 export = function (target: ScreenGui) {
-	const PluginMouse = game.GetService("Players").LocalPlayer.GetMouse();
 	const NewPlugin = Roact.createElement(Plugin, {
-		PluginMouse: PluginMouse,
 		ExternalControls: {
 			setHierarchy: (Hierarchy) => {},
 			getHierarchy: () => {
@@ -19,7 +17,7 @@ export = function (target: ScreenGui) {
 		},
 	});
 	const Handler = Roact.mount(NewPlugin, target);
-	return function () {
+	return () => {
 		Roact.unmount(Handler);
 	};
 };

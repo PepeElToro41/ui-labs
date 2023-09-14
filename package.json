@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve": "rojo serve",
     "build": "rbxtsc",
     "watch": "rbxtsc -w"
   },
@@ -11,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@rbxts/compiler-types": "^2.1.0-types.1",
     "@rbxts/types": "^1.0.688",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
@@ -27,6 +30,7 @@
     "@rbxts/roact": "^1.4.4-ts.0",
     "@rbxts/roact-hooked": "^2.6.0",
     "@rbxts/services": "^1.5.1",
+    "@rbxts/ui-labs": "^1.0.0",
     "rbxts-transformer-t": "^1.1.5"
   }
 }

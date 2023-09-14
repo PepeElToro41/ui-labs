@@ -1,21 +1,10 @@
-import { useDebounceEffect, useInterval } from "@rbxts/pretty-roact-hooks";
-import { useBinding, useCallback, useEffect, useState } from "@rbxts/roact-hooked";
-import { IsStoryHandle } from "Declarations/Story";
-import { HotReloader, HotReloaderResult } from "Utils/HotReloader";
-
-declare global {
-	interface StoryHandle {
-		Result: IsStoryHandle | undefined;
-		Error: string | undefined;
-		Reloader: HotReloader;
-	}
-}
+import { useCallback, useState } from "@rbxts/roact-hooked";
 
 //Not a good name, this does not displays the story, it just handles the story selection to display (useStoryHandler does the displaying/hotreloading)
 
 export = () => {
-	const [displayedNode, setDisplayedNode] = useState<StoryNode | undefined>(undefined);
-	const DisplayStoryNode = useCallback((newStoryDisplay: StoryNode) => {
+	const [displayedNode, setDisplayedNode] = useState<StoryType | undefined>(undefined);
+	const DisplayStoryNode = useCallback((newStoryDisplay: StoryType) => {
 		setDisplayedNode((oldStoryDisplay) => {
 			if (oldStoryDisplay && oldStoryDisplay.Module === newStoryDisplay.Module) {
 				return undefined;
@@ -28,7 +17,7 @@ export = () => {
 		setDisplayedNode((oldStoryDisplay) => {
 			if (!oldStoryDisplay) return undefined;
 			const oldModule = oldStoryDisplay.Module;
-			let foundNode: StoryNode | undefined = undefined;
+			let foundNode: StoryType | undefined = undefined;
 			const Iterate = (folder: FolderNode) => {
 				for (let index = 0; index < folder.Inside.size(); index++) {
 					if (foundNode !== undefined) break;

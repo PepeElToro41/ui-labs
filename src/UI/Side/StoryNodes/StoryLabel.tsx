@@ -3,6 +3,9 @@ import { useCallback, useContext, useMemo, useState, withHooks, withHooksPure } 
 import Configs from "Plugin/Configs";
 import { StoryContext } from "UI/Contexts/StoryContext";
 import ThemeContext from "UI/Contexts/ThemeContext";
+import { Sprite } from "UI/UIUtils/Sprite";
+import { Detector } from "UI/UIUtils/Styles/Detector";
+import { Text } from "UI/UIUtils/Styles/Text";
 
 interface StoryLabelProps {
 	DisplayName: string;
@@ -37,7 +40,7 @@ function StoryLabelCreate(setprops: StoryLabelProps) {
 		setHover(false);
 	};
 	return (
-		<textbutton
+		<Detector
 			Key="EntryLabel"
 			BackgroundColor3={
 				props.Displayed
@@ -48,9 +51,6 @@ function StoryLabelCreate(setprops: StoryLabelProps) {
 					? theme.StoryIdle.Disabled
 					: theme.StoryIdle.Entry
 			}
-			Text={""}
-			TextTransparency={1}
-			AutoButtonColor={false}
 			BackgroundTransparency={props.Displayed ? 0 : hover ? 0.6 : 1}
 			Size={new UDim2(1, 0, 0, 25)}
 			Visible={props.Visible}
@@ -72,11 +72,9 @@ function StoryLabelCreate(setprops: StoryLabelProps) {
 				Padding={new UDim(0, 5)}
 				SortOrder={Enum.SortOrder.LayoutOrder}
 			/>
-			<imagelabel
+			<Sprite
 				Key="IconLabel"
 				AnchorPoint={new Vector2(1, 0.5)}
-				BackgroundTransparency={1}
-				Image={Configs.IconsSprite}
 				ImageColor3={
 					props.Displayed
 						? props.Unknown
@@ -87,20 +85,17 @@ function StoryLabelCreate(setprops: StoryLabelProps) {
 						: theme.StoryIdle.Image
 				}
 				ImageRectOffset={new Vector2(64, 192)}
-				ImageRectSize={new Vector2(64, 64)}
 				LayoutOrder={1}
 				Position={new UDim2(1, 0, 0.5, 0)}
 				Size={new UDim2(1, 0, 1.1, 0)}
 				SizeConstraint={Enum.SizeConstraint.RelativeYY}
 			/>
-			<textlabel
+			<Text
 				Key="TitleLabel"
 				Text={props.DisplayName}
-				BackgroundTransparency={1}
-				Font={Enum.Font.GothamMedium}
-				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
 				LayoutOrder={2}
-				Size={new UDim2(1, -46, 1, 0)}
+				Size={new UDim2(1, -25, 1, 0)}
+				TextTruncate={Enum.TextTruncate.AtEnd}
 				TextColor3={
 					props.Displayed
 						? props.Unknown
@@ -110,10 +105,9 @@ function StoryLabelCreate(setprops: StoryLabelProps) {
 						? theme.TextDisabledColor
 						: theme.TextColor
 				}
-				TextSize={14}
 				TextXAlignment={Enum.TextXAlignment.Left}
 			/>
-		</textbutton>
+		</Detector>
 	);
 }
 

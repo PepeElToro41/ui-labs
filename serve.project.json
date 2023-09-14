@@ -8,8 +8,8 @@
 		"$className": "DataModel",
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
-			"Plugin": {
-                "$className": "Folder",
+			"OldPlugin": {
+            "$className": "Folder",
 				"$path": "./default.project.json"
 			}
 		}

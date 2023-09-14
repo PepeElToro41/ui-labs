@@ -56,10 +56,11 @@ local Connection = {}
 Connection.__index = Connection
 
 
-function Connection.new(signal, fn)
+function Connection.new(signal, fn, once)
 	return setmetatable({
 		_connected = true,
 		_signal = signal,
+      _once = once,
 		_fn = fn,
 		_next = false,
 	}, Connection)
@@ -92,7 +93,7 @@ Connection.Destroy = Connection.Disconnect
 -- Make Connection strict
 setmetatable(Connection, {
 	__index = function(_tb, key)
-		error(("Attempt to get Connection::%s (not a valid member)"):format(tostring(key)), 2)
+		return nil
 	end,
 	__newindex = function(_tb, key, _value)
 		error(("Attempt to set Connection::%s (not a valid member)"):format(tostring(key)), 2)
@@ -140,6 +141,17 @@ function Signal:Connect(fn)
 	return connection
 end
 
+function Signal:ConnectOnce(fn)
+	local connection = Connection.new(self, fn, true)
+	if self._handlerListHead then
+		connection._next = self._handlerListHead
+		self._handlerListHead = connection
+	else
+		self._handlerListHead = connection
+	end
+	return connection
+end
+
 
 function Signal:GetConnections()
 	local items = {}
@@ -171,6 +183,9 @@ function Signal:Fire(...)
 				freeRunnerThread = coroutine.create(runEventHandlerInFreeThread)
 			end
 			task.spawn(freeRunnerThread, item._fn, ...)
+         if(item._once) then
+            item:Disconnect()
+         end
 		end
 		item = item._next
 	end

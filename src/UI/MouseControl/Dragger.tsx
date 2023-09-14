@@ -1,6 +1,9 @@
 import Roact from "@rbxts/roact";
 import { withHooks } from "@rbxts/roact-hooked";
 import Configs from "Plugin/Configs";
+import { Sprite } from "UI/UIUtils/Sprite";
+import { Div } from "UI/UIUtils/Styles/Div";
+import { Text } from "UI/UIUtils/Styles/Text";
 
 interface DraggerProps {}
 
@@ -11,10 +14,9 @@ function setProps(props: DraggerProps) {
 function DraggerCreate(setprops: DraggerProps) {
 	const props = identity<Required<DraggerProps>>(setProps(setprops) as Required<DraggerProps>);
 	return (
-		<frame
+		<Div
 			Key="Dragger"
 			AutomaticSize={Enum.AutomaticSize.XY}
-			BackgroundTransparency={1}
 			Position={new UDim2(0, -10, 0, 15)}
 			Size={new UDim2(0, 0, 0, 20)}
 			Visible={false}
@@ -41,20 +43,16 @@ function DraggerCreate(setprops: DraggerProps) {
 					PaddingRight={new UDim(0, 5)}
 					PaddingTop={new UDim(0, 2)}
 				/>
-				<imagelabel
-					BackgroundTransparency={1}
-					Image={Configs.IconsSprite}
+				<Sprite
 					ImageColor3={Color3.fromRGB(117, 223, 255)}
 					ImageRectOffset={new Vector2(192, 0)}
-					ImageRectSize={new Vector2(64, 64)}
 					ImageTransparency={0.3}
 					Size={new UDim2(0, 16, 0, 15)}
 				/>
-				<textlabel
+				<Text
 					Key="ActionText"
 					AnchorPoint={new Vector2(0, 0.5)}
 					AutomaticSize={Enum.AutomaticSize.XY}
-					BackgroundTransparency={1}
 					Font={Enum.Font.Gotham}
 					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Light)}
 					LayoutOrder={1}
@@ -70,17 +68,14 @@ function DraggerCreate(setprops: DraggerProps) {
 				SortOrder={Enum.SortOrder.LayoutOrder}
 				VerticalAlignment={Enum.VerticalAlignment.Center}
 			/>
-			<imagelabel
-				BackgroundTransparency={1}
-				Image="rbxassetid://13786115580"
+			<Sprite
 				ImageColor3={Color3.fromRGB(255, 119, 121)}
 				ImageRectOffset={new Vector2(256, 192)}
-				ImageRectSize={new Vector2(64, 64)}
 				ImageTransparency={0.3}
 				LayoutOrder={2}
 				Size={new UDim2(0, 18, 0, 18)}
 			/>
-		</frame>
+		</Div>
 	);
 }
 const Dragger = withHooks(DraggerCreate);

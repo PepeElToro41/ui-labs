@@ -1,6 +1,7 @@
 declare namespace Signal {
 	export interface Connection {
 		Disconnect(): void;
+		Destroy(): void;
 		IsConnected(): boolean;
 	}
 }
@@ -10,6 +11,7 @@ interface Signal<T extends Callback = Callback> {
 	Wait(): LuaTuple<Parameters<T>>;
 	WaitPromise(): Promise<Parameters<T>[0]>;
 	Connect(handler: T): Signal.Connection;
+	ConnectOnce(handler: T): Signal.Connection;
 	DisconnectAll(): void;
 	Destroy(): void;
 }

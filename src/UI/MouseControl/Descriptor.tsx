@@ -1,7 +1,8 @@
 import Roact from "@rbxts/roact";
-import { useContext, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { useContext, useEffect, useRef, useState, withHooks, withHooksPure } from "@rbxts/roact-hooked";
 import { MouseContext } from "UI/Contexts/MouseContext";
 import ThemeContext from "UI/Contexts/ThemeContext";
+import { Text } from "UI/UIUtils/Styles/Text";
 
 interface DescriptorProps {
 	mouseDesc: string | undefined;
@@ -44,12 +45,10 @@ function DescriptorCreate(setprops: DescriptorProps) {
 			Visible={props.mouseDesc !== undefined && props.descVisible}
 			Ref={descriptorFrame}
 		>
-			<textlabel
+			<Text
 				Key="DescriptionText"
 				AnchorPoint={new Vector2(0, 0.5)}
 				AutomaticSize={Enum.AutomaticSize.XY}
-				BackgroundTransparency={1}
-				Font={Enum.Font.Gotham}
 				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Light)}
 				Position={new UDim2(0, 0, 0.5, 0)}
 				Text={props.mouseDesc}
@@ -66,6 +65,6 @@ function DescriptorCreate(setprops: DescriptorProps) {
 		</frame>
 	);
 }
-const Descriptor = withHooks(DescriptorCreate);
+const Descriptor = withHooksPure(DescriptorCreate);
 
 export = Descriptor;

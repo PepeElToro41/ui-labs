@@ -1,27 +1,22 @@
 import { HttpService } from "@rbxts/services";
 import Configs from "Plugin/Configs";
 
-export function GetLabelName(module: ModuleScript) {
-	return module.Name.gsub("%" + Configs.StoryExtension + "$", "")[0];
+export function RemoveExtension(module: ModuleScript, extension: string) {
+	return module.Name.gsub("%" + extension + "$", "")[0];
 }
 
-export function IsStory(instance: Instance) {
-	if (!instance.IsA("ModuleScript")) return false;
-	return instance.Name.match("%" + Configs.StoryExtension + "$")[0] !== undefined;
+export function ExtensionPredicator(extension: string) {
+	return (instance: Instance) => {
+		return instance.Name.match("%" + extension + "$")[0] !== undefined;
+	};
 }
 
-export function StoryPredicator(instance: Instance) {
-	const [sucess] = pcall(() => {
-		return instance.Name;
+export function DuplicateMap<K, V>(map: Map<K, V>) {
+	const newMap = new Map<K, V>();
+	map.forEach((value, key) => {
+		newMap.set(key, value);
 	});
-	return sucess && instance.Parent !== undefined && IsStory(instance);
-}
-
-export function CheckPermission(instance: Instance) {
-	const [sucess] = pcall(() => {
-		return instance.Name;
-	});
-	return sucess;
+	return newMap;
 }
 
 export function DecodePath(referencePath: ReferencePath) {
