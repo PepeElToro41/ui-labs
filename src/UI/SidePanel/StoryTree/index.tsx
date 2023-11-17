@@ -1,18 +1,14 @@
 import Roact from "@rbxts/roact";
 import { useMemo, withHooks } from "@rbxts/roact-hooked";
-import { useStoryList } from "Hooks/Reflex/Use/Modules";
-import Detector from "UI/Styles/Detector";
+import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
-import Padding from "UI/Styles/Padding";
-import Story from "../Nodes/Story";
-import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
-import Configs from "Plugin/Configs";
 import { useSelector } from "@rbxts/roact-reflex";
 import { FilterNodes } from "./SearchFilter";
 import Unknown from "../Nodes/ChildrenHolder/Unknown";
 import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectFilter } from "Reflex/Explorer/Filter";
 import Storybook from "../Nodes/ChildrenHolder/Storybook";
+import { selectOverlay } from "Reflex/Overlay";
 
 interface StoryTreeProps {}
 
@@ -25,6 +21,8 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 
 	const nodes = useSelector(selectNodes).nodes;
 	const filter = useSelector(selectFilter).search;
+	const overlay = useSelector(selectOverlay);
+	const isBlocked = overlay !== undefined;
 
 	const nodeList = useMemo(() => {
 		const filteredNodes = filter ? FilterNodes(nodes, filter) : nodes;
@@ -47,13 +45,14 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 				ScrollBarThickness={2}
 				ScrollBarImageTransparency={0.8}
 				Active={true}
+				ScrollingEnabled={!isBlocked}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
 				BorderSizePixel={0}
 				Position={UDim2.fromScale(0.5, 0.5)}
 				Size={UDim2.fromScale(1, 1)}
 			>
-				<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} />
+				<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} Padding={new UDim(0, 1)} />
 				{nodeList}
 			</scrollingframe>
 		</Detector>

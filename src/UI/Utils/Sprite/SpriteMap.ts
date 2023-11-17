@@ -36,5 +36,9 @@ const Sprites = {
 	Collapse: {
 		RectOffset: new Vector2(196, 128),
 	},
+	//Other
+	Theme: {
+		RectOffset: new Vector2(0, 64 * 5),
+	},
 };
 export = Sprites;

@@ -2,11 +2,11 @@ import Roact from "@rbxts/roact";
 import { useBinding, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
-import Div from "UI/Styles/Div";
+import { Div } from "UI/Styles/Div";
 import Corner from "UI/Styles/Corner";
 import Sprite from "UI/Utils/Sprite";
 
-const PHASE_INFO = new TweenInfo(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
+const PHASE_INFO = new TweenInfo(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
 
 interface SearchInputProps {
 	Size: UDim2;

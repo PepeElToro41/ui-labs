@@ -5,7 +5,7 @@ import ControlTabs from "./ControlTabs";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import FrameFill from "UI/Holders/FrameFill";
 import TopList from "UI/Styles/List/TopList";
-import Div from "UI/Styles/Div";
+import { Div } from "UI/Styles/Div";
 import { useTween } from "Hooks/Utils/Tween";
 
 const APPEAR_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out);
@@ -35,6 +35,7 @@ function ActionsPanelCreate(setprops: ActionsPanelProps) {
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),
 				Position: UDim2.fromScale(0, 1),
+				ZIndex: 3,
 			}}
 			FrameProps={{
 				BackgroundTransparency: 1,

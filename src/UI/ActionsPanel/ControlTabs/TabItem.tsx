@@ -1,10 +1,10 @@
 import Roact from "@rbxts/roact";
 import { useState, withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Detector from "UI/Styles/Detector";
+import { Detector } from "UI/Styles/Detector";
 import Corner from "UI/Styles/Corner";
 import Padding from "UI/Styles/Padding";
-import Text from "UI/Styles/Text";
+import { Text } from "UI/Styles/Text";
 
 interface TabItemProps {
 	TabName: string;
@@ -40,7 +40,7 @@ function TabItemCreate(setprops: TabItemProps) {
 			>
 				<Padding PaddingX={10} />
 			</Text>
-			<Corner Size={4} />
+			<Corner Radius={4} />
 			<Detector
 				Event={{
 					MouseEnter: () => setHover(true),

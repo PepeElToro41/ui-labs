@@ -10,17 +10,12 @@ interface StorybookProps {
 	Order: number;
 }
 
-function setProps(props: StorybookProps) {
-	return props as Required<StorybookProps>;
-}
-
-function StorybookCreate(setprops: StorybookProps) {
-	const props = setProps(setprops as Required<StorybookProps>);
+function StorybookCreate(props: StorybookProps) {
 	const theme = useTheme();
 
 	const children = useMemo(() => {
 		return props.Node.Children.map((child, index) => {
-			//We could also check the type, but I preffer this way
+			//We could also check the type, but I prefer this way
 			if ("Children" in child) {
 				return <Folder Node={child} Order={index}></Folder>;
 			} else {

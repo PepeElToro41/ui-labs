@@ -3,6 +3,8 @@ import { withHooks } from "@rbxts/roact-hooked";
 import Branding from "./Branding";
 import Padding from "UI/Styles/Padding";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useSelector } from "@rbxts/roact-reflex";
+import { selectTheme } from "Reflex/Theme";
 
 interface TopBarProps {}
 

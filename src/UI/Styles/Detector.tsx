@@ -4,7 +4,7 @@ interface DetectorProps extends JSX.IntrinsicElement<TextButton> {
 	Key?: string;
 }
 
-export = (props: DetectorProps) => {
+export function Detector(props: DetectorProps) {
 	return (
 		<textbutton
 			BackgroundTransparency={1}
@@ -15,4 +15,4 @@ export = (props: DetectorProps) => {
 			{...props}
 		></textbutton>
 	);
-};
+}

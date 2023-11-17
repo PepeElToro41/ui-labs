@@ -2,8 +2,13 @@ import { InferState, combineProducers, loggerMiddleware } from "@rbxts/reflex";
 import { ThemeProducer } from "./Theme";
 import { ExplorerProducer } from "./Explorer";
 import { ModuleListProducer } from "./ModuleList";
-import { StorySelectProducer } from "./StorySelect";
 import { ModuleRequireProducer } from "./ModuleRequire";
+import { ActionsProducer } from "./ActionsPanel";
+import { StoryPreviewProducer } from "./StoryPreview";
+import { OverlayProducer } from "./Overlay";
+import { InterfaceProducer } from "./Interface";
+import { StorySelectionProducer } from "./StorySelection";
+import { PluginProducer } from "./Plugin";
 
 declare global {
 	type RootProducer = typeof RootProducer;
@@ -13,9 +18,16 @@ declare global {
 export const RootProducer = combineProducers({
 	theme: ThemeProducer,
 	explorer: ExplorerProducer,
+	overlay: OverlayProducer,
+	interface: InterfaceProducer,
+	plugin: PluginProducer,
+
 	moduleList: ModuleListProducer,
 	moduleRequire: ModuleRequireProducer,
-	storySelect: StorySelectProducer,
+	actions: ActionsProducer,
+
+	storyPreview: StoryPreviewProducer,
+	storySelection: StorySelectionProducer,
 });
 
-RootProducer.applyMiddleware(loggerMiddleware);
+//RootProducer.applyMiddleware(loggerMiddleware);

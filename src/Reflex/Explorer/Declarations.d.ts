@@ -1,8 +1,10 @@
+type NodeMap = Map<ModuleScript, StoryNode>;
+
 interface StoryNode {
 	Type: "Story";
 	Name: string;
 	Module: ModuleScript;
-	Parent: ParentNode;
+	Parent: ContainerNode;
 }
 
 interface StorybookNode {
@@ -15,19 +17,20 @@ interface StorybookNode {
 
 interface FolderNode {
 	Type: "Folder";
-	Instance: Instance;
+	Instance: Instance; //No name as this is binded to a roblox instance
 	Storybook: StorybookNode;
-	Parent: StorybookNode | FolderNode;
+	Parent: ParentNode;
 	Children: ChildrenNode[];
 }
 
-type UnknownNode = {
+interface UnknownNode {
 	Type: "Unknown";
 	Instance: Instance;
 	Children: StoryNode[];
-};
+}
 
-type ParentNode = FolderNode | StorybookNode | UnknownNode; //whatever can have children
+type ParentNode = FolderNode | StorybookNode; //whatever can be a node parent
+type ContainerNode = FolderNode | StorybookNode | UnknownNode; //whatever can have children
 type ChildrenNode = StoryNode | FolderNode; //whatever can have a parent
 type DefinedNode = StoryNode | FolderNode | StorybookNode; //whatever has a name and it's not unknown
 

@@ -5,6 +5,9 @@ import BackgroundPattern from "./BackgroundPattern";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { withHooks } from "@rbxts/roact-hooked";
 import StoryTitle from "./StoryTitle";
+import { Div } from "UI/Styles/Div";
+import List from "UI/Styles/List";
+import PreviewHandler from "UI/StoryPreview/PreviewControl";
 
 interface StoryPanelProps {}
 
@@ -17,9 +20,13 @@ function StoryPanelCreate(setprops: StoryPanelProps) {
 	const theme = useTheme();
 	return (
 		<FrameFill Key="StoryPanel" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
-			<BackgroundPattern></BackgroundPattern>
-			<StoryTitle></StoryTitle>
-			<ActionsPanel></ActionsPanel>
+			<BackgroundPattern />
+			<Div Key="StoryFrame">
+				<List />
+				<StoryTitle />
+				<PreviewHandler />
+			</Div>
+			<ActionsPanel />
 		</FrameFill>
 	);
 }

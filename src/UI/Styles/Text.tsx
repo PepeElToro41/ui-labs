@@ -10,7 +10,6 @@ function TextCreate(props: TextProps) {
 	const weight = props.Weight ?? "Medium";
 	props.Weight = undefined;
 	const theme = useTheme();
-
 	return (
 		<textlabel
 			BackgroundTransparency={1}
@@ -23,6 +22,5 @@ function TextCreate(props: TextProps) {
 		></textlabel>
 	);
 }
-const Text = withHooks(TextCreate);
 
-export = Text;
+export const Text = withHooks(TextCreate);

@@ -2,7 +2,8 @@ import { FromServiceNames } from "Utils/InstanceUtils";
 
 const Configs = {
 	PluginName: "UI Labs",
-	SpriteIcon: "rbxassetid://14105481154",
+	SpriteIcon: "rbxassetid://15233183859",
+	RootUID: "RootStory",
 	DefaultSearch: FromServiceNames([
 		"Workspace",
 		"ReplicatedFirst",
@@ -16,7 +17,7 @@ const Configs = {
 	Extensions: {
 		Story: ".story",
 		Storybook: ".storybook",
-		Settings: ".uilabs", //Not implemented yet
+		Settings: ".uilabs", //Not implemented (probably it wont)
 	},
 };
 

@@ -3,6 +3,7 @@
 declare function loadstring(s: string, n?: string): LuaTuple<[Callback?, string?]>;
 declare function getfenv(): { script: LuaSourceContainer };
 declare function setfenv(f: Callback, env: object): void;
+declare function newproxy(): string;
 
 interface NewLuaMetatable<T> {
 	__index?: ((self: T, index: unknown) => void) | { [K in string]: unknown };
@@ -23,17 +24,6 @@ interface NewLuaMetatable<T> {
 	__len?: (self: T) => number;
 	__mode?: "k" | "v" | "kv";
 	__metatable?: string;
-}
-interface Selection extends Instance {
-	Add(this: Selection, instancesToAdd: Array<Instance>): void;
-	Get(this: Selection): Array<Instance>;
-	Remove(this: Selection, instancesToRemove: Array<Instance>): void;
-	Set(this: Selection, selection: Array<Instance>): void;
-	readonly SelectionChanged: RBXScriptSignal<() => void>;
-}
-
-interface Services {
-	Selection: Selection;
 }
 
 declare function setmetatable<T extends object>(object: T, metatable: NewLuaMetatable<T>): T;

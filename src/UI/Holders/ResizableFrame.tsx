@@ -4,8 +4,8 @@ import { useBinding, useEffect, useRef, useState, withHooks } from "@rbxts/roact
 import { RunService } from "@rbxts/services";
 import Signal from "@rbxts/signal";
 import { useConnection } from "Hooks/Utils/Connection";
-import Detector from "UI/Styles/Detector";
-import Div from "UI/Styles/Div";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
 import { ToVector2 } from "Utils/NumberUtils";
 
 //This frame is resizable, and can be collapsed

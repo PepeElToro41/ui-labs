@@ -28,9 +28,12 @@ export function FilterChildren(children: ChildrenNode[], filter: string) {
 		if ("Children" in child) {
 			const filteredChildren = FilterChildren(child.Children, filter);
 			if (filteredChildren.size() <= 0) return;
-			filtered.push(child);
+			filtered.push({
+				...child,
+				Children: filteredChildren,
+			});
 		} else {
-			if (!child.Name.lower().match(filter.lower())[0]) return;
+			if (child.Name.lower().match(filter.lower())[0] === undefined) return;
 			filtered.push(child);
 		}
 	});

@@ -13,8 +13,9 @@ export function ClassPredicator<T extends keyof Instances>(className: T, filterP
 		const [sucess] = pcall(() => {
 			return instance.Name;
 		});
+		if (!sucess) return false;
 		if (!instance.IsA(className)) return false;
-		return sucess && instance.Parent !== undefined && instance.IsA(className) && filterPredicator(instance);
+		return instance.Parent !== undefined && filterPredicator(instance);
 	};
 }
 

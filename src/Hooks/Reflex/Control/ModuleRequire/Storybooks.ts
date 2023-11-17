@@ -1,6 +1,6 @@
 import { useEffect } from "@rbxts/roact-hooked";
 import { useStorybookList } from "Hooks/Reflex/Use/Modules";
-import { HotReloader } from "Utils/HotReloaded";
+import { HotReloader } from "Utils/HotReloader";
 import { CheckBookReturn } from "./Utils";
 import { useProducer, useSelector } from "@rbxts/roact-reflex";
 import { Dictionary } from "@rbxts/sift";

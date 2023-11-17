@@ -12,8 +12,10 @@ export function instanceSearch<T extends keyof Instances>(
 ) {
 	type ClassType = Instances[T];
 	const Predicator = ClassPredicator(className, filterPredicator);
-	const filtered = Array.filter(ArrayDescendants(searchIn), Predicator) as ClassType[];
-	const [instanceList, setInstanceList] = useState<ClassType[]>(filtered);
+	const [instanceList, setInstanceList] = useState<ClassType[]>(() => {
+		const filtered = Array.filter(ArrayDescendants(searchIn), Predicator) as ClassType[];
+		return filtered;
+	});
 
 	const Recompute = useCallback(() => {
 		const newFiltered = Array.filter(ArrayDescendants(searchIn), Predicator) as ClassType[];
@@ -67,13 +69,13 @@ export function instanceSearch<T extends keyof Instances>(
 		searchIn.forEach((searchInstance) => {
 			connections.push(
 				searchInstance.DescendantAdded.Connect((instance) => {
-					if (!instance.IsA(className)) return; // if it's not a module script we dont care
+					if (!instance.IsA(className)) return; // if it's not the class we dont care
 					if (Predicator(instance)) {
 						//If the instance passed the predicator then we add it
 						OnInstanceAdded(instance);
 					} else {
 						//If we do OnInstanceAdded() it will get ignored (We already know it wont pass the predicator)
-						//so you wont be able to connect the name change event, so we do it manually
+						//so you wont be able to connect the name change event, then we do it manually
 						connections.push(
 							(instance as Instance).GetPropertyChangedSignal("Name").Connect(() => {
 								OnInstanceAdded(instance);

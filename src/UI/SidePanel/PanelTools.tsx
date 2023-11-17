@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { withHooks } from "@rbxts/roact-hooked";
-import Div from "UI/Styles/Div";
-import Text from "UI/Styles/Text";
+import { Div } from "UI/Styles/Div";
+import { Text } from "UI/Styles/Text";
 import Divisor from "UI/Utils/Divisor";
 
 interface PanelToolsProps {}

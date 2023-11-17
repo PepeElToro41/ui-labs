@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@rbxts/compiler-types": "^2.1.0-types.1",
+    "@rbxts/compiler-types": "^2.2.0-types.0",
     "@rbxts/types": "^1.0.708",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
@@ -23,6 +23,9 @@
     "typescript": "4.9.4"
   },
   "dependencies": {
+    "@rbxts/catppuccin": "^1.0.2",
+    "@rbxts/colour-utils": "^1.4.1",
+    "@rbxts/immut": "^0.4.4-ts.0",
     "@rbxts/pretty-roact-hooks": "^3.1.1",
     "@rbxts/reflex": "^4.2.0",
     "@rbxts/roact": "^1.4.4-ts.0",

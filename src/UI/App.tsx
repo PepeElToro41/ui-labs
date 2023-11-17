@@ -1,12 +1,16 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
-import Div from "./Styles/Div";
+import { useBinding, useCallback, useEffect, useRef, withHooks } from "@rbxts/roact-hooked";
+import { Div } from "./Styles/Div";
 import TopBar from "./Topbar";
 import AppPanel from "./AppPanel";
 import List from "./Styles/List";
 import { controlModuleList } from "Hooks/Reflex/Control/ModuleList";
-import { controlModuleRequire } from "Hooks/Reflex/Control/ModuleRequire";
-import { controlNodes } from "Hooks/Reflex/Control/Nodes";
+import { controlNodes } from "Hooks/Reflex/Control/Explorer";
+import OverlayControl from "./Overlays/OverlayControl";
+import { UserInputProvider } from "Context/UserInputContext";
+import { controlPreview } from "Hooks/Reflex/Control/Preview";
+import { controlStorybooks } from "Hooks/Reflex/Control/ModuleRequire/Storybooks";
+import AppHolder from "./AppHolder";
 
 interface AppProps {}
 
@@ -18,15 +22,21 @@ function AppCreate(setprops: AppProps) {
 	const props = setProps(setprops);
 
 	controlModuleList();
-	controlModuleRequire();
+	controlStorybooks();
 	controlNodes();
+	controlPreview();
 
 	return (
-		<Div Key="App">
-			<List />
-			<TopBar />
-			<AppPanel />
-		</Div>
+		<UserInputProvider>
+			<AppHolder>
+				<Div Key={"Plugin"}>
+					<List />
+					<TopBar />
+					<AppPanel />
+				</Div>
+				<OverlayControl />
+			</AppHolder>
+		</UserInputProvider>
 	);
 }
 

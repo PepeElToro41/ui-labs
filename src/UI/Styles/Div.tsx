@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 
 interface DivProps extends JSX.IntrinsicElement<Frame> {}
 
-export = (props: DivProps) => {
+export function Div(props: DivProps) {
 	return (
 		<frame
 			BackgroundTransparency={1}
@@ -12,4 +12,4 @@ export = (props: DivProps) => {
 			{...props}
 		></frame>
 	);
-};
+}

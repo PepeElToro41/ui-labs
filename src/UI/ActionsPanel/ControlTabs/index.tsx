@@ -4,7 +4,7 @@ import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import TabItem from "./TabItem";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Div from "UI/Styles/Div";
+import { Div } from "UI/Styles/Div";
 import RightList from "UI/Styles/List/RightList";
 
 interface ControlTabsProps {}

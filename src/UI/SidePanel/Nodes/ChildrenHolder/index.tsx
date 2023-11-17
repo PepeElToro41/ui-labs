@@ -1,17 +1,21 @@
 import Roact from "@rbxts/roact";
-import { useEffect, useState, withHooks } from "@rbxts/roact-hooked";
+import { useCallback, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
 import { useSelector } from "@rbxts/roact-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import { selectFilter } from "Reflex/Explorer/Filter";
-import Detector from "UI/Styles/Detector";
-import Div from "UI/Styles/Div";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
 import List from "UI/Styles/List";
 import Corner from "UI/Styles/Corner";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import Text from "UI/Styles/Text";
+import { Text } from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
+import TopList from "UI/Styles/List/TopList";
+import { selectOverlay } from "Reflex/Overlay";
+import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
+import { useToggler } from "Hooks/Utils/Toggler";
 
 interface ChildrenHolderProps {
 	Name: string | Instance;
@@ -37,13 +41,15 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 	const props = setProps(setprops as Required<ChildrenHolderProps>);
 	const theme = useTheme();
 
-	const [hovered, setHover] = useState(false);
+	const [hovered, hoverApi] = useToggler(false);
 	const [expanded, expand] = useState(false);
 	const [name, setName] = useState<string>(GetName(props.Name));
-	const [expandSize, tweenExpandSize] = useTween(EXPAND_INFO, 0);
-	const [expandVisible, setExpandVisible] = useState(false);
+	const isBlocked = useIsOverlayBlocked();
 
 	const filter = useSelector(selectFilter).search;
+	const OnExpand = useCallback(() => {
+		expand((isExpanded) => !isExpanded);
+	}, []);
 
 	useEffect(() => {
 		if (typeIs(props.Name, "string")) {
@@ -55,19 +61,11 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 		});
 		return () => connection.Disconnect();
 	}, [props.Name]);
-
 	useEffect(() => {
-		const tweener = tweenExpandSize(expanded ? 0 : 1);
-		let tweenerConnection: RBXScriptConnection;
-		if (expanded) {
-			setExpandVisible(true);
-		} else {
-			tweenerConnection = tweener.Completed.Connect(() => {
-				setExpandVisible(expanded);
-			});
+		if (hovered && isBlocked) {
+			hoverApi.disable();
 		}
-		return () => tweenerConnection && tweenerConnection.Disconnect();
-	}, [expanded]);
+	}, [hovered, isBlocked]);
 
 	useEffect(() => {
 		if (filter) expand(true);
@@ -83,18 +81,18 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 				BackgroundTransparency={hovered ? 0.6 : 1}
 				Size={new UDim2(1, 0, 0, 25)}
 			>
-				<Corner Size={6} />
+				<Corner Radius={6} />
 				<Detector
 					ZIndex={4}
 					Event={{
-						MouseEnter: () => setHover(true),
-						MouseLeave: () => setHover(false),
-						MouseButton1Click: () => expand((isExpanded) => !isExpanded),
+						MouseEnter: hoverApi.enable,
+						MouseLeave: hoverApi.disable,
+						MouseButton1Click: OnExpand,
 					}}
 				/>
 				<Div>
 					<LeftList Padding={new UDim(0, 5)} />
-					<Padding Padding={4} ExtraPadding={{ PaddingBottom: new UDim(0, 5) }} />
+					<Padding Padding={4} Bottom={5} />
 					<Sprite
 						Key="Icon"
 						Sprite={props.Sprite}
@@ -138,19 +136,11 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 					BorderSizePixel={0}
 					Position={new UDim2(0, 8, 0, 0)}
 					Size={new UDim2(0, 1, 1, -9)}
-					Visible={props.Children.size() > 0 && expandVisible}
 				/>
-				<Div
-					Key="Children"
-					AutomaticSize={Enum.AutomaticSize.Y}
-					AnchorPoint={expandSize.map((size) => new Vector2(0, size))}
-					LayoutOrder={2}
-					Size={new UDim2(1, 0, 0, 0)}
-					Visible={expandVisible}
-				>
-					<uilistlayout SortOrder={Enum.SortOrder.LayoutOrder} />
+				<Div Key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
+					<TopList Padding={new UDim(0, 1)} />
 					<uipadding PaddingLeft={new UDim(0, 13)} />
-					{expandVisible ? props.Children : []}
+					{expanded ? props.Children : []}
 				</Div>
 			</Div>
 		</Div>

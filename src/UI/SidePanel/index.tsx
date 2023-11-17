@@ -7,7 +7,8 @@ import Padding from "UI/Styles/Padding";
 import SearchInput from "./SearchInput";
 import PanelTools from "./PanelTools";
 import StoryTree from "./StoryTree";
-import { useProducer } from "@rbxts/roact-reflex";
+import { useProducer, useSelector } from "@rbxts/roact-reflex";
+import { selectOverlay } from "Reflex/Overlay";
 
 interface SidePanelProps {}
 

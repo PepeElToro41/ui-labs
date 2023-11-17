@@ -7,3 +7,7 @@ export function CreateMiddleware<State, Actions>(middleware: ProducerMiddleware<
 export const forwardDispatch: ReturnType<ProducerMiddleware> = (nextAction, name) => {
 	return (...args) => nextAction(...args);
 };
+
+export function indexDiscriminator(v: any, index: any) {
+	return index;
+}

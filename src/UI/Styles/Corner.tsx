@@ -1,9 +1,9 @@
 import Roact from "@rbxts/roact";
 
 interface CornerProps {
-	Size?: number;
+	Radius?: number;
 }
 
 export = (props: CornerProps) => {
-	return <uicorner CornerRadius={new UDim(0, props.Size ?? 8)} />;
+	return <uicorner CornerRadius={new UDim(0, props.Radius ?? 8)} />;
 };
