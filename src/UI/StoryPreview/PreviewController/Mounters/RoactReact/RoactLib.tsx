@@ -7,6 +7,7 @@ import { InferControls } from "@rbxts/ui-labs/src/Typing";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import type { MounterProps } from "..";
+import { useInputSignals } from "Context/UserInputContext";
 
 function RoactLib(props: MounterProps<"RoactLib">) {
 	const result = props.Result;
@@ -15,11 +16,12 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 	const controls = useControls(returnControls ?? {});
 	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
 
+	const signals = useInputSignals();
 	const { setActionComponent } = useProducer<RootProducer>();
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: "" });
+			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: signals });
 		} else {
 			return result.story;
 		}

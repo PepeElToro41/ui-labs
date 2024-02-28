@@ -7,6 +7,7 @@ import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import { InferControls } from "@rbxts/ui-labs";
+import { useInputSignals } from "Context/UserInputContext";
 
 function ReactLib(props: MounterProps<"ReactLib">) {
 	const result = props.Result;
@@ -15,11 +16,12 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
 	const rendererType = result.renderer ?? "deferred";
 
+	const signals = useInputSignals();
 	const { setActionComponent } = useProducer<RootProducer>();
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: "" });
+			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: signals });
 		} else {
 			return result.story;
 		}
