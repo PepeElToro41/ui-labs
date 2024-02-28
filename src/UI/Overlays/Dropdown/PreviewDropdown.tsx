@@ -29,6 +29,7 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 
 	const OnUnmount = useOverlayAction(() => unmountStory(key), deps);
 	const OnMountOnWidget = useOverlayAction(() => setMountData(key, { OnWidget: true }), deps);
+	const OnMountOnEditor = useOverlayAction(() => setMountData(key, { OnWidget: false }), deps);
 	const OnToggleVisible = useOverlayAction(() => setMountData(key, { Visible: !entry.Visible }), deps);
 	const OnOrderBefore = useOverlayAction(() => shiftOrderBefore(key), deps);
 	const OnOrderAfter = useOverlayAction(() => shiftOrderAfter(key), deps);
@@ -64,7 +65,16 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 	return (
 		<Dropdown Key={"StoryDropdown"} Position={props.Position}>
 			<DropdownEntry Text="Unmount" OnClick={OnUnmount} LayoutOrder={count()} />
-			<DropdownEntry Text="Mount In Widget" Disabled={isRootPreview || !isPlugin} OnClick={OnMountOnWidget} LayoutOrder={count()} />
+			{entry.OnWidget ? (
+				<DropdownEntry
+					Text="Mount In Editor"
+					Disabled={isRootPreview || !isPlugin}
+					OnClick={OnMountOnEditor}
+					LayoutOrder={count()}
+				/>
+			) : (
+				<DropdownEntry Text="Mount In Widget" OnClick={OnMountOnWidget} LayoutOrder={count()} />
+			)}
 			<DropdownEntry Text={entry.Visible ? "Hide" : "Un-hide"} OnClick={OnToggleVisible} LayoutOrder={count()} />
 			<Divisor Order={count()} />
 			<DropdownEntry Text="Reload" OnClick={OnReload} LayoutOrder={count()} />
