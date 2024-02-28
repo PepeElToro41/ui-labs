@@ -1,39 +1,31 @@
-import Roact from "@rbxts/roact";
-import { useMemo, useRef, withHooks } from "@rbxts/roact-hooked";
-import { useSelector } from "@rbxts/roact-reflex";
+import Roact, { useMemo } from "@rbxts/roact";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 import { Div } from "UI/Styles/Div";
 import PreviewController from "./PreviewController";
+import { useActionsData, useActionsHeight, useActionsPinned } from "Context/StoryPanelContext";
 
 interface PreviewControlProps {}
 
-function setProps(props: PreviewControlProps) {
-	return props as Required<PreviewControlProps>;
-}
-
-function PreviewControlCreate(setprops: PreviewControlProps) {
-	const props = setProps(setprops as Required<PreviewControlProps>);
+function PreviewControl(props: PreviewControlProps) {
 	const previews = useSelector(selectStoryPreviews);
-	const storiesFrame = useRef<Frame>();
+	const [pinned, height] = useActionsData();
 
 	const controllers = useMemo(() => {
 		const children: Roact.Children = new Map();
-		const frame = storiesFrame.getValue();
-		if (!frame) return children;
 
-		previews.forEach((entry, uid) => {
-			children.set(uid, <PreviewController PreviewEntry={entry} StoriesFrame={frame} />);
+		previews.forEach((entry) => {
+			children.set(entry.UID, <PreviewController PreviewEntry={entry} />);
 		});
 
 		return children;
-	}, [previews, storiesFrame]);
+	}, [previews]);
 
 	return (
-		<Div Key={"Stories"} Size={new UDim2(1, 0, 1, -31)} Ref={storiesFrame}>
+		<Div Key={"Stories"} Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}>
 			{controllers}
 		</Div>
 	);
 }
-const PreviewControl = withHooks(PreviewControlCreate);
 
-export = PreviewControl;
+export default PreviewControl;

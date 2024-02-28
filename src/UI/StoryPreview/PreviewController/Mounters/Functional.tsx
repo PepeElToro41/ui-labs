@@ -1,26 +1,24 @@
-import Roact from "@rbxts/roact";
-import { useEffect, withHooks } from "@rbxts/roact-hooked";
-import { FunctionalStory } from "@rbxts/ui-labs";
+import Roact, { useRef, useState } from "@rbxts/roact";
+import { useEffect } from "@rbxts/roact";
+import { FunctionStory } from "@rbxts/ui-labs";
+import { MounterProps } from ".";
 
-interface FunctionalProps {
-	Result: FunctionalStory;
-	MountFrame: Frame;
-}
+function Functional(props: MounterProps<"Functional">) {
+	const unmounter = useRef<() => void>();
 
-function setProps(props: FunctionalProps) {
-	return props as Required<FunctionalProps>;
-}
-
-function FunctionalCreate(setprops: FunctionalProps) {
-	const props = setProps(setprops as Required<FunctionalProps>);
 	useEffect(() => {
-		const unmounter = props.Result(props.MountFrame);
+		Promise.try(() => props.Result(props.MountFrame))
+			.then((cleanup) => {
+				unmounter.current = cleanup;
+			})
+			.catch((err) => warn("UI-Labs: Function story errored when mounting: ", err));
 		return () => {
-			unmounter();
+			if (unmounter.current) {
+				unmounter.current();
+			}
 		};
-	});
-	return undefined;
+	}, []);
+	return <></>;
 }
-const Functional = withHooks(FunctionalCreate);
 
-export = Functional;
+export default Functional;

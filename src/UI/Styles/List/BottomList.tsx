@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 
 interface BottomListProps extends JSX.IntrinsicElement<UIListLayout> {}
 
-export = (props: BottomListProps) => {
+export default (props: BottomListProps) => {
 	return (
 		<uilistlayout
 			Key={"BottomList"}

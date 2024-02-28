@@ -1,11 +1,12 @@
-import { useCallback } from "@rbxts/roact-hooked";
-import { useProducer } from "@rbxts/roact-reflex";
+import { useProducer } from "@rbxts/react-reflex";
+import { useCallback } from "@rbxts/roact";
 
-export function useOverlayAction<T extends (...args: unknown[]) => unknown>(callback: T, deps: unknown[]): T {
+//useOverlayAction runs your callback, and also closes the current overlay when running it
+export function useOverlayAction<T extends (...args: any[]) => any>(callback: T, deps: any[]): T {
 	const { resetOverlay } = useProducer<RootProducer>();
 
 	return useCallback((...args: Parameters<T>) => {
 		resetOverlay();
-		return callback(...args);
+		return callback(...(args as unknown[]));
 	}, deps) as T;
 }

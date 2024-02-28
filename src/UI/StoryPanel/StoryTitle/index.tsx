@@ -1,6 +1,5 @@
-import Roact from "@rbxts/roact";
-import { useMemo, withHooks } from "@rbxts/roact-hooked";
-import { useSelector } from "@rbxts/roact-reflex";
+import Roact, { useMemo } from "@rbxts/roact";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
@@ -11,7 +10,7 @@ import Divisor from "UI/Utils/Divisor";
 
 interface StoryTitleProps {}
 
-function StoryTitleCreate(props: StoryTitleProps) {
+function StoryTitle(props: StoryTitleProps) {
 	const mounts = useSelector(selectStoryPreviews);
 	const theme = useTheme();
 
@@ -25,7 +24,7 @@ function StoryTitleCreate(props: StoryTitleProps) {
 	}, [mounts]);
 
 	return (
-		<frame Key={"Title"} Size={new UDim2(1, 0, 0, 31)} ZIndex={3} BackgroundColor3={theme.StoryTitle.Color} BorderSizePixel={0}>
+		<frame Key={"Title"} Size={new UDim2(1, 0, 0, 31)} ZIndex={3} BackgroundColor3={theme.StoryPreview.Background} BorderSizePixel={0}>
 			<Divisor
 				Direction="X"
 				Anchor={0}
@@ -52,6 +51,5 @@ function StoryTitleCreate(props: StoryTitleProps) {
 		</frame>
 	);
 }
-const StoryTitle = withHooks(StoryTitleCreate);
 
-export = StoryTitle;
+export default StoryTitle;

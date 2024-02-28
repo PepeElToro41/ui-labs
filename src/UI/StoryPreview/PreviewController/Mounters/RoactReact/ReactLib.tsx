@@ -1,19 +1,80 @@
-import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
+import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import type { MounterProps } from "..";
+import { ParametrizeControls, useControls } from "./Utils";
+import { useProducer } from "@rbxts/react-reflex";
+import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
+import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
+import { InferControls } from "@rbxts/ui-labs";
 
-interface ReactLibProps {
-	Result: MountResults["ReactLib"];
-	MountFrame: Frame;
+function ReactLib(props: MounterProps<"ReactLib">) {
+	const result = props.Result;
+	const returnControls = result.controls as ReturnControls;
+	const controls = useControls(returnControls ?? {});
+	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
+	const rendererType = result.renderer ?? "deferred";
+
+	const { setActionComponent } = useProducer<RootProducer>();
+
+	const RenderComponent = useCallback(() => {
+		if (typeIs(result.story, "function")) {
+			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: "" });
+		} else {
+			return result.story;
+		}
+	}, [controlValues, result]);
+
+	const root = useMemo(() => {
+		if (rendererType === "deferred") {
+			return result.reactRoblox.createRoot(props.MountFrame);
+		} else if (rendererType === "legacy") {
+			if (result.reactRoblox["createLegacyRoot"] === undefined) {
+				warn('UI-Labs: Legacy renderer requires the function "createLegacyRoot" inside React-Roblox');
+				return result.reactRoblox.createRoot(props.MountFrame);
+			}
+			return result.reactRoblox.createLegacyRoot(props.MountFrame);
+		} else {
+			warn(`UI-Labs: Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`);
+		}
+	}, []);
+
+	useEffect(() => {
+		const component = RenderComponent();
+		if (root !== undefined) {
+			root.render(component);
+		}
+	}, []);
+	useUnmountEffect(() => {
+		if (root !== undefined) {
+			root.unmount();
+		}
+	});
+
+	useUpdateEffect(() => {
+		const component = RenderComponent();
+		if (root !== undefined) {
+			root.render(component);
+		}
+	}, [controlValues, result]);
+
+	useEffect(() => {
+		if (props.Result.summary !== undefined) {
+			setActionComponent(props.Entry.Key, "SummaryTab", {
+				DisplayName: "Summary",
+				Render: <Summary SummaryText={props.Result.summary}></Summary>,
+			});
+		}
+		if (returnControls !== undefined) {
+			setActionComponent(props.Entry.Key, "ControlsTab", {
+				DisplayName: "Controls",
+				Render: <Controls Controls={controls} ControlValues={controlValues} SetControlValues={setControlValues} />,
+				Order: 2,
+			});
+		}
+	}, [result, controlValues]);
+
+	return <></>;
 }
 
-function setProps(props: ReactLibProps) {
-	return props as Required<ReactLibProps>;
-}
-
-function ReactLibCreate(setprops: ReactLibProps) {
-	const props = setProps(setprops as Required<ReactLibProps>);
-	return undefined;
-}
-const ReactLib = withHooks(ReactLibCreate);
-
-export = ReactLib;
+export default ReactLib;

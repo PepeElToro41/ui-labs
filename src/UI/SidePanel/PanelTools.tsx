@@ -1,7 +1,6 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 import { Div } from "UI/Styles/Div";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
 import Divisor from "UI/Utils/Divisor";
 
 interface PanelToolsProps {}
@@ -11,8 +10,8 @@ function setProps(props: PanelToolsProps) {
 }
 
 //This one should hold the buttons for the explorer tools, but there's none yet
-function PanelToolsCreate(setprops: PanelToolsProps) {
-	const props = setProps(setprops as Required<PanelToolsProps>);
+function PanelTools(setprops: PanelToolsProps) {
+	const props = setProps(setprops);
 	return (
 		<Div
 			Key={"PanelTools"}
@@ -26,6 +25,5 @@ function PanelToolsCreate(setprops: PanelToolsProps) {
 		</Div>
 	);
 }
-const PanelTools = withHooks(PanelToolsCreate);
 
-export = PanelTools;
+export default PanelTools;

@@ -1,8 +1,6 @@
 import Roact from "@rbxts/roact";
 
-interface DetectorProps extends JSX.IntrinsicElement<TextButton> {
-	Key?: string;
-}
+interface DetectorProps extends JSX.IntrinsicElement<TextButton> {}
 
 export function Detector(props: DetectorProps) {
 	return (

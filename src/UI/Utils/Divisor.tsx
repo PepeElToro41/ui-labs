@@ -1,17 +1,18 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface DivisorProps {
-	Direction?: "X" | "Y";
 	Position?: UDim2;
 	Anchor?: number;
 	Size?: UDim;
-	Thickness?: number;
-	Color?: Color3;
-	Transparency?: number;
 	Order?: number;
 	ZIndex?: number;
+
+	Color?: Color3;
+	Transparency?: number;
+
+	Direction?: "X" | "Y";
+	Thickness?: number;
 	Visible?: boolean;
 }
 
@@ -23,7 +24,7 @@ function setProps(props: DivisorProps) {
 	return props as Required<DivisorProps>;
 }
 
-function DivisorCreate(setprops: DivisorProps) {
+function Divisor(setprops: DivisorProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
@@ -46,6 +47,4 @@ function DivisorCreate(setprops: DivisorProps) {
 	);
 }
 
-const Divisor = withHooks(DivisorCreate);
-
-export = Divisor;
+export default Divisor;

@@ -1,4 +1,4 @@
-type NodeMap = Map<ModuleScript, StoryNode>;
+type NodeMap = Map<ModuleScript, StoryNode>; //I need a way to find nodes quickly by having the modulescript
 
 interface StoryNode {
 	Type: "Story";
@@ -37,4 +37,4 @@ type DefinedNode = StoryNode | FolderNode | StorybookNode; //whatever has a name
 type RootNodes = {
 	storybooks: StorybookNode[];
 	unknown: UnknownNode[];
-}; //what is at the root of the explorer
+}; //Explorer Entry point

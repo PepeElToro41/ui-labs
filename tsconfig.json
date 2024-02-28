@@ -16,7 +16,7 @@
       "strict": true,
       "target": "ESNext",
       "typeRoots": [
-         "node_modules/@rbxts"
+         "node_modules/@rbxts",
       ],
       "types": [
          "types/plugin",

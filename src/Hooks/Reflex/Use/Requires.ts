@@ -1,4 +1,4 @@
-import { useSelector } from "@rbxts/roact-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectStorybooks } from "Reflex/ModuleRequire/Storybook";
 
 export function useStorybooks() {

@@ -1,8 +1,8 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
-import { useSelector } from "@rbxts/roact-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectOverlay } from "Reflex/Overlay";
 import { Div } from "UI/Styles/Div";
+import DescriptionDisplay from "./DescriptionDisplay";
 
 interface OverlayControlProps {}
 
@@ -10,16 +10,16 @@ function setProps(props: OverlayControlProps) {
 	return props as Required<OverlayControlProps>;
 }
 
-function OverlayControlCreate(setprops: OverlayControlProps) {
-	const props = setProps(setprops as Required<OverlayControlProps>);
+function OverlayControl(setprops: OverlayControlProps) {
+	const props = setProps(setprops);
 	const overlay = useSelector(selectOverlay);
 
 	return (
-		<Div Key="Overlay" ZIndex={4}>
+		<Div Key="Overlays" ZIndex={4}>
+			<DescriptionDisplay Key={"DescriptionDisplay"} />
 			{overlay ? overlay.Element : undefined}
 		</Div>
 	);
 }
-const OverlayControl = withHooks(OverlayControlCreate);
 
-export = OverlayControl;
+export default OverlayControl;

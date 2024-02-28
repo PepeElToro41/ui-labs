@@ -1,16 +1,16 @@
 {
-	"name": "roblox-ts-plugin-serve",
-	"globIgnorePaths": [
-		"**/package.json",
-		"**/tsconfig.json"
-	],
-	"tree": {
-		"$className": "DataModel",
-		"ServerScriptService": {
-			"$className": "ServerScriptService",
-			"UILABS": {
-				"$path": "./default.project.json"
-			}
-		}
-	}
+   "name": "ui-labs",
+   "globIgnorePaths": [
+      "**/package.json",
+      "**/tsconfig.json"
+   ],
+   "tree": {
+      "$className": "DataModel",
+      "ServerScriptService": {
+         "$className": "ServerScriptService",
+         "UILABS": {
+            "$path": "./default.project.json"
+         }
+      }
+   }
 }

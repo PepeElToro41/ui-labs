@@ -1,12 +1,11 @@
-import Roact from "@rbxts/roact";
-import { useCallback, useEffect, withHooks } from "@rbxts/roact-hooked";
+import Roact, { useCallback, useEffect } from "@rbxts/roact";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
 
 interface DropdownEntryProps {
 	LayoutOrder?: number;
@@ -19,8 +18,8 @@ function setProps(props: DropdownEntryProps) {
 	return props as Required<DropdownEntryProps>;
 }
 
-function DropdownEntryCreate(setprops: DropdownEntryProps) {
-	const props = setProps(setprops as Required<DropdownEntryProps>);
+function DropdownEntry(setprops: DropdownEntryProps) {
+	const props = setProps(setprops);
 	const [hovered, hoverApi] = useToggler(false);
 	const theme = useTheme();
 
@@ -71,6 +70,5 @@ function DropdownEntryCreate(setprops: DropdownEntryProps) {
 		</frame>
 	);
 }
-const DropdownEntry = withHooks(DropdownEntryCreate);
 
-export = DropdownEntry;
+export default DropdownEntry;

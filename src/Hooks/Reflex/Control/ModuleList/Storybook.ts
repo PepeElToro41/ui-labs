@@ -1,11 +1,11 @@
 import Configs from "Plugin/Configs";
-import { instanceSearch } from "./InstanceSearch";
+import { useInstanceSearch } from "./InstanceSearch";
 import { ExtensionPredicator } from "./Utils";
-import { useEffect } from "@rbxts/roact-hooked";
-import { useProducer } from "@rbxts/roact-reflex";
+import { useProducer } from "@rbxts/react-reflex";
+import { useEffect } from "@rbxts/roact";
 
 export function controlStorybookList() {
-	const [storybookList, recompute] = instanceSearch("ModuleScript", ExtensionPredicator(Configs.Extensions.Storybook));
+	const [storybookList, recompute] = useInstanceSearch("ModuleScript", ExtensionPredicator(Configs.Extensions.Storybook));
 
 	const { setStorybookList } = useProducer<RootProducer>();
 

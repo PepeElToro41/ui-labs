@@ -33,7 +33,8 @@ export function FilterChildren(children: ChildrenNode[], filter: string) {
 				Children: filteredChildren,
 			});
 		} else {
-			if (child.Name.lower().match(filter.lower())[0] === undefined) return;
+			const match = child.Name.lower().match(filter.lower())[0];
+			if (match === undefined) return;
 			filtered.push(child);
 		}
 	});

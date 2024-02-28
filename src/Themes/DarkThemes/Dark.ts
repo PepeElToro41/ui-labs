@@ -1,13 +1,21 @@
-import { DarkColors } from ".";
+const Palette = {
+	Green: Color3.fromRGB(48, 222, 156),
+	Blue: Color3.fromRGB(39, 141, 209),
+};
 
 const Dark = {
 	PureColor: {
 		Color: Color3.fromRGB(36, 36, 36),
 		Inverse: new Color3(1, 1, 1),
 	},
-	Text: DarkColors.Text,
+	Text: {
+		Color: Color3.fromRGB(255, 255, 255),
+		Disabled: Color3.fromRGB(150, 150, 150),
+		Inverted: Color3.fromRGB(38, 38, 38),
+	},
 	Icon: {
 		Color: Color3.fromRGB(255, 255, 255),
+		Active: Palette.Blue,
 		Disabled: Color3.fromRGB(102, 102, 102),
 	},
 	Divisor: {
@@ -21,8 +29,6 @@ const Dark = {
 	Search: {
 		Color: Color3.fromRGB(49, 49, 53),
 		Placeholder: Color3.fromRGB(161, 161, 161),
-		Stroke: Color3.fromRGB(150, 150, 150),
-		StrokeTransparency: 0.3,
 	},
 	SidePanel: Color3.fromRGB(24, 24, 24),
 	StoryPanel: {
@@ -36,17 +42,11 @@ const Dark = {
 		TabHover: Color3.fromRGB(56, 56, 56),
 	},
 	StoryPreview: {
+		Background: Color3.fromRGB(39, 39, 39),
 		Color: Color3.fromRGB(24, 24, 24),
-		Selected: Color3.fromRGB(39, 141, 209),
+		Selected: Palette.Blue,
 		TextSelected: Color3.fromRGB(27, 37, 48),
-	},
-	StoryTitle: {
-		Color: Color3.fromRGB(39, 39, 39),
-		Path: {
-			Underline: Color3.fromRGB(120, 190, 120),
-			PathText: Color3.fromRGB(120, 190, 120),
-			ButtonColor: Color3.fromRGB(89, 89, 99),
-		},
+		CloseButton: Color3.fromRGB(255, 255, 255),
 	},
 	Nodes: {
 		Normal: {
@@ -75,7 +75,22 @@ const Dark = {
 			},
 		},
 	},
-	Dropdown: DarkColors.Dropdown,
+	Dropdown: {
+		Color: Color3.fromRGB(38, 38, 38),
+		TextHover: Color3.fromRGB(255, 255, 255),
+	},
+	Controls: {
+		Boolean: {
+			SwitchOn: Palette.Green,
+			SwitchOff: Color3.fromRGB(56, 56, 56),
+			SwitchBackOn: Color3.fromRGB(255, 255, 255),
+			SwitchBackOff: Color3.fromRGB(255, 255, 255),
+		},
+		List: {
+			Frame: Color3.fromRGB(23, 28, 33),
+			FrameHovered: Color3.fromRGB(23, 28, 33),
+		},
+	},
 };
 
-export = Dark;
+export default Dark;

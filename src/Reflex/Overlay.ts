@@ -5,9 +5,15 @@ interface OverlayEntry {
 	Key: string;
 	Element: Roact.Element;
 }
+interface HintEntry {
+	Id: string;
+	Description: string;
+	Holder?: Frame;
+}
 
 interface OverlayState {
 	overlay?: OverlayEntry;
+	hint?: HintEntry;
 }
 
 const initialState: OverlayState = {

@@ -1,5 +1,4 @@
-import Roact from "@rbxts/roact";
-import { useMemo, withHooks } from "@rbxts/roact-hooked";
+import Roact, { useMemo } from "@rbxts/roact";
 import ChildrenHolder from ".";
 import Story from "../Story";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -13,8 +12,8 @@ function setProps(props: FolderProps) {
 	return props as Required<FolderProps>;
 }
 
-function FolderCreate(setprops: FolderProps) {
-	const props = setProps(setprops as Required<FolderProps>);
+function Folder(setprops: FolderProps) {
+	const props = setProps(setprops);
 	const theme = useTheme();
 
 	const children = useMemo(() => {
@@ -37,6 +36,5 @@ function FolderCreate(setprops: FolderProps) {
 		></ChildrenHolder>
 	);
 }
-const Folder = withHooks(FolderCreate);
 
-export = Folder;
+export default Folder;

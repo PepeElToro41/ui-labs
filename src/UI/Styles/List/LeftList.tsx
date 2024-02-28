@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 
 interface LeftListProps extends JSX.IntrinsicElement<UIListLayout> {}
 
-export = (props: LeftListProps) => {
+export default (props: LeftListProps) => {
 	return (
 		<uilistlayout
 			Key={"LeftList"}

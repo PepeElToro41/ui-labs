@@ -6,7 +6,8 @@ interface ThemeState {
 	themeIndex: ThemeName;
 }
 
-const initialTheme: ThemeName = "Dark";
+const initialTheme: ThemeName = "Default";
+
 const initialState: ThemeState = {
 	theme: Themes[initialTheme],
 	themeIndex: initialTheme,

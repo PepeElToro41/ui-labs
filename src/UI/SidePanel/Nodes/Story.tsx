@@ -1,6 +1,5 @@
-import Roact from "@rbxts/roact";
-import { useCallback, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
-import { useProducer, useSelector } from "@rbxts/roact-reflex";
+import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
@@ -8,16 +7,15 @@ import { Div } from "UI/Styles/Div";
 import Corner from "UI/Styles/Corner";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
 import { useToggler } from "Hooks/Utils/Toggler";
 import StoryDropdown from "UI/Overlays/Dropdown/StoryDropdown";
-import { UserInputService } from "@rbxts/services";
-import { usePosition } from "Hooks/Utils/ContainerPos";
-import { useMousePos } from "Hooks/Context/UserInput";
+import { usePosition } from "Hooks/Utils/AppHolder";
+import { useMouseOffset, useMousePos } from "Hooks/Context/UserInput";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
-import { selectMountAmount, selectPreview, selectStoryMount } from "Reflex/StoryPreview/StoryMount";
-import { RootUID } from "Plugin/Configs";
+import { selectMountAmount, selectPreview } from "Reflex/StoryPreview/StoryMount";
+import Configs from "Plugin/Configs";
 
 interface StoryProps {
 	Node: StoryNode;
@@ -33,16 +31,20 @@ function setProps(props: StoryProps) {
 	return props as Required<StoryProps>;
 }
 
-function StoryCreate(setprops: StoryProps) {
-	const props = setProps(setprops as Required<StoryProps>);
+function Story(setprops: StoryProps) {
+	const props = setProps(setprops);
+
 	const [hovered, hoverApi] = useToggler(false);
-	const { toggleMount, setOverlay } = useProducer<RootProducer>();
 	const [transparency, tweenTransparency, setTransparency] = useTween(TRANSPARENCY_INFO, 1);
-	const mousePosition = useMousePos();
-	const getPosition = usePosition();
+
+	const { toggleMount, setOverlay } = useProducer<RootProducer>();
+	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
+	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
+
+	const theme = useTheme();
+	const mouseOffset = useMouseOffset();
 	const isBlocked = useIsOverlayBlocked();
-	const rootStory = useSelector(selectPreview(RootUID));
-	const mountAmount = useSelector(selectMountAmount(props.Node.Module));
+
 	const selected = rootStory ? rootStory.Module === props.Node.Module : false;
 
 	useEffect(() => {
@@ -61,10 +63,9 @@ function StoryCreate(setprops: StoryProps) {
 
 	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module), [props.Node]);
 	const OnStoryDropdown = useCallback(() => {
-		const mousePos = getPosition(mousePosition.getValue());
-		setOverlay("StoryDropdown", <StoryDropdown Position={UDim2.fromOffset(mousePos.X, mousePos.Y)} Node={props.Node} />);
-	}, [getPosition, props.Node]);
-	const theme = useTheme();
+		const offset = mouseOffset.getValue();
+		setOverlay("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />);
+	}, [mouseOffset, props.Node]);
 
 	const textColor = selected
 		? theme.Nodes.StorySelected.Text[props.Unknown ? "Disabled" : "Color"]
@@ -73,6 +74,7 @@ function StoryCreate(setprops: StoryProps) {
 	return (
 		<frame
 			Key={props.Node.Name}
+			LayoutOrder={props.Order}
 			BackgroundColor3={theme.Nodes[selected ? "StorySelected" : "Normal"][props.Unknown ? "Disabled" : "Color"]}
 			BackgroundTransparency={transparency}
 			Size={new UDim2(1, 0, 0, 25)}
@@ -127,6 +129,5 @@ function StoryCreate(setprops: StoryProps) {
 		</frame>
 	);
 }
-const Story = withHooks(StoryCreate);
 
-export = Story;
+export default Story;

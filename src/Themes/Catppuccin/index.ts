@@ -1,26 +1,26 @@
 import { Frappe, Latte, Macchiato, Mocha } from "@rbxts/catppuccin";
 import { Darken } from "@rbxts/colour-utils";
-import { Divisor } from "Themes/DarkThemes/Dark";
 
 type CatppuchinePalette = typeof Frappe;
 
 function CatppuchineTheme(palette: CatppuchinePalette) {
-	const ReturnTheme: Theme = {
+	const theme: Theme = {
 		PureColor: {
 			Color: new Color3(1, 1, 1),
 			Inverse: palette.Base,
 		},
 		Text: {
 			Color: palette.Text,
-			Disabled: palette.Subtext0,
+			Disabled: palette.Overlay0,
 			Inverted: palette.Crust,
 		},
 		Icon: {
 			Color: palette.Text,
+			Active: palette.Sapphire,
 			Disabled: palette.Subtext0,
 		},
 		Divisor: {
-			Color: palette.Subtext0,
+			Color: palette.Subtext1,
 			Transparency: 0.7,
 		},
 		Topbar: {
@@ -29,9 +29,7 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 		},
 		Search: {
 			Color: palette.Surface0,
-			Placeholder: palette.Subtext0,
-			Stroke: palette.Text,
-			StrokeTransparency: 0.3,
+			Placeholder: palette.Overlay2,
 		},
 		SidePanel: palette.Mantle,
 		StoryPanel: {
@@ -40,26 +38,20 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 			PatternTransparency: 0.95,
 		},
 		ActionsPanel: {
-			Color: palette.Crust,
-			TabsBackground: palette.Base,
-			TabHover: palette.Surface0,
+			Color: palette.Base,
+			TabsBackground: palette.Crust,
+			TabHover: palette.Mantle,
 		},
 		StoryPreview: {
-			Color: Color3.fromRGB(31, 41, 64),
+			Background: palette.Base,
+			Color: palette.Surface1,
 			Selected: palette.Sapphire,
 			TextSelected: palette.Crust,
-		},
-		StoryTitle: {
-			Color: Color3.fromRGB(39, 39, 39),
-			Path: {
-				Underline: Color3.fromRGB(120, 190, 120),
-				PathText: Color3.fromRGB(120, 190, 120),
-				ButtonColor: Color3.fromRGB(89, 89, 99),
-			},
+			CloseButton: palette.Red,
 		},
 		Nodes: {
 			Normal: {
-				Color: Color3.fromRGB(82, 82, 92),
+				Color: palette.Surface0,
 				Disabled: Color3.fromRGB(54, 54, 59),
 				StoryIcon: {
 					Color: palette.Sapphire,
@@ -79,17 +71,29 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 					Disabled: palette.Base,
 				},
 				Text: {
-					Color: palette.Crust,
-					Disabled: palette.Base,
+					Color: palette.Base,
+					Disabled: palette.Surface1,
 				},
 			},
 		},
 		Dropdown: {
 			Color: palette.Crust,
-			TextHover: palette.Text,
+			TextHover: palette.Base,
+		},
+		Controls: {
+			Boolean: {
+				SwitchBackOn: palette.Surface1,
+				SwitchBackOff: palette.Surface1,
+				SwitchOff: palette.Base,
+				SwitchOn: palette.Green,
+			},
+			List: {
+				Frame: palette.Crust,
+				FrameHovered: palette.Surface0,
+			},
 		},
 	};
-	return ReturnTheme;
+	return theme;
 }
 
 export const CatppuchineLatte = CatppuchineTheme(Latte);

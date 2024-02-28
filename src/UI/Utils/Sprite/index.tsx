@@ -11,7 +11,7 @@ function setProps(props: SpriteProps) {
 	return props;
 }
 
-export = (setprops: SpriteProps) => {
+export default (setprops: SpriteProps) => {
 	const props = setProps(setprops);
 	const spriteInfo = Sprites[props.Sprite] as Sprite;
 	return (

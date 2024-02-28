@@ -1,12 +1,13 @@
-import { useEffect } from "@rbxts/roact-hooked";
 import { useStorybookList } from "Hooks/Reflex/Use/Modules";
 import { HotReloader } from "Utils/HotReloader";
 import { CheckBookReturn } from "./Utils";
-import { useProducer, useSelector } from "@rbxts/roact-reflex";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { Dictionary } from "@rbxts/sift";
 import { selectStorybooks } from "Reflex/ModuleRequire/Storybook";
-import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
+import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { useEffect } from "@rbxts/roact";
 
+//Hot-Reloads (requires) all the storybooks
 export function controlStorybooks() {
 	const storybookList = useStorybookList();
 	const storybooks = useSelector(selectStorybooks).storybooks;
@@ -27,15 +28,17 @@ export function controlStorybooks() {
 		const reloaders: HotReloader[] = [];
 		const requirePromises: Promise<unknown>[] = [];
 		const storybooksMap = new Map<ModuleScript, StorybookResult>();
+		const connections: RBXScriptConnection[] = [];
 
 		storybookList.forEach((storybook) => {
-			const [promise, reloader] = HotReloader.require(storybook);
-			reloader.OnReloaded.Connect((newResult) => {
+			const reloadResult = HotReloader.require(storybook);
+			const connection = reloadResult.Reloader.OnReloaded.Connect((newResult) => {
 				UpdateModule(storybook, newResult);
 			});
-			reloaders.push(reloader);
+			connections.push(connection);
+			reloaders.push(reloadResult.Reloader);
 			requirePromises.push(
-				promise.then((reloadResult) => {
+				reloadResult.Result.then((reloadResult) => {
 					if (!reloadResult.Sucess) return;
 					if (!CheckBookReturn(reloadResult.Result)) return;
 					storybooksMap.set(storybook, reloadResult.Result);
@@ -48,12 +51,9 @@ export function controlStorybooks() {
 
 		return () => {
 			setPromise.cancel();
-			requirePromises.forEach((promise) => {
-				promise.cancel();
-			});
-			reloaders.forEach((reloader) => {
-				reloader.Destroy();
-			});
+			connections.forEach((connection) => connection.Disconnect());
+			requirePromises.forEach((promise) => promise.cancel());
+			reloaders.forEach((reloader) => reloader.Destroy());
 		};
 	}, [storybookList]);
 }

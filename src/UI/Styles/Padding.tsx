@@ -18,7 +18,7 @@ function setProps(props: PaddingProps) {
 	return props;
 }
 
-export = (setprops: PaddingProps) => {
+export default (setprops: PaddingProps) => {
 	const props = setProps(setprops);
 	return (
 		<uipadding

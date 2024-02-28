@@ -1,5 +1,5 @@
-import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
-import { useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
+import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { useState, useMemo, useBinding, useCallback } from "@rbxts/roact";
 import { RunService, TweenService } from "@rbxts/services";
 
 type TweeneableArray = [number, CFrame, Color3, UDim2, UDim, Vector2int16, Vector2, Vector3, Rect];
@@ -36,19 +36,17 @@ const tweeners = {
 
 export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Widen<T>, options: TweenOptions = defaultTweenOptions) {
 	const [instance] = useState<NumberValue>(new Instance("NumberValue"));
-	useEffect(() => {
-		return () => {
-			if (instance) {
-				instance.Destroy();
-			}
-		};
-	}, []);
+	useUnmountEffect(() => {
+		if (instance) {
+			instance.Destroy();
+		}
+	});
 
 	const valueType = useMemo(() => typeOf(initialValue), []);
 	const [valueBind, setValueBind] = useBinding(initialValue);
 	const [goal, setGoal] = useState<[Widen<T>, Widen<T>]>([initialValue, initialValue]);
 	useUpdateEffect(() => {
-		let connection: RBXScriptConnection | undefined = (options.bind ?? RunService.Heartbeat).Connect(() => {
+		const connection = (options.bind ?? RunService.Heartbeat).Connect(() => {
 			const currentAlpha = instance.Value;
 			const [startV, endV] = goal;
 			if (!(valueType in tweeners)) return;
@@ -56,11 +54,7 @@ export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Wi
 			const tweenedValue = tweener(currentAlpha, startV as never, endV as never);
 			setValueBind(tweenedValue as Widen<T>);
 		});
-		return () => {
-			if (!connection) return;
-			connection.Disconnect();
-			connection = undefined;
-		};
+		return () => connection.Disconnect();
 	}, [goal]);
 
 	const tween = useCallback(

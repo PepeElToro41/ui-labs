@@ -3,7 +3,6 @@ import { ThemeProducer } from "./Theme";
 import { ExplorerProducer } from "./Explorer";
 import { ModuleListProducer } from "./ModuleList";
 import { ModuleRequireProducer } from "./ModuleRequire";
-import { ActionsProducer } from "./ActionsPanel";
 import { StoryPreviewProducer } from "./StoryPreview";
 import { OverlayProducer } from "./Overlay";
 import { InterfaceProducer } from "./Interface";
@@ -24,10 +23,7 @@ export const RootProducer = combineProducers({
 
 	moduleList: ModuleListProducer,
 	moduleRequire: ModuleRequireProducer,
-	actions: ActionsProducer,
 
 	storyPreview: StoryPreviewProducer,
 	storySelection: StorySelectionProducer,
 });
-
-//RootProducer.applyMiddleware(loggerMiddleware);

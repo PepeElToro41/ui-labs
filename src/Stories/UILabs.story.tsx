@@ -1,21 +1,22 @@
-import { loggerMiddleware } from "@rbxts/reflex";
 import Roact from "@rbxts/roact";
-import { ReflexProvider } from "@rbxts/roact-reflex";
-import { FunctionalStory, WithControls } from "@rbxts/ui-labs";
+import { ReflexProvider } from "@rbxts/react-reflex";
 import { RootProducer } from "Reflex";
 import App from "UI/App";
+import { createLegacyRoot, createRoot } from "@rbxts/react-roblox";
+import { FunctionStory } from "@rbxts/ui-labs";
 
 //I use hoarcekat to visualize UI-Labs because it's weird to visualize the plugin with itself
 
-const story: FunctionalStory = (target) => {
+const story: FunctionStory = (target) => {
 	const component = (
 		<ReflexProvider producer={RootProducer}>
 			<App></App>
 		</ReflexProvider>
 	);
-	const handle = Roact.mount(component, target);
+	const root = createLegacyRoot(target);
+	root.render(component);
 	return () => {
-		Roact.unmount(handle);
+		root.unmount();
 	};
 };
 

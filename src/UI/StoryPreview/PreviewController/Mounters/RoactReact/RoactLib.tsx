@@ -1,19 +1,63 @@
-import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
+import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import { useProducer } from "@rbxts/react-reflex";
+import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
+import { ParametrizeControls, useControls } from "./Utils";
+import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { InferControls } from "@rbxts/ui-labs/src/Typing";
+import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
+import type { MounterProps } from "..";
 
-interface RoactLibProps {
-	Result: MountResults["RoactLib"];
-	MountFrame: Frame;
+function RoactLib(props: MounterProps<"RoactLib">) {
+	const result = props.Result;
+	const returnControls = result.controls as ReturnControls;
+
+	const controls = useControls(returnControls ?? {});
+	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
+
+	const { setActionComponent } = useProducer<RootProducer>();
+
+	const RenderComponent = useCallback(() => {
+		if (typeIs(result.story, "function")) {
+			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: "" });
+		} else {
+			return result.story;
+		}
+	}, [controlValues, props.Result]);
+
+	const handle = useMemo(() => {
+		return result.roact.mount(RenderComponent(), props.MountFrame);
+	}, []);
+
+	useUpdateEffect(() => {
+		const component = RenderComponent();
+		result.roact.update(handle, component);
+	}, [controlValues, result]);
+
+	useEffect(() => {
+		if (props.Result.summary !== undefined) {
+			setActionComponent(props.Entry.Key, "SummaryTab", {
+				DisplayName: "Summary",
+				Render: <Summary SummaryText={props.Result.summary}></Summary>,
+			});
+		}
+		if (returnControls !== undefined) {
+			setActionComponent(props.Entry.Key, "ControlsTab", {
+				DisplayName: "Controls",
+				Render: <Controls Controls={controls} ControlValues={controlValues} SetControlValues={setControlValues} />,
+				Order: 2,
+			});
+		}
+	}, [result, controlValues]);
+
+	useUnmountEffect(() => {
+		result.roact.unmount(handle);
+		if (result.cleanup) {
+			result.cleanup();
+		}
+	});
+
+	return <></>;
 }
 
-function setProps(props: RoactLibProps) {
-	return props as Required<RoactLibProps>;
-}
-
-function RoactLibCreate(setprops: RoactLibProps) {
-	const props = setProps(setprops as Required<RoactLibProps>);
-	return undefined;
-}
-const RoactLib = withHooks(RoactLibCreate);
-
-export = RoactLib;
+export default RoactLib;

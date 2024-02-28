@@ -1,52 +1,64 @@
-import Roact, { mount } from "@rbxts/roact";
-import { useEffect, useMemo, useState, withHooks } from "@rbxts/roact-hooked";
-import { useSelector } from "@rbxts/roact-reflex";
-import { useStoryRequire } from "Hooks/Previewing/StoryRequire";
-import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
-import { selectPreview } from "Reflex/StoryPreview/StoryMount";
-import { HotReloader } from "Utils/HotReloader";
+import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import { useProducer } from "@rbxts/react-reflex";
+import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
 import { CheckStoryReturn, StoryCheck } from "./Utils";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { MountStory } from "./Mount";
 import { useInstance } from "Hooks/Utils/Instance";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
-import { useUnmountEffect } from "@rbxts/pretty-roact-hooks";
+import HolderParenter from "./Holders/HolderParenter";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
-	StoriesFrame: Frame;
 }
 
-function PreviewControllerCreate(props: PreviewControllerProps) {
-	const node = useSelector(selectNodeFromModule(props.PreviewEntry.Module));
-	const result = useStoryRequire(node);
-	const widget = useState<DockWidgetPluginGui>();
+function PreviewController(props: PreviewControllerProps) {
+	const [result, reloader] = useStoryRequire(props.PreviewEntry);
+	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: Roact.Element }>();
+
+	const entry = props.PreviewEntry;
+	const key = props.PreviewEntry.Key;
+
+	const { setMountData } = useProducer<RootProducer>();
 	const plugin = usePlugin();
-	const [renderer, setRenderer] = useState<{ Key: string; Renderer: Roact.Element }>();
-	const mountFrame = useInstance("Frame", props.StoriesFrame, {
-		Name: RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story),
+
+	const mountFrame = useInstance("Frame", undefined, {
+		Name: "StoryHolder",
 		Size: UDim2.fromScale(1, 1),
 		BackgroundTransparency: 1,
 	});
+	useEffect(() => {
+		//Updating the reloader
+		setMountData(key, { HotReloader: reloader });
+	}, [reloader, key]);
+	useEffect(() => {
+		setMountData(key, { Holder: mountFrame });
+	}, [mountFrame, key]);
+	useEffect(() => {
+		mountFrame.Visible = entry.Visible;
+	}, [entry.Visible]);
 
 	useEffect(() => {
-		if (!props.PreviewEntry.OnWidget) return;
-	}, [props.PreviewEntry.OnWidget]);
-	useEffect(() => {
-		if (!result) return;
+		//Mounting story
+		if (result === undefined) return;
 		const check = CheckStoryReturn(result.result);
-		if (!check.Sucess) return warn(check.Error);
+		if (!check.Sucess) return warn("UI-Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
-
-		const gotRenderer = MountStory(check.Type, check.Result, mountFrame);
-		setRenderer({ Key: newproxy(), Renderer: gotRenderer });
+		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);
+		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
 	}, [result]);
+
 	const renderMap: Roact.Children = new Map();
 	if (renderer) renderMap.set(renderer.Key, renderer.Renderer);
 
-	return <>{renderMap}</>;
+	const render = (
+		<Roact.Fragment>
+			<HolderParenter MountFrame={mountFrame} MountType={renderer?.MountType} Entry={entry} />
+			{renderMap}
+		</Roact.Fragment>
+	);
+	return render;
 }
-const PreviewController = withHooks(PreviewControllerCreate);
 
-export = PreviewController;
+export default PreviewController;

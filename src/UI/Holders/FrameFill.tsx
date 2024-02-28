@@ -1,5 +1,4 @@
-import Roact, { PropsWithChildren } from "@rbxts/roact";
-import { useBinding, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import Roact, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/roact";
 import { RunService } from "@rbxts/services";
 import { useConnection } from "Hooks/Utils/Connection";
 
@@ -22,7 +21,7 @@ function setProps(props: FrameFillProps) {
 	return props as Required<FrameFillProps>;
 }
 
-function FrameFillCreate(setprops: FrameFillProps) {
+function FrameFill(setprops: FrameFillProps) {
 	const props = setProps(setprops);
 	const [parent, setParent] = useState<GuiObject | undefined>(undefined);
 	const [size, setSize] = useBinding<UDim2>(props.Size);
@@ -33,7 +32,7 @@ function FrameFillCreate(setprops: FrameFillProps) {
 
 	const calculateSize = () => {
 		if (!parent) return;
-		const frame = frameRef.getValue();
+		const frame = frameRef.current;
 		if (!frame) return;
 		const relativePos = frame.AbsolutePosition.sub(parent.AbsolutePosition);
 		const anchorPos = relativePos.add(frame.AbsoluteSize.mul(props.AnchorPoint));
@@ -46,18 +45,12 @@ function FrameFillCreate(setprops: FrameFillProps) {
 
 		setSize(new UDim2(udimX.Scale, udimX.Offset, udimY.Scale, udimY.Offset));
 	};
-	useConnection(
-		RunService.RenderStepped,
-		() => {
-			calculateSize();
-		},
-		[parent],
-	);
+	useConnection(RunService.RenderStepped, () => calculateSize(), [parent]);
 	useEffect(() => {
-		const parent = frameRef.getValue()?.Parent;
+		const parent = frameRef.current?.Parent;
 		if (!parent || !parent.IsA("GuiObject")) return;
 		setParent(parent);
-	}, [frameRef.getValue()]);
+	}, [frameRef.current]);
 
 	return (
 		<frame
@@ -66,7 +59,7 @@ function FrameFillCreate(setprops: FrameFillProps) {
 			{...(props.FrameProps ?? {})}
 			AnchorPoint={props.AnchorPoint}
 			Size={size}
-			Ref={frameRef}
+			ref={frameRef}
 			Change={{
 				Parent: (frame) => {
 					const frameParent = frame.Parent;
@@ -75,10 +68,9 @@ function FrameFillCreate(setprops: FrameFillProps) {
 				},
 			}}
 		>
-			{props[Roact.Children] ?? {}}
+			{props["children"] ?? {}}
 		</frame>
 	);
 }
-const FrameFill = withHooks(FrameFillCreate);
 
-export = FrameFill;
+export default FrameFill;

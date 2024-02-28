@@ -1,8 +1,7 @@
-import Roact from "@rbxts/roact";
-import { useMemo, withHooks } from "@rbxts/roact-hooked";
+import Roact, { useMemo } from "@rbxts/roact";
 import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
-import { useSelector } from "@rbxts/roact-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { FilterNodes } from "./SearchFilter";
 import Unknown from "../Nodes/ChildrenHolder/Unknown";
 import { selectNodes } from "Reflex/Explorer/Nodes";
@@ -12,26 +11,21 @@ import { selectOverlay } from "Reflex/Overlay";
 
 interface StoryTreeProps {}
 
-function setProps(props: StoryTreeProps) {
-	return props as Required<StoryTreeProps>;
-}
-
-function StoryTreeCreate(setprops: StoryTreeProps) {
-	const props = setProps(setprops as Required<StoryTreeProps>);
-
+function StoryTree(props: StoryTreeProps) {
 	const nodes = useSelector(selectNodes).nodes;
 	const filter = useSelector(selectFilter).search;
 	const overlay = useSelector(selectOverlay);
 	const isBlocked = overlay !== undefined;
 
 	const nodeList = useMemo(() => {
-		const filteredNodes = filter ? FilterNodes(nodes, filter) : nodes;
+		const filteredNodes = filter === undefined ? nodes : FilterNodes(nodes, filter);
 		const elementsList: Roact.Element[] = [];
+		const booksSize = filteredNodes.storybooks.size();
 		filteredNodes.storybooks.forEach((node, index) => {
-			elementsList.push(<Storybook Order={index} Node={node}></Storybook>);
+			elementsList.push(<Storybook Order={index} Node={node} />);
 		});
 		filteredNodes.unknown.forEach((node, index) => {
-			elementsList.push(<Unknown Order={index} Node={node}></Unknown>);
+			elementsList.push(<Unknown Order={booksSize + index} Node={node} />);
 		});
 		return elementsList;
 	}, [nodes, filter]);
@@ -45,10 +39,10 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 				ScrollBarThickness={2}
 				ScrollBarImageTransparency={0.8}
 				Active={true}
+				BorderSizePixel={0}
 				ScrollingEnabled={!isBlocked}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
-				BorderSizePixel={0}
 				Position={UDim2.fromScale(0.5, 0.5)}
 				Size={UDim2.fromScale(1, 1)}
 			>
@@ -58,6 +52,5 @@ function StoryTreeCreate(setprops: StoryTreeProps) {
 		</Detector>
 	);
 }
-const StoryTree = withHooks(StoryTreeCreate);
 
-export = StoryTree;
+export default StoryTree;

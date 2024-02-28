@@ -1,4 +1,4 @@
-import { useEffect } from "@rbxts/roact-hooked";
+import { useEffect } from "@rbxts/roact";
 
 //Types borrowed from LITTENSYS's hooks
 type EventLike<T extends Callback = Callback> = { Connect(callback: T): ConnectionLike };

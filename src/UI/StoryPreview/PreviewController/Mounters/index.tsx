@@ -3,22 +3,17 @@ import Functional from "./Functional";
 import RoactLib from "./RoactReact/RoactLib";
 import ReactLib from "./RoactReact/ReactLib";
 
-type Mounter<T extends MountType> = (result: MountResults[T], target: Frame) => Roact.Element;
+export interface MounterProps<T extends MountType> {
+	Entry: PreviewEntry;
+	Result: MountResults[T];
+	MountFrame: Frame;
+}
 
-function MountFunctional(result: MountResults["Functional"], target: Frame) {
-	return <Functional Result={result} MountFrame={target} />;
-}
-function MountRoact(result: MountResults["RoactLib"], target: Frame) {
-	return <RoactLib Result={result} MountFrame={target} />;
-}
-function MountReact(result: MountResults["ReactLib"], target: Frame) {
-	return <ReactLib Result={result} MountFrame={target} />;
-}
-function MountFusion() {}
+export type Mounter<T extends MountType> = Roact.FunctionComponent<MounterProps<T>>;
 
 const MountingMap: { [K in MountType]: Mounter<K> } = {
-	Functional: MountFunctional,
-	ReactLib: MountReact,
-	RoactLib: MountRoact,
+	Functional: Functional,
+	RoactLib: RoactLib,
+	ReactLib: ReactLib,
 };
-export = MountingMap;
+export default MountingMap;

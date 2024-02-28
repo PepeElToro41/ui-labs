@@ -1,5 +1,6 @@
-import { FunctionalStory } from "@rbxts/ui-labs";
-import { ReturnControls, StoryWithReact, StoryWithRoact, WithControlsBase } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { LibLike } from "@rbxts/ui-labs/src/Libs";
+import { StoryBase, FunctionStory, WithRoact, WithReact, StoryInfo, ReactStory, RoactStory } from "@rbxts/ui-labs/src/Typing";
 
 interface RoactElement {
 	component: defined;
@@ -9,9 +10,9 @@ interface RoactElement {
 
 declare global {
 	interface MountResults {
-		Functional: FunctionalStory;
-		RoactLib: WithControlsBase<ReturnControls> & StoryWithRoact;
-		ReactLib: WithControlsBase<ReturnControls> & StoryWithReact;
+		Functional: FunctionStory;
+		RoactLib: RoactStory<StoryInfo, LibLike.Roact>;
+		ReactLib: ReactStory<StoryInfo, LibLike.React, LibLike.ReactRoblox>;
 	}
 	type MountType = keyof MountResults;
 }
@@ -41,11 +42,11 @@ export function CheckStoryReturn(storyReturn: unknown): StoryCheck {
 
 export function CheckTableStory(storyReturn: object): StoryCheck {
 	if (!("story" in storyReturn)) {
-		return { Sucess: false, Error: "Story table does not contain a story key, this is required to mount the story" };
+		return { Sucess: false, Error: 'Story table does not contain a "story" key, this is required to mount the story' };
 	}
 	//TODO: Check if the libraries are valid
 	const hasRoact = "roact" in storyReturn;
-	const hasReact = "react" in storyReturn && "reactRoblox" in storyReturn;
+	const hasReact = "react" in storyReturn;
 	if (hasRoact) {
 		const check: StoryCheck<"RoactLib"> = { Sucess: true, Type: "RoactLib", Result: storyReturn as MountResults["RoactLib"] };
 		return check;

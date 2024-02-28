@@ -1,11 +1,10 @@
-import Roact from "@rbxts/roact";
-import { useCallback, withHooks } from "@rbxts/roact-hooked";
-import { useProducer, useSelector } from "@rbxts/roact-reflex";
-import { useMousePos } from "Hooks/Context/UserInput";
+import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
+import { useMouseOffset, useMousePos, useRelativeMousePos } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { usePosition } from "Hooks/Utils/ContainerPos";
+import { usePosition } from "Hooks/Utils/AppHolder";
 import { useToggler } from "Hooks/Utils/Toggler";
-import { RootUID } from "Plugin/Configs";
+import Config from "Plugin/Configs";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
 import { selectStorySelected } from "Reflex/StorySelection";
 import PreviewDropdown from "UI/Overlays/Dropdown/PreviewDropdown";
@@ -15,40 +14,53 @@ import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Rounder from "UI/Styles/Rounder";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
+import DescriptiveImage from "./DescriptiveImage";
+import Sprite from "UI/Utils/Sprite";
+import { useDescriptionDisplay } from "Context/DescriptionContext";
+import { Counter } from "Utils/NumberUtils";
 
 interface MountEntryProps {
 	PreviewEntry: PreviewEntry;
 }
 
-function MountEntryCreate(props: MountEntryProps) {
+function MountEntry(props: MountEntryProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [closeHovered, closeHoverApi] = useToggler(false);
+	const count = Counter();
 
-	const node = useSelector(selectNodeFromModule(props.PreviewEntry.Module));
+	const entry = props.PreviewEntry;
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay("MountCloseButton");
+	const node = useSelector(selectNodeFromModule(entry.Module));
 	const selectedEntry = useSelector(selectStorySelected);
 	const { selectStory, setOverlay, unmountStory } = useProducer<RootProducer>();
 
 	const theme = useTheme();
-	const getPosition = usePosition();
-	const mousePosition = useMousePos();
+	const mouseOffset = useMouseOffset();
 
-	const selected = selectedEntry === props.PreviewEntry.UID;
-	const isMain = props.PreviewEntry.UID === RootUID;
+	const selected = selectedEntry === entry.Key;
+	const isMain = entry.Key === Config.RootPreviewKey;
 
 	const OnEntryClicked = useCallback(() => {
-		selectStory(props.PreviewEntry.UID);
-	}, [props.PreviewEntry]);
+		selectStory(entry.Key);
+	}, [entry]);
 
 	const OnEntryClosed = useCallback(() => {
-		unmountStory(props.PreviewEntry.UID);
-	}, [props.PreviewEntry]);
+		unmountStory(entry.Key);
+	}, [entry]);
 
 	const OnEntryDropdown = useCallback(() => {
-		const mousePos = getPosition(mousePosition.getValue());
-		const position = UDim2.fromOffset(mousePos.X, mousePos.Y);
-		setOverlay("PreviewDropdown", <PreviewDropdown Position={position} PreviewEntry={props.PreviewEntry} />);
-	}, [getPosition, props.PreviewEntry]);
+		const offset = mouseOffset.getValue();
+		setOverlay("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />);
+	}, [mouseOffset, entry]);
+
+	useEffect(() => {
+		if (closeHovered) {
+			DisplayDescription("Unmount Story");
+		} else {
+			RemoveDescription();
+		}
+	}, [closeHovered]);
 
 	return (
 		<Detector
@@ -56,6 +68,7 @@ function MountEntryCreate(props: MountEntryProps) {
 			AutomaticSize={Enum.AutomaticSize.X}
 			BackgroundColor3={selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color}
 			BackgroundTransparency={0}
+			LayoutOrder={entry.Order}
 			BorderSizePixel={0}
 			Size={UDim2.fromScale(0, 1)}
 			Event={{
@@ -66,53 +79,100 @@ function MountEntryCreate(props: MountEntryProps) {
 			}}
 		>
 			<Corner Radius={6} />
-			<Padding PaddingX={8} />
-			<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 7)} />
 			<uistroke
 				ApplyStrokeMode={Enum.ApplyStrokeMode.Border}
 				Color={Color3.fromRGB(180, 180, 180)}
 				Transparency={hovered ? 0.5 : 1}
 			/>
-			<Text
-				Key={"TextLabel"}
-				Text={(isMain ? "• " : "") + (node ? node.Name : "---")}
-				TextSize={14}
-				TextColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
-				TextXAlignment={Enum.TextXAlignment.Left}
-				AutomaticSize={Enum.AutomaticSize.X}
-				Size={UDim2.fromScale(0, 1)}
-			/>
 			<frame
-				Key={"CloseFrame"}
-				LayoutOrder={2}
-				Size={UDim2.fromOffset(16, 16)}
-				BackgroundTransparency={closeHovered ? 0 : 1}
-				BackgroundColor3={Color3.fromRGB(184, 71, 71)}
+				Key={"HiddenCover"}
+				ZIndex={5}
+				Size={UDim2.fromScale(1, 1)}
+				BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+				BackgroundTransparency={0.8}
+				Visible={!entry.Visible}
+				Active={false}
 			>
-				<Rounder />
-				<imagelabel
-					Key={"CloseIcon"}
-					Image={"rbxassetid://14105481154"}
-					ImageRectOffset={new Vector2(192, 192)}
-					ImageRectSize={new Vector2(64, 64)}
-					ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
-					ScaleType={Enum.ScaleType.Fit}
-					BackgroundTransparency={1}
-					Position={UDim2.fromScale(0.5, 0.5)}
-					AnchorPoint={new Vector2(0.5, 0.5)}
-					Size={UDim2.fromScale(0.85, 0.85)}
-				/>
-				<Detector
-					Event={{
-						MouseEnter: closeHoverApi.enable,
-						MouseLeave: closeHoverApi.disable,
-						MouseButton1Click: OnEntryClosed,
-					}}
-				/>
+				<Corner Radius={6} />
 			</frame>
+			<Div Key={"Holder"}>
+				<Padding PaddingX={8} />
+				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
+				<Text
+					Key={"TextLabel"}
+					Text={(isMain ? "• " : "") + (node ? node.Name : "---")}
+					TextSize={14}
+					LayoutOrder={count()}
+					TextColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+					TextXAlignment={Enum.TextXAlignment.Left}
+					AutomaticSize={Enum.AutomaticSize.X}
+					Size={UDim2.fromScale(0, 1)}
+				>
+					<Padding Right={3} />
+				</Text>
+				{entry.OnWidget && (
+					<Div key={"OnWidget"} Size={UDim2.fromOffset(12, 12)} LayoutOrder={count()}>
+						<DescriptiveImage
+							ImageName="WidgetIcon"
+							Description={"In Widget"}
+							Image={"rbxassetid://16442161953"}
+							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+							ScaleType={Enum.ScaleType.Fit}
+							BackgroundTransparency={1}
+							ImageTransparency={0.4}
+							Position={UDim2.fromScale(0.5, 0.5)}
+							AnchorPoint={new Vector2(0.5, 0.5)}
+							Size={UDim2.fromOffset(15, 15)}
+						/>
+					</Div>
+				)}
+				{!entry.Visible && (
+					<Div key={"Hidden"} Size={UDim2.fromOffset(14, 14)} LayoutOrder={count()}>
+						<DescriptiveImage
+							ImageName="HiddenIcon"
+							Description={"Hidden"}
+							Image={"rbxassetid://16158493311"}
+							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+							ScaleType={Enum.ScaleType.Fit}
+							BackgroundTransparency={1}
+							ImageTransparency={0.3}
+							Position={UDim2.fromScale(0.5, 0.5)}
+							AnchorPoint={new Vector2(0.5, 0.5)}
+							Size={UDim2.fromOffset(14, 14)}
+						/>
+					</Div>
+				)}
+
+				<frame
+					Key={"CloseFrame"}
+					LayoutOrder={count()}
+					Size={UDim2.fromOffset(17, 17)}
+					BackgroundTransparency={closeHovered ? (selected ? 0.4 : 0.65) : 1}
+					BackgroundColor3={theme.StoryPreview.CloseButton}
+				>
+					<Corner Radius={6} />
+					<Sprite
+						Key={"CloseIcon"}
+						Sprite="Close"
+						ImageProps={{
+							ImageColor3: selected ? theme.StoryPreview.TextSelected : theme.Text.Color,
+							ScaleType: Enum.ScaleType.Fit,
+							Position: UDim2.fromScale(0.5, 0.5),
+							AnchorPoint: new Vector2(0.5, 0.5),
+							Size: UDim2.fromOffset(13, 13),
+						}}
+					/>
+					<Detector
+						Event={{
+							MouseEnter: closeHoverApi.enable,
+							MouseLeave: closeHoverApi.disable,
+							MouseButton1Click: OnEntryClosed,
+						}}
+					/>
+				</frame>
+			</Div>
 		</Detector>
 	);
 }
-const MountEntry = withHooks(MountEntryCreate);
 
-export = MountEntry;
+export default MountEntry;

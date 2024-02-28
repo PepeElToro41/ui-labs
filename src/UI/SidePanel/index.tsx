@@ -1,26 +1,24 @@
-import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
+import Roact, { useCallback } from "@rbxts/roact";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import ResizableFrame from "UI/Holders/ResizableFrame";
 import List from "UI/Styles/List";
 import Padding from "UI/Styles/Padding";
-import SearchInput from "./SearchInput";
 import PanelTools from "./PanelTools";
 import StoryTree from "./StoryTree";
-import { useProducer, useSelector } from "@rbxts/roact-reflex";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectOverlay } from "Reflex/Overlay";
+import InputBase from "UI/Utils/InputBase";
 
 interface SidePanelProps {}
 
-function setProps(props: SidePanelProps) {
-	return props as Required<SidePanelProps>;
-}
-
-function SidePanelCreate(setprops: SidePanelProps) {
-	const props = setProps(setprops as Required<SidePanelProps>);
+function SidePanel(props: SidePanelProps) {
 	const theme = useTheme();
 
 	const { setFilter } = useProducer<RootProducer>();
+
+	const OnTextChanged = useCallback((textbox: TextBox) => {
+		setFilter(textbox.Text);
+	}, []);
 
 	return (
 		<ResizableFrame
@@ -41,18 +39,22 @@ function SidePanelCreate(setprops: SidePanelProps) {
 		>
 			<Padding Padding={12} />
 			<List HorizontalAlignment={"Center"} Padding={new UDim(0, 10)} />
-			<SearchInput
+			<InputBase
 				Key="SearchInput"
-				LayoutOrder={1}
-				Size={new UDim2(1, 0, 0, 27)}
-				Placeholder="Search Story"
-				OnSearchChanged={setFilter}
-			></SearchInput>
-			<PanelTools></PanelTools>
-			<StoryTree></StoryTree>
+				HolderProps={{
+					LayoutOrder: 1,
+					Size: new UDim2(1, 0, 0, 27),
+				}}
+				TextboxProps={{
+					PlaceholderText: "Search Story",
+				}}
+				Sprite={"Search"}
+				OnTextChanged={OnTextChanged}
+			></InputBase>
+			<PanelTools />
+			<StoryTree />
 		</ResizableFrame>
 	);
 }
-const SidePanel = withHooks(SidePanelCreate);
 
-export = SidePanel;
+export default SidePanel;

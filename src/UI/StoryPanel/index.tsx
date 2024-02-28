@@ -1,36 +1,45 @@
-import Roact from "@rbxts/roact";
+import Roact, { useBinding, useState } from "@rbxts/roact";
 import FrameFill from "UI/Holders/FrameFill";
-import ActionsPanel from "UI/ActionsPanel";
+import ActionsPanel from "UI/StoryOverlay/ActionsPanel";
 import BackgroundPattern from "./BackgroundPattern";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { withHooks } from "@rbxts/roact-hooked";
 import StoryTitle from "./StoryTitle";
 import { Div } from "UI/Styles/Div";
 import List from "UI/Styles/List";
-import PreviewHandler from "UI/StoryPreview/PreviewControl";
+import StoryPanel from "UI/StoryPanel";
+import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
+import { selectPreview } from "Reflex/StoryPreview/StoryMount";
+import { selectStorySelected } from "Reflex/StorySelection";
+import PreviewControl from "UI/StoryPreview/PreviewControl";
+import StoryOverlay from "UI/StoryOverlay";
+import { StoryPanelProvider } from "Context/StoryPanelContext";
 
-interface StoryPanelProps {}
+interface StoryContentsProps {}
 
-function setProps(props: StoryPanelProps) {
-	return props as Required<StoryPanelProps>;
+function setProps(props: StoryContentsProps) {
+	return props as Required<StoryContentsProps>;
 }
 
-function StoryPanelCreate(setprops: StoryPanelProps) {
-	const props = setProps(setprops as Required<StoryPanelProps>);
+function StoryContents(props: StoryContentsProps) {
 	const theme = useTheme();
+	const selectedEntry = useSelector(selectStorySelected);
+	const entry = useSelectorCreator(selectPreview, selectedEntry);
+
 	return (
-		<FrameFill Key="StoryPanel" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
+		<FrameFill Key="StoryContents" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
 			<BackgroundPattern />
 			<Div Key="StoryFrame">
 				<List />
 				<StoryTitle />
-				<PreviewHandler />
+				<Div Key={"StoryPanel"} Size={new UDim2(1, 0, 1, -31)}>
+					<StoryPanelProvider>
+						<PreviewControl />
+						<StoryOverlay Key={"StoryOverlay"} PreviewEntry={entry} />
+					</StoryPanelProvider>
+				</Div>
 			</Div>
-			<ActionsPanel />
 		</FrameFill>
 	);
 }
 
-const StoryPanel = withHooks(StoryPanelCreate);
-
-export = StoryPanel;
+export default StoryContents;

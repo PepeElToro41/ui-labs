@@ -1,11 +1,9 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Configs from "Plugin/Configs";
 import { Div } from "UI/Styles/Div";
-import List from "UI/Styles/List";
 import LeftList from "UI/Styles/List/LeftList";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
 
 interface BrandingProps {}
@@ -14,7 +12,7 @@ function setProps(props: BrandingProps) {
 	return props as Required<BrandingProps>;
 }
 
-function BrandingCreate(setprops: BrandingProps) {
+function Branding(setprops: BrandingProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
@@ -25,6 +23,5 @@ function BrandingCreate(setprops: BrandingProps) {
 		</Div>
 	);
 }
-const Branding = withHooks(BrandingCreate);
 
-export = Branding;
+export default Branding;

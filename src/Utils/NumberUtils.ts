@@ -10,11 +10,11 @@ export function Lerp(a: number, b: number, alpha: number) {
 	return a + (b - a) * alpha;
 }
 
-export function Counter() {
-	let count = 0;
-	return () => {
+export function Counter(start?: number) {
+	let count = start ?? 0;
+	return (add?: number) => {
 		const current = count;
-		count++;
+		count += add ?? 1;
 		return current;
 	};
 }

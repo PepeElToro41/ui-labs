@@ -2,12 +2,29 @@ import Configs from "Plugin/Configs";
 import { RemoveExtension } from "../ModuleList/Utils";
 
 export function GenerateNodes(storyList: ModuleScript[], requiredStorybooks: Storybooks) {
-	//* Important: This mutates the array, so make sure you pass a storyList that can be mutated
-	const nodemap: NodeMap = new Map();
+	//* Important: This mutates the storyList array, so make sure you pass an array that can be mutated
+	const nodemap: NodeMap = new Map(); //lookup map for getting nodes from modulescripts
 	const storybooks = GenerateStorybooks(storyList, requiredStorybooks, nodemap);
 	const unknown = GenerateUnknown(storyList, nodemap);
+
+	OrderFoldersFirst(storybooks);
 	const nodes = { storybooks, unknown };
 	return { nodes, nodemap };
+}
+
+function OrderFoldersFirst(storybooks: StorybookNode[]) {
+	storybooks.forEach((book) => {
+		const ordered: ChildrenNode[] = [];
+		book.Children.forEach((child) => {
+			//folders pass
+			if (child.Type === "Folder") ordered.push(child);
+		});
+		book.Children.forEach((child) => {
+			//stories pass
+			if (child.Type !== "Folder") ordered.push(child);
+		});
+		book.Children = ordered;
+	});
 }
 
 function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNode: ParentNode, bookBind: StorybookNode, nodemap: NodeMap) {
@@ -37,6 +54,7 @@ function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNod
 			const foundChildren = IterateRoots(storyList, child.GetChildren(), newFolder, bookBind, nodemap);
 			if (foundChildren <= 0) return;
 			parentNode.Children.push(newFolder);
+
 			found++;
 		}
 	});
@@ -48,7 +66,6 @@ function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNod
 
 export function GenerateStorybooks(storyList: ModuleScript[], storybooks: Storybooks, nodemap: NodeMap) {
 	const storybookList: StorybookNode[] = [];
-
 	storybooks.forEach((book, bookModule) => {
 		const newNode: StorybookNode = {
 			Type: "Storybook",
@@ -68,11 +85,10 @@ export function GenerateStorybooks(storyList: ModuleScript[], storybooks: Storyb
 	return storybookList;
 }
 
-export function GenerateUnknown(storylist: ModuleScript[], nodemap: NodeMap) {
+export function GenerateUnknown(storyList: ModuleScript[], nodemap: NodeMap) {
 	const unknownList: UnknownNode[] = [];
 	const mappedFolders = new Map<Instance, UnknownNode>();
-
-	storylist.forEach((module) => {
+	storyList.forEach((module) => {
 		if (!module.Parent) return;
 		const mappedNode = mappedFolders.get(module.Parent);
 
@@ -102,7 +118,6 @@ export function GenerateUnknown(storylist: ModuleScript[], nodemap: NodeMap) {
 			nodemap.set(module, storyNode);
 		}
 	});
-
 	mappedFolders.forEach((node) => {
 		unknownList.push(node);
 	});

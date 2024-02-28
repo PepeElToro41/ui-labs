@@ -1,5 +1,5 @@
-import { useUnmountEffect } from "@rbxts/pretty-roact-hooks";
-import { useMemo } from "@rbxts/roact-hooked";
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import { useMemo } from "@rbxts/roact";
 import Signal from "@rbxts/signal";
 
 export function useSignal<Signature extends Callback>() {

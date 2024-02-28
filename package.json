@@ -1,39 +1,40 @@
 {
-  "name": "ui-labs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "rbxtsc",
-    "watch": "rbxtsc -w"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@rbxts/compiler-types": "^2.2.0-types.0",
-    "@rbxts/types": "^1.0.708",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
-    "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-roblox-ts": "^0.0.35",
-    "prettier": "^3.0.1",
-    "typescript": "4.9.4"
-  },
-  "dependencies": {
-    "@rbxts/catppuccin": "^1.0.2",
-    "@rbxts/colour-utils": "^1.4.1",
-    "@rbxts/immut": "^0.4.4-ts.0",
-    "@rbxts/pretty-roact-hooks": "^3.1.1",
-    "@rbxts/reflex": "^4.2.0",
-    "@rbxts/roact": "^1.4.4-ts.0",
-    "@rbxts/roact-hooked": "^2.6.0",
-    "@rbxts/roact-reflex": "^2.1.0",
-    "@rbxts/services": "^1.5.1",
-    "@rbxts/sift": "^0.0.6",
-    "@rbxts/signal": "^1.1.1",
-    "@rbxts/ui-labs": "^1.0.2"
-  }
+   "name": "ui-labs",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "build": "rbxtsc",
+      "watch": "rbxtsc -w"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "@rbxts/compiler-types": "^2.2.0-types.0",
+      "@rbxts/types": "^1.0.744",
+      "@typescript-eslint/eslint-plugin": "^6.2.1",
+      "@typescript-eslint/parser": "^6.2.1",
+      "eslint": "^8.46.0",
+      "eslint-config-prettier": "^8.10.0",
+      "eslint-plugin-prettier": "^5.0.0",
+      "eslint-plugin-roblox-ts": "^0.0.35",
+      "prettier": "^3.0.1",
+      "typescript": "4.9.4"
+   },
+   "dependencies": {
+      "@rbxts/catppuccin": "^1.0.2",
+      "@rbxts/colour-utils": "^1.4.1",
+      "@rbxts/flipper": "^2.0.1",
+      "@rbxts/immut": "^0.4.4-ts.0",
+      "@rbxts/pretty-react-hooks": "^0.3.3",
+      "@rbxts/react-reflex": "^0.2.0",
+      "@rbxts/react-roblox": "^0.2.0",
+      "@rbxts/reflex": "^4.2.0",
+      "@rbxts/roact": "npm:@rbxts/react-ts@latest",
+      "@rbxts/services": "^1.5.1",
+      "@rbxts/sift": "^0.0.6",
+      "@rbxts/signal": "^1.1.1",
+      "@rbxts/ui-labs": "2.0.0-test1"
+   }
 }

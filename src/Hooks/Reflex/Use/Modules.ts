@@ -1,4 +1,4 @@
-import { useSelector } from "@rbxts/roact-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectStory } from "Reflex/ModuleList/Story";
 import { selectStorybookList } from "Reflex/ModuleList/Storybook";
 

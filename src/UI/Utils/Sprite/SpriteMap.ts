@@ -15,30 +15,56 @@ const Sprites = {
 		RectSize: new Vector2(128, 128),
 	},
 	Search: {
-		RectOffset: new Vector2(128, 0),
+		RectOffset: new Vector2(64 * 2, 0),
 	},
 	Close: {
-		RectOffset: new Vector2(192, 192),
+		RectOffset: new Vector2(64 * 3, 64 * 3),
 	},
 	//Nodes
 	StoryIcon: {
-		RectOffset: new Vector2(64, 192),
+		RectOffset: new Vector2(64, 64 * 3),
 	},
 	FolderIcon: {
-		RectOffset: new Vector2(0, 192),
+		RectOffset: new Vector2(0, 64 * 3),
 	},
 	BookIcon: {
-		RectOffset: new Vector2(192, 256),
+		RectOffset: new Vector2(64 * 3, 64 * 4),
 	},
 	Expand: {
-		RectOffset: new Vector2(128, 64),
+		RectOffset: new Vector2(64 * 2, 64),
 	},
 	Collapse: {
-		RectOffset: new Vector2(196, 128),
+		RectOffset: new Vector2(64 * 3, 64 * 2),
 	},
+	//Toolbar
+	Reload: {
+		RectOffset: new Vector2(64 * 2, 64 * 2),
+	},
+	ZoomIn: {
+		RectOffset: new Vector2(0, 0),
+	},
+	ZoomOut: {
+		RectOffset: new Vector2(64, 0),
+	},
+	ViewOnViewport: {
+		RectOffset: new Vector2(64 * 3, 0),
+	},
+	ViewOnExplorer: {
+		RectOffset: new Vector2(64 * 3, 64),
+	},
+	SelectElements: {
+		RectOffset: new Vector2(64 * 2, 64 * 5),
+	},
+
 	//Other
 	Theme: {
 		RectOffset: new Vector2(0, 64 * 5),
 	},
+	Dragger: {
+		RectOffset: new Vector2(64, 64 * 5),
+	},
+	Picker: {
+		RectOffset: new Vector2(64 * 4, 0),
+	},
 };
-export = Sprites;
+export default Sprites;

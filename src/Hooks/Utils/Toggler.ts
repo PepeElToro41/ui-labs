@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@rbxts/roact-hooked";
+import { useState, useCallback, useMemo } from "@rbxts/roact";
 
 export function useToggler(initial: boolean) {
 	const [enabled, setEnabled] = useState(initial);
@@ -12,15 +12,14 @@ export function useToggler(initial: boolean) {
 	const Toggle = useCallback(() => {
 		setEnabled((v) => !v);
 	}, []);
-	const Set = useCallback((enabled) => {
-		setEnabled(enabled);
-	}, []);
 
-	const api = {
-		enable: Enable,
-		disable: Disable,
-		toggle: Toggle,
-		set: Set,
-	};
+	const api = useMemo(() => {
+		return {
+			enable: Enable,
+			disable: Disable,
+			toggle: Toggle,
+			set: setEnabled,
+		};
+	}, []);
 	return $tuple(enabled, api);
 }

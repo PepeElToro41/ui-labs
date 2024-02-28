@@ -1,12 +1,11 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface TextProps extends JSX.IntrinsicElement<TextLabel> {
 	Weight?: Enum.FontWeight["Name"];
 }
 
-function TextCreate(props: TextProps) {
+function Text(props: TextProps) {
 	const weight = props.Weight ?? "Medium";
 	props.Weight = undefined;
 	const theme = useTheme();
@@ -23,4 +22,4 @@ function TextCreate(props: TextProps) {
 	);
 }
 
-export const Text = withHooks(TextCreate);
+export default Text;

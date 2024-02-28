@@ -1,5 +1,4 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 
 interface DropShadowProps {
 	Transparency?: Roact.Binding<number> | number;
@@ -13,7 +12,7 @@ function setProps(props: DropShadowProps) {
 	return props;
 }
 
-function DropShadowCreate(setprops: DropShadowProps) {
+function DropShadow(setprops: DropShadowProps) {
 	const props = identity<Required<DropShadowProps>>(setProps(setprops) as Required<DropShadowProps>);
 	return (
 		<frame Key="DropShadow" BackgroundTransparency={1} Size={new UDim2(1, 0, 1, 0)} ZIndex={0}>
@@ -33,6 +32,5 @@ function DropShadowCreate(setprops: DropShadowProps) {
 		</frame>
 	);
 }
-const DropShadow = withHooks(DropShadowCreate);
 
-export = DropShadow;
+export default DropShadow;

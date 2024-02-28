@@ -1,5 +1,4 @@
-import Roact from "@rbxts/roact";
-import { useMemo, withHooks } from "@rbxts/roact-hooked";
+import Roact, { useMemo } from "@rbxts/roact";
 import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Story from "../Story";
@@ -10,7 +9,7 @@ interface StorybookProps {
 	Order: number;
 }
 
-function StorybookCreate(props: StorybookProps) {
+function Storybook(props: StorybookProps) {
 	const theme = useTheme();
 
 	const children = useMemo(() => {
@@ -34,6 +33,5 @@ function StorybookCreate(props: StorybookProps) {
 		></ChildrenHolder>
 	);
 }
-const Storybook = withHooks(StorybookCreate);
 
-export = Storybook;
+export default Storybook;

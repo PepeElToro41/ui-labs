@@ -1,6 +1,5 @@
-import { useBindingListener } from "@rbxts/pretty-roact-hooks";
-import Roact, { PropsWithChildren } from "@rbxts/roact";
-import { useBinding, useEffect, useRef, useState, withHooks } from "@rbxts/roact-hooked";
+import { useBindingListener } from "@rbxts/pretty-react-hooks";
+import Roact, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/roact";
 import { RunService } from "@rbxts/services";
 import Signal from "@rbxts/signal";
 import { useConnection } from "Hooks/Utils/Connection";
@@ -33,7 +32,7 @@ function setProps(props: ResizableFrameProps) {
 	return props as Required<ResizableFrameProps>;
 }
 
-function ResizableFrameCreate(setprops: ResizableFrameProps) {
+function ResizableFrame(setprops: ResizableFrameProps) {
 	const props = setProps(setprops);
 
 	const frameRef = useRef<Frame>();
@@ -53,7 +52,7 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 
 	useBindingListener(resizeAdd, (adder) => {
 		InformResized(adder);
-		if (!props.MaxBeforeCollapse) return; //Collapsing is disabled
+		if (props.MaxBeforeCollapse === undefined) return; //Collapsing is disabled
 		if (!collapsed) {
 			if (adder.X < props.MaxBeforeCollapse || adder.Y < props.MaxBeforeCollapse) {
 				setCollapsed(true);
@@ -111,7 +110,7 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 		//I wasnt able to find a better way to record the start size
 		if (collapsed) return;
 		if (added !== Vector2.zero) return;
-		const frame = frameRef.getValue();
+		const frame = frameRef.current;
 		if (!frame) return;
 		setAbsSize(frame.AbsoluteSize);
 	};
@@ -143,7 +142,7 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 									math.clamp(add.Y, props.ResizeRange.Min, props.ResizeRange.Max),
 								),
 							);
-					  })
+						})
 			}
 			{...props.HolderProps}
 			Ref={frameRef}
@@ -183,11 +182,10 @@ function ResizableFrameCreate(setprops: ResizableFrameProps) {
 				}}
 			></Detector>
 			<Div Key="Contents" Visible={!collapsed} {...(props.FrameProps ?? {})}>
-				{props[Roact.Children] ? props[Roact.Children] : undefined}
+				{props["children"] ? props["children"] : undefined}
 			</Div>
 		</Div>
 	);
 }
-const ResizableFrame = withHooks(ResizableFrameCreate);
 
-export = ResizableFrame;
+export default ResizableFrame;

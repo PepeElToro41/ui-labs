@@ -6,7 +6,7 @@ interface FilterState {
 
 const initialState: FilterState = {
 	search: undefined,
-} as const;
+};
 
 export const selectFilter = (state: RootState) => state.explorer.filter;
 

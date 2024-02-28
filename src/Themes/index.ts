@@ -1,10 +1,5 @@
 import Dark from "./DarkThemes/Dark";
-import DarkRed from "./DarkThemes/DarkRed";
-import Light from "./LightThemes/Light";
-import DarkMono from "./DarkThemes/DarkMono";
-import LightMono from "./LightThemes/LightMono";
 import { CatppuchineFrappe, CatppuchineLatte, CatppuchineMacchiato, CatppuchineMocha } from "./Catppuccin";
-import LightRed from "./LightThemes/LightRed";
 
 declare global {
 	type Theme = typeof Dark & { ThemeName?: keyof typeof Themes };
@@ -12,15 +7,9 @@ declare global {
 }
 
 const Themes = {
-	Default: Dark as Theme,
+	Default: CatppuchineMacchiato as Theme,
 	//DARK
 	Dark: Dark as Theme,
-	DarkRed: DarkRed,
-	DarkMono: DarkMono,
-	//LIGHT
-	Light: Light,
-	LightRed: LightRed,
-	LightMono: LightMono,
 	//CATPPUCHINE
 	CatppuchineLatte: CatppuchineLatte,
 	CatppuchineFrappe: CatppuchineFrappe,
@@ -33,4 +22,4 @@ for (const [themeName, theme] of pairs(Themes)) {
 	theme["ThemeName"] = themeName;
 }
 
-export = Themes;
+export default Themes;

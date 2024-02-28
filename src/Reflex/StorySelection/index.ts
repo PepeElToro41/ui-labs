@@ -23,6 +23,25 @@ export const StorySelectionProducer = createProducer(initialState, {
 			selected: undefined,
 		};
 	},
+	selectHighestOrder: (state, previews: Map<string, PreviewEntry>) => {
+		let highest: PreviewEntry;
+
+		previews.forEach((entry) => {
+			if (!highest) {
+				highest = entry;
+				return;
+			}
+			if (entry.Order >= highest.Order) {
+				highest = entry;
+			}
+		});
+		if (!highest!) return state;
+
+		return {
+			...state,
+			selected: highest.Key,
+		};
+	},
 	toggleStory: (state, uid: string) => {
 		const current = state.selected;
 		return {

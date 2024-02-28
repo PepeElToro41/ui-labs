@@ -1,4 +1,4 @@
-import { useSelector } from "@rbxts/roact-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { selectTheme } from "Reflex/Theme";
 
 export function useTheme() {

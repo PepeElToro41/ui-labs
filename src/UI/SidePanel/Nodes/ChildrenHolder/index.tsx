@@ -1,8 +1,6 @@
-import Roact from "@rbxts/roact";
-import { useCallback, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
-import { useSelector } from "@rbxts/roact-reflex";
+import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import { useSelector } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { useTween } from "Hooks/Utils/Tween";
 import { selectFilter } from "Reflex/Explorer/Filter";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
@@ -10,7 +8,7 @@ import List from "UI/Styles/List";
 import Corner from "UI/Styles/Corner";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import { Text } from "UI/Styles/Text";
+import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
 import TopList from "UI/Styles/List/TopList";
 import { selectOverlay } from "Reflex/Overlay";
@@ -37,8 +35,8 @@ function GetName(name: string | Instance) {
 	else return name.Name;
 }
 
-function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
-	const props = setProps(setprops as Required<ChildrenHolderProps>);
+function ChildrenHolder(setprops: ChildrenHolderProps) {
+	const props = setProps(setprops);
 	const theme = useTheme();
 
 	const [hovered, hoverApi] = useToggler(false);
@@ -56,6 +54,7 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 			setName(props.Name);
 			return;
 		}
+		setName(props.Name.Name);
 		const connection = props.Name.GetPropertyChangedSignal("Name").Connect(() => {
 			setName((props.Name as Instance).Name);
 		});
@@ -68,7 +67,7 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 	}, [hovered, isBlocked]);
 
 	useEffect(() => {
-		if (filter) expand(true);
+		if (filter !== undefined) expand(true);
 	}, [filter]);
 
 	return (
@@ -90,7 +89,7 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 						MouseButton1Click: OnExpand,
 					}}
 				/>
-				<Div>
+				<Div key={"Title"}>
 					<LeftList Padding={new UDim(0, 5)} />
 					<Padding Padding={4} Bottom={5} />
 					<Sprite
@@ -146,6 +145,5 @@ function ChildrenHolderCreate(setprops: ChildrenHolderProps) {
 		</Div>
 	);
 }
-const ChildrenHolder = withHooks(ChildrenHolderCreate);
 
-export = ChildrenHolder;
+export default ChildrenHolder;

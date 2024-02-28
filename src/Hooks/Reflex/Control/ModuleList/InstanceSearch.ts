@@ -1,14 +1,14 @@
 import { Array } from "@rbxts/sift";
-import { DefaultSearch } from "Plugin/Configs";
+import Config from "Plugin/Configs";
 import { ArrayDescendants } from "Utils/InstanceUtils";
 import { ClassPredicator, PropagateEvent } from "./Utils";
-import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
-import { useUpdateEffect } from "@rbxts/pretty-roact-hooks";
+import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { useState, useCallback, useEffect } from "@rbxts/roact";
 
-export function instanceSearch<T extends keyof Instances>(
+export function useInstanceSearch<T extends keyof Instances>(
 	className: T,
 	filterPredicator: (instance: Instances[T]) => boolean,
-	searchIn: Instance[] = DefaultSearch,
+	searchIn: Instance[] = Config.DefaultSearch,
 ) {
 	type ClassType = Instances[T];
 	const Predicator = ClassPredicator(className, filterPredicator);

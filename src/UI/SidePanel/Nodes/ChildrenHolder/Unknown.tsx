@@ -1,5 +1,4 @@
-import Roact from "@rbxts/roact";
-import { useEffect, useMemo, withHooks } from "@rbxts/roact-hooked";
+import Roact, { useMemo } from "@rbxts/roact";
 import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Story from "../Story";
@@ -13,8 +12,8 @@ function setProps(props: UnknownProps) {
 	return props as Required<UnknownProps>;
 }
 
-function UnknownCreate(setprops: UnknownProps) {
-	const props = setProps(setprops as Required<UnknownProps>);
+function Unknown(setprops: UnknownProps) {
+	const props = setProps(setprops);
 	const theme = useTheme();
 
 	const children = useMemo(() => {
@@ -22,7 +21,6 @@ function UnknownCreate(setprops: UnknownProps) {
 			return <Story Node={child} Order={index} Visible={true} Unknown={true} />;
 		});
 	}, [props.Node.Children]);
-
 	return (
 		<ChildrenHolder
 			Order={props.Order}
@@ -34,6 +32,5 @@ function UnknownCreate(setprops: UnknownProps) {
 		></ChildrenHolder>
 	);
 }
-const Unknown = withHooks(UnknownCreate);
 
-export = Unknown;
+export default Unknown;

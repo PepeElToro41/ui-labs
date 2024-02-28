@@ -1,6 +1,5 @@
-import { useEventListener } from "@rbxts/pretty-roact-hooks";
-import Roact from "@rbxts/roact";
-import { useBinding, useEffect, useState, withHooks } from "@rbxts/roact-hooked";
+import { useEventListener } from "@rbxts/pretty-react-hooks";
+import Roact, { useBinding, useEffect, useState } from "@rbxts/roact";
 import { UserInputService } from "@rbxts/services";
 import { set } from "@rbxts/sift/out/Array";
 
@@ -10,7 +9,7 @@ interface TogglerProps {
 	OnToggle: (active: boolean) => void;
 }
 
-function TogglerCreate(props: TogglerProps) {
+function Toggler(props: TogglerProps) {
 	const [inputed, setInput] = useBinding<InputObject | undefined>(undefined);
 	const [active, setActive] = useState(false);
 	const [startPos, setStartPos] = useBinding<Vector2>(new Vector2(0, 0));
@@ -67,6 +66,5 @@ function TogglerCreate(props: TogglerProps) {
 		></textbutton>
 	);
 }
-const Toggler = withHooks(TogglerCreate);
 
-export = Toggler;
+export default Toggler;

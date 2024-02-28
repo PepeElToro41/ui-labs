@@ -1,16 +1,16 @@
-import { useEventListener } from "@rbxts/pretty-roact-hooks";
-import Roact, { PropsWithChildren } from "@rbxts/roact";
-import { useState, withHooks } from "@rbxts/roact-hooked";
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import Roact, { useRef } from "@rbxts/roact";
 import { Dictionary } from "@rbxts/sift";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useConnection } from "Hooks/Utils/Connection";
 import { useToggler } from "Hooks/Utils/Toggler";
+import { Div } from "UI/Styles/Div";
 
 interface OverlayProps extends JSX.IntrinsicElement<Frame> {
 	OnClickClose: () => void;
 }
 
-function OverlayCreate(props: OverlayProps) {
+function Overlay(props: OverlayProps) {
 	const [inside, insideApi] = useToggler(false);
 	const inputBegan = useInputBegan();
 	const OnClickClose = props.OnClickClose;
@@ -25,9 +25,8 @@ function OverlayCreate(props: OverlayProps) {
 	);
 
 	return (
-		<frame
+		<Div
 			Key={"Overlay"}
-			BackgroundTransparency={1}
 			Size={UDim2.fromScale(1, 1)}
 			Position={UDim2.fromScale(0, 0)}
 			{...Dictionary.removeKey(props, "OnClickClose")}
@@ -35,9 +34,9 @@ function OverlayCreate(props: OverlayProps) {
 				MouseEnter: insideApi.enable,
 				MouseLeave: insideApi.disable,
 			}}
-		></frame>
+		>
+			{props["children"]}
+		</Div>
 	);
 }
-const Overlay = withHooks(OverlayCreate);
-
-export = Overlay;
+export default Overlay;

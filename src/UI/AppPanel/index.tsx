@@ -11,13 +11,12 @@ function setProps(props: AppPanelProps) {
 }
 
 function AppPanel(setprops: AppPanelProps) {
-	const props = setProps(setprops);
 	return (
 		<FrameFill Key="AppPanel" FillDir="Y">
-			<LeftList></LeftList>
-			<SidePanel></SidePanel>
-			<StoryPanel></StoryPanel>
+			<LeftList />
+			<SidePanel />
+			<StoryPanel />
 		</FrameFill>
 	);
 }
-export = AppPanel;
+export default AppPanel;

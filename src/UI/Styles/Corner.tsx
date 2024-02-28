@@ -4,6 +4,6 @@ interface CornerProps {
 	Radius?: number;
 }
 
-export = (props: CornerProps) => {
+export default (props: CornerProps) => {
 	return <uicorner CornerRadius={new UDim(0, props.Radius ?? 8)} />;
 };

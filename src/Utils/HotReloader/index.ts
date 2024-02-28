@@ -18,23 +18,14 @@ declare global {
 }
 
 export class HotReloader {
-	static LoadedModules = new Map<ModuleScript, HotReloader>();
-
 	/**
-      Requires the module and returns a tuple with a promise that resolves when loaded, and the hot-reloader object
-      @param module The module to reload
-      @param forced It wont load a module twice if this is *NOT* set to true 
-   */
-	static require<T = unknown>(module: ModuleScript, forced = true): LuaTuple<[Promise<HotReloaderResult<T>>, HotReloader]> {
-		const loadedModule = HotReloader.LoadedModules.get(module);
-
-		if (loadedModule && !forced) {
-			return $tuple(Promise.resolve(loadedModule.GetResults<T>()), loadedModule);
-		} else {
-			const newReloader = new HotReloader(module);
-			HotReloader.LoadedModules.set(module, newReloader);
-			return $tuple(newReloader.Reload<T>(), newReloader);
-		}
+	 * Requires the module and returns a promise that resolves when loaded, and the hot-reloader object
+	 * @param module The module to reload
+	 * @returns [Result: Promise<Result>, Reloader: HotReloader]
+	 */
+	static require<T = unknown>(module: ModuleScript) {
+		const newReloader = new HotReloader(module);
+		return { Result: newReloader.Reload<T>(), Reloader: newReloader };
 	}
 
 	private GlobalEnv = {};
@@ -63,8 +54,13 @@ export class HotReloader {
 		this.Updater = updater;
 	}
 
-	private _LoadDependency(dep: ModuleScript, requireHandler: (listenModule: ModuleScript) => void) {
-		const [sucess, result] = LoadVirtualModule(dep, requireHandler, this.GlobalEnv);
+	/**
+	 * Virtually requires a module in an isolated enviroment
+	 * @param module module to load (require)
+	 * @param requireHandler Function that will replace the "require" global
+	 */
+	private LoadDependency(module: ModuleScript, requireHandler: (listenModule: ModuleScript) => void) {
+		const [sucess, result] = LoadVirtualModule(module, requireHandler, this.GlobalEnv);
 		if (sucess) {
 			return result;
 		} else {
@@ -73,7 +69,7 @@ export class HotReloader {
 		}
 	}
 
-	private _DependencyLoader(requiredModule: ModuleScript) {
+	private DependencyLoader(requiredModule: ModuleScript) {
 		const cachedDependency = this.Dependencies.get(requiredModule);
 		if (cachedDependency) return cachedDependency.Result;
 
@@ -81,11 +77,11 @@ export class HotReloader {
 			this.Reload();
 		});
 
-		const dependencyReturn = this._LoadDependency(requiredModule, (m: ModuleScript) => this._DependencyLoader(m));
+		const dependencyReturn = this.LoadDependency(requiredModule, (m: ModuleScript) => this.DependencyLoader(m));
 		this.Dependencies.set(requiredModule, { Result: dependencyReturn, Listener: sourceListen });
 		return dependencyReturn;
 	}
-	private _ClearReloader() {
+	private ClearReloader() {
 		if (this.ReloadPromise) this.ReloadPromise.cancel();
 		this.Dependencies.forEach((dependency) => {
 			dependency.Listener.Disconnect();
@@ -94,11 +90,11 @@ export class HotReloader {
 	}
 
 	Reload<T = unknown>(globalEnv = {}): Promise<HotReloaderResult<T>> {
-		this._ClearReloader();
+		this.ClearReloader();
 		this.GlobalEnv = globalEnv;
 		this.Sucess = true;
 		const promiseHandler = new Promise<HotReloaderResult<T>>((resolve, reject) => {
-			const [sucess, result] = LoadVirtualModule(this.Module, (m: ModuleScript) => this._DependencyLoader(m), this.GlobalEnv);
+			const [sucess, result] = LoadVirtualModule(this.Module, (m: ModuleScript) => this.DependencyLoader(m), this.GlobalEnv);
 			if (sucess) {
 				if (!this.Sucess) return reject(this.Error);
 				this.Sucess = true;
@@ -119,11 +115,10 @@ export class HotReloader {
 	}
 
 	Destroy() {
-		this._ClearReloader();
+		this.ClearReloader();
 		this.OnReloadStarted.Destroy();
 		this.OnReloaded.Destroy();
 		this.Updater.Disconnect();
-		if (HotReloader.LoadedModules.has(this.Module)) HotReloader.LoadedModules.delete(this.Module);
 	}
 
 	GetResults<T = unknown>(): HotReloaderResult<T> {

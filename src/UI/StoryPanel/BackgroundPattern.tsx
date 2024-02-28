@@ -1,5 +1,4 @@
 import Roact from "@rbxts/roact";
-import { withHooks } from "@rbxts/roact-hooked";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface BackgroundPatternProps {}
@@ -8,11 +7,11 @@ function setProps(props: BackgroundPatternProps) {
 	return props as Required<BackgroundPatternProps>;
 }
 
-function BackgroundPatternCreate(setprops: BackgroundPatternProps) {
-	const props = setProps(setprops as Required<BackgroundPatternProps>);
+function BackgroundPattern(setprops: BackgroundPatternProps) {
+	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
-		<>
+		<Roact.Fragment>
 			<imagelabel
 				Key={"Background"}
 				Image={"rbxassetid://13745469099"}
@@ -62,9 +61,8 @@ function BackgroundPatternCreate(setprops: BackgroundPatternProps) {
 					}
 				/>
 			</frame>
-		</>
+		</Roact.Fragment>
 	);
 }
-const BackgroundPattern = withHooks(BackgroundPatternCreate);
 
-export = BackgroundPattern;
+export default BackgroundPattern;

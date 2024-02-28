@@ -1,5 +1,4 @@
-import Roact, { PropsWithChildren } from "@rbxts/roact";
-import { useBinding, useCallback, useMemo, withHooks } from "@rbxts/roact-hooked";
+import Roact, { PropsWithChildren, useBinding, useCallback, useMemo } from "@rbxts/roact";
 import Signal from "@rbxts/signal";
 import { useSignal } from "Hooks/Utils/Signal";
 import { Div } from "UI/Styles/Div";
@@ -17,7 +16,7 @@ export const UserInputContext = Roact.createContext({} as UserInputContext);
 
 interface UserInputProps extends PropsWithChildren {}
 
-function UserInputProviderCreate(props: UserInputProps) {
+export function UserInputProvider(props: UserInputProps) {
 	const [mousePos, setMousePos] = useBinding(Vector2.zero);
 
 	const inputChanged = useSignal<InputSignature>();
@@ -37,7 +36,7 @@ function UserInputProviderCreate(props: UserInputProps) {
 		inputEnded.Fire(input);
 	}, []);
 
-	const ContextValue = useMemo(() => {
+	const contextValue = useMemo<UserInputContext>(() => {
 		return {
 			MousePosition: mousePos,
 
@@ -48,15 +47,13 @@ function UserInputProviderCreate(props: UserInputProps) {
 	}, []);
 
 	return (
-		<UserInputContext.Provider value={ContextValue}>
+		<UserInputContext.Provider value={contextValue}>
 			<Div
 				Key="InputListener"
 				ZIndex={5}
 				Event={{ InputChanged: OnInputChanged, InputBegan: OnInputBegan, InputEnded: OnInputEnded }}
 			/>
-			{props[Roact.Children]}
+			{props["children"]}
 		</UserInputContext.Provider>
 	);
 }
-
-export const UserInputProvider = withHooks(UserInputProviderCreate);
