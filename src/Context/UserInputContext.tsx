@@ -72,7 +72,6 @@ export function useInputSignals() {
 	useBindingListener(inputs.MousePosition, (position) => {
 		onMouseMoved.Fire(position);
 	});
-	print("USING SIGNALS");
 
 	useEventListener(inputs.InputBegan, (input, processed) => onInputBegan.Fire(input, processed));
 	useEventListener(inputs.InputEnded, (input, processed) => onInputEnded.Fire(input, processed));
