@@ -17,6 +17,8 @@ declare global {
 	type HotReloaderResult<T = unknown> = HotReloaderIntrinsic & (HotReloaderSucess<T> | HotReloaderError);
 }
 
+type Dependencies = Map<ModuleScript, { Result: unknown; Listener: RBXScriptConnection }>;
+
 export class HotReloader {
 	/**
 	 * Requires the module and returns a promise that resolves when loaded, and the hot-reloader object
@@ -30,7 +32,7 @@ export class HotReloader {
 
 	private GlobalEnv = {};
 	private Updater: RBXScriptConnection;
-	private Dependencies = new Map<ModuleScript, { Result: unknown; Listener: RBXScriptConnection }>();
+	private Dependencies: Dependencies = new Map();
 	private ReloadPromise: Promise<HotReloaderResult> | undefined;
 
 	readonly Module: ModuleScript;
@@ -59,8 +61,8 @@ export class HotReloader {
 	 * @param module module to load (require)
 	 * @param requireHandler Function that will replace the "require" global
 	 */
-	private LoadDependency(module: ModuleScript, requireHandler: (listenModule: ModuleScript) => void) {
-		const [sucess, result] = LoadVirtualModule(module, requireHandler, this.GlobalEnv);
+	private LoadDependency(module: ModuleScript, requireHandler: (listenModule: ModuleScript) => void, enviroment: {}) {
+		const [sucess, result] = LoadVirtualModule(module, requireHandler, enviroment);
 		if (sucess) {
 			return result;
 		} else {
@@ -69,16 +71,20 @@ export class HotReloader {
 		}
 	}
 
-	private DependencyLoader(requiredModule: ModuleScript) {
-		const cachedDependency = this.Dependencies.get(requiredModule);
+	private DependencyLoader(requiredModule: ModuleScript, dependencies: Dependencies, enviroment: {}) {
+		const cachedDependency = dependencies.get(requiredModule);
 		if (cachedDependency) return cachedDependency.Result;
 
 		const sourceListen = requiredModule.GetPropertyChangedSignal("Source").Connect(() => {
 			this.Reload();
 		});
 
-		const dependencyReturn = this.LoadDependency(requiredModule, (m: ModuleScript) => this.DependencyLoader(m));
-		this.Dependencies.set(requiredModule, { Result: dependencyReturn, Listener: sourceListen });
+		const dependencyReturn = this.LoadDependency(
+			requiredModule,
+			(m: ModuleScript) => this.DependencyLoader(m, dependencies, enviroment),
+			enviroment,
+		);
+		dependencies.set(requiredModule, { Result: dependencyReturn, Listener: sourceListen });
 		return dependencyReturn;
 	}
 	private ClearReloader() {
@@ -86,15 +92,22 @@ export class HotReloader {
 		this.Dependencies.forEach((dependency) => {
 			dependency.Listener.Disconnect();
 		});
-		this.Dependencies.clear();
+		this.Dependencies = new Map();
 	}
 
-	Reload<T = unknown>(globalEnv = {}): Promise<HotReloaderResult<T>> {
+	Reload<T = unknown>(globalEnv?: object): Promise<HotReloaderResult<T>> {
 		this.ClearReloader();
-		this.GlobalEnv = globalEnv;
+		this.GlobalEnv = globalEnv ?? {};
 		this.Sucess = true;
+		const dependencies = this.Dependencies; //cached to avoid race conditions
+		const enviroment = this.GlobalEnv; //cached to avoid race conditions
+
 		const promiseHandler = new Promise<HotReloaderResult<T>>((resolve, reject) => {
-			const [sucess, result] = LoadVirtualModule(this.Module, (m: ModuleScript) => this.DependencyLoader(m), this.GlobalEnv);
+			const [sucess, result] = LoadVirtualModule(
+				this.Module,
+				(m: ModuleScript) => this.DependencyLoader(m, dependencies, enviroment),
+				enviroment,
+			);
 			if (sucess) {
 				if (!this.Sucess) return reject(this.Error);
 				this.Sucess = true;

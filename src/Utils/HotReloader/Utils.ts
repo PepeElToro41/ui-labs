@@ -5,25 +5,26 @@
  * @param globalEnv _G table
  * @param requireHandler "require()" replacement
  */
+
 export function SetEnviroment(
 	virtualModule: Callback,
 	module: ModuleScript,
-	globalEnv: object,
+	enviroment: object,
 	requireHandler: (listenModule: ModuleScript) => void,
 ) {
-	const enviroment = setmetatable(
+	const newEnviroment = setmetatable(
 		{
 			require: (dependency: ModuleScript) => {
 				return requireHandler(dependency);
 			},
 			script: module,
-			_G: globalEnv,
+			_G: enviroment,
 		},
 		{
 			__index: getfenv(), //defaults any global variables to the current global enviroment
 		},
 	);
-	setfenv(virtualModule, enviroment);
+	setfenv(virtualModule, newEnviroment);
 }
 
 /**
@@ -35,14 +36,14 @@ export function SetEnviroment(
 export function LoadVirtualModule(
 	module: ModuleScript,
 	requireHandler: (listenModule: ModuleScript) => void,
-	globalEnv: object,
+	enviroment: object,
 ): LuaTuple<[true, unknown] | [false, string]> {
 	const [virtualModule, err] = loadstring(module.Source, module.Name);
 
 	if (virtualModule === undefined) {
 		return $tuple(false as const, err!);
 	}
-	SetEnviroment(virtualModule, module, globalEnv, requireHandler);
+	SetEnviroment(virtualModule, module, enviroment, requireHandler);
 	const [sucess, result] = pcall(virtualModule);
 
 	if (sucess) {
