@@ -1,11 +1,11 @@
-import Roact, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/roact";
+import React, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/react";
 import { RunService } from "@rbxts/services";
 import { useConnection } from "Hooks/Utils/Connection";
 
 //This frame completly fills a parent frame. Its size is determined by how much space it has left depending on it's position
 
 interface FrameFillProps extends PropsWithChildren {
-	FrameProps?: Omit<Roact.JsxInstanceProperties<Frame>, "Size" | "AnchorPoint" | "SizeConstraint">;
+	FrameProps?: Omit<React.InstanceAttributes<Frame>, "Size" | "AnchorPoint" | "SizeConstraint">;
 	Size?: UDim2;
 	FillDir?: "X" | "Y" | "XY";
 	AnchorPoint?: Vector2; //The anchor point determines the fill direction

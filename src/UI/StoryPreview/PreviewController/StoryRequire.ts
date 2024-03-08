@@ -1,5 +1,5 @@
 import { useSelector } from "@rbxts/react-reflex";
-import { useState, useEffect } from "@rbxts/roact";
+import { useState, useEffect } from "@rbxts/react";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
 import { HotReloader } from "Utils/HotReloader";
 

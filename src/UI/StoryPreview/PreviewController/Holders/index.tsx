@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Viewport from "./Preview/Viewport";
 import Widget from "./Preview/Widget";
 import Editor from "./Preview/Editor";
@@ -12,7 +12,7 @@ declare global {
 	}
 }
 
-type HolderComponent = (props: StoryHolderProps) => Roact.Element;
+type HolderComponent = (props: StoryHolderProps) => React.Element;
 type SetHolder = (holderType: HolderType, holder: Frame) => void;
 
 export const StoryHoldersMap = {

@@ -1,4 +1,4 @@
-import Roact, { useMemo, useState } from "@rbxts/roact";
+import React, { useMemo, useState } from "@rbxts/react";
 import { createLegacyRoot } from "@rbxts/react-roblox";
 import ControlHolder from "UI/StoryControls/ControlHolder";
 import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";

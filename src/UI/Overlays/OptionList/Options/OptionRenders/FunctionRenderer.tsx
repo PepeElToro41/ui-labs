@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { Div } from "UI/Styles/Div";
 
 interface FunctionRendererProps {

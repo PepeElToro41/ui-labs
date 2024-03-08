@@ -1,11 +1,11 @@
-import Roact from "@rbxts/roact";
+import React, { InstanceAttributes } from "@rbxts/react";
 
-interface BottomListProps extends JSX.IntrinsicElement<UIListLayout> {}
+interface BottomListProps extends InstanceAttributes<UIListLayout> {}
 
 export default (props: BottomListProps) => {
 	return (
 		<uilistlayout
-			Key={"BottomList"}
+			key={"BottomList"}
 			SortOrder={Enum.SortOrder.LayoutOrder}
 			FillDirection={Enum.FillDirection.Vertical}
 			VerticalAlignment={Enum.VerticalAlignment.Bottom}

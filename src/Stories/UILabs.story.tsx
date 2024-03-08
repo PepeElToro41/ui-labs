@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { ReflexProvider } from "@rbxts/react-reflex";
 import { RootProducer } from "Reflex";
 import App from "UI/App";

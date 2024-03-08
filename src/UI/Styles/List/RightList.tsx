@@ -1,11 +1,11 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
-interface RightListProps extends JSX.IntrinsicElement<UIListLayout> {}
+interface RightListProps extends React.InstanceAttributes<UIListLayout> {}
 
 export default (props: RightListProps) => {
 	return (
 		<uilistlayout
-			Key={"RightList"}
+			key={"RightList"}
 			SortOrder={Enum.SortOrder.LayoutOrder}
 			FillDirection={Enum.FillDirection.Horizontal}
 			HorizontalAlignment={Enum.HorizontalAlignment.Right}

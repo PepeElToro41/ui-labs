@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import TextRenderer from "./TextRenderer";
 import Color3Renderer from "./Color3";
 import FunctionRenderer from "./FunctionRenderer";
@@ -7,7 +7,7 @@ export type OptionRendererFactory<T extends keyof CheckableTypes = keyof Checkab
 	Value: CheckableTypes[T];
 	ValueType: T;
 	IsDescription: boolean;
-}) => Roact.Element;
+}) => React.Element;
 
 type OptionsRendersMap = {
 	[K in keyof CheckableTypes]?: OptionRendererFactory<K>;

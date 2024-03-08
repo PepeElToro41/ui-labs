@@ -1,4 +1,4 @@
-import Roact, { useState } from "@rbxts/roact";
+import React, { useState } from "@rbxts/react";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
 import ToastInfoRender from "./ToastInfoRender";
 import { useDebounceEffect, useMountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
@@ -13,17 +13,17 @@ function setProps(props: ToastInfoProps) {
 
 function ToastInfo(setprops: ToastInfoProps) {
 	const props = setProps(setprops);
-	const [toastRender, setToastRender] = useState<Roact.Children>();
+	const [toastRender, setToastRender] = useState<React.Children>();
 	const entry = props.PreviewEntry;
 
 	useDebounceEffect(() => setToastRender(undefined), [toastRender], { wait: 0.6 });
 	useUpdateEffect(() => {
-		const renderMap: Roact.Children = new Map();
+		const renderMap: React.Children = new Map();
 		renderMap.set("ZoomDisplay", <ToastInfoRender InfoText={`Zoom: ${entry.Zoom}%`} />);
 		setToastRender(renderMap);
 	}, [entry.Zoom]);
 	useUpdateEffect(() => {
-		const renderMap: Roact.Children = new Map();
+		const renderMap: React.Children = new Map();
 		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${entry.Offset}]`} />);
 		setToastRender(renderMap);
 	}, [entry.Offset]);

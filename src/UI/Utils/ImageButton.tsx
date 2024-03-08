@@ -1,5 +1,5 @@
 import { useBindingListener } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";

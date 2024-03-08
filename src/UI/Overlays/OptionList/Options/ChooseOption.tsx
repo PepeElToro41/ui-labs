@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Corner from "UI/Styles/Corner";
@@ -41,7 +41,7 @@ function ChooseOption(setprops: ChooseOptionProps) {
 			}}
 		>
 			<Corner Radius={6} />
-			<Div Key={"OptionRender"} Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
+			<Div key={"OptionRender"} Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 				<Padding Left={10} Right={31} />
 				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} />
 				<OptionRenderer Value={props.Option} ValueType={optionType} IsDescription={false} />

@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { Decoder, Parser, Widen } from "./Utils";
 import { Div } from "UI/Styles/Div";
 import Text from "UI/Styles/Text";

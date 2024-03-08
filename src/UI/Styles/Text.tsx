@@ -1,7 +1,7 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
-interface TextProps extends JSX.IntrinsicElement<TextLabel> {
+interface TextProps extends React.InstanceAttributes<TextLabel> {
 	Weight?: Enum.FontWeight["Name"];
 }
 

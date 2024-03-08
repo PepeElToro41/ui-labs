@@ -1,14 +1,14 @@
 import { useAsyncEffect, useDeferEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { Children, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { Children, useCallback, useEffect, useState } from "@rbxts/react";
 import { HttpService, RunService } from "@rbxts/services";
 
 interface ComponentState {
 	Key: string | number;
-	Element: Roact.Element;
+	Element: React.ReactNode;
 	UnactiveTick: number;
 	UID: string;
 }
-interface ReactElement extends Roact.Element {
+interface ReactElement extends React.Element {
 	type: any;
 }
 
@@ -55,7 +55,7 @@ export class LifetimeController {
 		this.AllComponents.delete(uid);
 		this.Updater();
 	}
-	RegistryComponent(element: Roact.Element, key: string | number) {
+	RegistryComponent(element: React.Element, key: string | number) {
 		const uid = HttpService.GenerateGUID();
 		const newComponent: ComponentState = {
 			Key: key,
@@ -66,7 +66,7 @@ export class LifetimeController {
 		this.AllComponents.set(uid, newComponent);
 		this.RenderedUIDs.set(key, uid);
 	}
-	UpdateComponent(uid: string, element: Roact.Element) {
+	UpdateComponent(uid: string, element: React.Element) {
 		const component = this.AllComponents.get(uid);
 		if (!component) return;
 		this.AllComponents.set(uid, {
@@ -74,7 +74,7 @@ export class LifetimeController {
 			Element: element,
 		});
 	}
-	ProcessChildren(children: Roact.Children) {
+	ProcessChildren(children: React.Children) {
 		const newChildren = new Map<string | number, string>();
 
 		this.RenderedUIDs.forEach((uid, key) => {
@@ -92,20 +92,20 @@ export class LifetimeController {
 		});
 	}
 	RenderComponents() {
-		const renderedChildren: Roact.Children = new Map();
+		const renderedChildren: React.Children = new Map();
 		this.AllComponents.forEach((component, uid) => {
-			const child: Roact.Children = new Map();
+			const child: React.Children = new Map();
 			const element = component.Element as ReactElement;
 			if (typeOf(element.type) === "function") {
 				const props = (element.props as PropsType) ?? {};
 				props[LifetimeInternal] = this;
 				props[UIDInternal] = uid;
-				child.set(component.Key, Roact.createElement(element.type, { ...props }));
+				child.set(component.Key, React.createElement(element.type, { ...props }));
 			} else {
 				child.set(component.Key, element);
 			}
 
-			renderedChildren.set(uid, <Roact.Fragment>{child}</Roact.Fragment>);
+			renderedChildren.set(uid, <React.Fragment>{child}</React.Fragment>);
 		});
 		return renderedChildren;
 	}

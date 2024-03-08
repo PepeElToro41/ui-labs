@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 import { Div } from "UI/Styles/Div";
@@ -15,7 +15,7 @@ function StoryTitle(props: StoryTitleProps) {
 	const theme = useTheme();
 
 	const entries = useMemo(() => {
-		const elements: Roact.Children = new Map();
+		const elements: React.Children = new Map();
 
 		mounts.forEach((entry, key) => {
 			elements.set(key, <MountEntry PreviewEntry={entry} />);
@@ -24,7 +24,7 @@ function StoryTitle(props: StoryTitleProps) {
 	}, [mounts]);
 
 	return (
-		<frame Key={"Title"} Size={new UDim2(1, 0, 0, 31)} ZIndex={3} BackgroundColor3={theme.StoryPreview.Background} BorderSizePixel={0}>
+		<frame key={"Title"} Size={new UDim2(1, 0, 0, 31)} ZIndex={3} BackgroundColor3={theme.StoryPreview.Background} BorderSizePixel={0}>
 			<Divisor
 				Direction="X"
 				Anchor={0}

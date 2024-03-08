@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
 import { CreateHolder } from ".";
 import { LifetimeController } from "UI/Holders/LifetimeChildren/LifetimeController";
@@ -14,7 +14,7 @@ function HolderParenter(props: HolderParenterProps) {
 	const entry = props.Entry;
 
 	const holdersMount = useMemo(() => {
-		const holders = new Map<HolderType, Roact.Element>();
+		const holders = new Map<HolderType, React.Element>();
 
 		const mainHolder: HolderType = entry.OnWidget ? "Widget" : "Editor";
 		holders.set(mainHolder, CreateHolder(mainHolder, entry, props.MountType, props.MountFrame));

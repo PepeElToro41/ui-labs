@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import ActionsPanel from "UI/StoryOverlay/ActionsPanel";
 import { Div } from "UI/Styles/Div";
 import IconToolbar from "./IconToolbar";
@@ -31,14 +31,14 @@ function StoryOverlay(setprops: StoryOverlayProps) {
 
 	return entry ? (
 		<Div>
-			<ActionsPanel Key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.Key} />
-			<ToastInfo Key={entry.UID} PreviewEntry={entry} />
+			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.Key} />
+			<ToastInfo key={entry.UID} PreviewEntry={entry} />
 			<IconToolbar PreviewEntry={entry} />
 			{entry.OnWidget ? <OnWidgetInfo /> : entry.OnViewport ? <OnViewportInfo /> : <CanvasControls PreviewEntry={entry} />}
 		</Div>
 	) : (
 		<Div>
-			<ActionsPanel Key={"ActionsPanel"} Active={false} Tabs={new Map()} />
+			<ActionsPanel key={"ActionsPanel"} Active={false} Tabs={new Map()} />
 			<frame BackgroundColor3={new Color3(0, 0, 0)} BackgroundTransparency={0.6} Size={UDim2.fromScale(1, 1)}>
 				<Text Text={"Select A Story"} TextSize={20} AnchorPoint={new Vector2(0.5, 0.5)} Position={UDim2.fromScale(0.5, 0.5)} />
 			</frame>

@@ -1,11 +1,11 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Rounder from "UI/Styles/Rounder";
 
 interface MarkProps {
 	Amount: number;
 	Position: number;
-	Percent: Roact.Binding<number>;
+	Percent: React.Binding<number>;
 }
 
 function Mark(props: MarkProps) {
@@ -13,7 +13,7 @@ function Mark(props: MarkProps) {
 	const size = (1 / props.Amount) * props.Position;
 	return (
 		<frame
-			Key={"Mark" + props.Position}
+			key={"Mark" + props.Position}
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			BackgroundColor3={props.Percent.map((percent) => {
 				return percent >= size ? theme.Nodes.StorySelected.Color : theme.Search.Color;

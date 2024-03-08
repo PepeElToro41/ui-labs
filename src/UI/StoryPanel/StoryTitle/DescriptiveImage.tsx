@@ -1,9 +1,9 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useToggler } from "Hooks/Utils/Toggler";
 
-interface DescriptiveImageProps extends Roact.JsxInstanceProperties<ImageLabel> {
+interface DescriptiveImageProps extends React.InstanceAttributes<ImageLabel> {
 	ImageName: string;
 	Description: string;
 }

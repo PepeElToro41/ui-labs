@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import TopList from "UI/Styles/List/TopList";
 import Text from "UI/Styles/Text";

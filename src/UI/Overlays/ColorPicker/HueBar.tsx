@@ -1,11 +1,11 @@
-import Roact, { useCallback } from "@rbxts/roact";
+import React, { useCallback } from "@rbxts/react";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
 import type { HSV } from ".";
 
 interface HueBarProps {
-	HSV: Roact.Binding<HSV>;
+	HSV: React.Binding<HSV>;
 	Order?: number;
 	SetHSV: (values: Partial<HSV>) => void;
 }
@@ -14,7 +14,7 @@ function HueBar(props: HueBarProps) {
 	const OnApplyHue = useCallback((hue: number) => props.SetHSV({ H: hue }), [props.SetHSV]);
 
 	return (
-		<Div Key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
+		<Div key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
 			<SlideDrag
 				DetectProps={{
 					Size: new UDim2(1, 0, 1, 5),
@@ -23,7 +23,7 @@ function HueBar(props: HueBarProps) {
 				PercentApply={OnApplyHue}
 			></SlideDrag>
 			<imagelabel
-				Key={"HueGradient"}
+				key={"HueGradient"}
 				AnchorPoint={new Vector2(0, 0.5)}
 				BackgroundTransparency={1}
 				Image="rbxassetid://14010941769"
@@ -33,7 +33,7 @@ function HueBar(props: HueBarProps) {
 				<Rounder />
 			</imagelabel>
 			<frame
-				Key="Handle"
+				key="Handle"
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
 				Position={props.HSV.map((hsv) => UDim2.fromScale(hsv.H, 0.5))}

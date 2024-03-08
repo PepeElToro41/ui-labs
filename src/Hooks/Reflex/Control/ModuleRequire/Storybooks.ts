@@ -5,7 +5,7 @@ import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { Dictionary } from "@rbxts/sift";
 import { selectStorybooks } from "Reflex/ModuleRequire/Storybook";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useEffect } from "@rbxts/roact";
+import { useEffect } from "@rbxts/react";
 
 //Hot-Reloads (requires) all the storybooks
 export function controlStorybooks() {

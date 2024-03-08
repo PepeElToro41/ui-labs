@@ -1,5 +1,5 @@
 import { useBindingListener } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { PrimitiveControl } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
@@ -83,9 +83,9 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 				<uisizeconstraint MaxSize={new Vector2(220, math.huge)} MinSize={new Vector2(30, 0)} />
 			</InputEntry>
 			{control.Dragger && (
-				<Div Key="Dragger" Size={UDim2.fromOffset(25, 25)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
+				<Div key="Dragger" Size={UDim2.fromOffset(25, 25)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
 					<Sprite
-						Key="DraggerImage"
+						key="DraggerImage"
 						ImageProps={{
 							Size: UDim2.fromScale(1, 1),
 							ImageColor3: dragActive ? theme.Icon.Color : theme.Icon.Disabled,
@@ -93,7 +93,7 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 						Sprite="Dragger"
 					></Sprite>
 					<DeltaDrag
-						Key="DraggerDetector"
+						key="DraggerDetector"
 						DetectProps={{
 							ZIndex: 2,
 						}}

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "@rbxts/roact";
+import { useState, useCallback, useMemo } from "@rbxts/react";
 
 export function useToggler(initial: boolean) {
 	const [enabled, setEnabled] = useState(initial);

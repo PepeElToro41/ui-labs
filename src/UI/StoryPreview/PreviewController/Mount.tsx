@@ -1,6 +1,6 @@
 import { StoryCheck } from "./Utils";
 import MountingMap, { Mounter } from "./Mounters";
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
 export function MountStory<T extends MountType>(mountType: T, entry: PreviewEntry, result: MountResults[T], frame: Frame) {
 	const Mounter = MountingMap[mountType] as Mounter<T>;

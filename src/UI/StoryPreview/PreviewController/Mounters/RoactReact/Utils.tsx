@@ -1,5 +1,5 @@
 import { useProducer } from "@rbxts/react-reflex";
-import { useCallback, useEffect, useMemo } from "@rbxts/roact";
+import { useCallback, useEffect, useMemo } from "@rbxts/react";
 import { Datatype, InferControlType, Primitive } from "@rbxts/ui-labs";
 import { ControlGroup } from "@rbxts/ui-labs/src/ControlTypings/ControlUtils";
 import { IsDatatype } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";

@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
@@ -40,7 +40,7 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 
 	return (
 		<frame
-			Key={"Frame"}
+			key={"Frame"}
 			BackgroundColor3={theme.Nodes.StorySelected.Color}
 			BackgroundTransparency={hovered ? 0 : 1}
 			BorderSizePixel={0}
@@ -49,7 +49,7 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 		>
 			<Corner Radius={4} />
 			<Text
-				Key={"Text"}
+				key={"Text"}
 				Text={props.Text}
 				TextColor3={props.Disabled ? theme.Text.Disabled : hovered ? theme.Dropdown.TextHover : theme.Text.Color}
 				BackgroundColor3={hovered ? theme.Text.Inverted : theme.Text.Color}

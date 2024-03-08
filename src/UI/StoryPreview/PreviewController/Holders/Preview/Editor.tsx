@@ -1,5 +1,5 @@
 import { useMountEffect, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useEffect, useRef } from "@rbxts/roact";
+import React, { useEffect, useRef } from "@rbxts/react";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController";

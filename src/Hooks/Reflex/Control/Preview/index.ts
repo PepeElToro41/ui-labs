@@ -1,5 +1,5 @@
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useEffect } from "@rbxts/roact";
+import { useEffect } from "@rbxts/react";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 import { selectStorySelected } from "Reflex/StorySelection";
 

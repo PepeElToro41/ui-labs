@@ -1,5 +1,5 @@
 import { useDebounceEffect, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "@rbxts/react";
 import { Array } from "@rbxts/sift";
 
 interface DescriptionInfo {
@@ -13,7 +13,7 @@ interface DescriptionContext {
 	RemoveDescription: (name: string) => void;
 }
 
-const DescriptionContext = Roact.createContext({} as DescriptionContext);
+const DescriptionContext = React.createContext({} as DescriptionContext);
 
 interface DescriptionProviderProps extends PropsWithChildren {}
 

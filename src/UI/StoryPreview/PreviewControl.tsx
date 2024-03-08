@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 import { Div } from "UI/Styles/Div";
@@ -12,7 +12,7 @@ function PreviewControl(props: PreviewControlProps) {
 	const [pinned, height] = useActionsData();
 
 	const controllers = useMemo(() => {
-		const children: Roact.Children = new Map();
+		const children: React.Children = new Map();
 
 		previews.forEach((entry) => {
 			children.set(entry.UID, <PreviewController PreviewEntry={entry} />);
@@ -22,7 +22,7 @@ function PreviewControl(props: PreviewControlProps) {
 	}, [previews]);
 
 	return (
-		<Div Key={"Stories"} Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}>
+		<Div key={"Stories"} Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}>
 			{controllers}
 		</Div>
 	);

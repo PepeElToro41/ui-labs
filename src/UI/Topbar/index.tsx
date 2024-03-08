@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Branding from "./Branding";
 import Padding from "UI/Styles/Padding";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -13,7 +13,7 @@ function TopBar(setprops: TopBarProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
-		<frame Key={"TopBar"} BackgroundColor3={theme.Topbar.Color} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 32)} ZIndex={2}>
+		<frame key={"TopBar"} BackgroundColor3={theme.Topbar.Color} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 32)} ZIndex={2}>
 			<Padding PaddingX={8}></Padding>
 			<Branding></Branding>
 		</frame>

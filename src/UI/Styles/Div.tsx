@@ -1,8 +1,8 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { Dictionary } from "@rbxts/sift";
 
-interface DivProps extends Roact.JsxInstance<Frame> {
-	Reference?: Roact.Ref<Frame>;
+interface DivProps extends React.InstanceProps<Frame> {
+	Reference?: React.Ref<Frame>;
 }
 
 export function Div(props: DivProps) {
@@ -15,7 +15,7 @@ export function Div(props: DivProps) {
 			Position={new UDim2(0, 0, 0, 0)}
 			BorderSizePixel={0}
 			{...props}
-			Ref={setRef}
+			ref={setRef}
 		></frame>
 	);
 }

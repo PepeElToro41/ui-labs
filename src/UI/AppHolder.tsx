@@ -1,4 +1,4 @@
-import Roact, { PropsWithChildren, useEffect, useRef } from "@rbxts/roact";
+import React, { PropsWithChildren, useEffect, useRef } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { Div } from "./Styles/Div";
 
@@ -20,7 +20,7 @@ function AppHolder(setprops: AppHolderProps) {
 	}, [divRef.current]);
 
 	return (
-		<Div Key="App" Reference={divRef}>
+		<Div key="App" Reference={divRef}>
 			{props["children"] ?? new Map()}
 		</Div>
 	);

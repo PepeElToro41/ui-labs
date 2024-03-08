@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useRef, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import FrameFill from "UI/Holders/FrameFill";
@@ -45,7 +45,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const sliderRef = useRef<Frame>();
 
 	const marks = useMemo(() => {
-		const allMarks: Roact.Element[] = [];
+		const allMarks: React.Element[] = [];
 		//First and Last mark (always there)
 		allMarks.push(<Mark Amount={1} Position={0} Percent={percent}></Mark>);
 		allMarks.push(<Mark Amount={1} Position={1} Percent={percent}></Mark>);
@@ -155,17 +155,17 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 				/>
 				<Div AnchorPoint={new Vector2(0.5, 0.5)} Position={UDim2.fromScale(0.5, 0.5)} Size={new UDim2(1, -75, 1, 0)}>
 					<frame
-						Key="Slide"
+						key="Slide"
 						AnchorPoint={new Vector2(0.5, 0.5)}
 						BackgroundColor3={theme.Search.Color}
 						BorderSizePixel={0}
 						Position={UDim2.fromScale(0.5, 0.5)}
 						Size={new UDim2(1, -30, 0, 3)}
-						Ref={sliderRef}
+						ref={sliderRef}
 					>
 						<Corner Radius={8} />
 						<SlideDrag
-							Key="SlideDetector"
+							key="SlideDetector"
 							DetectProps={{
 								AnchorPoint: new Vector2(0.5, 0.5),
 								BackgroundTransparency: 1,
@@ -178,14 +178,14 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 							StateUpdated={OnStateUpdated}
 						></SlideDrag>
 						<frame
-							Key="Percentage"
+							key="Percentage"
 							BackgroundColor3={theme.Nodes.StorySelected.Color}
 							BorderSizePixel={0}
 							Size={percent.map((p) => UDim2.fromScale(p, 1))}
 							ZIndex={2}
 						>
 							<frame
-								Key="Handle"
+								key="Handle"
 								AnchorPoint={new Vector2(0.5, 0.5)}
 								BackgroundColor3={theme.Nodes.StorySelected.Color}
 								BorderSizePixel={0}
@@ -195,7 +195,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 								<Rounder />
 							</frame>
 						</frame>
-						<Div Key={"Marks"}>{marks}</Div>
+						<Div key={"Marks"}>{marks}</Div>
 					</frame>
 				</Div>
 				<Text

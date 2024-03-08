@@ -1,4 +1,4 @@
-import Roact, { useCallback } from "@rbxts/roact";
+import React, { useCallback } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import ChooseListOverlay from "UI/Overlays/OptionList/Choose";
 import {
@@ -19,7 +19,7 @@ function ChooseControl(props: ControlElementProps<AdvancedTypes.Choose>) {
 		[props.Control, props.Apply, props.Current],
 	);
 	const SetListOverlay = useCallback(
-		(position: UDim2 | Roact.Binding<UDim2>, onClose: () => void) => {
+		(position: UDim2 | React.Binding<UDim2>, onClose: () => void) => {
 			const element = (
 				<ChooseListOverlay Options={props.Control.List} Position={position} ChooseOption={OnSetOption} OnClose={onClose} />
 			);

@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useMouseOffset, useMousePos, useRelativeMousePos } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -64,7 +64,7 @@ function MountEntry(props: MountEntryProps) {
 
 	return (
 		<Detector
-			Key={"Entry"}
+			key={"Entry"}
 			AutomaticSize={Enum.AutomaticSize.X}
 			BackgroundColor3={selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color}
 			BackgroundTransparency={0}
@@ -85,7 +85,7 @@ function MountEntry(props: MountEntryProps) {
 				Transparency={hovered ? 0.5 : 1}
 			/>
 			<frame
-				Key={"HiddenCover"}
+				key={"HiddenCover"}
 				ZIndex={5}
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundColor3={Color3.fromRGB(0, 0, 0)}
@@ -95,11 +95,11 @@ function MountEntry(props: MountEntryProps) {
 			>
 				<Corner Radius={6} />
 			</frame>
-			<Div Key={"Holder"}>
+			<Div key={"Holder"}>
 				<Padding PaddingX={8} />
 				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 				<Text
-					Key={"TextLabel"}
+					key={"TextLabel"}
 					Text={(isMain ? "• " : "") + (node ? node.Name : "---")}
 					TextSize={14}
 					LayoutOrder={count()}
@@ -144,7 +144,7 @@ function MountEntry(props: MountEntryProps) {
 				)}
 
 				<frame
-					Key={"CloseFrame"}
+					key={"CloseFrame"}
 					LayoutOrder={count()}
 					Size={UDim2.fromOffset(17, 17)}
 					BackgroundTransparency={closeHovered ? (selected ? 0.4 : 0.65) : 1}
@@ -152,7 +152,7 @@ function MountEntry(props: MountEntryProps) {
 				>
 					<Corner Radius={6} />
 					<Sprite
-						Key={"CloseIcon"}
+						key={"CloseIcon"}
 						Sprite="Close"
 						ImageProps={{
 							ImageColor3: selected ? theme.StoryPreview.TextSelected : theme.Text.Color,

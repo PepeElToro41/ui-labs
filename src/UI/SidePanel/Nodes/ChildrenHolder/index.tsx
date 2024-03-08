@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { selectFilter } from "Reflex/Explorer/Filter";
@@ -21,7 +21,7 @@ interface ChildrenHolderProps {
 	Sprite: SpriteName;
 	SpriteColor: Color3;
 	Unknown?: boolean;
-	Children: Roact.Element[];
+	Children: React.Element[];
 }
 
 const EXPAND_INFO = new TweenInfo(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
@@ -71,10 +71,10 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 	}, [filter]);
 
 	return (
-		<Div Key={name} AutomaticSize={Enum.AutomaticSize.Y} Size={new UDim2(1, 0, 0, 25)} LayoutOrder={props.Order}>
+		<Div key={name} AutomaticSize={Enum.AutomaticSize.Y} Size={new UDim2(1, 0, 0, 25)} LayoutOrder={props.Order}>
 			<List />
 			<frame
-				Key="EntryLabel"
+				key="EntryLabel"
 				BackgroundColor3={theme.Nodes.Normal.Color}
 				LayoutOrder={0}
 				BackgroundTransparency={hovered ? 0.6 : 1}
@@ -93,7 +93,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 					<LeftList Padding={new UDim(0, 5)} />
 					<Padding Padding={4} Bottom={5} />
 					<Sprite
-						Key="Icon"
+						key="Icon"
 						Sprite={props.Sprite}
 						ImageProps={{
 							LayoutOrder: 1,
@@ -102,7 +102,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						}}
 					/>
 					<Text
-						Key="TitleLabel"
+						key="TitleLabel"
 						Text={name}
 						LayoutOrder={2}
 						Size={new UDim2(1, -46, 1, 0)}
@@ -111,7 +111,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>
 					<Sprite
-						Key="ExpandIcon"
+						key="ExpandIcon"
 						Sprite={expanded ? "Collapse" : "Expand"}
 						ImageProps={{
 							LayoutOrder: 3,
@@ -122,21 +122,21 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 				</Div>
 			</frame>
 			<Div
-				Key="ChildrenFrame"
+				key="ChildrenFrame"
 				ClipsDescendants={true}
 				LayoutOrder={1}
 				AutomaticSize={Enum.AutomaticSize.Y}
 				Size={UDim2.fromScale(1, 0)}
 			>
 				<frame
-					Key="ChildrenDivisor"
+					key="ChildrenDivisor"
 					BackgroundColor3={theme.Divisor.Color}
 					BackgroundTransparency={0.5}
 					BorderSizePixel={0}
 					Position={new UDim2(0, 8, 0, 0)}
 					Size={new UDim2(0, 1, 1, -9)}
 				/>
-				<Div Key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
+				<Div key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
 					<TopList Padding={new UDim(0, 1)} />
 					<uipadding PaddingLeft={new UDim(0, 13)} />
 					{expanded ? props.Children : []}

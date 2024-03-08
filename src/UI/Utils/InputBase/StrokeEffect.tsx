@@ -1,4 +1,4 @@
-import Roact, { useEffect } from "@rbxts/roact";
+import React, { useEffect } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import Corner from "UI/Styles/Corner";
@@ -6,7 +6,7 @@ import { Div } from "UI/Styles/Div";
 
 interface StrokeEffectProps {
 	Active: boolean;
-	FrameSize: Roact.Binding<Vector2>;
+	FrameSize: React.Binding<Vector2>;
 	CornerRadius?: number;
 }
 
@@ -22,7 +22,7 @@ function StrokeEffect(props: StrokeEffectProps) {
 
 	return (
 		<Div
-			Key="StrokeEffect"
+			key="StrokeEffect"
 			Size={phase.map((p) => new UDim2(p, 3, 1, 2))}
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			Position={UDim2.fromScale(0.5, 0.5)}
@@ -30,7 +30,7 @@ function StrokeEffect(props: StrokeEffectProps) {
 			Visible={phase.map((p) => p > 0)}
 		>
 			<frame
-				Key="StrokeFrame"
+				key="StrokeFrame"
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
 				Position={UDim2.fromScale(0.5, 0.5)}

@@ -1,4 +1,4 @@
-import Roact, { PropsWithChildren } from "@rbxts/roact";
+import React, { PropsWithChildren } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { Detector } from "UI/Styles/Detector";
@@ -27,21 +27,21 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 	return (
 		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={0}>
 			<frame
-				Key={"HoverOverlay"}
+				key={"HoverOverlay"}
 				BackgroundColor3={new Color3(0, 0, 0)}
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundTransparency={0.9}
 				Visible={hovered}
 			/>
-			<Div Key={"Holder"}>
+			<Div key={"Holder"}>
 				<TopList Padding={new UDim(0, 1)} />
-				<Div Key={"GroupTitle"} Size={new UDim2(1, 0, 0, 35)}>
-					<Div Key={"GroupContents"}>
+				<Div key={"GroupTitle"} Size={new UDim2(1, 0, 0, 35)}>
+					<Div key={"GroupContents"}>
 						<Padding PaddingX={8} />
-						<Div Key={"TitleLabel"}>
+						<Div key={"TitleLabel"}>
 							<LeftList Padding={new UDim(0, 5)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 							<Sprite
-								Key="ExpandIcon"
+								key="ExpandIcon"
 								Sprite={expanded ? "Collapse" : "Expand"}
 								ImageProps={{
 									ImageColor3: theme.Icon.Color,
@@ -50,7 +50,7 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 							/>
 							<Text
 								LayoutOrder={2}
-								Key={"ControlName"}
+								key={"ControlName"}
 								Text={props.GroupName}
 								TextXAlignment={Enum.TextXAlignment.Left}
 								Size={new UDim2(0, 185, 1, 0)}
@@ -69,9 +69,9 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 						}}
 					/>
 				</Div>
-				<Div Key={"Controls"} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} Visible={expanded} LayoutOrder={2}>
+				<Div key={"Controls"} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} Visible={expanded} LayoutOrder={2}>
 					<Padding Left={25} Bottom={1} />
-					<Div Key={"ControlContents"}>
+					<Div key={"ControlContents"}>
 						<TopList Padding={new UDim(0, 3)} />
 						{props["children"] ?? []}
 					</Div>

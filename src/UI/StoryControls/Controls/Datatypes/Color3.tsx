@@ -1,5 +1,5 @@
 import { lerp, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
 import { usePosition } from "Hooks/Utils/AppHolder";
@@ -13,8 +13,11 @@ import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
 import { useMutable } from "Hooks/Utils/Mutable";
+import { FixColor3, GetColorHex } from "Utils/MiscUtils";
 
-export function GetContrastColor(color: Color3) {
+export function GetContrastColor(rawColor: Color3) {
+	const color = FixColor3(rawColor);
+
 	const totalContrast = (color.R * 255 + color.G * 255 + color.B * 255) / 3;
 	if (totalContrast > 255 / 2) {
 		return new Color3(0.13, 0.13, 0.13);
@@ -71,7 +74,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 		<Div>
 			<LeftList Padding={new UDim(0, 6)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 			<frame
-				Key={"ColorEntry"}
+				key={"ColorEntry"}
 				BackgroundColor3={props.Current}
 				Size={hoverAlpha.map((a) => UDim2.fromOffset(lerp(25, 70, a), 25))}
 				BorderSizePixel={0}
@@ -90,18 +93,18 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 					}}
 				/>
 				<Text
-					Key="HexLabel"
+					key="HexLabel"
 					AnchorPoint={new Vector2(0.5, 0)}
 					Position={new UDim2(0.5, 0, 0, 1)}
 					Size={new UDim2(1, -10, 1, 0)}
 					ClipsDescendants={true}
-					Text={"#" + props.Current.ToHex().upper()}
+					Text={"#" + GetColorHex(props.Current).upper()}
 					TextColor3={GetContrastColor(props.Current)}
 					TextTransparency={hoverAlpha.map((a) => 1 - a)}
 					TextSize={12}
 				/>
 				<Sprite
-					Key={"PickerIcon"}
+					key={"PickerIcon"}
 					Sprite={"Picker"}
 					ImageProps={{
 						AnchorPoint: new Vector2(0.5, 0.5),
@@ -113,7 +116,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 				/>
 			</frame>
 			<Sprite
-				Key={"PickerIcon"}
+				key={"PickerIcon"}
 				Sprite={"Picker"}
 				ImageProps={{ ImageTransparency: hoverAlpha.map((a) => 1 - a), Size: new UDim2(0, 20, 0, 20) }}
 			/>

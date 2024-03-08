@@ -1,5 +1,5 @@
 import Immut from "@rbxts/immut";
-import Roact, { Dispatch, SetStateAction, useCallback, useMemo } from "@rbxts/roact";
+import React, { Dispatch, SetStateAction, useCallback, useMemo } from "@rbxts/react";
 import { ControlGroup } from "@rbxts/ui-labs";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -32,7 +32,7 @@ function RenderControlGroup(
 	groupValues: ParametrizedControls,
 	update: (value: ParametrizedControls) => void,
 ) {
-	const controls: Roact.Children = new Map();
+	const controls: React.Children = new Map();
 
 	for (const [name, control] of pairs(controlGroup.Controls)) {
 		const controlValue = groupValues[name] as ControlValue;
@@ -51,7 +51,7 @@ function RenderControlGroup(
 }
 
 function RenderControl(name: string, control: ObjectControl, value: ControlValue, update: (value: ControlValue) => void) {
-	const subcomponent: Roact.Children = new Map();
+	const subcomponent: React.Children = new Map();
 	const controlRender = CreateControlRender(control, value, update);
 	subcomponent.set("ControlRender", controlRender);
 
@@ -85,7 +85,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	);
 
 	const controlComponents = useMemo(() => {
-		const components: Roact.Children = new Map();
+		const components: React.Children = new Map();
 
 		for (const [name, control] of pairs(props.Controls)) {
 			if (control.EntryType === "ControlGroup") {
@@ -108,9 +108,9 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	}, [props.Controls, props.ControlValues, SetControlByIndex]);
 
 	return (
-		<Div Key={"ControlsAction"}>
+		<Div key={"ControlsAction"}>
 			<Padding PaddingY={3} />
-			<Div Key={"TopTitle"} Size={new UDim2(1, 0, 0, 27)}>
+			<Div key={"TopTitle"} Size={new UDim2(1, 0, 0, 27)}>
 				<Text
 					Size={new UDim2(0, TITLE_NAME_WIDTH, 1, 0)}
 					Position={UDim2.fromOffset(10, 0)}

@@ -1,5 +1,6 @@
 import { useMountEffect, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useRef } from "@rbxts/roact";
+import React, { useRef } from "@rbxts/react";
+import { createPortal } from "@rbxts/react-roblox";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController";
@@ -17,12 +18,11 @@ function Viewport(props: StoryHolderProps) {
 		props.MountFrame.Parent = holder;
 	});
 
-	return (
-		<Roact.Portal target={game.GetService("CoreGui")}>
-			<screengui Key={storyName} ZIndexBehavior={Enum.ZIndexBehavior.Sibling}>
-				<Div Key={"Holder"} Reference={mountRef}></Div>
-			</screengui>
-		</Roact.Portal>
+	return createPortal(
+		<screengui key={storyName} ZIndexBehavior={Enum.ZIndexBehavior.Sibling}>
+			<Div key={"Holder"} Reference={mountRef}></Div>
+		</screengui>,
+		game.GetService("CoreGui"),
 	);
 }
 

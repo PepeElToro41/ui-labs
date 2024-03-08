@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Dropdown from ".";
 import DropdownEntry from "./DropdownEntry";
 import { Counter } from "Utils/NumberUtils";
@@ -11,7 +11,7 @@ import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import Configs from "Plugin/Configs";
 
 interface StoryDropdownProps {
-	Position: UDim2 | Roact.Binding<UDim2>;
+	Position: UDim2 | React.Binding<UDim2>;
 	Node: StoryNode;
 }
 
@@ -35,7 +35,7 @@ function StoryDropdown(props: StoryDropdownProps) {
 	const OnUnmountAll = useOverlayAction(() => unmountByModule(module), deps);
 
 	return (
-		<Dropdown Key={"StoryDropdown"} Position={props.Position}>
+		<Dropdown key={"StoryDropdown"} Position={props.Position}>
 			<DropdownEntry Text="Mount Story" Disabled={isAlreadyMounted} OnClick={OnViewStory} LayoutOrder={count()} />
 			<DropdownEntry Text="Mount On Top" OnClick={OnMountOnTop} LayoutOrder={count()} />
 			<DropdownEntry Text="Mount In Widget" Disabled={plugin === undefined} OnClick={OnMountOnWidget} LayoutOrder={count()} />

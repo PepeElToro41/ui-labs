@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface BackgroundPatternProps {}
@@ -11,9 +11,9 @@ function BackgroundPattern(setprops: BackgroundPatternProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
-		<Roact.Fragment>
+		<React.Fragment>
 			<imagelabel
-				Key={"Background"}
+				key={"Background"}
 				Image={"rbxassetid://13745469099"}
 				ScaleType={"Tile"}
 				TileSize={UDim2.fromOffset(90, 90)}
@@ -24,7 +24,7 @@ function BackgroundPattern(setprops: BackgroundPatternProps) {
 				ZIndex={-2}
 			></imagelabel>
 			<frame
-				Key={"Fader1"}
+				key={"Fader1"}
 				BackgroundColor3={theme.StoryPanel.Color}
 				BorderColor3={Color3.fromRGB(0, 0, 0)}
 				BorderSizePixel={0}
@@ -42,7 +42,7 @@ function BackgroundPattern(setprops: BackgroundPatternProps) {
 				/>
 			</frame>
 			<frame
-				Key={"Fader2"}
+				key={"Fader2"}
 				AnchorPoint={new Vector2(1, 0)}
 				BackgroundColor3={theme.StoryPanel.Color}
 				BorderColor3={Color3.fromRGB(0, 0, 0)}
@@ -61,7 +61,7 @@ function BackgroundPattern(setprops: BackgroundPatternProps) {
 					}
 				/>
 			</frame>
-		</Roact.Fragment>
+		</React.Fragment>
 	);
 }
 

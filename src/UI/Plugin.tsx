@@ -1,5 +1,5 @@
 import { useProducer } from "@rbxts/react-reflex";
-import Roact, { useEffect } from "@rbxts/roact";
+import React, { useEffect } from "@rbxts/react";
 import App from "./App";
 
 interface PluginProps {

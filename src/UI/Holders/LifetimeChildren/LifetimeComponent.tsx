@@ -1,5 +1,5 @@
 import { useUpdate } from "@rbxts/pretty-react-hooks";
-import Roact, { PropsWithChildren, useMemo } from "@rbxts/roact";
+import React, { PropsWithChildren, useMemo } from "@rbxts/react";
 import { LifetimeController } from "./LifetimeController";
 
 interface LifetimeComponentProps extends PropsWithChildren {}
@@ -9,10 +9,10 @@ function LifetimeComponent(props: LifetimeComponentProps) {
 	const controller = useMemo(() => new LifetimeController(), []);
 	controller.SetUpdater(rerender);
 
-	const children = props["children"] ?? new Map();
+	const children: React.Children = (props["children"] as React.Children) ?? new Map();
 	controller.ProcessChildren(children);
 	const comps = controller.RenderComponents();
-	return <Roact.Fragment>{comps}</Roact.Fragment>;
+	return <React.Fragment>{comps}</React.Fragment>;
 }
 
 export default LifetimeComponent;

@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Configs from "Plugin/Configs";
 import { Div } from "UI/Styles/Div";
@@ -16,10 +16,10 @@ function Branding(setprops: BrandingProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
-		<Div Key="Branding" Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
+		<Div key="Branding" Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 			<LeftList VerticalAlignment={"Center"} Padding={new UDim(0, 5)}></LeftList>
 			<Sprite Sprite={"UILogo"} ImageProps={{ ImageColor3: theme.Topbar.Logo, Size: UDim2.fromOffset(28, 28) }}></Sprite>
-			<Text Key="PluginName" Weight="Bold" TextXAlignment={"Left"} Text={Configs.PluginName} Size={new UDim2(0, 60, 1, 0)} />
+			<Text key="PluginName" Weight="Bold" TextXAlignment={"Left"} Text={Configs.PluginName} Size={new UDim2(0, 60, 1, 0)} />
 		</Div>
 	);
 }

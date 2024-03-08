@@ -1,10 +1,10 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Sprites from "./SpriteMap";
 import Configs from "Plugin/Configs";
 
 interface SpriteProps {
 	Sprite: SpriteName;
-	ImageProps?: Omit<Roact.JsxInstanceProperties<ImageLabel>, "Image" | "ImageRectOffset" | "ImageRectSize">;
+	ImageProps?: Omit<React.InstanceAttributes<ImageLabel>, "Image" | "ImageRectOffset" | "ImageRectSize">;
 }
 
 function setProps(props: SpriteProps) {

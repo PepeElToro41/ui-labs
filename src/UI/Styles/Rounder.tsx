@@ -1,7 +1,7 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
 interface CornerProps {}
 
 export default (props: CornerProps) => {
-	return <uicorner Key="Rounder" CornerRadius={new UDim(0.5, 0)} />;
+	return <uicorner key="Rounder" CornerRadius={new UDim(0.5, 0)} />;
 };

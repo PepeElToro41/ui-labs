@@ -1,6 +1,6 @@
 import { useUnmountEffect, lerp } from "@rbxts/pretty-react-hooks";
 import { useProducer } from "@rbxts/react-reflex";
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { usePosition } from "Hooks/Utils/AppHolder";
@@ -65,7 +65,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 		<Div>
 			<LeftList Padding={new UDim(0, 6)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 			<Div
-				Key={"ColorEntry"}
+				key={"ColorEntry"}
 				Size={hoverAlpha.map((a) => UDim2.fromOffset(lerp(25, 70, a), 25))}
 				Change={{
 					AbsolutePosition: OnUDimApply,
@@ -99,7 +99,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 					}}
 				/>
 				<Text
-					Key="HexLabel"
+					key="HexLabel"
 					AnchorPoint={new Vector2(0.5, 0)}
 					Position={new UDim2(0.5, 0, 0, 1)}
 					Size={new UDim2(1, -10, 1, 0)}
@@ -110,7 +110,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 					TextSize={12}
 				/>
 				<Sprite
-					Key={"PickerIcon"}
+					key={"PickerIcon"}
 					Sprite={"Picker"}
 					ImageProps={{
 						AnchorPoint: new Vector2(0.5, 0.5),
@@ -122,7 +122,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 				/>
 			</Div>
 			<Sprite
-				Key={"PickerIcon"}
+				key={"PickerIcon"}
 				Sprite={"Picker"}
 				ImageProps={{ ImageTransparency: hoverAlpha.map((a) => 1 - a), Size: new UDim2(0, 20, 0, 20) }}
 			/>

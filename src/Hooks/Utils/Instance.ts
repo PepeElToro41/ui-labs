@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "@rbxts/roact";
+import { useEffect, useMemo, useState } from "@rbxts/react";
 
 type PropertiesTable<T extends Instance> = Partial<WritableInstanceProperties<T>>;
 

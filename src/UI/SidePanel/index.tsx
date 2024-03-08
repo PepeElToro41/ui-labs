@@ -1,4 +1,4 @@
-import Roact, { useCallback } from "@rbxts/roact";
+import React, { useCallback } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import ResizableFrame from "UI/Holders/ResizableFrame";
 import List from "UI/Styles/List";
@@ -22,7 +22,7 @@ function SidePanel(props: SidePanelProps) {
 
 	return (
 		<ResizableFrame
-			Key="SidePanel"
+			key="SidePanel"
 			BaseSize={new UDim2(0, 250, 1, 0)}
 			ResizeRange={new NumberRange(-130, 300)}
 			MaxBeforeCollapse={-200}
@@ -40,7 +40,7 @@ function SidePanel(props: SidePanelProps) {
 			<Padding Padding={12} />
 			<List HorizontalAlignment={"Center"} Padding={new UDim(0, 10)} />
 			<InputBase
-				Key="SearchInput"
+				key="SearchInput"
 				HolderProps={{
 					LayoutOrder: 1,
 					Size: new UDim2(1, 0, 0, 27),

@@ -1,12 +1,12 @@
-import Roact, { Dispatch, PropsWithChildren, SetStateAction, useBinding, useContext, useMemo, useState } from "@rbxts/roact";
+import React, { Dispatch, PropsWithChildren, SetStateAction, useBinding, useContext, useMemo, useState } from "@rbxts/react";
 
 interface StoryPanelContext {
 	ActionsPinned: boolean;
-	ActionsHeight: Roact.Binding<number>;
+	ActionsHeight: React.Binding<number>;
 	SetActionsPinned: Dispatch<SetStateAction<boolean>>;
 	SetActionsHeight: (height: number) => void;
 }
-const StoryPanelContext = Roact.createContext({} as StoryPanelContext);
+const StoryPanelContext = React.createContext({} as StoryPanelContext);
 
 interface StoryPanelProps extends PropsWithChildren {}
 

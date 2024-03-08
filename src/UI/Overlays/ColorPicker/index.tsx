@@ -1,4 +1,4 @@
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
 import TopList from "UI/Styles/List/TopList";
@@ -17,6 +17,7 @@ import { GetVector, useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
 import { RunService } from "@rbxts/services";
 import { Counter } from "Utils/NumberUtils";
 import AlphaBar from "./AlphaBar";
+import { FixColor3 } from "Utils/MiscUtils";
 
 export interface PickedValue {
 	Color: Color3;
@@ -27,7 +28,7 @@ interface ColorPickerProps {
 	StartColor: Color3;
 	ApplyColor: (value: PickedValue) => void;
 	StartAlpha?: number;
-	Position?: UDim2 | Roact.Binding<UDim2>;
+	Position?: UDim2 | React.Binding<UDim2>;
 	Separation?: number;
 	OnClickClose?: () => void;
 }
@@ -48,8 +49,8 @@ function GetHSVValues(color: Color3): HSV {
 }
 
 function ColorPicker(props: ColorPickerProps) {
-	const [color, setColor] = useState(props.StartColor);
-	const [alpha, setAlpha] = useState(props.StartAlpha ?? 1);
+	const [color, setColor] = useState(FixColor3(props.StartColor));
+	const [alpha, setAlpha] = useState(math.min(props.StartAlpha ?? 1, 1));
 	const [hsv, setHSV] = useBinding(GetHSVValues(color));
 	const [inside, insideApi] = useToggler(false);
 	const [size, setSize] = useBinding(Vector2.zero);
@@ -116,7 +117,7 @@ function ColorPicker(props: ColorPickerProps) {
 		>
 			<TopList />
 			<frame
-				Key={"Picker"}
+				key={"Picker"}
 				Size={UDim2.fromScale(1, 0)}
 				BackgroundColor3={Color3.fromRGB(24, 24, 24)}
 				AutomaticSize={Enum.AutomaticSize.Y}
@@ -129,7 +130,7 @@ function ColorPicker(props: ColorPickerProps) {
 				<uistroke Color={Color3.fromRGB(150, 150, 150)} Transparency={0.8} />
 				<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} />
 				<Corner Radius={6} />
-				<Div Key={"Contents"} Size={new UDim2(1, 0, 0, 0)} LayoutOrder={1} AutomaticSize={Enum.AutomaticSize.Y}>
+				<Div key={"Contents"} Size={new UDim2(1, 0, 0, 0)} LayoutOrder={1} AutomaticSize={Enum.AutomaticSize.Y}>
 					<TopList Padding={new UDim(0, 7)} HorizontalAlignment={Enum.HorizontalAlignment.Center} />
 					<Padding Padding={6} />
 					<ValuePicker HSV={hsv} SetHSV={SetHSV} Order={count()} />
@@ -166,7 +167,7 @@ function ColorPicker(props: ColorPickerProps) {
 				</Div>
 				<ColorPointer Color={color} Order={wrapped ? 0 : 2} Wrapped={wrapped} />
 			</frame>
-			<Div Key={"Separator"} Size={new UDim2(1, 0, 0, props.Separation ?? 20)} LayoutOrder={wrapped ? 0 : 2} />
+			<Div key={"Separator"} Size={new UDim2(1, 0, 0, props.Separation ?? 20)} LayoutOrder={wrapped ? 0 : 2} />
 		</Div>
 	);
 }
