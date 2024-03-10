@@ -1,4 +1,4 @@
-import Roact, { useCallback } from "@rbxts/roact";
+import React, { useCallback } from "@rbxts/react";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
@@ -20,7 +20,7 @@ function AlphaBar(setprops: AlphaBarProps) {
 	const OnApplyAlpha = useCallback((val: number) => props.OnApply(val), [props.OnApply]);
 
 	return (
-		<Div Key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
+		<Div key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
 			<SlideDrag
 				DetectProps={{
 					Size: new UDim2(1, 0, 1, 5),
@@ -50,7 +50,7 @@ function AlphaBar(setprops: AlphaBarProps) {
 				<uigradient Transparency={new NumberSequence([new NumberSequenceKeypoint(0, 1), new NumberSequenceKeypoint(1, 0)])} />
 			</frame>
 			<frame
-				Key="Handle"
+				key="Handle"
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
 				Position={UDim2.fromScale(props.Alpha, 0.5)}

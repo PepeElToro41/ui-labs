@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useOverlayAction } from "../Utils";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { Counter } from "Utils/NumberUtils";
@@ -12,7 +12,7 @@ import Configs from "Plugin/Configs";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
 
 interface PreviewDropdownProps {
-	Position: UDim2 | Roact.Binding<UDim2>;
+	Position: UDim2 | React.Binding<UDim2>;
 	PreviewEntry: PreviewEntry;
 }
 
@@ -63,17 +63,12 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 	const isPlugin = plugin !== undefined;
 
 	return (
-		<Dropdown Key={"StoryDropdown"} Position={props.Position}>
+		<Dropdown key={"StoryDropdown"} Position={props.Position}>
 			<DropdownEntry Text="Unmount" OnClick={OnUnmount} LayoutOrder={count()} />
 			{entry.OnWidget ? (
-				<DropdownEntry
-					Text="Mount In Editor"
-					Disabled={isRootPreview || !isPlugin}
-					OnClick={OnMountOnEditor}
-					LayoutOrder={count()}
-				/>
+				<DropdownEntry Text="Mount In Editor" OnClick={OnMountOnEditor} LayoutOrder={count()} />
 			) : (
-				<DropdownEntry Text="Mount In Widget" OnClick={OnMountOnWidget} LayoutOrder={count()} />
+				<DropdownEntry Text="Mount In Widget" Disabled={!isPlugin} OnClick={OnMountOnWidget} LayoutOrder={count()} />
 			)}
 			<DropdownEntry Text={entry.Visible ? "Hide" : "Un-hide"} OnClick={OnToggleVisible} LayoutOrder={count()} />
 			<Divisor Order={count()} />

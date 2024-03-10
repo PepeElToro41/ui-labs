@@ -1,4 +1,4 @@
-import Roact, { useCallback, useMemo } from "@rbxts/roact";
+import React, { useCallback, useMemo } from "@rbxts/react";
 import Overlay from "../Overlay";
 import { useProducer } from "@rbxts/react-reflex";
 import Corner from "UI/Styles/Corner";
@@ -13,7 +13,7 @@ import { Div } from "UI/Styles/Div";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 
 interface ChooseListOverlayProps {
-	Position: UDim2 | Roact.Binding<UDim2>;
+	Position: UDim2 | React.Binding<UDim2>;
 	Options: ChooseOptionType[];
 	ChooseOption: (optionIndex: number) => void;
 	OnClose?: () => void;
@@ -40,7 +40,7 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 	});
 
 	const options = useMemo(() => {
-		const optionElements: Roact.Element[] = [];
+		const optionElements: React.Element[] = [];
 
 		props.Options.forEach((option, index) => {
 			const element = <ChooseOption Option={option} Order={index} OnOptionClicked={() => OnOptionClicked(index)} />;
@@ -58,9 +58,9 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 			OnClickClose={OverlayClose}
 		>
 			<TopList Padding={new UDim(0, 1)} />
-			<Div Key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
+			<Div key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
 			<frame
-				Key="Holder"
+				key="Holder"
 				LayoutOrder={1}
 				BackgroundColor3={theme.Controls.List.Frame}
 				BorderSizePixel={0}
@@ -72,7 +72,7 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 				}}
 			>
 				<Corner Radius={6} />
-				<Detector Key="InputBlocker">
+				<Detector key="InputBlocker">
 					<TopList Padding={new UDim(0, 1)} />
 					{options}
 				</Detector>

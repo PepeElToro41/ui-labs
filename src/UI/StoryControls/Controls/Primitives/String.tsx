@@ -1,5 +1,5 @@
 import { useMountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useCallback, useEffect, useRef } from "@rbxts/roact";
+import React, { useCallback, useEffect, useRef } from "@rbxts/react";
 import { PrimitiveControl } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { Div } from "UI/Styles/Div";

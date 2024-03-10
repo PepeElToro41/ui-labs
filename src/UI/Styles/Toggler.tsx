@@ -1,10 +1,10 @@
 import { useEventListener } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useEffect, useState } from "@rbxts/react";
 import { UserInputService } from "@rbxts/services";
 import { set } from "@rbxts/sift/out/Array";
 
 interface TogglerProps {
-	FrameProps?: Roact.JsxInstanceProperties<TextButton>;
+	FrameProps?: React.InstanceAttributes<TextButton>;
 	ZIndex?: number;
 	OnToggle: (active: boolean) => void;
 }
@@ -32,7 +32,7 @@ function Toggler(props: TogglerProps) {
 
 	return (
 		<textbutton
-			Key={"Toggler"}
+			key={"Toggler"}
 			BackgroundTransparency={1}
 			TextTransparency={1}
 			Text={""}

@@ -1,5 +1,5 @@
 import { useMountEffect, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useEffect, useRef } from "@rbxts/roact";
+import React, { useEffect, useRef } from "@rbxts/react";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController";
@@ -13,7 +13,7 @@ function Editor(props: StoryHolderProps) {
 	const storyName = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 	const onViewport = props.PreviewEntry.OnViewport;
 
-	useDeferLifetime(props);
+	useDeferLifetime(props, 2);
 
 	useEffect(() => {
 		const holder = mountRef.current;

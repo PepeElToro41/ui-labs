@@ -1,5 +1,5 @@
 import { useBindingListener } from "@rbxts/pretty-react-hooks";
-import Roact, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/roact";
+import React, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/react";
 import { RunService } from "@rbxts/services";
 import Signal from "@rbxts/signal";
 import { useConnection } from "Hooks/Utils/Connection";
@@ -18,8 +18,8 @@ interface ResizableFrameProps extends PropsWithChildren {
 	MaxBeforeCollapse?: number;
 	MinToDeCollapse?: number;
 
-	HolderProps?: Omit<Roact.JsxInstanceProperties<Frame>, "Size">;
-	FrameProps?: Omit<JSX.IntrinsicElement<Frame>, "Size" | "Position" | "AnchorPoint">;
+	HolderProps?: Omit<React.InstanceAttributes<Frame>, "Size">;
+	FrameProps?: Omit<React.InstanceAttributes<Frame>, "Size" | "Position" | "AnchorPoint">;
 
 	SetCollapse?: Signal<(collapsed: boolean) => void>;
 	OnResized?: (collapsed: boolean, resized: number) => void;
@@ -142,25 +142,27 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 									math.clamp(add.Y, props.ResizeRange.Min, props.ResizeRange.Max),
 								),
 							);
-						})
+					  })
 			}
 			{...props.HolderProps}
-			Ref={frameRef}
+			ref={frameRef}
 		>
 			<frame
-				Key="DragAdornee"
+				key="DragAdornee"
 				BackgroundColor3={new Color3(0.22, 0.65, 1)}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BorderSizePixel={0}
 				BackgroundTransparency={isDragging ? 0 : mouseInput ? 0.5 : 1}
 				Position={new UDim2(dragHandleX, 0, dragHandleY, 0)}
 				Size={isWidthResizable ? new UDim2(0, isDragging ? 2 : 1, 1, 0) : new UDim2(1, 0, 0, isDragging ? 2 : 1)}
+				ZIndex={2}
 			></frame>
 			<Detector
-				Key="DragHandle"
+				key="DragHandle"
 				Position={new UDim2(dragHandleX, 0, dragHandleY, 0)}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				Size={isWidthResizable ? new UDim2(0, props.HandleSize, 1, 0) : new UDim2(1, 0, 0, props.HandleSize)}
+				ZIndex={3}
 				Event={{
 					MouseLeave: () => {
 						if (!isDragging) setMouseInput(undefined);
@@ -181,7 +183,7 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 					},
 				}}
 			></Detector>
-			<Div Key="Contents" Visible={!collapsed} {...(props.FrameProps ?? {})}>
+			<Div key="Contents" Visible={!collapsed} {...(props.FrameProps ?? {})}>
 				{props["children"] ? props["children"] : undefined}
 			</Div>
 		</Div>

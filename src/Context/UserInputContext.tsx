@@ -1,5 +1,5 @@
 import { useBindingListener, useEventListener } from "@rbxts/pretty-react-hooks";
-import Roact, { PropsWithChildren, useBinding, useCallback, useContext, useMemo } from "@rbxts/roact";
+import React, { PropsWithChildren, useBinding, useCallback, useContext, useMemo } from "@rbxts/react";
 import { UserInputService } from "@rbxts/services";
 import Signal from "@rbxts/signal";
 import { InputSignals } from "@rbxts/ui-labs/src/Typing";
@@ -9,13 +9,13 @@ import { Div } from "UI/Styles/Div";
 type InputSignature = (input: InputObject, gameProcessed: boolean) => void;
 
 interface UserInputContext {
-	MousePosition: Roact.Binding<Vector2>;
+	MousePosition: React.Binding<Vector2>;
 	InputChanged: Signal<InputSignature>;
 	InputBegan: Signal<InputSignature>;
 	InputEnded: Signal<InputSignature>;
 }
 
-export const UserInputContext = Roact.createContext({} as UserInputContext);
+export const UserInputContext = React.createContext({} as UserInputContext);
 
 interface UserInputProps extends PropsWithChildren {}
 
@@ -52,7 +52,7 @@ export function UserInputProvider(props: UserInputProps) {
 	return (
 		<UserInputContext.Provider value={contextValue}>
 			<Div
-				Key="InputListener"
+				key="InputListener"
 				ZIndex={5}
 				Event={{ InputChanged: OnInputChanged, InputBegan: OnInputBegan, InputEnded: OnInputEnded }}
 			/>

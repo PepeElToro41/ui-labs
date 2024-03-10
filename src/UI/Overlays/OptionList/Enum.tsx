@@ -1,4 +1,4 @@
-import Roact, { useCallback, useMemo } from "@rbxts/roact";
+import React, { useCallback, useMemo } from "@rbxts/react";
 import Overlay from "../Overlay";
 import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import Corner from "UI/Styles/Corner";
@@ -13,7 +13,7 @@ import { Div } from "UI/Styles/Div";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 
 interface EnumListOverlayProps {
-	Position: UDim2 | Roact.Binding<UDim2>;
+	Position: UDim2 | React.Binding<UDim2>;
 	Options: Record<string, ChooseOptionType>;
 	ChooseOption: (keyIndex: string) => void;
 	OnClose?: () => void;
@@ -41,7 +41,7 @@ function EnumListOverlay(props: EnumListOverlayProps) {
 	});
 
 	const options = useMemo(() => {
-		const optionElements: Roact.Element[] = [];
+		const optionElements: React.Element[] = [];
 
 		for (const [key, option] of pairs(props.Options)) {
 			const element = <EnumOption Option={option} OptionName={key} OnOptionClicked={() => OnOptionClicked(key)} />;
@@ -59,9 +59,9 @@ function EnumListOverlay(props: EnumListOverlayProps) {
 			OnClickClose={OverlayClose}
 		>
 			<TopList Padding={new UDim(0, 1)} />
-			<Div Key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
+			<Div key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
 			<frame
-				Key="Holder"
+				key="Holder"
 				BackgroundColor3={theme.Controls.List.Frame}
 				BorderSizePixel={0}
 				LayoutOrder={1}
@@ -73,7 +73,7 @@ function EnumListOverlay(props: EnumListOverlayProps) {
 				}}
 			>
 				<Corner Radius={6} />
-				<Detector Key="InputBlocker">
+				<Detector key="InputBlocker">
 					<TopList Padding={new UDim(0, 1)} />
 					{options}
 				</Detector>

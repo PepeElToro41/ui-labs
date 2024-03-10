@@ -1,5 +1,5 @@
 import { lerp } from "@rbxts/pretty-react-hooks";
-import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
@@ -66,10 +66,11 @@ function IconToolbar(props: IconToolbarProps) {
 
 	return (
 		<Div
-			Key={"IconToolbar"}
+			key={"IconToolbar"}
 			Size={UDim2.fromOffset(35, 0)}
 			AutomaticSize={Enum.AutomaticSize.Y}
 			Position={UDim2.fromOffset(5, 5)}
+			ZIndex={2}
 			ClipsDescendants={true}
 		>
 			<Detector
@@ -80,7 +81,7 @@ function IconToolbar(props: IconToolbarProps) {
 				}}
 			/>
 			<Div
-				Key={"ButtonsHolder"}
+				key={"ButtonsHolder"}
 				Position={hoverAlpha.map((a) => UDim2.fromScale(-1 + a, 0))}
 				BackgroundTransparency={0.2}
 				BackgroundColor3={Color3.fromRGB(26, 26, 33)}
@@ -107,7 +108,7 @@ function IconToolbar(props: IconToolbarProps) {
 				/>
 			</Div>
 			<frame
-				Key={""}
+				key={""}
 				Size={new UDim2(0, 3, 1, -8)}
 				Position={UDim2.fromOffset(0, 4)}
 				BackgroundColor3={new Color3(1, 1, 1)}

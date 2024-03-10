@@ -1,4 +1,4 @@
-import Roact, { PropsWithChildren, useBinding, useCallback, useMemo, useState } from "@rbxts/roact";
+import React, { PropsWithChildren, useBinding, useCallback, useMemo, useState } from "@rbxts/react";
 import Corner from "UI/Styles/Corner";
 import Sprite from "../Sprite";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -6,22 +6,18 @@ import StrokeEffect from "./StrokeEffect";
 import Padding from "UI/Styles/Padding";
 
 interface InputProps extends PropsWithChildren {
-	TextboxProps?: Roact.JsxInstanceProperties<TextBox>;
-	HolderProps?: Roact.JsxInstanceProperties<Frame>;
+	TextboxProps?: React.InstanceAttributes<TextBox>;
+	HolderProps?: React.InstanceAttributes<Frame>;
 	Text?: string;
 	CornerRadius?: number;
 
 	Sprite?: SpriteName;
 
-	Reference?: Roact.Ref<TextBox>;
+	Reference?: React.Ref<TextBox>;
 
 	OnTextChanged?: (textbox: TextBox) => void;
 	OnFocused?: (textbox: TextBox) => void;
 	OnFocusLost?: (textbox: TextBox, enter: boolean) => void;
-}
-
-function setProps(props: InputProps) {
-	return props as Required<InputProps>;
 }
 
 function Input(props: InputProps) {
@@ -54,7 +50,7 @@ function Input(props: InputProps) {
 
 	return (
 		<frame
-			Key="SearchFrame"
+			key="SearchFrame"
 			LayoutOrder={1}
 			AnchorPoint={new Vector2(0, 0)}
 			Position={UDim2.fromScale(0, 0)}
@@ -69,7 +65,7 @@ function Input(props: InputProps) {
 			<Corner Radius={props.CornerRadius ?? 8} />
 			{hasSprite && (
 				<Sprite
-					Key="SpriteIcon"
+					key="SpriteIcon"
 					Sprite={props.Sprite!}
 					ImageProps={{
 						ImageColor3: theme.Icon.Disabled,
@@ -80,7 +76,7 @@ function Input(props: InputProps) {
 				/>
 			)}
 			<textbox
-				Key="Input"
+				key="Input"
 				AnchorPoint={new Vector2(0, 0.5)}
 				BackgroundTransparency={1}
 				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
@@ -101,7 +97,7 @@ function Input(props: InputProps) {
 				Change={{
 					Text: OnTextChanged,
 				}}
-				Ref={props.Reference}
+				ref={props.Reference}
 			>
 				<Padding PaddingX={hasSprite ? 28 : 10} />
 				{props["children"] ?? []}

@@ -1,5 +1,5 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useCallback } from "@rbxts/roact";
+import React, { useCallback } from "@rbxts/react";
 import { PrimitiveControl } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
@@ -29,7 +29,7 @@ function BooleanControl(props: ControlElementProps<PrimitiveControl<"Boolean">>)
 	return (
 		<Div>
 			<LeftList Padding={new UDim(0, 10)} VerticalAlignment={Enum.VerticalAlignment.Center} />
-			<frame Key={"Switch"} Size={UDim2.fromOffset(44, 22)} BackgroundColor3={backColor}>
+			<frame key={"Switch"} Size={UDim2.fromOffset(44, 22)} BackgroundColor3={backColor}>
 				<Rounder />
 				<Div>
 					<Padding Padding={3} />
@@ -46,7 +46,7 @@ function BooleanControl(props: ControlElementProps<PrimitiveControl<"Boolean">>)
 				<Detector Event={{ MouseButton1Click: OnSwitchToggle }} />
 			</frame>
 			<Text
-				Key={"StateLabel"}
+				key={"StateLabel"}
 				TextSize={12}
 				Weight="Medium"
 				TextColor3={theme.Text.Color}

@@ -52,6 +52,12 @@ export function CheckTableStory(storyReturn: object): StoryCheck {
 		return check;
 	}
 	if (hasReact) {
+		if (!("reactRoblox" in storyReturn)) {
+			return {
+				Sucess: false,
+				Error: "React-Roblox library is missing",
+			};
+		}
 		const check: StoryCheck<"ReactLib"> = { Sucess: true, Type: "ReactLib", Result: storyReturn as MountResults["ReactLib"] };
 		return check;
 	}

@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import FrameFill from "UI/Holders/FrameFill";
 import SidePanel from "UI/SidePanel";
 import StoryPanel from "UI/StoryPanel";
@@ -12,7 +12,7 @@ function setProps(props: AppPanelProps) {
 
 function AppPanel(setprops: AppPanelProps) {
 	return (
-		<FrameFill Key="AppPanel" FillDir="Y">
+		<FrameFill key="AppPanel" FillDir="Y">
 			<LeftList />
 			<SidePanel />
 			<StoryPanel />

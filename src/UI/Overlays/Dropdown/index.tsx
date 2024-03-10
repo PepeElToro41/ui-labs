@@ -1,4 +1,4 @@
-import Roact, { PropsWithChildren, useCallback } from "@rbxts/roact";
+import React, { PropsWithChildren, useCallback } from "@rbxts/react";
 import FrameFill from "UI/Holders/FrameFill";
 import Corner from "UI/Styles/Corner";
 import TopList from "UI/Styles/List/TopList";
@@ -11,7 +11,7 @@ import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useOverlayWrap } from "Hooks/Utils/OutsideWrapper";
 
 interface DropdownProps extends PropsWithChildren {
-	Position: UDim2 | Roact.Binding<UDim2>;
+	Position: UDim2 | React.Binding<UDim2>;
 	Width?: number;
 }
 
@@ -33,7 +33,7 @@ function Dropdown(props: DropdownProps) {
 			OnClickClose={OnClose}
 		>
 			<frame
-				Key="Holder"
+				key="Holder"
 				BackgroundColor3={theme.Dropdown.Color}
 				BorderSizePixel={0}
 				Size={UDim2.fromScale(1, 0)}
@@ -44,13 +44,13 @@ function Dropdown(props: DropdownProps) {
 				}}
 			>
 				<Corner Radius={4} />
-				<Detector Key="InputBlocker">
+				<Detector key="InputBlocker">
 					<Padding Padding={5} />
 					<TopList Padding={new UDim(0, 1)} />
 					{props["children"] ?? []}
 				</Detector>
 			</frame>
-			<FrameFill Key={"ShadowHolder"} FillDir="Y" Size={UDim2.fromScale(1, 0)} FrameProps={{ BackgroundTransparency: 1 }}>
+			<FrameFill key={"ShadowHolder"} FillDir="Y" Size={UDim2.fromScale(1, 0)} FrameProps={{ BackgroundTransparency: 1 }}>
 				<DropShadow />
 			</FrameFill>
 		</Overlay>

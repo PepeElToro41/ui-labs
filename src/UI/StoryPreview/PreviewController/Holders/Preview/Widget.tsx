@@ -1,6 +1,6 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import Roact, { useEffect, useMemo, useRef } from "@rbxts/roact";
+import React, { useEffect, useMemo, useRef } from "@rbxts/react";
 import { HttpService } from "@rbxts/services";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
@@ -8,6 +8,7 @@ import Configs from "Plugin/Configs";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController";
 import { Div } from "UI/Styles/Div";
+import { createPortal } from "@rbxts/react-roblox";
 
 const MountTitles: Record<MountType, string> = {
 	Functional: "Function",
@@ -22,12 +23,10 @@ function Widget(props: StoryHolderProps) {
 	const { unmountStory } = useProducer<RootProducer>();
 	const pluginWidget = useSelector(selectPluginWidget);
 	const preview = props.PreviewEntry;
-	const offset = preview.Offset;
-	const scale = preview.Zoom;
 	const storyName = RemoveExtension(preview.Module.Name, Configs.Extensions.Story);
 	const onViewport = preview.OnViewport;
 
-	useDeferLifetime(props);
+	useDeferLifetime(props, 2);
 	const dockWidget = useMemo(() => {
 		if (plugin === undefined) return;
 		const widgetSettings = new DockWidgetPluginGuiInfo(
@@ -61,6 +60,8 @@ function Widget(props: StoryHolderProps) {
 	useEffect(() => {
 		const holder = mountRef.current;
 		if (!holder) return;
+		if (onViewport) return;
+
 		props.MountFrame.Parent = holder;
 	}, [mountRef, onViewport]);
 
@@ -75,9 +76,7 @@ function Widget(props: StoryHolderProps) {
 			<Div key={"Story"} Reference={mountRef} />
 		</Div>
 	) : (
-		<Roact.Portal target={dockWidget}>
-			<Div key={"Story"} Reference={mountRef} />
-		</Roact.Portal>
+		createPortal(<Div key={"Story"} Reference={mountRef} />, dockWidget)
 	);
 }
 

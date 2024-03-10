@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectOverlay } from "Reflex/Overlay";
 import { Div } from "UI/Styles/Div";
@@ -15,8 +15,8 @@ function OverlayControl(setprops: OverlayControlProps) {
 	const overlay = useSelector(selectOverlay);
 
 	return (
-		<Div Key="Overlays" ZIndex={4}>
-			<DescriptionDisplay Key={"DescriptionDisplay"} />
+		<Div key="Overlays" ZIndex={4}>
+			<DescriptionDisplay key={"DescriptionDisplay"} />
 			{overlay ? overlay.Element : undefined}
 		</Div>
 	);

@@ -8,7 +8,7 @@
       "$className": "DataModel",
       "ServerScriptService": {
          "$className": "ServerScriptService",
-         "UILABS": {
+         "UILabs": {
             "$path": "./default.project.json"
          }
       }

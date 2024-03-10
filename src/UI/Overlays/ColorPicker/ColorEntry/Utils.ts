@@ -1,3 +1,5 @@
+import { GetColorHex } from "Utils/MiscUtils";
+
 export type Widen<T> = T extends number ? number : T;
 export type Decoder<T extends Color3 | number> = (input: string) => Widen<T> | undefined;
 export type Parser<T extends Color3 | number> = (value: Widen<T>) => string;
@@ -39,7 +41,7 @@ export const ColorDecoders = {
 
 export const ColorParsers = {
 	Hex: (color: Color3) => {
-		return "#" + color.ToHex().upper();
+		return "#" + GetColorHex(color).upper();
 	},
 	RGB: (color: Color3) => {
 		return `${math.floor(color.R * 255)} ,${math.floor(color.G * 255)} ,${math.floor(color.B * 255)}`;

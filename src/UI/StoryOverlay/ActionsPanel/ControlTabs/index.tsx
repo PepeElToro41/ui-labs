@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import TabItem from "./TabItem";
@@ -13,7 +13,7 @@ export interface TabEntry {
 
 interface ControlTabsProps {
 	Tabs: Map<string, TabEntry>;
-	RightTabs?: Roact.Element;
+	RightTabs?: React.ReactNode;
 	Selected?: string;
 	OnTabSelected: (tabIndex: string) => void;
 }
@@ -27,7 +27,7 @@ function ControlTabs(setprops: ControlTabsProps) {
 	const theme = useTheme();
 
 	const tabs = useMemo(() => {
-		const tabItems: Roact.Children = new Map();
+		const tabItems: React.Children = new Map();
 		props.Tabs.forEach((tab, index) => {
 			const tabItem = (
 				<TabItem
@@ -43,13 +43,13 @@ function ControlTabs(setprops: ControlTabsProps) {
 	}, [props.Tabs, props.Selected, props.OnTabSelected]);
 
 	return (
-		<frame Key="ControlTabs" BackgroundColor3={theme.ActionsPanel.TabsBackground} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 26)}>
-			<Div Key="LeftTabs">
+		<frame key="ControlTabs" BackgroundColor3={theme.ActionsPanel.TabsBackground} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 26)}>
+			<Div key="LeftTabs">
 				<LeftList VerticalAlignment={"Bottom"} Padding={new UDim(0, 1)} />
 				<Padding PaddingX={1} />
 				{tabs}
 			</Div>
-			<Div Key="RightTabs">
+			<Div key="RightTabs">
 				<Padding PaddingX={3} />
 				<RightList VerticalAlignment={"Center"} HorizontalAlignment={"Right"} />
 				{props.RightTabs ?? []}

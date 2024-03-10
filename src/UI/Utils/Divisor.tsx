@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface DivisorProps {
@@ -29,7 +29,7 @@ function Divisor(setprops: DivisorProps) {
 	const theme = useTheme();
 	return (
 		<frame
-			Key={"Divisor"}
+			key={"Divisor"}
 			AnchorPoint={props.Direction === "X" ? new Vector2(props.Anchor, 0.5) : new Vector2(0.5, props.Anchor)}
 			BackgroundColor3={props.Color ?? theme.Divisor.Color}
 			BackgroundTransparency={props.Transparency ?? theme.Divisor.Transparency}

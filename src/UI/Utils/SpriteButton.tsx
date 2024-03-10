@@ -1,5 +1,5 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";

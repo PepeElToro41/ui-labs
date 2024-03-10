@@ -1,24 +1,27 @@
 import { RunService } from "@rbxts/services";
 import App from "UI/App";
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Plugin from "UI/Plugin";
 import { Root, createLegacyRoot } from "@rbxts/react-roblox";
 import { ReflexProvider } from "@rbxts/react-reflex";
 import { RootProducer } from "Reflex";
+import { IsLocalPlugin } from "Utils/MiscUtils";
 
 /* eslint-disable roblox-ts/lua-truthiness */
 
 if (!RunService.IsRunning() || RunService.IsEdit()) {
-	const toolbar = plugin.CreateToolbar("UI Labs");
-	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", "rbxassetid://13858107432");
+	const isLocal = IsLocalPlugin(plugin);
+	const toolbar = plugin.CreateToolbar("UI Labs (DEV)");
+	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", isLocal ? "rbxassetid://16652065460" : "rbxassetid://13858107432");
 	const stopButton = toolbar.CreateButton("Stop", "Stop UI Labs", "rbxassetid://13960086023");
+
 	const dockWidget = plugin.CreateDockWidgetPluginGui(
-		"StoryBook",
-		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Left, false, false, 0, 0),
+		isLocal ? "UILabs_DEV" : "UILabs",
+		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Left, false, true, 0, 0),
 	);
 
 	dockWidget.Title = "UI Labs - Storybook";
-	dockWidget.Name = "UILabs";
+	dockWidget.Name = isLocal ? "UILabs(DEV)" : "UILabs";
 	dockWidget.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
 	let isOpen = false;
 

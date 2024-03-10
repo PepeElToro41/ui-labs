@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import { ParametrizeControls, useControls } from "./Utils";
@@ -59,7 +59,7 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		}
 	});
 
-	return <></>;
+	return <React.Fragment></React.Fragment>;
 }
 
 export default RoactLib;

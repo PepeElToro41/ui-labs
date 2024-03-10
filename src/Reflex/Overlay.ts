@@ -1,9 +1,9 @@
 import { createProducer } from "@rbxts/reflex";
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
 interface OverlayEntry {
 	Key: string;
-	Element: Roact.Element;
+	Element: React.Element;
 }
 interface HintEntry {
 	Id: string;
@@ -23,7 +23,7 @@ const initialState: OverlayState = {
 export const selectOverlay = (state: RootState) => state.overlay.overlay;
 
 export const OverlayProducer = createProducer(initialState, {
-	setOverlay: (state, key: string, element: Roact.Element) => {
+	setOverlay: (state, key: string, element: React.Element) => {
 		return {
 			...state,
 			overlay: {

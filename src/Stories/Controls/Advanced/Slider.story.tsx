@@ -1,4 +1,4 @@
-import Roact, { useMemo, useState } from "@rbxts/roact";
+import React, { useMemo, useState } from "@rbxts/react";
 import { createLegacyRoot } from "@rbxts/react-roblox";
 import ControlHolder from "UI/StoryControls/ControlHolder";
 import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";
@@ -7,11 +7,13 @@ import { RootProducer } from "Reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Corner from "UI/Styles/Corner";
 import { FunctionStory, Slider } from "@rbxts/ui-labs";
+import { UserInputProvider } from "Context/UserInputContext";
+import AppHolder from "UI/AppHolder";
 
 function Story(props: {}) {
 	const theme = useTheme();
 	const control = useMemo(() => {
-		return Slider(5, 0, 100, 2);
+		return Slider(5, 0, 100);
 	}, []);
 
 	const [sliderValue, setSliderValue] = useState(control.ControlValue);
@@ -29,7 +31,11 @@ function Story(props: {}) {
 const story: FunctionStory = (target) => {
 	const component = (
 		<ReflexProvider producer={RootProducer}>
-			<Story></Story>
+			<UserInputProvider>
+				<AppHolder>
+					<Story></Story>
+				</AppHolder>
+			</UserInputProvider>
 		</ReflexProvider>
 	);
 	const root = createLegacyRoot(target);

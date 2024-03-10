@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect } from "@rbxts/roact";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
@@ -73,7 +73,7 @@ function Story(setprops: StoryProps) {
 
 	return (
 		<frame
-			Key={props.Node.Name}
+			key={props.Node.Name}
 			LayoutOrder={props.Order}
 			BackgroundColor3={theme.Nodes[selected ? "StorySelected" : "Normal"][props.Unknown ? "Disabled" : "Color"]}
 			BackgroundTransparency={transparency}
@@ -105,7 +105,7 @@ function Story(setprops: StoryProps) {
 				<Padding Padding={4} Bottom={5} />
 				<LeftList Padding={new UDim(0, 5)} />
 				<Sprite
-					Key="IconLabel"
+					key="IconLabel"
 					Sprite="StoryIcon"
 					ImageProps={{
 						AnchorPoint: new Vector2(1, 0.5),
@@ -117,7 +117,7 @@ function Story(setprops: StoryProps) {
 					}}
 				/>
 				<Text
-					Key="NameLabel"
+					key="NameLabel"
 					Text={props.Node.Name}
 					LayoutOrder={2}
 					TextColor3={textColor}

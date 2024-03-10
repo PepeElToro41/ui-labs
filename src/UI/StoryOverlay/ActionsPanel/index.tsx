@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import ResizableFrame from "UI/Holders/ResizableFrame";
 import ControlTabs, { TabEntry } from "./ControlTabs";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -19,7 +19,7 @@ const APPEAR_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quint, Enum.EasingDirect
 declare global {
 	interface ActionTabEntry {
 		DisplayName: string;
-		Render: Roact.Element;
+		Render: React.Element;
 		Order?: number;
 	}
 }
@@ -94,7 +94,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 
 	return (
 		<ResizableFrame
-			Key="ActionsPanel"
+			key="ActionsPanel"
 			HandleAnchor="Top"
 			BaseSize={new UDim2(1, 0, 0, 200)}
 			ResizeRange={new NumberRange(-110, 400)}
@@ -102,7 +102,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),
 				Position: UDim2.fromScale(0, 1),
-				ZIndex: 3,
+				ZIndex: 4,
 				Visible: active,
 			}}
 			FrameProps={{
@@ -111,7 +111,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 		>
 			{active && (
 				<Div
-					Key="Holder"
+					key="Holder"
 					Size={UDim2.fromScale(1, 1)}
 					Position={anchor.map((anchor) => UDim2.fromScale(0, anchor))}
 					Change={{
@@ -120,7 +120,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 				>
 					<DropShadow Elevation={new Vector2(-1, -2)} Transparency={0.9} />
 					<frame
-						Key={props.RenderKey ?? "Actions"}
+						key={props.RenderKey ?? "Actions"}
 						BackgroundColor3={theme.ActionsPanel.Color}
 						BorderSizePixel={0}
 						Size={UDim2.fromScale(1, 1)}
@@ -131,21 +131,21 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 							Selected={selected}
 							OnTabSelected={setSelected}
 							RightTabs={
-								<Roact.Fragment>
+								<React.Fragment>
 									<ImageButton
 										ButtonName="AnchorActionsWindow"
 										Description={pinned ? "Floating Window" : "Anchored Window"}
-										Key={"PinIcon"}
+										key={"PinIcon"}
 										Icon={pinned ? "rbxassetid://15825809564" : "rbxassetid://15825810568"}
 										IconTransparency={0.3}
 										Size={UDim2.fromOffset(21, 21)}
 										IconScale={0.8}
 										OnClick={OnPinnedToggle}
 									/>
-								</Roact.Fragment>
+								</React.Fragment>
 							}
 						/>
-						<Div Key={"PanelContents"} Size={new UDim2(1, 0, 1, -26)}>
+						<Div key={"PanelContents"} Size={new UDim2(1, 0, 1, -26)}>
 							{selectedRender}
 						</Div>
 					</frame>

@@ -1,4 +1,4 @@
-import Roact, { useBinding, useCallback, useEffect, useRef, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useRef, useState } from "@rbxts/react";
 import { useDescriptionInfo } from "Context/DescriptionContext";
 import { useMousePos, useRelativeMousePos } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -35,7 +35,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 	const padding = wrapped ? UDim2.fromOffset(-2, 17) : UDim2.fromOffset(12, 17);
 	return (
 		<frame
-			Key="Descriptor"
+			key="Descriptor"
 			AnchorPoint={wrapped ? new Vector2(1, 0) : new Vector2(0, 0)}
 			Position={UDim2.fromOffset(frozenPosition.X, frozenPosition.Y).add(padding)}
 			AutomaticSize={Enum.AutomaticSize.X}
@@ -48,7 +48,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 			}}
 		>
 			<Text
-				Key="DescriptionText"
+				key="DescriptionText"
 				AnchorPoint={new Vector2(0, 0.5)}
 				AutomaticSize={Enum.AutomaticSize.XY}
 				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Light)}

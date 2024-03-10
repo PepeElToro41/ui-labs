@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
 import { CheckStoryReturn, StoryCheck } from "./Utils";
@@ -15,7 +15,7 @@ interface PreviewControllerProps {
 
 function PreviewController(props: PreviewControllerProps) {
 	const [result, reloader] = useStoryRequire(props.PreviewEntry);
-	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: Roact.Element }>();
+	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: React.Element }>();
 
 	const entry = props.PreviewEntry;
 	const key = props.PreviewEntry.Key;
@@ -42,21 +42,21 @@ function PreviewController(props: PreviewControllerProps) {
 	useEffect(() => {
 		//Mounting story
 		if (result === undefined) return;
-		const check = CheckStoryReturn(result.result);
+		const check = CheckStoryReturn(result);
 		if (!check.Sucess) return warn("UI-Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);
 		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
 	}, [result]);
 
-	const renderMap: Roact.Children = new Map();
+	const renderMap: React.Children = new Map();
 	if (renderer) renderMap.set(renderer.Key, renderer.Renderer);
 
 	const render = (
-		<Roact.Fragment>
+		<React.Fragment>
 			<HolderParenter MountFrame={mountFrame} MountType={renderer?.MountType} Entry={entry} />
 			{renderMap}
-		</Roact.Fragment>
+		</React.Fragment>
 	);
 	return render;
 }

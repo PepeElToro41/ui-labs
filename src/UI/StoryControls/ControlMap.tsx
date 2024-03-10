@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
 import { PrimitiveControl, Primitives } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
@@ -19,7 +19,7 @@ declare global {
 		Current: T["ControlValue"];
 		Apply: (val: T["ControlValue"]) => void;
 	}
-	export type ControlFactory<T extends ObjectControl> = (props: ControlElementProps<T>) => Roact.Element;
+	export type ControlFactory<T extends ObjectControl> = (props: ControlElementProps<T>) => React.Element;
 }
 
 type PrimitiveControlMap = {
@@ -41,6 +41,7 @@ const PrimitiveControlMap: PrimitiveControlMap = {
 
 const DatatypeControlMap: DatatypeControlMap = {
 	Color3: Color3Control,
+	/*
 	UDim2: () => {
 		return <></>;
 	},
@@ -55,7 +56,7 @@ const DatatypeControlMap: DatatypeControlMap = {
 	},
 	Vector3: () => {
 		return <></>;
-	},
+	},*/
 };
 
 const AdvancedControlMap: AdvancedControlMap = {

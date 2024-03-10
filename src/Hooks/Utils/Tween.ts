@@ -1,5 +1,5 @@
 import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useState, useMemo, useBinding, useCallback } from "@rbxts/roact";
+import { useState, useMemo, useBinding, useCallback } from "@rbxts/react";
 import { RunService, TweenService } from "@rbxts/services";
 
 type TweeneableArray = [number, CFrame, Color3, UDim2, UDim, Vector2int16, Vector2, Vector3, Rect];

@@ -1,5 +1,5 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useEffect } from "@rbxts/roact";
+import React, { useEffect } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -26,7 +26,7 @@ function ClearObject(props: ClearObjectProps) {
 
 	return (
 		<frame
-			Key={"CloseFrame"}
+			key={"CloseFrame"}
 			LayoutOrder={3}
 			Size={UDim2.fromOffset(17, 17)}
 			BackgroundTransparency={hovered ? 0.6 : 1}
@@ -34,7 +34,7 @@ function ClearObject(props: ClearObjectProps) {
 		>
 			<Corner Radius={6} />
 			<Sprite
-				Key={"CloseIcon"}
+				key={"CloseIcon"}
 				Sprite="Close"
 				ImageProps={{
 					ImageColor3: theme.Text.Color,

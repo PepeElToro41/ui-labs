@@ -14,6 +14,12 @@ const Configs = {
 		"StarterPlayer",
 	]),
 
+	Version: {
+		Mayor: 1,
+		Minor: 0,
+		Fix: 1,
+	},
+
 	Extensions: {
 		Story: ".story",
 		Storybook: ".storybook",

@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { Selection, StudioService } from "@rbxts/services";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import DescriptiveImage from "UI/StoryPanel/StoryTitle/DescriptiveImage";

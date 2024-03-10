@@ -1,49 +1,46 @@
 import { useSelector } from "@rbxts/react-reflex";
-import { useState, useEffect } from "@rbxts/roact";
+import { useState, useEffect } from "@rbxts/react";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
 import { HotReloader } from "Utils/HotReloader";
-
-interface StoryResult {
-	reloader: HotReloader;
-	node: StoryNode;
-	result: unknown;
-}
+import { CreateTuple } from "Utils/MiscUtils";
+import { useAsync } from "@rbxts/pretty-react-hooks";
 
 export function useStoryRequire(entry: PreviewEntry) {
 	const node = useSelector(selectNodeFromModule(entry.Module));
-	const [result, setResult] = useState<StoryResult>();
+	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
 	const [reloader, setReloader] = useState<HotReloader>();
 
+	//Creating the hot reloader
 	useEffect(() => {
-		setResult(undefined);
 		if (!node) return;
 
 		const reloadResult = HotReloader.require(node.Module);
 		setReloader(reloadResult.Reloader);
-		const apply = reloadResult.Result.then((reloadResult) => {
-			if (!reloadResult.Sucess) return;
-			const result = reloadResult.Result;
-			setResult({ result, node, reloader: reloadResult.Reloader });
-		});
+		setResultPromise(reloadResult.Result);
 
 		return () => {
-			apply.cancel();
 			reloadResult.Reloader.Destroy();
 		};
 	}, [entry.UID]);
 
+	//Listen for hot reloader updates
 	useEffect(() => {
-		if (!result) return;
 		if (!node) return;
-		const reloader = result.reloader;
-		const changed = reloader.OnReloaded.Connect((reloadResult) => {
-			if (!reloadResult.Sucess) return;
-			const result = reloadResult.Result;
-			setResult({ result, node, reloader });
+		if (!reloader) return;
+
+		const changed = reloader.OnReloadStarted.Connect((promise) => {
+			setResultPromise(promise);
 		});
 
 		return () => changed.Disconnect();
-	}, [result]);
+	}, [reloader]);
 
-	return $tuple(result, reloader);
+	//Resolving promises
+	const [result] = useAsync(() => {
+		if (!resultPromise) return Promise.resolve(undefined);
+
+		return resultPromise;
+	}, [resultPromise]);
+
+	return CreateTuple(result, reloader);
 }

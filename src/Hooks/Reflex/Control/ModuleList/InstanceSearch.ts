@@ -3,7 +3,7 @@ import Config from "Plugin/Configs";
 import { ArrayDescendants } from "Utils/InstanceUtils";
 import { ClassPredicator, PropagateEvent } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useState, useCallback, useEffect } from "@rbxts/roact";
+import { useState, useCallback, useEffect } from "@rbxts/react";
 
 export function useInstanceSearch<T extends keyof Instances>(
 	className: T,

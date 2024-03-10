@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
@@ -15,10 +15,10 @@ function Summary(setprops: SummaryProps) {
 	const props = setProps(setprops);
 
 	return (
-		<Div Key={"SummaryAction"}>
+		<Div key={"SummaryAction"}>
 			<Padding Padding={10} />
 			<scrollingframe
-				Key={"Summary"}
+				key={"Summary"}
 				BackgroundTransparency={1}
 				AutomaticCanvasSize={Enum.AutomaticSize.Y}
 				CanvasSize={UDim2.fromScale(0, 0)}

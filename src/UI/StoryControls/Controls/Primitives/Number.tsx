@@ -1,5 +1,5 @@
 import { useBindingListener } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { PrimitiveControl } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
@@ -10,6 +10,7 @@ import DropShadow from "UI/Utils/DropShadow";
 import InputEntry from "UI/Utils/InputEntry";
 import { Decoders } from "UI/Utils/InputEntry/Decoders";
 import { Filters } from "UI/Utils/InputEntry/Filters";
+import { Parsers } from "UI/Utils/InputEntry/Parsers";
 import Sprite from "UI/Utils/Sprite";
 
 function StepAmount(amount: number, step?: number, start?: number) {
@@ -66,6 +67,7 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 			<InputEntry
 				Value={props.Current}
 				Apply={ApplyAmount}
+				Parser={Parsers.NumberParser(3)}
 				Decoder={Decoders.NumberDecoder()}
 				Filters={[Filters.NumberOnly]}
 				TextboxProps={{
@@ -83,9 +85,9 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 				<uisizeconstraint MaxSize={new Vector2(220, math.huge)} MinSize={new Vector2(30, 0)} />
 			</InputEntry>
 			{control.Dragger && (
-				<Div Key="Dragger" Size={UDim2.fromOffset(25, 25)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
+				<Div key="Dragger" Size={UDim2.fromOffset(25, 25)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
 					<Sprite
-						Key="DraggerImage"
+						key="DraggerImage"
 						ImageProps={{
 							Size: UDim2.fromScale(1, 1),
 							ImageColor3: dragActive ? theme.Icon.Color : theme.Icon.Disabled,
@@ -93,7 +95,7 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 						Sprite="Dragger"
 					></Sprite>
 					<DeltaDrag
-						Key="DraggerDetector"
+						key="DraggerDetector"
 						DetectProps={{
 							ZIndex: 2,
 						}}

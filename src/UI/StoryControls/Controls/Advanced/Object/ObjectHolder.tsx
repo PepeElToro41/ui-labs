@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { Selection, StudioService } from "@rbxts/services";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -44,11 +44,11 @@ function ObjectHolder(props: ObjectHolderProps) {
 			BackgroundColor3={theme.Controls.List[hovered && active ? "FrameHovered" : "Frame"]}
 		>
 			<Rounder />
-			<Div Key={"Info"} Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X} ZIndex={2}>
+			<Div key={"Info"} Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X} ZIndex={2}>
 				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 6)} />
 				<Padding PaddingX={8} />
 				{object ? (
-					<Roact.Fragment>
+					<React.Fragment>
 						<DescriptiveImage
 							ImageName={"ImageClassName"}
 							Description={`Class: ${object.ClassName}`}
@@ -69,14 +69,14 @@ function ObjectHolder(props: ObjectHolderProps) {
 							<uisizeconstraint MinSize={new Vector2(60, 0)} MaxSize={new Vector2(230, math.huge)} />
 						</ObjectName>
 						{props.OnClearObject && (
-							<Roact.Fragment>
+							<React.Fragment>
 								<Divisor Order={3} Size={new UDim(1, -10)} Direction="Y" />
 								<ClearObject OnClick={props.OnClearObject} />
-							</Roact.Fragment>
+							</React.Fragment>
 						)}
-					</Roact.Fragment>
+					</React.Fragment>
 				) : (
-					<Roact.Fragment>
+					<React.Fragment>
 						<Text
 							Size={UDim2.fromScale(0, 1)}
 							TextSize={12}
@@ -86,11 +86,11 @@ function ObjectHolder(props: ObjectHolderProps) {
 						>
 							<Padding PaddingX={6} />
 						</Text>
-					</Roact.Fragment>
+					</React.Fragment>
 				)}
 			</Div>
 			<frame
-				Key={"Cover"}
+				key={"Cover"}
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundColor3={theme.ActionsPanel.Color}
 				BackgroundTransparency={0.5}

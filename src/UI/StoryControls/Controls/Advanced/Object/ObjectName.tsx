@@ -1,7 +1,7 @@
-import Roact, { useEffect, useState } from "@rbxts/roact";
+import React, { useEffect, useState } from "@rbxts/react";
 import Text from "UI/Styles/Text";
 
-interface ObjectNameProps extends Omit<Roact.JsxInstance<TextLabel>, "Text"> {
+interface ObjectNameProps extends Omit<React.InstanceProps<TextLabel>, "Text"> {
 	Object: Instance;
 }
 

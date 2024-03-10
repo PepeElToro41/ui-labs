@@ -1,5 +1,5 @@
-import Roact, { useRef, useState } from "@rbxts/roact";
-import { useEffect } from "@rbxts/roact";
+import React, { useRef, useState } from "@rbxts/react";
+import { useEffect } from "@rbxts/react";
 import { FunctionStory } from "@rbxts/ui-labs";
 import { MounterProps } from ".";
 
@@ -18,7 +18,7 @@ function Functional(props: MounterProps<"Functional">) {
 			}
 		};
 	}, []);
-	return <></>;
+	return <React.Fragment></React.Fragment>;
 }
 
 export default Functional;

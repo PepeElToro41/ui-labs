@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
@@ -41,7 +41,7 @@ function EnumOption(setprops: EnumOptionProps) {
 			}}
 		>
 			<Corner Radius={6} />
-			<Div Key={"OptionRender"}>
+			<Div key={"OptionRender"}>
 				<Padding Left={10} Right={8} />
 				<LeftList Padding={new UDim(0, 28)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 				<Text

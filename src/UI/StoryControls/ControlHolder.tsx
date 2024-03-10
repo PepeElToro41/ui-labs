@@ -1,5 +1,5 @@
 import { useProducer } from "@rbxts/react-reflex";
-import Roact, { PropsWithChildren, useCallback } from "@rbxts/roact";
+import React, { PropsWithChildren, useCallback } from "@rbxts/react";
 import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useToggler } from "Hooks/Utils/Toggler";
 import ControlDropdown from "UI/Overlays/Dropdown/ControlDropdown";
@@ -31,17 +31,17 @@ function ControlHolder(setprops: ControlHolderProps) {
 	return (
 		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={1}>
 			<frame BackgroundColor3={new Color3(0, 0, 0)} Size={UDim2.fromScale(1, 1)} BackgroundTransparency={0.9} Visible={hovered} />
-			<Div Key={"ControlContents"}>
+			<Div key={"ControlContents"}>
 				<Padding PaddingX={10} />
 				<Text
-					Key={"ControlName"}
+					key={"ControlName"}
 					Text={props.ControlName}
 					TextXAlignment={Enum.TextXAlignment.Left}
 					Size={new UDim2(0, 185, 1, 0)}
 					TextSize={13}
 					TextTruncate={Enum.TextTruncate.AtEnd}
 				/>
-				<Div Key={"ControlRender"} Position={UDim2.fromOffset(195, 0)} Size={new UDim2(1, -195, 1, 0)}>
+				<Div key={"ControlRender"} Position={UDim2.fromOffset(195, 0)} Size={new UDim2(1, -195, 1, 0)} ZIndex={2}>
 					{props["children"] ?? []}
 				</Div>
 				<Detector

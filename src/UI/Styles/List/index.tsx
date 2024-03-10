@@ -1,7 +1,7 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
-interface ListProps extends JSX.IntrinsicElement<UIListLayout> {}
+interface ListProps extends React.InstanceAttributes<UIListLayout> {}
 
 export default (props: ListProps) => {
-	return <uilistlayout Key={"List"} SortOrder={Enum.SortOrder.LayoutOrder} {...props}></uilistlayout>;
+	return <uilistlayout key={"List"} SortOrder={Enum.SortOrder.LayoutOrder} {...props}></uilistlayout>;
 };

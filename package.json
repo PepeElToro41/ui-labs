@@ -11,8 +11,8 @@
    "author": "",
    "license": "ISC",
    "devDependencies": {
-      "@rbxts/compiler-types": "^2.2.0-types.0",
-      "@rbxts/types": "^1.0.744",
+      "@rbxts/compiler-types": "^2.3.0-types.0",
+      "@rbxts/types": "^1.0.758",
       "@typescript-eslint/eslint-plugin": "^6.2.1",
       "@typescript-eslint/parser": "^6.2.1",
       "eslint": "^8.46.0",
@@ -27,14 +27,14 @@
       "@rbxts/colour-utils": "^1.4.1",
       "@rbxts/flipper": "^2.0.1",
       "@rbxts/immut": "^0.4.4-ts.0",
-      "@rbxts/pretty-react-hooks": "^0.3.3",
-      "@rbxts/react-reflex": "^0.2.0",
-      "@rbxts/react-roblox": "^0.2.0",
-      "@rbxts/reflex": "^4.2.0",
-      "@rbxts/roact": "npm:@rbxts/react-ts@latest",
+      "@rbxts/pretty-react-hooks": "^0.4.2",
+      "@rbxts/react": "^0.3.3",
+      "@rbxts/react-reflex": "^0.3.4",
+      "@rbxts/react-roblox": "^0.3.3",
+      "@rbxts/reflex": "^4.3.1",
       "@rbxts/services": "^1.5.1",
       "@rbxts/sift": "^0.0.6",
       "@rbxts/signal": "^1.1.1",
-      "@rbxts/ui-labs": "2.0.0-test1"
+      "@rbxts/ui-labs": "^2.0.0"
    }
 }

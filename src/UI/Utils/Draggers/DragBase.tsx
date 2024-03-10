@@ -1,5 +1,5 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import Roact, { useBinding, useCallback, useEffect, useRef, useState } from "@rbxts/roact";
+import React, { useBinding, useCallback, useEffect, useRef, useState } from "@rbxts/react";
 import { RunService } from "@rbxts/services";
 import { useMutable } from "Hooks/Utils/Mutable";
 
@@ -9,7 +9,7 @@ export type SlideReturn = {
 	XY: Vector2;
 };
 export interface DragBaseProps {
-	DetectProps: Roact.JsxInstanceProperties<TextButton>;
+	DetectProps: React.InstanceAttributes<TextButton>;
 	MapCallback: (started: Vector2, current: Vector2, last: Vector2, slidePos: Vector2[]) => void;
 	StateUpdated?: (state: { hovering: boolean; dragging: boolean }) => void;
 }
@@ -94,7 +94,7 @@ function DragBase(props: DragBaseProps) {
 					}
 				},
 			}}
-			Ref={slideRef}
+			ref={slideRef}
 			{...props.DetectProps}
 		></textbutton>
 	);

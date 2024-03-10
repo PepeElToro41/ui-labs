@@ -1,6 +1,6 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
-interface DetectorProps extends JSX.IntrinsicElement<TextButton> {}
+interface DetectorProps extends React.InstanceProps<TextButton> {}
 
 export function Detector(props: DetectorProps) {
 	return (

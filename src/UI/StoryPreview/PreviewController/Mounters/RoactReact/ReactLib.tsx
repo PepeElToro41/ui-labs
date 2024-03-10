@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useMemo, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import type { MounterProps } from "..";
 import { ParametrizeControls, useControls } from "./Utils";
 import { useProducer } from "@rbxts/react-reflex";
@@ -76,7 +76,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		}
 	}, [result, controlValues]);
 
-	return <></>;
+	return <React.Fragment></React.Fragment>;
 }
 
 export default ReactLib;

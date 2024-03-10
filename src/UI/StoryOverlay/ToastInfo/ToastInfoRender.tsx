@@ -1,5 +1,5 @@
 import { useMountEffect } from "@rbxts/pretty-react-hooks";
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTween } from "Hooks/Utils/Tween";
 import { useLifetimeAsync } from "UI/Holders/LifetimeChildren/LifetimeController";
 import Corner from "UI/Styles/Corner";
@@ -22,9 +22,9 @@ function ToastInfoRender(props: ToastInfoRenderProps) {
 	});
 
 	return (
-		<Div AnchorPoint={new Vector2(0.5, 0)} Position={new UDim2(0.5, 0, 0, 5)} Size={UDim2.fromOffset(0, 28)}>
+		<Div AnchorPoint={new Vector2(0.5, 0)} Position={new UDim2(0.5, 0, 0, 5)} Size={UDim2.fromOffset(0, 28)} ZIndex={3}>
 			<frame
-				Key={"InfoHolder"}
+				key={"InfoHolder"}
 				BackgroundTransparency={0.2}
 				AutomaticSize={Enum.AutomaticSize.X}
 				BackgroundColor3={Color3.fromRGB(26, 28, 33)}

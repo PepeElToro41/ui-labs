@@ -1,4 +1,4 @@
-import Roact, { useCallback, useEffect, useState } from "@rbxts/roact";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Corner from "UI/Styles/Corner";
@@ -37,14 +37,14 @@ function AssignButton(props: AssignButtonProps) {
 
 	return (
 		<frame
-			Key={"SelectFrame"}
+			key={"SelectFrame"}
 			LayoutOrder={props.Order ?? 0}
 			Size={UDim2.fromOffset(23, 23)}
 			BackgroundTransparency={hovered && props.Disabled === undefined ? 0.6 : 1}
 		>
 			<Corner Radius={6} />
 			<imagelabel
-				Key={"SelectIcon"}
+				key={"SelectIcon"}
 				BackgroundTransparency={1}
 				Image={"rbxassetid://16456383286"}
 				ImageColor3={props.Disabled !== undefined ? theme.Text.Disabled : theme.Text.Color}

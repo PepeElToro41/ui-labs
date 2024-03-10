@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Detector } from "UI/Styles/Detector";
 import Corner from "UI/Styles/Corner";
@@ -51,7 +51,7 @@ function TabItem(setprops: TabItemProps) {
 				}}
 			/>
 			<frame
-				Key={"Cover"}
+				key={"Cover"}
 				BackgroundColor3={props.Active ? theme.ActionsPanel.Color : theme.ActionsPanel.TabHover}
 				BackgroundTransparency={props.Active || hover ? 0 : 1}
 				BorderSizePixel={0}

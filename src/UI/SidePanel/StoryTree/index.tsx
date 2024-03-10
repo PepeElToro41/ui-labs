@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
 import { useSelector } from "@rbxts/react-reflex";
@@ -19,7 +19,7 @@ function StoryTree(props: StoryTreeProps) {
 
 	const nodeList = useMemo(() => {
 		const filteredNodes = filter === undefined ? nodes : FilterNodes(nodes, filter);
-		const elementsList: Roact.Element[] = [];
+		const elementsList: React.Element[] = [];
 		const booksSize = filteredNodes.storybooks.size();
 		filteredNodes.storybooks.forEach((node, index) => {
 			elementsList.push(<Storybook Order={index} Node={node} />);
@@ -31,9 +31,9 @@ function StoryTree(props: StoryTreeProps) {
 	}, [nodes, filter]);
 
 	return (
-		<Detector Key="ScrollerFrame" Size={new UDim2(1, 0, 1, -65)} AnchorPoint={new Vector2(0.5, 0)} LayoutOrder={3}>
+		<Detector key="ScrollerFrame" Size={new UDim2(1, 0, 1, -65)} AnchorPoint={new Vector2(0.5, 0)} LayoutOrder={3}>
 			<scrollingframe
-				Key={"Scroller"}
+				key={"Scroller"}
 				AutomaticCanvasSize={Enum.AutomaticSize.Y}
 				CanvasSize={new UDim2()}
 				ScrollBarThickness={2}

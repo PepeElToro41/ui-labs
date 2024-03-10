@@ -1,4 +1,4 @@
-import Roact, { PropsWithChildren, useCallback } from "@rbxts/roact";
+import React, { PropsWithChildren, useCallback } from "@rbxts/react";
 import { Filter } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import InputBase from "../InputBase";
 import { ApplyFilters } from "Utils/StringUtils";
@@ -9,8 +9,8 @@ type Parser<T> = (val: T) => string;
 type Decoder<T> = (input: string) => T | undefined;
 
 interface InputEntryProps<T> extends PropsWithChildren {
-	TextboxProps?: Roact.JsxInstanceProperties<TextBox>;
-	HolderProps?: Roact.JsxInstanceProperties<Frame>;
+	TextboxProps?: React.InstanceAttributes<TextBox>;
+	HolderProps?: React.InstanceAttributes<Frame>;
 	CornerRadius?: number;
 
 	Value: T;

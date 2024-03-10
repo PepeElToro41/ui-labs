@@ -1,11 +1,11 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
-interface TopListProps extends JSX.IntrinsicElement<UIListLayout> {}
+interface TopListProps extends React.InstanceAttributes<UIListLayout> {}
 
 export default (props: TopListProps) => {
 	return (
 		<uilistlayout
-			Key={"TopList"}
+			key={"TopList"}
 			SortOrder={Enum.SortOrder.LayoutOrder}
 			FillDirection={Enum.FillDirection.Vertical}
 			VerticalAlignment={Enum.VerticalAlignment.Top}

@@ -1,4 +1,4 @@
-import Roact, { useMemo } from "@rbxts/roact";
+import React, { useMemo } from "@rbxts/react";
 import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Story from "../Story";

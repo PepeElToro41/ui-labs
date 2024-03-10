@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 
 interface PaddingProps {
 	Padding?: number;
@@ -22,7 +22,7 @@ export default (setprops: PaddingProps) => {
 	const props = setProps(setprops);
 	return (
 		<uipadding
-			Key={"Padding"}
+			key={"Padding"}
 			PaddingLeft={new UDim(0, props.Left ?? props.PaddingX ?? 0)}
 			PaddingRight={new UDim(0, props.Right ?? props.PaddingX ?? 0)}
 			PaddingTop={new UDim(0, props.Top ?? props.PaddingY ?? 0)}

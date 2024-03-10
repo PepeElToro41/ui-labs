@@ -1,4 +1,4 @@
-import Roact, { useEffect } from "@rbxts/roact";
+import React, { useEffect } from "@rbxts/react";
 import { Div } from "./Styles/Div";
 import TopBar from "./Topbar";
 import AppPanel from "./AppPanel";
@@ -24,7 +24,7 @@ function App(props: AppProps) {
 		<UserInputProvider>
 			<DescriptionProvider>
 				<AppHolder>
-					<Div Key={"Plugin"}>
+					<Div key={"Plugin"}>
 						<List />
 						<TopBar />
 						<AppPanel />

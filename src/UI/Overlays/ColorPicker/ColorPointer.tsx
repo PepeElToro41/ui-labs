@@ -1,4 +1,4 @@
-import Roact from "@rbxts/roact";
+import React from "@rbxts/react";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
 
@@ -10,11 +10,11 @@ interface ColorPointerProps {
 
 function ColorPointer(props: ColorPointerProps) {
 	return (
-		<Div Key={"ColorPointer"} Size={new UDim2(1, 2, 0, 8)} LayoutOrder={props.Order}>
-			<frame Key={"Holder"} BackgroundColor3={props.Color} Position={UDim2.fromOffset(0, 1)} Size={UDim2.fromScale(1, 1)}>
+		<Div key={"ColorPointer"} Size={new UDim2(1, 2, 0, 8)} LayoutOrder={props.Order}>
+			<frame key={"Holder"} BackgroundColor3={props.Color} Position={UDim2.fromOffset(0, 1)} Size={UDim2.fromScale(1, 1)}>
 				<Corner Radius={6} />
 				<frame
-					Key={"Squared"}
+					key={"Squared"}
 					Position={props.Wrapped ? UDim2.fromScale(0, 1) : UDim2.fromScale(0, 0)}
 					AnchorPoint={props.Wrapped ? new Vector2(0, 1) : new Vector2(0, 0)}
 					BackgroundColor3={props.Color}
@@ -22,7 +22,7 @@ function ColorPointer(props: ColorPointerProps) {
 					Size={UDim2.fromScale(1, 0.5)}
 				/>
 				<imagelabel
-					Key={"PointArrow"}
+					key={"PointArrow"}
 					Image={props.Wrapped ? "rbxassetid://14015191273" : "rbxassetid://14010784349"}
 					ImageColor3={props.Color}
 					BackgroundTransparency={1}

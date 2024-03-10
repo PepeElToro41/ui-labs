@@ -1,4 +1,4 @@
-import Roact, { useBinding, useState } from "@rbxts/roact";
+import React, { useBinding, useState } from "@rbxts/react";
 import FrameFill from "UI/Holders/FrameFill";
 import ActionsPanel from "UI/StoryOverlay/ActionsPanel";
 import BackgroundPattern from "./BackgroundPattern";
@@ -26,15 +26,15 @@ function StoryContents(props: StoryContentsProps) {
 	const entry = useSelectorCreator(selectPreview, selectedEntry);
 
 	return (
-		<FrameFill Key="StoryContents" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
+		<FrameFill key="StoryContents" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
 			<BackgroundPattern />
-			<Div Key="StoryFrame">
+			<Div key="StoryFrame">
 				<List />
 				<StoryTitle />
-				<Div Key={"StoryPanel"} Size={new UDim2(1, 0, 1, -31)}>
+				<Div key={"StoryPanel"} Size={new UDim2(1, 0, 1, -31)}>
 					<StoryPanelProvider>
 						<PreviewControl />
-						<StoryOverlay Key={"StoryOverlay"} PreviewEntry={entry} />
+						<StoryOverlay key={"StoryOverlay"} PreviewEntry={entry} />
 					</StoryPanelProvider>
 				</Div>
 			</Div>

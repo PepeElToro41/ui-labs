@@ -1,4 +1,4 @@
-import { Binding, useBinding, useCallback, useEffect, useState } from "@rbxts/roact";
+import { Binding, useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { useAppHolder } from "./AppHolder";
 import { Lerp } from "Utils/NumberUtils";
 import { RunService } from "@rbxts/services";
