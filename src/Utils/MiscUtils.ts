@@ -13,3 +13,7 @@ export function IsLocalPlugin(gotPlugin: Plugin) {
 	if (gotPlugin === undefined) return true;
 	return gotPlugin.Name.find(".rbxm")[0] !== undefined;
 }
+
+export function CreateTuple<T extends any[]>(...args: T) {
+	return args;
+}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "@rbxts/react";
+import React, { useBinding, useCallback, useEffect, useMemo, useRef, useState } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import FrameFill from "UI/Holders/FrameFill";
@@ -16,6 +16,7 @@ import Rounder from "UI/Styles/Rounder";
 import { Instant, Spring, useMotor, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { useTween } from "Hooks/Utils/Tween";
 import { RunService } from "@rbxts/services";
+import { Parsers } from "UI/Utils/InputEntry/Parsers";
 
 const MIN_MARK_SEPARATION = 15;
 
@@ -36,13 +37,16 @@ const ACTIVE_INFO = new TweenInfo(0.08, Enum.EasingStyle.Linear, Enum.EasingDire
 function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const theme = useTheme();
 	const control = props.Control;
+	const [inputSize, setInputSize] = useBinding(0);
 
 	const [percent, setPercent] = useMotor(0.5);
 	const [amount, setAmount] = useState(props.Current);
 	const [markVisible, setMarkVisible] = useState(false);
-	const [active, setActive] = useState(false);
+	const [sliderState, setSliderState] = useState({ Hovering: false, Dragging: false });
 	const [handleSize, tweenHandleSize] = useTween(ACTIVE_INFO, 0);
 	const sliderRef = useRef<Frame>();
+
+	const active = sliderState.Dragging || sliderState.Hovering;
 
 	const marks = useMemo(() => {
 		const allMarks: React.Element[] = [];
@@ -97,7 +101,10 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const ApplyAmount = useCallback(
 		(amount: number) => {
 			amount = math.clamp(amount, control.Min, control.Max);
-			if (control.Step === undefined) setAmount(amount);
+			if (control.Step === undefined) {
+				setAmount(amount);
+				return props.Apply(amount);
+			}
 
 			const delta = amount - control.Min;
 			const steppedDelta = math.round(delta / control.Step!) * control.Step!;
@@ -117,32 +124,48 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 		[ApplyAmount],
 	);
 	const OnStateUpdated = useCallback((state: { hovering: boolean; dragging: boolean }) => {
-		setActive(state.hovering || state.dragging);
+		setSliderState({ Hovering: state.hovering, Dragging: state.dragging });
 	}, []);
+	const OnInputAbsoluteSizeChanged = useCallback(
+		(entry: Frame) => {
+			if (sliderState.Dragging) return;
+			setInputSize(entry.AbsoluteSize.X);
+		},
+		[sliderState.Dragging],
+	);
 
 	return (
 		<Div>
 			<Padding PaddingY={4} />
 			<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 7)} />
-			<InputEntry
-				Value={props.Current}
-				Apply={ApplyAmount}
-				Decoder={Decoders.NumberDecoder()}
-				Filters={[Filters.NumberOnly]}
-				TextboxProps={{
-					TextSize: 12,
-					Size: UDim2.fromScale(0, 1),
-					AutomaticSize: Enum.AutomaticSize.X,
-					TextXAlignment: Enum.TextXAlignment.Center,
-				}}
-				HolderProps={{
-					LayoutOrder: 1,
-					Size: UDim2.fromScale(0, 1),
-					AutomaticSize: Enum.AutomaticSize.X,
+			<Div
+				AutomaticSize={sliderState.Dragging ? undefined : Enum.AutomaticSize.X}
+				Size={sliderState.Dragging ? inputSize.map((offset) => new UDim2(0, offset, 1, 0)) : UDim2.fromScale(0, 1)}
+				Change={{
+					AbsoluteSize: OnInputAbsoluteSizeChanged,
 				}}
 			>
-				<uisizeconstraint MaxSize={new Vector2(120, math.huge)} MinSize={new Vector2(30, 0)} />
-			</InputEntry>
+				<InputEntry
+					Value={props.Current}
+					Apply={ApplyAmount}
+					Parser={Parsers.NumberParser(3)}
+					Decoder={Decoders.NumberDecoder()}
+					Filters={[Filters.NumberOnly]}
+					TextboxProps={{
+						TextSize: 12,
+						Size: sliderState.Dragging ? UDim2.fromScale(1, 1) : UDim2.fromScale(0, 1),
+						AutomaticSize: sliderState.Dragging ? undefined : Enum.AutomaticSize.X,
+						TextXAlignment: Enum.TextXAlignment.Center,
+					}}
+					HolderProps={{
+						LayoutOrder: 1,
+						Size: sliderState.Dragging ? UDim2.fromScale(1, 1) : UDim2.fromScale(0, 1),
+						AutomaticSize: sliderState.Dragging ? undefined : Enum.AutomaticSize.X,
+					}}
+				>
+					<uisizeconstraint MaxSize={new Vector2(120, math.huge)} MinSize={new Vector2(35, 0)} />
+				</InputEntry>
+			</Div>
 			<FrameFill FillDir="X" FrameProps={{ LayoutOrder: 2 }}>
 				<Padding PaddingX={5} />
 				<Text

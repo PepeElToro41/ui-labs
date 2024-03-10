@@ -7,6 +7,8 @@ import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Corner from "UI/Styles/Corner";
 import { Boolean, FunctionStory, Primitive } from "@rbxts/ui-labs";
 import BooleanControl from "UI/StoryControls/Controls/Primitives/Boolean";
+import { UserInputProvider } from "Context/UserInputContext";
+import AppHolder from "UI/AppHolder";
 
 function Story(props: {}) {
 	const theme = useTheme();
@@ -29,7 +31,11 @@ function Story(props: {}) {
 const story: FunctionStory = (target) => {
 	const component = (
 		<ReflexProvider producer={RootProducer}>
-			<Story></Story>
+			<UserInputProvider>
+				<AppHolder>
+					<Story></Story>
+				</AppHolder>
+			</UserInputProvider>
 		</ReflexProvider>
 	);
 	const root = createLegacyRoot(target);

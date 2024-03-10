@@ -70,6 +70,7 @@ function IconToolbar(props: IconToolbarProps) {
 			Size={UDim2.fromOffset(35, 0)}
 			AutomaticSize={Enum.AutomaticSize.Y}
 			Position={UDim2.fromOffset(5, 5)}
+			ZIndex={2}
 			ClipsDescendants={true}
 		>
 			<Detector

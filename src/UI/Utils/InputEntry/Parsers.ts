@@ -1,9 +1,9 @@
 export const Parsers = {
 	Default: (object: unknown) => tostring(object),
-	NumberParser: (roundMethod?: "floor" | "ceil" | "round") => {
+	NumberParser: (decimals?: number, roundMethod?: "floor" | "ceil" | "round") => {
 		return (value: number) => {
-			if (roundMethod) {
-				return tostring(math[roundMethod](value));
+			if (decimals !== undefined) {
+				return tostring(math[roundMethod ?? "floor"](value * 10 ** decimals) / 10 ** decimals);
 			}
 			return tostring(value);
 		};

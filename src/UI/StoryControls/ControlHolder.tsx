@@ -41,7 +41,7 @@ function ControlHolder(setprops: ControlHolderProps) {
 					TextSize={13}
 					TextTruncate={Enum.TextTruncate.AtEnd}
 				/>
-				<Div key={"ControlRender"} Position={UDim2.fromOffset(195, 0)} Size={new UDim2(1, -195, 1, 0)}>
+				<Div key={"ControlRender"} Position={UDim2.fromOffset(195, 0)} Size={new UDim2(1, -195, 1, 0)} ZIndex={2}>
 					{props["children"] ?? []}
 				</Div>
 				<Detector

@@ -66,14 +66,9 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 		<Dropdown key={"StoryDropdown"} Position={props.Position}>
 			<DropdownEntry Text="Unmount" OnClick={OnUnmount} LayoutOrder={count()} />
 			{entry.OnWidget ? (
-				<DropdownEntry
-					Text="Mount In Editor"
-					Disabled={isRootPreview || !isPlugin}
-					OnClick={OnMountOnEditor}
-					LayoutOrder={count()}
-				/>
+				<DropdownEntry Text="Mount In Editor" OnClick={OnMountOnEditor} LayoutOrder={count()} />
 			) : (
-				<DropdownEntry Text="Mount In Widget" OnClick={OnMountOnWidget} LayoutOrder={count()} />
+				<DropdownEntry Text="Mount In Widget" Disabled={!isPlugin} OnClick={OnMountOnWidget} LayoutOrder={count()} />
 			)}
 			<DropdownEntry Text={entry.Visible ? "Hide" : "Un-hide"} OnClick={OnToggleVisible} LayoutOrder={count()} />
 			<Divisor Order={count()} />

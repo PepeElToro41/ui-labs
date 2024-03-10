@@ -16,6 +16,8 @@ function setProps(props: BrandingProps) {
 function Branding(setprops: BrandingProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
+	const version = Configs.Version;
+
 	return (
 		<Div key="Branding" Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 			<LeftList VerticalAlignment={"Center"} Padding={new UDim(0, 7)}></LeftList>
@@ -30,15 +32,13 @@ function Branding(setprops: BrandingProps) {
 			/>
 			<Text
 				key="VersionIndex"
-				Text={"v1.0.1"}
+				Text={`v${version.Mayor}.${version.Minor}.${version.Fix}`}
 				TextSize={10}
 				Weight="Light"
 				TextColor3={theme.Text.Disabled}
 				Size={new UDim2(1, 0, 1, 0)}
 				TextXAlignment={Enum.TextXAlignment.Left}
-			>
-				<Padding Left={0} />
-			</Text>
+			/>
 		</Div>
 	);
 }

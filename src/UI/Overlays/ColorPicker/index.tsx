@@ -107,7 +107,7 @@ function ColorPicker(props: ColorPickerProps) {
 
 	return (
 		<Div
-			Size={UDim2.fromOffset(145, 0)}
+			Size={UDim2.fromOffset(150, 0)}
 			AutomaticSize={Enum.AutomaticSize.Y}
 			Position={props.Position ?? UDim2.fromScale(0, 0)}
 			AnchorPoint={new Vector2(0, wrapped ? 0 : 1)}
@@ -131,7 +131,7 @@ function ColorPicker(props: ColorPickerProps) {
 				<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} />
 				<Corner Radius={6} />
 				<Div key={"Contents"} Size={new UDim2(1, 0, 0, 0)} LayoutOrder={1} AutomaticSize={Enum.AutomaticSize.Y}>
-					<TopList Padding={new UDim(0, 7)} HorizontalAlignment={Enum.HorizontalAlignment.Center} />
+					<TopList Padding={new UDim(0, 9)} HorizontalAlignment={Enum.HorizontalAlignment.Center} />
 					<Padding Padding={6} />
 					<ValuePicker HSV={hsv} SetHSV={SetHSV} Order={count()} />
 					<HueBar HSV={hsv} SetHSV={SetHSV} Order={count()} />

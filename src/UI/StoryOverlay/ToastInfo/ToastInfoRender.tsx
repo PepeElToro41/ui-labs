@@ -22,7 +22,7 @@ function ToastInfoRender(props: ToastInfoRenderProps) {
 	});
 
 	return (
-		<Div AnchorPoint={new Vector2(0.5, 0)} Position={new UDim2(0.5, 0, 0, 5)} Size={UDim2.fromOffset(0, 28)}>
+		<Div AnchorPoint={new Vector2(0.5, 0)} Position={new UDim2(0.5, 0, 0, 5)} Size={UDim2.fromOffset(0, 28)} ZIndex={3}>
 			<frame
 				key={"InfoHolder"}
 				BackgroundTransparency={0.2}

@@ -102,7 +102,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),
 				Position: UDim2.fromScale(0, 1),
-				ZIndex: 3,
+				ZIndex: 4,
 				Visible: active,
 			}}
 			FrameProps={{

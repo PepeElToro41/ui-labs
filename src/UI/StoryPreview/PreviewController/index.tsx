@@ -42,7 +42,7 @@ function PreviewController(props: PreviewControllerProps) {
 	useEffect(() => {
 		//Mounting story
 		if (result === undefined) return;
-		const check = CheckStoryReturn(result.result);
+		const check = CheckStoryReturn(result);
 		if (!check.Sucess) return warn("UI-Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);
