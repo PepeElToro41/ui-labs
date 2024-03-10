@@ -155,12 +155,14 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 				BackgroundTransparency={isDragging ? 0 : mouseInput ? 0.5 : 1}
 				Position={new UDim2(dragHandleX, 0, dragHandleY, 0)}
 				Size={isWidthResizable ? new UDim2(0, isDragging ? 2 : 1, 1, 0) : new UDim2(1, 0, 0, isDragging ? 2 : 1)}
+				ZIndex={2}
 			></frame>
 			<Detector
 				key="DragHandle"
 				Position={new UDim2(dragHandleX, 0, dragHandleY, 0)}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				Size={isWidthResizable ? new UDim2(0, props.HandleSize, 1, 0) : new UDim2(1, 0, 0, props.HandleSize)}
+				ZIndex={3}
 				Event={{
 					MouseLeave: () => {
 						if (!isDragging) setMouseInput(undefined);

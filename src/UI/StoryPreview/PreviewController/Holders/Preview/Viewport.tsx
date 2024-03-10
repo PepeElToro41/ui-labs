@@ -10,7 +10,7 @@ function Viewport(props: StoryHolderProps) {
 	const mountRef = useRef<Frame>();
 	const storyName = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 
-	useDeferLifetime(props);
+	useDeferLifetime(props, 2);
 
 	useMountEffect(() => {
 		const holder = mountRef.current;

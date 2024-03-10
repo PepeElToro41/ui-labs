@@ -13,7 +13,7 @@ function Editor(props: StoryHolderProps) {
 	const storyName = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 	const onViewport = props.PreviewEntry.OnViewport;
 
-	useDeferLifetime(props);
+	useDeferLifetime(props, 2);
 
 	useEffect(() => {
 		const holder = mountRef.current;

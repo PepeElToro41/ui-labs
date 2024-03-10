@@ -23,12 +23,10 @@ function Widget(props: StoryHolderProps) {
 	const { unmountStory } = useProducer<RootProducer>();
 	const pluginWidget = useSelector(selectPluginWidget);
 	const preview = props.PreviewEntry;
-	const offset = preview.Offset;
-	const scale = preview.Zoom;
 	const storyName = RemoveExtension(preview.Module.Name, Configs.Extensions.Story);
 	const onViewport = preview.OnViewport;
 
-	useDeferLifetime(props);
+	useDeferLifetime(props, 2);
 	const dockWidget = useMemo(() => {
 		if (plugin === undefined) return;
 		const widgetSettings = new DockWidgetPluginGuiInfo(
@@ -62,6 +60,8 @@ function Widget(props: StoryHolderProps) {
 	useEffect(() => {
 		const holder = mountRef.current;
 		if (!holder) return;
+		if (onViewport) return;
+
 		props.MountFrame.Parent = holder;
 	}, [mountRef, onViewport]);
 
