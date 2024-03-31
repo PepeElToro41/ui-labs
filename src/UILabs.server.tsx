@@ -10,7 +10,7 @@ import { IsLocalPlugin } from "Utils/MiscUtils";
 /* eslint-disable roblox-ts/lua-truthiness */
 
 if (!RunService.IsRunning() || RunService.IsEdit()) {
-	_G.UILabsPlugin = plugin
+	(_G as {UILabsPlugin: Plugin}).UILabsPlugin = plugin
 	const isLocal = IsLocalPlugin(plugin);
 	const toolbar = plugin.CreateToolbar("UI Labs (DEV)");
 	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", isLocal ? "rbxassetid://16652065460" : "rbxassetid://13858107432");
