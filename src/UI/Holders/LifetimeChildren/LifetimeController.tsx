@@ -84,6 +84,7 @@ export class LifetimeController {
 			this.UpdateComponent(uid, child);
 		});
 		this.RenderedUIDs = newChildren;
+
 		children.forEach((child, key) => {
 			const uid = this.RenderedUIDs.get(key);
 			if (uid === undefined) {

@@ -25,6 +25,7 @@ function SidePanel(props: SidePanelProps) {
 			key="SidePanel"
 			BaseSize={new UDim2(0, 250, 1, 0)}
 			ResizeRange={new NumberRange(-130, 300)}
+			DragColor={theme.ResizePanelDrag}
 			MaxBeforeCollapse={-200}
 			HolderProps={{
 				AnchorPoint: new Vector2(0, 1),

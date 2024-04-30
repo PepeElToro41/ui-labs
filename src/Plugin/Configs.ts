@@ -13,11 +13,12 @@ const Configs = {
 		"StarterGui",
 		"StarterPlayer",
 	]),
+	GlobalInjectionKey: "__hotreload_env_global_injection__", //the longer the better
 
 	Version: {
 		Mayor: 1,
-		Minor: 0,
-		Fix: 1,
+		Minor: 1,
+		Fix: 0,
 	},
 
 	Extensions: {

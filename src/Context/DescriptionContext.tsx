@@ -3,14 +3,14 @@ import React, { PropsWithChildren, useCallback, useContext, useEffect, useMemo, 
 import { Array } from "@rbxts/sift";
 
 interface DescriptionInfo {
-	Name: string;
+	Identifier: unknown;
 	Description: string;
 }
 
 interface DescriptionContext {
 	ActiveDescription: string | undefined;
-	SetDescription: (name: string, description: string) => void;
-	RemoveDescription: (name: string) => void;
+	SetDescription: (identifier: unknown, description: string) => void;
+	RemoveDescription: (identifier: unknown) => void;
 }
 
 const DescriptionContext = React.createContext({} as DescriptionContext);
@@ -22,33 +22,33 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 	const [currentDescription, setCurrentDescription] = useState<DescriptionInfo>();
 	const [descriptionVisible, setDescriptionVisible] = useState(false);
 
-	const descriptionName = currentDescription && currentDescription.Name;
+	const descriptionName = currentDescription && currentDescription.Identifier;
 
-	const SetDescription = useCallback((name: string, description: string) => {
+	const SetDescription = useCallback((identifier: unknown, description: string) => {
 		setDescriptionArray((oldArray) => {
-			const found = oldArray.find((entry) => entry.Name === name) !== undefined;
+			const found = oldArray.find((entry) => entry.Identifier === identifier) !== undefined;
 			if (found) {
 				//editing existing entry
 				return Array.map(oldArray, (entry) => {
-					if (entry.Name === name) {
-						return { Name: name, Description: description };
+					if (entry.Identifier === identifier) {
+						return { Identifier: identifier, Description: description };
 					} else {
 						return entry;
 					}
 				});
 			} else {
 				//adding new entry
-				return Array.insert(oldArray, 1, { Name: name, Description: description });
+				return Array.insert(oldArray, 1, { Identifier: identifier, Description: description });
 			}
 		});
 	}, []);
-	const RemoveDescription = useCallback((name: string) => {
+	const RemoveDescription = useCallback((identifier: unknown) => {
 		setDescriptionArray((oldArray) => {
-			const found = oldArray.find((entry) => entry.Name === name) !== undefined;
+			const found = oldArray.find((entry) => entry.Identifier === identifier) !== undefined;
 			if (!found) return oldArray;
 
 			return Array.filter(oldArray, (entry) => {
-				return entry.Name !== name;
+				return entry.Identifier !== identifier;
 			});
 		});
 	}, []);
@@ -68,7 +68,7 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 			setDescriptionVisible(true);
 		},
 		[descriptionName],
-		{ wait: 0.5 },
+		{ wait: 0.7 },
 	);
 
 	const contextValue = useMemo(() => {
@@ -101,17 +101,17 @@ export function useDescriptionControl() {
 	return controls;
 }
 
-export function useDescriptionDisplay(uid: string) {
+export function useDescriptionDisplay(identifier: unknown) {
 	const context = useContext(DescriptionContext);
 
-	const DisplayDescription = useCallback((description: string) => context.SetDescription(uid, description), [uid]);
-	const RemoveDescription = useCallback(() => context.RemoveDescription(uid), [uid]);
+	const DisplayDescription = useCallback((description: string) => context.SetDescription(identifier, description), [identifier]);
+	const RemoveDescription = useCallback(() => context.RemoveDescription(identifier), [identifier]);
 
 	const values = useMemo(() => {
 		return { DisplayDescription, RemoveDescription };
 	}, []);
 
-	useUnmountEffect(() => context.RemoveDescription(uid));
+	useUnmountEffect(() => context.RemoveDescription(identifier));
 
 	return values;
 }

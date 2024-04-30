@@ -41,7 +41,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 			AutomaticSize={Enum.AutomaticSize.X}
 			BackgroundColor3={theme.Text.Color}
 			BorderSizePixel={0}
-			Size={new UDim2(0, 0, 0, 25)}
+			Size={new UDim2(0, 0, 0, 23)}
 			Visible={description !== undefined}
 			Change={{
 				AbsoluteSize: OnAbsoluteSizeChanged,
@@ -55,7 +55,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 				Position={new UDim2(0, 0, 0.5, 0)}
 				Text={description ?? ""}
 				TextColor3={theme.Text.Inverted}
-				TextSize={13}
+				TextSize={12}
 			/>
 			<Padding PaddingX={8} />
 			<Corner Radius={4} />

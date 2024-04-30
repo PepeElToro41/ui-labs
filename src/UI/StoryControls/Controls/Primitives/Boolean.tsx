@@ -15,8 +15,8 @@ const HANDLE_INFO = new TweenInfo(0.15, Enum.EasingStyle.Circular, Enum.EasingDi
 function BooleanControl(props: ControlElementProps<PrimitiveControl<"Boolean">>) {
 	const theme = useTheme();
 	const [handleAlpha, tweenHandleAlpha] = useTween(HANDLE_INFO, props.Current ? 1 : 0);
-	const switchColor = props.Current ? theme.Controls.Boolean.SwitchOn : theme.Controls.Boolean.SwitchOff;
-	const backColor = props.Current ? theme.Controls.Boolean.SwitchBackOn : theme.Controls.Boolean.SwitchBackOff;
+	const switchColor = props.Current ? theme.Boolean.SwitchOn : theme.Boolean.SwitchOff;
+	const backColor = props.Current ? theme.Boolean.SwitchBackOn : theme.Boolean.SwitchBackOff;
 
 	useUpdateEffect(() => {
 		tweenHandleAlpha(props.Current ? 1 : 0);

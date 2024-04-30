@@ -62,7 +62,7 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 			<frame
 				key="Holder"
 				LayoutOrder={1}
-				BackgroundColor3={theme.Controls.List.Frame}
+				BackgroundColor3={theme.List.Frame}
 				BorderSizePixel={0}
 				Size={UDim2.fromScale(0, 0)}
 				AutomaticSize={Enum.AutomaticSize.XY}

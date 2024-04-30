@@ -8,6 +8,7 @@ import { useInstance } from "Hooks/Utils/Instance";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import HolderParenter from "./Holders/HolderParenter";
+import { Storybook } from "@rbxts/ui-labs";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -38,6 +39,11 @@ function PreviewController(props: PreviewControllerProps) {
 	useEffect(() => {
 		mountFrame.Visible = entry.Visible;
 	}, [entry.Visible]);
+	//AutoReload
+	useEffect(() => {
+		if (!reloader) return;
+		reloader.AutoReload = entry.AutoReload;
+	}, [reloader, entry.AutoReload]);
 
 	useEffect(() => {
 		//Mounting story

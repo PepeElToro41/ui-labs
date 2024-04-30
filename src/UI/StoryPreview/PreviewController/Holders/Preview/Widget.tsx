@@ -10,12 +10,6 @@ import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController
 import { Div } from "UI/Styles/Div";
 import { createPortal } from "@rbxts/react-roblox";
 
-const MountTitles: Record<MountType, string> = {
-	Functional: "Function",
-	RoactLib: "Roact",
-	ReactLib: "React",
-};
-
 function Widget(props: StoryHolderProps) {
 	const plugin = usePlugin();
 	const mountRef = useRef<Frame>();
@@ -44,8 +38,7 @@ function Widget(props: StoryHolderProps) {
 
 	useEffect(() => {
 		if (dockWidget === undefined) return;
-		const mountTitle = props.MountType === undefined ? "" : MountTitles[props.MountType];
-		dockWidget.Title = `${mountTitle} Story: ${storyName}`;
+		dockWidget.Title = `Story: ${storyName}`;
 	}, [props.MountType, dockWidget]);
 
 	useEffect(() => {
@@ -68,6 +61,7 @@ function Widget(props: StoryHolderProps) {
 	useUnmountEffect(() => {
 		if (dockWidget !== undefined) {
 			dockWidget.Enabled = false;
+			dockWidget.Destroy();
 		}
 	});
 

@@ -1,17 +1,37 @@
 import Signal from "@rbxts/signal";
 import { LoadVirtualModule } from "./Utils";
+import { HttpService } from "@rbxts/services";
 
 type Dependencies = Map<ModuleScript, { Result: unknown }>;
 type Listeners = Map<ModuleScript, RBXScriptConnection>;
 
 export class Enviroment {
 	private ActiveConnections = true;
-	Shared: {} = {};
-	Dependencies: Dependencies = new Map();
-	Listeners: Listeners = new Map();
-	OnDependencyChanged = new Signal<(module: ModuleScript) => void>();
+	private Dependencies: Dependencies = new Map();
+	private Listeners: Listeners = new Map();
 
-	constructor() {}
+	readonly EnviromentUID: string;
+	GlobalInjection?: Record<keyof any, unknown>;
+
+	Shared: {} = {};
+	OnDependencyChanged = new Signal<(module: ModuleScript) => void>();
+	private DestroyedHooked?: () => void;
+
+	constructor() {
+		const uid = HttpService.GenerateGUID(false);
+		this.EnviromentUID = uid;
+	}
+
+	InjectGlobal(key: keyof any, value: unknown) {
+		if (!this.GlobalInjection) {
+			this.GlobalInjection = {};
+		}
+
+		this.GlobalInjection[key] = value;
+	}
+	InjectEnviromentUID() {
+		this.InjectGlobal("EnviromentUID", this.EnviromentUID);
+	}
 
 	RegistryDependency(module: ModuleScript, result?: any) {
 		this.Dependencies.set(module, { Result: result });
@@ -41,7 +61,15 @@ export class Enviroment {
 		}
 	}
 
+	HookOnDestroyed(callback: () => void) {
+		this.DestroyedHooked = callback;
+	}
+
 	Destroy() {
+		if (this.DestroyedHooked) {
+			this.DestroyedHooked();
+		}
+
 		this.ActiveConnections = false;
 		this.Listeners.forEach((connection) => {
 			connection.Disconnect();

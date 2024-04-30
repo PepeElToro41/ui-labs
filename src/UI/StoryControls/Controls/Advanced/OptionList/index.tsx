@@ -56,7 +56,7 @@ function OptionListControl(props: OptionListControlProps) {
 				AutomaticSize={Enum.AutomaticSize.X}
 				Position={new UDim2(0, 0, 0.5, 0)}
 				AnchorPoint={new Vector2(0, 0.5)}
-				BackgroundColor3={theme.Controls.List[hovered ? "FrameHovered" : "Frame"]}
+				BackgroundColor3={theme.List[hovered ? "FrameHovered" : "Frame"]}
 				Change={{
 					AbsolutePosition: OnUDimApply,
 					AbsoluteSize: OnUDimApply,

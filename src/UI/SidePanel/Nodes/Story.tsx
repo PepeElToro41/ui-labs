@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "@rbxts/react";
+import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
 import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
@@ -16,6 +16,10 @@ import { useMouseOffset, useMousePos } from "Hooks/Context/UserInput";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { selectMountAmount, selectPreview } from "Reflex/StoryPreview/StoryMount";
 import Configs from "Plugin/Configs";
+import UnknownCover from "./UnknownCover";
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import { useDescriptionDisplay } from "Context/DescriptionContext";
+import { CreateInstancePath, EncodeInstancePath } from "Utils/InstanceUtils";
 
 interface StoryProps {
 	Node: StoryNode;
@@ -33,25 +37,33 @@ function setProps(props: StoryProps) {
 
 function Story(setprops: StoryProps) {
 	const props = setProps(setprops);
-
 	const [hovered, hoverApi] = useToggler(false);
 	const [transparency, tweenTransparency, setTransparency] = useTween(TRANSPARENCY_INFO, 1);
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.Node.Module);
 
-	const { toggleMount, setOverlay } = useProducer<RootProducer>();
+	const { toggleMount, setOverlay, resetIdentifiedOverlay } = useProducer<RootProducer>();
 	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
 	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
 
+	const module = props.Node.Module;
 	const theme = useTheme();
 	const mouseOffset = useMouseOffset();
 	const isBlocked = useIsOverlayBlocked();
-
-	const selected = rootStory ? rootStory.Module === props.Node.Module : false;
+	const referencePath = useMemo(() => CreateInstancePath(module), [props.Node]);
+	const selected = rootStory ? rootStory.Module === module : false;
 
 	useEffect(() => {
 		if (hovered && isBlocked) {
 			hoverApi.disable();
 		}
 	}, [hovered, isBlocked]);
+	useEffect(() => {
+		if (hovered && referencePath) {
+			DisplayDescription(EncodeInstancePath(referencePath));
+		} else {
+			RemoveDescription();
+		}
+	}, [referencePath, hovered]);
 
 	useEffect(() => {
 		if (selected) {
@@ -64,21 +76,24 @@ function Story(setprops: StoryProps) {
 	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module), [props.Node]);
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />);
+		setOverlay("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);
 	}, [mouseOffset, props.Node]);
 
-	const textColor = selected
-		? theme.Nodes.StorySelected.Text[props.Unknown ? "Disabled" : "Color"]
-		: theme.Text[props.Unknown ? "Disabled" : "Color"];
+	const textColor = selected ? theme.Text.Inverted : theme.Text.Color;
+
+	useUnmountEffect(() => {
+		resetIdentifiedOverlay(props.Node.Module);
+	});
 
 	return (
 		<frame
 			key={props.Node.Name}
 			LayoutOrder={props.Order}
-			BackgroundColor3={theme.Nodes[selected ? "StorySelected" : "Normal"][props.Unknown ? "Disabled" : "Color"]}
+			BackgroundColor3={theme[selected ? "StorySelected" : "Normal"].Color}
 			BackgroundTransparency={transparency}
 			Size={new UDim2(1, 0, 0, 25)}
 		>
+			{props.Unknown && <UnknownCover />}
 			<Corner Radius={6} />
 			<Detector
 				Event={{
@@ -109,7 +124,7 @@ function Story(setprops: StoryProps) {
 					Sprite="StoryIcon"
 					ImageProps={{
 						AnchorPoint: new Vector2(1, 0.5),
-						ImageColor3: theme.Nodes[selected ? "StorySelected" : "Normal"].StoryIcon[props.Unknown ? "Disabled" : "Color"],
+						ImageColor3: theme[selected ? "StorySelected" : "Normal"].StoryIcon,
 						Position: new UDim2(1, 0, 0.5, 0),
 						Size: new UDim2(1, 0, 1.1, 0),
 						LayoutOrder: 1,

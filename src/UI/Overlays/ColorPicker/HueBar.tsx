@@ -3,6 +3,7 @@ import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
 import type { HSV } from ".";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface HueBarProps {
 	HSV: React.Binding<HSV>;
@@ -12,6 +13,7 @@ interface HueBarProps {
 
 function HueBar(props: HueBarProps) {
 	const OnApplyHue = useCallback((hue: number) => props.SetHSV({ H: hue }), [props.SetHSV]);
+	const theme = useTheme();
 
 	return (
 		<Div key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
@@ -40,7 +42,7 @@ function HueBar(props: HueBarProps) {
 				Size={new UDim2(0, 8, 0, 8)}
 			>
 				<Rounder />
-				<uistroke Color={new Color3(1, 1, 1)} Thickness={2} />
+				<uistroke Color={theme.ColorPicker.Handle} Thickness={2} />
 			</frame>
 		</Div>
 	);

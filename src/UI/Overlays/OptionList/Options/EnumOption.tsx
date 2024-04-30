@@ -32,7 +32,7 @@ function EnumOption(setprops: EnumOptionProps) {
 		<Detector
 			Size={new UDim2(1, 0, 0, 26)}
 			AutomaticSize={Enum.AutomaticSize.X}
-			BackgroundColor3={theme.Controls.List.FrameHovered}
+			BackgroundColor3={theme.List.FrameHovered}
 			BackgroundTransparency={hovered ? 0 : 1}
 			Event={{
 				MouseEnter: hoverApi.enable,

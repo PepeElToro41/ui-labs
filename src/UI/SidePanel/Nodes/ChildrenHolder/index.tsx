@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "@rbxts/react";
+import React, { PropsWithChildren, useCallback, useEffect, useState } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { selectFilter } from "Reflex/Explorer/Filter";
@@ -15,12 +15,11 @@ import { selectOverlay } from "Reflex/Overlay";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { useToggler } from "Hooks/Utils/Toggler";
 
-interface ChildrenHolderProps {
+interface ChildrenHolderProps extends PropsWithChildren {
 	Name: string | Instance;
 	Order: number;
 	Sprite: SpriteName;
 	SpriteColor: Color3;
-	Unknown?: boolean;
 	Children: React.Element[];
 }
 
@@ -75,11 +74,12 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 			<List />
 			<frame
 				key="EntryLabel"
-				BackgroundColor3={theme.Nodes.Normal.Color}
+				BackgroundColor3={theme.Normal.Color}
 				LayoutOrder={0}
 				BackgroundTransparency={hovered ? 0.6 : 1}
 				Size={new UDim2(1, 0, 0, 25)}
 			>
+				{props["children"] ?? []}
 				<Corner Radius={6} />
 				<Detector
 					ZIndex={4}
@@ -107,7 +107,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						LayoutOrder={2}
 						Size={new UDim2(1, -46, 1, 0)}
 						TextTruncate={Enum.TextTruncate.AtEnd}
-						TextColor3={props.Unknown ? theme.Text.Disabled : theme.Text.Color}
+						TextColor3={theme.Text.Color}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>
 					<Sprite
@@ -115,7 +115,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						Sprite={expanded ? "Collapse" : "Expand"}
 						ImageProps={{
 							LayoutOrder: 3,
-							ImageColor3: props.Unknown ? theme.Icon.Disabled : theme.Icon.Color,
+							ImageColor3: theme.Icon.Color,
 							Size: new UDim2(0, 16, 0, 16),
 						}}
 					/>

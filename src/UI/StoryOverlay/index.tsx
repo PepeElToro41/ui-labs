@@ -34,7 +34,13 @@ function StoryOverlay(setprops: StoryOverlayProps) {
 			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.Key} />
 			<ToastInfo key={entry.UID} PreviewEntry={entry} />
 			<IconToolbar PreviewEntry={entry} />
-			{entry.OnWidget ? <OnWidgetInfo /> : entry.OnViewport ? <OnViewportInfo /> : <CanvasControls PreviewEntry={entry} />}
+			{!entry.Visible ? undefined : entry.OnWidget ? (
+				<OnWidgetInfo />
+			) : entry.OnViewport ? (
+				<OnViewportInfo />
+			) : (
+				<CanvasControls PreviewEntry={entry} />
+			)}
 		</Div>
 	) : (
 		<Div>
