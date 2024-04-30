@@ -20,7 +20,7 @@ function AppHolder(setprops: AppHolderProps) {
 	}, [divRef.current]);
 
 	return (
-		<Div key="App" Reference={divRef}>
+		<Div key="Holder" Reference={divRef}>
 			{props["children"] ?? new Map()}
 		</Div>
 	);

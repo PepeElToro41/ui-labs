@@ -16,7 +16,7 @@ function Mark(props: MarkProps) {
 			key={"Mark" + props.Position}
 			AnchorPoint={new Vector2(0.5, 0.5)}
 			BackgroundColor3={props.Percent.map((percent) => {
-				return percent >= size ? theme.Nodes.StorySelected.Color : theme.Search.Color;
+				return percent >= size ? theme.StorySelected.Color : theme.Search.Color;
 			})}
 			BorderSizePixel={0}
 			Position={new UDim2(size, 0, 0.5, 0)}

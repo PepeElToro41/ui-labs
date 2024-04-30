@@ -2,6 +2,8 @@ import React, { useMemo } from "@rbxts/react";
 import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Story from "../Story";
+import Corner from "UI/Styles/Corner";
+import UnknownCover from "../UnknownCover";
 
 interface UnknownProps {
 	Order: number;
@@ -26,10 +28,11 @@ function Unknown(setprops: UnknownProps) {
 			Order={props.Order}
 			Name={props.Node.Instance}
 			Sprite={"FolderIcon"}
-			SpriteColor={theme.Nodes.Normal.FolderIcon.Disabled}
-			Unknown={true}
+			SpriteColor={theme.Normal.FolderIcon}
 			Children={children}
-		></ChildrenHolder>
+		>
+			<UnknownCover />
+		</ChildrenHolder>
 	);
 }
 

@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "@rbxts/react";
+import { CreateTuple } from "Utils/MiscUtils";
 
 export function useToggler(initial: boolean) {
 	const [enabled, setEnabled] = useState(initial);
@@ -21,5 +22,5 @@ export function useToggler(initial: boolean) {
 			set: setEnabled,
 		};
 	}, []);
-	return $tuple(enabled, api);
+	return CreateTuple(enabled, api);
 }

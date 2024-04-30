@@ -17,6 +17,7 @@ interface ResizableFrameProps extends PropsWithChildren {
 	ResizeRange: NumberRange;
 	MaxBeforeCollapse?: number;
 	MinToDeCollapse?: number;
+	DragColor?: Color3;
 
 	HolderProps?: Omit<React.InstanceAttributes<Frame>, "Size">;
 	FrameProps?: Omit<React.InstanceAttributes<Frame>, "Size" | "Position" | "AnchorPoint">;
@@ -149,7 +150,7 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 		>
 			<frame
 				key="DragAdornee"
-				BackgroundColor3={new Color3(0.22, 0.65, 1)}
+				BackgroundColor3={props.DragColor ?? Color3.fromRGB(56, 165, 255)}
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BorderSizePixel={0}
 				BackgroundTransparency={isDragging ? 0 : mouseInput ? 0.5 : 1}

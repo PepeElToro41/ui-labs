@@ -19,6 +19,7 @@ import DescriptiveImage from "./DescriptiveImage";
 import Sprite from "UI/Utils/Sprite";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { Counter } from "Utils/NumberUtils";
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 
 interface MountEntryProps {
 	PreviewEntry: PreviewEntry;
@@ -33,7 +34,7 @@ function MountEntry(props: MountEntryProps) {
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay("MountCloseButton");
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const selectedEntry = useSelector(selectStorySelected);
-	const { selectStory, setOverlay, unmountStory } = useProducer<RootProducer>();
+	const { selectStory, setOverlay, resetIdentifiedOverlay, unmountStory } = useProducer<RootProducer>();
 
 	const theme = useTheme();
 	const mouseOffset = useMouseOffset();
@@ -51,7 +52,7 @@ function MountEntry(props: MountEntryProps) {
 
 	const OnEntryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />);
+		setOverlay("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />, entry.UID);
 	}, [mouseOffset, entry]);
 
 	useEffect(() => {
@@ -61,6 +62,10 @@ function MountEntry(props: MountEntryProps) {
 			RemoveDescription();
 		}
 	}, [closeHovered]);
+
+	useUnmountEffect(() => {
+		resetIdentifiedOverlay(entry.UID);
+	});
 
 	return (
 		<Detector
@@ -88,8 +93,8 @@ function MountEntry(props: MountEntryProps) {
 				key={"HiddenCover"}
 				ZIndex={5}
 				Size={UDim2.fromScale(1, 1)}
-				BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-				BackgroundTransparency={0.8}
+				BackgroundColor3={theme.StoryPreview.Background}
+				BackgroundTransparency={0.65}
 				Visible={!entry.Visible}
 				Active={false}
 			>

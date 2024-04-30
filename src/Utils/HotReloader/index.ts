@@ -18,7 +18,7 @@ declare global {
 	type HotReloaderResult = HotReloaderIntrinsic & (HotReloaderSucess | HotReloaderError);
 }
 
-type Dependencies = Map<ModuleScript, { Result: unknown; Listener: RBXScriptConnection }>;
+type ReloadBinder = (enviroment: Enviroment) => void;
 
 export class HotReloader {
 	/**
@@ -26,10 +26,6 @@ export class HotReloader {
 	 * @param module The module to reload
 	 * @returns [Result: Promise<Result>, Reloader: HotReloader]
 	 */
-	static require(module: ModuleScript) {
-		const newReloader = new HotReloader(module);
-		return { Result: newReloader.Reload(), Reloader: newReloader };
-	}
 
 	readonly Module: ModuleScript;
 
@@ -37,8 +33,11 @@ export class HotReloader {
 	private ReloadPromise: Promise<unknown> | undefined;
 	private EnviromentListener?: RBXScriptConnection;
 	readonly OnReloadStarted: Signal<(promise: Promise<unknown>) => void>;
+	private ReloadBinded?: ReloadBinder;
 
-	private constructor(module: ModuleScript) {
+	AutoReload: boolean = true;
+
+	constructor(module: ModuleScript) {
 		this.Module = module;
 		this.OnReloadStarted = new Signal();
 	}
@@ -54,14 +53,23 @@ export class HotReloader {
 			this.Enviroment = undefined;
 		}
 	}
+	BindToReload(bind: ReloadBinder) {
+		this.ReloadBinded = bind;
+	}
+	private RunBinded(enviroment: Enviroment) {
+		if (this.ReloadBinded) {
+			this.ReloadBinded(enviroment);
+		}
+	}
 
 	Reload(): Promise<unknown> {
 		this.ClearReloader();
 		const enviroment = new Enviroment();
 		this.Enviroment = enviroment;
+		this.RunBinded(enviroment);
 
 		const listener = enviroment.OnDependencyChanged.Once((module) => {
-			print(module.Name, "CHANGED");
+			if (!this.AutoReload) return;
 			this.Reload();
 		});
 		this.EnviromentListener = listener;

@@ -96,6 +96,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 		<ResizableFrame
 			key="ActionsPanel"
 			HandleAnchor="Top"
+			DragColor={theme.ResizePanelDrag}
 			BaseSize={new UDim2(1, 0, 0, 200)}
 			ResizeRange={new NumberRange(-110, 400)}
 			MaxBeforeCollapse={-160}

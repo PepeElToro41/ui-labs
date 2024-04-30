@@ -11,6 +11,7 @@ interface DropdownEntryProps {
 	LayoutOrder?: number;
 	Text: string;
 	Disabled?: boolean;
+	Active?: boolean;
 	OnClick: () => void;
 }
 
@@ -41,18 +42,27 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 	return (
 		<frame
 			key={"Frame"}
-			BackgroundColor3={theme.Nodes.StorySelected.Color}
+			BackgroundColor3={theme.StorySelected.Color}
 			BackgroundTransparency={hovered ? 0 : 1}
 			BorderSizePixel={0}
 			LayoutOrder={props.LayoutOrder ?? 0}
 			Size={new UDim2(1, 0, 0, 25)}
 		>
 			<Corner Radius={4} />
+			{props.Active !== undefined && (
+				<imagelabel
+					Image={"rbxassetid://14441008250"}
+					Size={UDim2.fromOffset(13, 13)}
+					BackgroundTransparency={1}
+					Position={new UDim2(1, -8, 0.5, 0)}
+					AnchorPoint={new Vector2(1, 0.5)}
+					ImageTransparency={props.Active ? 0 : 0.8}
+				></imagelabel>
+			)}
 			<Text
 				key={"Text"}
 				Text={props.Text}
-				TextColor3={props.Disabled ? theme.Text.Disabled : hovered ? theme.Dropdown.TextHover : theme.Text.Color}
-				BackgroundColor3={hovered ? theme.Text.Inverted : theme.Text.Color}
+				TextColor3={props.Disabled ? theme.Text.Disabled : hovered ? theme.Text.Inverted : theme.Text.Color}
 				TextSize={14}
 				TextXAlignment={Enum.TextXAlignment.Left}
 				Size={UDim2.fromScale(1, 1)}

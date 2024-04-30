@@ -27,6 +27,7 @@
       "@rbxts/colour-utils": "^1.4.1",
       "@rbxts/flipper": "^2.0.1",
       "@rbxts/immut": "^0.4.4-ts.0",
+      "@rbxts/janitor": "^1.15.7-ts.0",
       "@rbxts/pretty-react-hooks": "^0.4.2",
       "@rbxts/react": "^0.3.3",
       "@rbxts/react-reflex": "^0.3.4",
@@ -35,6 +36,6 @@
       "@rbxts/services": "^1.5.1",
       "@rbxts/sift": "^0.0.6",
       "@rbxts/signal": "^1.1.1",
-      "@rbxts/ui-labs": "^2.0.0"
+      "@rbxts/ui-labs": "2.1.0-test1"
    }
 }

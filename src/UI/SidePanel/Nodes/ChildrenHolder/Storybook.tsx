@@ -28,7 +28,7 @@ function Storybook(props: StorybookProps) {
 			Order={props.Order}
 			Name={props.Node.Name}
 			Sprite={"BookIcon"}
-			SpriteColor={theme.Nodes.Normal.Book}
+			SpriteColor={theme.Normal.Book}
 			Children={children}
 		></ChildrenHolder>
 	);

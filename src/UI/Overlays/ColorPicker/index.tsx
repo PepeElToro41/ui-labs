@@ -18,6 +18,7 @@ import { RunService } from "@rbxts/services";
 import { Counter } from "Utils/NumberUtils";
 import AlphaBar from "./AlphaBar";
 import { FixColor3 } from "Utils/MiscUtils";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 export interface PickedValue {
 	Color: Color3;
@@ -55,6 +56,7 @@ function ColorPicker(props: ColorPickerProps) {
 	const [inside, insideApi] = useToggler(false);
 	const [size, setSize] = useBinding(Vector2.zero);
 	const [wrapped, setWrapped] = useState(false);
+	const theme = useTheme();
 
 	const count = Counter();
 
@@ -119,7 +121,7 @@ function ColorPicker(props: ColorPickerProps) {
 			<frame
 				key={"Picker"}
 				Size={UDim2.fromScale(1, 0)}
-				BackgroundColor3={Color3.fromRGB(24, 24, 24)}
+				BackgroundColor3={theme.ColorPicker.Background}
 				AutomaticSize={Enum.AutomaticSize.Y}
 				LayoutOrder={1}
 				Event={{

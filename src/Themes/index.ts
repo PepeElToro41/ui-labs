@@ -1,5 +1,7 @@
 import Dark from "./DarkThemes/Dark";
 import { CatppuchineFrappe, CatppuchineLatte, CatppuchineMacchiato, CatppuchineMocha } from "./Catppuccin";
+import DarkMono from "./DarkThemes/DarkMono";
+import { Purple } from "./Colors/Purple";
 
 declare global {
 	type Theme = typeof Dark & { ThemeName?: keyof typeof Themes };

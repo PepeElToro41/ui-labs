@@ -1,9 +1,4 @@
-const Palette = {
-	Green: Color3.fromRGB(48, 222, 156),
-	Blue: Color3.fromRGB(61, 176, 252),
-};
-
-const Dark = {
+const DarkMono: Theme = {
 	PureColor: {
 		Color: Color3.fromRGB(36, 36, 36),
 		Inverse: new Color3(1, 1, 1),
@@ -13,9 +8,10 @@ const Dark = {
 		Disabled: Color3.fromRGB(150, 150, 150),
 		Inverted: Color3.fromRGB(38, 38, 38),
 	},
+	ResizePanelDrag: Color3.fromRGB(56, 165, 255),
 	Icon: {
 		Color: Color3.fromRGB(255, 255, 255),
-		Active: Palette.Blue,
+		Active: Color3.fromRGB(34, 34, 34),
 		Disabled: Color3.fromRGB(102, 102, 102),
 	},
 	Divisor: {
@@ -23,16 +19,16 @@ const Dark = {
 		Transparency: 0.7,
 	},
 	Topbar: {
-		Color: Color3.fromRGB(33, 33, 59),
-		Logo: Color3.fromRGB(242, 210, 255),
+		Color: Color3.fromRGB(23, 23, 23),
+		Logo: Color3.fromRGB(255, 255, 255),
 	},
 	Search: {
-		Color: Color3.fromRGB(49, 49, 53),
-		Placeholder: Color3.fromRGB(161, 161, 161),
+		Color: Color3.fromRGB(59, 59, 59),
+		Placeholder: Color3.fromRGB(130, 130, 130),
 	},
-	SidePanel: Color3.fromRGB(28, 28, 28),
+	SidePanel: Color3.fromRGB(40, 40, 40),
 	StoryPanel: {
-		Color: Color3.fromRGB(34, 34, 34),
+		Color: Color3.fromRGB(30, 30, 30),
 		PatternColor: Color3.fromRGB(255, 255, 255),
 		PatternTransparency: 0.95,
 	},
@@ -43,39 +39,40 @@ const Dark = {
 	},
 	StoryPreview: {
 		Background: Color3.fromRGB(39, 39, 39),
-		Color: Color3.fromRGB(79, 79, 79),
-		Selected: Palette.Blue,
-		TextSelected: Color3.fromRGB(27, 37, 48),
+		Color: Color3.fromRGB(61, 61, 61),
+		Selected: Color3.fromRGB(255, 255, 255),
+		TextSelected: Color3.fromRGB(43, 43, 43),
 		CloseButton: Color3.fromRGB(255, 255, 255),
-		InfoToast: Color3.fromRGB(79, 79, 79),
+		InfoToast: Color3.fromRGB(40, 40, 40),
 	},
-	//NODES
-	Normal: {
-		Color: Color3.fromRGB(82, 82, 92),
-		StoryIcon: Color3.fromRGB(115, 179, 237),
-		FolderIcon: Color3.fromRGB(196, 135, 232),
-		Book: Color3.fromRGB(48, 222, 156),
-	},
-	StorySelected: {
-		Color: Palette.Blue,
-		StoryIcon: Color3.fromRGB(31, 48, 66),
-	},
-
-	ResizePanelDrag: Color3.fromRGB(92, 181, 255),
 	ColorPicker: {
 		Background: Color3.fromRGB(24, 24, 24),
 		Handle: Color3.fromRGB(255, 255, 255),
 	},
+	//NODES
+
+	Normal: {
+		Color: Color3.fromRGB(82, 82, 92),
+		StoryIcon: Color3.fromRGB(184, 184, 184),
+		FolderIcon: Color3.fromRGB(102, 102, 102),
+		Book: Color3.fromRGB(255, 255, 255),
+	},
+	StorySelected: {
+		Color: Color3.fromRGB(255, 255, 255),
+		StoryIcon: Color3.fromRGB(64, 64, 64),
+	},
+
 	Dropdown: {
-		Color: Color3.fromRGB(22, 22, 22),
+		Color: Color3.fromRGB(38, 38, 38),
 		TextHover: Color3.fromRGB(255, 255, 255),
 	},
+
 	//CONTROLS
 	Boolean: {
-		SwitchOn: Palette.Green,
-		SwitchOff: Color3.fromRGB(56, 56, 56),
+		SwitchOn: Color3.fromRGB(18, 18, 18),
+		SwitchOff: Color3.fromRGB(64, 64, 64),
 		SwitchBackOn: Color3.fromRGB(255, 255, 255),
-		SwitchBackOff: Color3.fromRGB(255, 255, 255),
+		SwitchBackOff: Color3.fromRGB(143, 143, 143),
 	},
 	List: {
 		Frame: Color3.fromRGB(48, 48, 48),
@@ -83,4 +80,4 @@ const Dark = {
 	},
 };
 
-export default Dark;
+export default DarkMono;

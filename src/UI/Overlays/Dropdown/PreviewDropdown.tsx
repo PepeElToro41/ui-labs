@@ -10,6 +10,7 @@ import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
+import { CreateEntrySnapshot, ReloadEntry } from "UI/StoryPreview/Utils";
 
 interface PreviewDropdownProps {
 	Position: UDim2 | React.Binding<UDim2>;
@@ -31,30 +32,12 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 	const OnMountOnWidget = useOverlayAction(() => setMountData(key, { OnWidget: true }), deps);
 	const OnMountOnEditor = useOverlayAction(() => setMountData(key, { OnWidget: false }), deps);
 	const OnToggleVisible = useOverlayAction(() => setMountData(key, { Visible: !entry.Visible }), deps);
+	const OnToggleAutoReload = useOverlayAction(() => setMountData(key, { AutoReload: !entry.AutoReload }), deps);
 	const OnOrderBefore = useOverlayAction(() => shiftOrderBefore(key), deps);
 	const OnOrderAfter = useOverlayAction(() => shiftOrderAfter(key), deps);
 
-	const OnReload = useOverlayAction(() => {
-		const reloader = entry.HotReloader;
-		if (reloader) {
-			reloader.Reload();
-		}
-	}, deps);
-	const OnCreateSnapshot = useOverlayAction(() => {
-		const holder = entry.Holder;
-		if (!holder) return;
-
-		const guiHolder = new Instance("ScreenGui");
-		guiHolder.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
-		guiHolder.Parent = StarterGui;
-		guiHolder.Name = RemoveExtension(module.Name, Configs.Extensions.Story);
-
-		holder.GetChildren().forEach((child) => {
-			const newChild = child.Clone();
-			newChild.Parent = guiHolder;
-		});
-		Selection.Set([guiHolder]);
-	}, deps);
+	const OnReload = useOverlayAction(() => ReloadEntry(entry), deps);
+	const OnCreateSnapshot = useOverlayAction(() => CreateEntrySnapshot(entry), deps);
 
 	const OnResetZoom = useOverlayAction(() => setMountData(key, { Zoom: 100 }), deps);
 	const OnResetPosition = useOverlayAction(() => setMountData(key, { Offset: Vector2.zero }), deps);
@@ -73,6 +56,7 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 			<DropdownEntry Text={entry.Visible ? "Hide" : "Un-hide"} OnClick={OnToggleVisible} LayoutOrder={count()} />
 			<Divisor Order={count()} />
 			<DropdownEntry Text="Reload" OnClick={OnReload} LayoutOrder={count()} />
+			<DropdownEntry Text="Auto Reload" OnClick={OnToggleAutoReload} Active={entry.AutoReload} LayoutOrder={count()} />
 			<DropdownEntry Text="Create Snapshot" OnClick={OnCreateSnapshot} LayoutOrder={count()} />
 			<Divisor Order={count()} />
 			<DropdownEntry Text="Reset Position" OnClick={OnResetPosition} LayoutOrder={count()} />

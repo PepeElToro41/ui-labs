@@ -41,7 +41,7 @@ function ObjectHolder(props: ObjectHolderProps) {
 		<frame
 			Size={UDim2.fromScale(0, 1)}
 			AutomaticSize={Enum.AutomaticSize.X}
-			BackgroundColor3={theme.Controls.List[hovered && active ? "FrameHovered" : "Frame"]}
+			BackgroundColor3={theme.List[hovered && active ? "FrameHovered" : "Frame"]}
 		>
 			<Rounder />
 			<Div key={"Info"} Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X} ZIndex={2}>

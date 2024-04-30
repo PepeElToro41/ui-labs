@@ -31,7 +31,7 @@ function Folder(setprops: FolderProps) {
 			Name={props.Node.Instance}
 			Order={props.Order}
 			Sprite={"FolderIcon"}
-			SpriteColor={theme.Nodes.Normal.FolderIcon.Color}
+			SpriteColor={theme.Normal.FolderIcon}
 			Children={children}
 		></ChildrenHolder>
 	);

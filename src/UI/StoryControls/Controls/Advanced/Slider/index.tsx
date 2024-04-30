@@ -202,7 +202,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 						></SlideDrag>
 						<frame
 							key="Percentage"
-							BackgroundColor3={theme.Nodes.StorySelected.Color}
+							BackgroundColor3={theme.StorySelected.Color}
 							BorderSizePixel={0}
 							Size={percent.map((p) => UDim2.fromScale(p, 1))}
 							ZIndex={2}
@@ -210,7 +210,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 							<frame
 								key="Handle"
 								AnchorPoint={new Vector2(0.5, 0.5)}
-								BackgroundColor3={theme.Nodes.StorySelected.Color}
+								BackgroundColor3={theme.StorySelected.Color}
 								BorderSizePixel={0}
 								Position={new UDim2(1, 0, 0.5, 0)}
 								Size={handleSize.map((a) => UDim2.fromOffset(10 + a * 3, 10 + a * 3))}

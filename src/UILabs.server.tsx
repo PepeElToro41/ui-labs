@@ -2,16 +2,17 @@ import { RunService } from "@rbxts/services";
 import App from "UI/App";
 import React from "@rbxts/react";
 import Plugin from "UI/Plugin";
-import { Root, createLegacyRoot } from "@rbxts/react-roblox";
+import { Root, createLegacyRoot, createPortal } from "@rbxts/react-roblox";
 import { ReflexProvider } from "@rbxts/react-reflex";
 import { RootProducer } from "Reflex";
 import { IsLocalPlugin } from "Utils/MiscUtils";
+import { Div } from "UI/Styles/Div";
 
 /* eslint-disable roblox-ts/lua-truthiness */
 
 if (!RunService.IsRunning() || RunService.IsEdit()) {
 	const isLocal = IsLocalPlugin(plugin);
-	const toolbar = plugin.CreateToolbar("UI Labs (DEV)");
+	const toolbar = plugin.CreateToolbar(isLocal ? "UI Labs (DEV)" : "UI Labs");
 	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", isLocal ? "rbxassetid://16652065460" : "rbxassetid://13858107432");
 	const stopButton = toolbar.CreateButton("Stop", "Stop UI Labs", "rbxassetid://13960086023");
 
@@ -49,12 +50,14 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 		if (dockWidget.Enabled && !pluginRoot) {
 			const pluginApp = (
 				<ReflexProvider producer={RootProducer}>
-					<Plugin Plugin={plugin} DockWidget={dockWidget}></Plugin>
+					<Div key={"App"}>
+						<Plugin Plugin={plugin} DockWidget={dockWidget}></Plugin>
+					</Div>
 				</ReflexProvider>
 			);
 
-			pluginRoot = createLegacyRoot(dockWidget);
-			pluginRoot.render(pluginApp);
+			pluginRoot = createLegacyRoot(new Instance("Folder"));
+			pluginRoot.render(createPortal(pluginApp, dockWidget));
 		}
 	});
 	plugin.Unloading.Connect(() => {

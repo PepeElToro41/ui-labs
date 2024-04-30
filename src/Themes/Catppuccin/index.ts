@@ -3,6 +3,8 @@ import { Darken } from "@rbxts/colour-utils";
 
 type CatppuchinePalette = typeof Frappe;
 
+Color3.fromRGB(26, 28, 33);
+
 function CatppuchineTheme(palette: CatppuchinePalette) {
 	const theme: Theme = {
 		PureColor: {
@@ -14,6 +16,7 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 			Disabled: palette.Overlay0,
 			Inverted: palette.Crust,
 		},
+		ResizePanelDrag: Color3.fromRGB(56, 165, 255),
 		Icon: {
 			Color: palette.Text,
 			Active: palette.Sapphire,
@@ -48,49 +51,39 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 			Selected: palette.Sapphire,
 			TextSelected: palette.Crust,
 			CloseButton: palette.Red,
+			InfoToast: palette.Mantle,
 		},
-		Nodes: {
-			Normal: {
-				Color: palette.Surface0,
-				Disabled: Color3.fromRGB(54, 54, 59),
-				StoryIcon: {
-					Color: palette.Sapphire,
-					Disabled: Darken(palette.Sapphire, 0.35),
-				},
-				FolderIcon: {
-					Color: palette.Pink,
-					Disabled: Darken(palette.Pink, 0.35),
-				},
-				Book: palette.Green,
-			},
-			StorySelected: {
-				Color: palette.Sapphire,
-				Disabled: Darken(palette.Sapphire, 0.35),
-				StoryIcon: {
-					Color: palette.Crust,
-					Disabled: palette.Base,
-				},
-				Text: {
-					Color: palette.Base,
-					Disabled: palette.Surface1,
-				},
-			},
+		//NODES
+
+		Normal: {
+			Color: palette.Surface0,
+			StoryIcon: palette.Sapphire,
+			FolderIcon: palette.Pink,
+			Book: palette.Green,
 		},
+		StorySelected: {
+			Color: palette.Sapphire,
+			StoryIcon: palette.Crust,
+		},
+
 		Dropdown: {
 			Color: palette.Crust,
 			TextHover: palette.Base,
 		},
-		Controls: {
-			Boolean: {
-				SwitchBackOn: palette.Surface1,
-				SwitchBackOff: palette.Surface1,
-				SwitchOff: palette.Base,
-				SwitchOn: palette.Green,
-			},
-			List: {
-				Frame: palette.Crust,
-				FrameHovered: palette.Surface0,
-			},
+		ColorPicker: {
+			Background: palette.Base,
+			Handle: Color3.fromRGB(255, 255, 255),
+		},
+		//CONTROLS
+		Boolean: {
+			SwitchBackOn: palette.Surface1,
+			SwitchBackOff: palette.Surface1,
+			SwitchOff: palette.Base,
+			SwitchOn: palette.Green,
+		},
+		List: {
+			Frame: palette.Crust,
+			FrameHovered: palette.Surface0,
 		},
 	};
 	return theme;

@@ -62,7 +62,7 @@ function EnumListOverlay(props: EnumListOverlayProps) {
 			<Div key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
 			<frame
 				key="Holder"
-				BackgroundColor3={theme.Controls.List.Frame}
+				BackgroundColor3={theme.List.Frame}
 				BorderSizePixel={0}
 				LayoutOrder={1}
 				Size={UDim2.fromScale(0, 0)}

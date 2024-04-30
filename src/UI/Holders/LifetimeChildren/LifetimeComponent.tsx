@@ -9,7 +9,8 @@ function LifetimeComponent(props: LifetimeComponentProps) {
 	const controller = useMemo(() => new LifetimeController(), []);
 	controller.SetUpdater(rerender);
 
-	const children: React.Children = (props["children"] as React.Children) ?? new Map();
+	const children = (props["children"] as React.Children) ?? new Map();
+
 	controller.ProcessChildren(children);
 	const comps = controller.RenderComponents();
 	return <React.Fragment>{comps}</React.Fragment>;

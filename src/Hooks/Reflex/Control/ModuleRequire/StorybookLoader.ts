@@ -17,11 +17,13 @@ export class StorybookLoader {
 		return this.StorybookResult;
 	}
 	Init() {
-		const reloaderResult = HotReloader.require(this.Module);
-		this.HotReloader = reloaderResult.Reloader;
+		const reloader = new HotReloader(this.Module);
+		this.HotReloader = reloader;
 
-		this.OnReloadPromise(reloaderResult.Result);
-		this.HotReloaderConnection = reloaderResult.Reloader.OnReloadStarted.Connect((result) => {
+		this.OnReloadPromise(reloader.Reload());
+		reloader.BindToReload((enviroment) => {});
+
+		this.HotReloaderConnection = reloader.OnReloadStarted.Connect((result) => {
 			this.OnReloadPromise(result);
 		});
 	}

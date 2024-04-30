@@ -15,6 +15,7 @@ declare global {
 		OnWidget: boolean;
 		OnViewport: boolean;
 		Visible: boolean;
+		AutoReload: boolean;
 
 		Zoom: number;
 		Offset: Vector2;
@@ -30,6 +31,7 @@ const DefaultEntry = {
 	Visible: true,
 	OnWidget: false,
 	OnViewport: false,
+	AutoReload: true,
 } satisfies Partial<PreviewEntry>;
 
 interface StoryMountState {
@@ -64,7 +66,7 @@ export const selectMountAmount = (module: ModuleScript) => (state: RootState) =>
 };
 
 function CreateNewEntry(module: ModuleScript, order: number) {
-	const uid = HttpService.GenerateGUID();
+	const uid = HttpService.GenerateGUID(false);
 	const newEntry: PreviewEntry = {
 		...DefaultEntry,
 		UID: uid,
@@ -147,6 +149,12 @@ export const StoryMountProducer = createProducer(initialState, {
 		return {
 			...state,
 			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Key !== key),
+		};
+	},
+	unmountByUID: (state, uid: string) => {
+		return {
+			...state,
+			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.UID !== uid),
 		};
 	},
 	unmountByModule: (state, module: ModuleScript) => {
