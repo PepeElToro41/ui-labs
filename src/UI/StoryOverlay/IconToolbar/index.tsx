@@ -13,7 +13,6 @@ import { Counter } from "Utils/NumberUtils";
 import { useProducer } from "@rbxts/react-reflex";
 import Immut from "@rbxts/immut";
 import { Selection } from "@rbxts/services";
-import { set } from "@rbxts/sift/out/Array";
 
 interface IconToolbarProps {
 	PreviewEntry: PreviewEntry;
