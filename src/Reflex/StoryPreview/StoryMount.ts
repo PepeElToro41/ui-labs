@@ -22,6 +22,8 @@ declare global {
 		Order: number;
 
 		ActionComponents: Map<string, ActionTabEntry>;
+
+		ZIndexBehavior?: Enum.ZIndexBehavior;
 	}
 }
 const DefaultEntry = {
@@ -32,6 +34,7 @@ const DefaultEntry = {
 	OnWidget: false,
 	OnViewport: false,
 	AutoReload: true,
+	ZIndexBehavior: Enum.ZIndexBehavior.Sibling,
 } satisfies Partial<PreviewEntry>;
 
 interface StoryMountState {
