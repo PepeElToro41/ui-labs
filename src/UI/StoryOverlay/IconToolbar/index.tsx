@@ -1,5 +1,5 @@
 import { lerp } from "@rbxts/pretty-react-hooks";
-import React, { useCallback, useEffect, useState } from "@rbxts/react";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
@@ -24,7 +24,7 @@ const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirect
 function IconToolbar(props: IconToolbarProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [hoverAlpha, tweenHoverAlpha] = useTween(HOVER_INFO, 0);
-	const [zIndexBehavior, setZIndexBehavior] = useState("Sibling");
+	const [zIndexBehaviorGlobal, zIndexBehaviorGlobalApi] = useToggler(false);
 	const { updateMountData, setMountData } = useProducer<RootProducer>();
 	const count = Counter();
 
@@ -58,11 +58,6 @@ function IconToolbar(props: IconToolbarProps) {
 		updateMountData(entry.Key, (old) =>
 			Immut.produce(old, (draft) => {
 				draft.OnViewport = !draft.OnViewport;
-				if (zIndexBehavior === "Global") {
-					draft.ZIndexBehavior = Enum.ZIndexBehavior.Global;
-				} else {
-					draft.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
-				}
 			}),
 		);
 	}, [entry]);
@@ -75,12 +70,12 @@ function IconToolbar(props: IconToolbarProps) {
 	const toggleZIndexBehavior = useCallback(() => {
 		updateMountData(entry.Key, (old) =>
 			Immut.produce(old, (draft) => {
-				if (zIndexBehavior === "Global") {
+				if (zIndexBehaviorGlobal) {
 					draft.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
-					setZIndexBehavior("Sibling");
+					zIndexBehaviorGlobalApi.disable();
 				} else {
 					draft.ZIndexBehavior = Enum.ZIndexBehavior.Global;
-					setZIndexBehavior("Global");
+					zIndexBehaviorGlobalApi.enable();
 				}
 			}),
 		);
