@@ -1,5 +1,5 @@
 import { lerp } from "@rbxts/pretty-react-hooks";
-import React, { useCallback, useEffect } from "@rbxts/react";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
@@ -13,6 +13,7 @@ import { Counter } from "Utils/NumberUtils";
 import { useProducer } from "@rbxts/react-reflex";
 import Immut from "@rbxts/immut";
 import { Selection } from "@rbxts/services";
+import { set } from "@rbxts/sift/out/Array";
 
 interface IconToolbarProps {
 	PreviewEntry: PreviewEntry;
@@ -23,6 +24,7 @@ const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirect
 function IconToolbar(props: IconToolbarProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [hoverAlpha, tweenHoverAlpha] = useTween(HOVER_INFO, 0);
+	const [zIndexBehavior, setZIndexBehavior] = useState("Sibling");
 	const { updateMountData, setMountData } = useProducer<RootProducer>();
 	const count = Counter();
 
@@ -56,12 +58,32 @@ function IconToolbar(props: IconToolbarProps) {
 		updateMountData(entry.Key, (old) =>
 			Immut.produce(old, (draft) => {
 				draft.OnViewport = !draft.OnViewport;
+				if (zIndexBehavior === "Global") {
+					draft.ZIndexBehavior = Enum.ZIndexBehavior.Global;
+				} else {
+					draft.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
+				}
 			}),
 		);
 	}, [entry]);
+
 	const OnViewOnExplorer = useCallback(() => {
 		if (!entry.Holder) return;
 		Selection.Set([entry.Holder!]);
+	}, [entry]);
+
+	const toggleZIndexBehavior = useCallback(() => {
+		updateMountData(entry.Key, (old) =>
+			Immut.produce(old, (draft) => {
+				if (zIndexBehavior === "Global") {
+					draft.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
+					setZIndexBehavior("Sibling");
+				} else {
+					draft.ZIndexBehavior = Enum.ZIndexBehavior.Global;
+					setZIndexBehavior("Global");
+				}
+			}),
+		);
 	}, [entry]);
 
 	return (
@@ -104,6 +126,14 @@ function IconToolbar(props: IconToolbarProps) {
 					Sprite="ViewOnExplorer"
 					Description="View On Explorer"
 					OnClick={OnViewOnExplorer}
+					Order={count()}
+				/>
+				<SpriteButton
+					ButtonName="ViewportZIndexBehaviorT"
+					Sprite="Picker"
+					Active={entry.OnViewport}
+					Description="Toggle ZIndex Behavior To Global/Sibling"
+					OnClick={toggleZIndexBehavior}
 					Order={count()}
 				/>
 			</Div>
