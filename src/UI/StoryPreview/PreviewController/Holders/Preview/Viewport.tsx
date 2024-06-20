@@ -19,7 +19,7 @@ function Viewport(props: StoryHolderProps) {
 	});
 
 	return createPortal(
-		<screengui key={storyName} ZIndexBehavior={Enum.ZIndexBehavior.Sibling}>
+		<screengui key={storyName} ZIndexBehavior={props.PreviewEntry.ZIndexBehavior}>
 			<Div key={"Holder"} Reference={mountRef}></Div>
 		</screengui>,
 		game.GetService("CoreGui"),
