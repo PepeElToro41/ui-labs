@@ -23,7 +23,6 @@ const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirect
 function IconToolbar(props: IconToolbarProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [hoverAlpha, tweenHoverAlpha] = useTween(HOVER_INFO, 0);
-	const [zIndexBehaviorGlobal, zIndexBehaviorGlobalApi] = useToggler(false);
 	const { updateMountData, setMountData } = useProducer<RootProducer>();
 	const count = Counter();
 
@@ -69,12 +68,10 @@ function IconToolbar(props: IconToolbarProps) {
 	const toggleZIndexBehavior = useCallback(() => {
 		updateMountData(entry.Key, (old) =>
 			Immut.produce(old, (draft) => {
-				if (zIndexBehaviorGlobal) {
+				if (old.ZIndexBehavior === Enum.ZIndexBehavior.Global) {
 					draft.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
-					zIndexBehaviorGlobalApi.disable();
 				} else {
 					draft.ZIndexBehavior = Enum.ZIndexBehavior.Global;
-					zIndexBehaviorGlobalApi.enable();
 				}
 			}),
 		);
@@ -123,7 +120,7 @@ function IconToolbar(props: IconToolbarProps) {
 					Order={count()}
 				/>
 				<SpriteButton
-					ButtonName="ViewportZIndexBehaviorT"
+					ButtonName="ViewportZIndexBehavior"
 					Sprite="Picker"
 					Active={entry.OnViewport}
 					Description="Toggle ZIndex Behavior To Global/Sibling"
