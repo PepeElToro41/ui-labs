@@ -2,3 +2,4 @@
 /out
 /include
 *.tsbuildinfo
+yarn-error.log
