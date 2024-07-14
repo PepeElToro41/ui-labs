@@ -13,6 +13,9 @@ import { selectStorySelected } from "Reflex/StorySelection";
 import PreviewControl from "UI/StoryPreview/PreviewControl";
 import StoryOverlay from "UI/StoryOverlay";
 import { StoryPanelProvider } from "Context/StoryPanelContext";
+import PanelRender from "./PanelRender";
+import { ToolsProvider } from "Context/ToolsContext";
+import TopList from "UI/Styles/List/TopList";
 
 interface StoryContentsProps {}
 
@@ -26,19 +29,17 @@ function StoryContents(props: StoryContentsProps) {
 	const entry = useSelectorCreator(selectPreview, selectedEntry);
 
 	return (
-		<FrameFill key="StoryContents" FrameProps={{ BackgroundTransparency: 0, BackgroundColor3: theme.StoryPanel.Color, LayoutOrder: 1 }}>
+		<Div key="StoryContents" BackgroundTransparency={0} BackgroundColor3={theme.StoryPanel.Color} LayoutOrder={1}>
+			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 			<BackgroundPattern />
 			<Div key="StoryFrame">
-				<List />
+				<TopList />
 				<StoryTitle />
-				<Div key={"StoryPanel"} Size={new UDim2(1, 0, 1, -31)}>
-					<StoryPanelProvider>
-						<PreviewControl />
-						<StoryOverlay key={"StoryOverlay"} PreviewEntry={entry} />
-					</StoryPanelProvider>
-				</Div>
+				<StoryPanelProvider>
+					<PanelRender PreviewEntry={entry} />
+				</StoryPanelProvider>
 			</Div>
-		</FrameFill>
+		</Div>
 	);
 }
 

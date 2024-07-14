@@ -27,7 +27,7 @@ function ControlTabs(setprops: ControlTabsProps) {
 	const theme = useTheme();
 
 	const tabs = useMemo(() => {
-		const tabItems: React.Children = new Map();
+		const tabItems: ReactChildren = new Map();
 		props.Tabs.forEach((tab, index) => {
 			const tabItem = (
 				<TabItem

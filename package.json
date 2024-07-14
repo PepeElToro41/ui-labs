@@ -36,6 +36,6 @@
       "@rbxts/services": "^1.5.1",
       "@rbxts/sift": "^0.0.6",
       "@rbxts/signal": "^1.1.1",
-      "@rbxts/ui-labs": "2.1.0-test1"
+      "@rbxts/ui-labs": "^2.1.1"
    }
 }

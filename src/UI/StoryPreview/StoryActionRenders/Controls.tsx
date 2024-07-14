@@ -32,7 +32,7 @@ function RenderControlGroup(
 	groupValues: ParametrizedControls,
 	update: (value: ParametrizedControls) => void,
 ) {
-	const controls: React.Children = new Map();
+	const controls: ReactChildren = new Map();
 
 	for (const [name, control] of pairs(controlGroup.Controls)) {
 		const controlValue = groupValues[name] as ControlValue;
@@ -51,7 +51,7 @@ function RenderControlGroup(
 }
 
 function RenderControl(name: string, control: ObjectControl, value: ControlValue, update: (value: ControlValue) => void) {
-	const subcomponent: React.Children = new Map();
+	const subcomponent: ReactChildren = new Map();
 	const controlRender = CreateControlRender(control, value, update);
 	subcomponent.set("ControlRender", controlRender);
 
@@ -85,7 +85,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	);
 
 	const controlComponents = useMemo(() => {
-		const components: React.Children = new Map();
+		const components: ReactChildren = new Map();
 
 		for (const [name, control] of pairs(props.Controls)) {
 			if (control.EntryType === "ControlGroup") {

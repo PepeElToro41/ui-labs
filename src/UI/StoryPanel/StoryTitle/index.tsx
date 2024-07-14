@@ -15,7 +15,7 @@ function StoryTitle(props: StoryTitleProps) {
 	const theme = useTheme();
 
 	const entries = useMemo(() => {
-		const elements: React.Children = new Map();
+		const elements: ReactChildren = new Map();
 
 		mounts.forEach((entry, key) => {
 			elements.set(key, <MountEntry PreviewEntry={entry} />);

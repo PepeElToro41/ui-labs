@@ -14,7 +14,10 @@ function Functional(props: MounterProps<"Functional">) {
 			.catch((err) => warn("UI-Labs: Function story errored when mounting: ", err));
 		return () => {
 			if (unmounter.current) {
-				unmounter.current();
+				const [success, err] = pcall(unmounter.current);
+				if (!success) {
+					warn("UI-Labs: Error while running the functional cleaner: ", err);
+				}
 			}
 		};
 	}, []);

@@ -11,6 +11,7 @@
       "noLib": true,
       "resolveJsonModule": true,
       "experimentalDecorators": true,
+      "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "moduleDetection": "force",
       "strict": true,

@@ -1,8 +1,10 @@
 import React, { Dispatch, PropsWithChildren, SetStateAction, useBinding, useContext, useMemo, useState } from "@rbxts/react";
+import { CreateTuple } from "Utils/MiscUtils";
 
 interface StoryPanelContext {
 	ActionsPinned: boolean;
 	ActionsHeight: React.Binding<number>;
+
 	SetActionsPinned: Dispatch<SetStateAction<boolean>>;
 	SetActionsHeight: (height: number) => void;
 }
@@ -14,13 +16,15 @@ export function StoryPanelProvider(props: StoryPanelProps) {
 	const [actionsPinned, setActionsPinned] = useState(false);
 	const [actionsHeight, setActionsHeight] = useBinding<number>(0);
 
-	const contextValue = useMemo<StoryPanelContext>(() => {
-		return {
+	const contextValue = useMemo(() => {
+		const context: StoryPanelContext = {
 			ActionsPinned: actionsPinned,
 			ActionsHeight: actionsHeight,
+
 			SetActionsPinned: setActionsPinned,
 			SetActionsHeight: setActionsHeight,
 		};
+		return context;
 	}, [actionsPinned]);
 
 	return <StoryPanelContext.Provider value={contextValue}>{props["children"]}</StoryPanelContext.Provider>;
@@ -28,16 +32,16 @@ export function StoryPanelProvider(props: StoryPanelProps) {
 export function useActionsPinned() {
 	const { ActionsPinned, SetActionsPinned } = useContext(StoryPanelContext);
 
-	return $tuple(ActionsPinned, SetActionsPinned);
+	return CreateTuple(ActionsPinned, SetActionsPinned);
 }
 
 export function useActionsHeight() {
 	const { ActionsHeight, SetActionsHeight } = useContext(StoryPanelContext);
 
-	return $tuple(ActionsHeight, SetActionsHeight);
+	return CreateTuple(ActionsHeight, SetActionsHeight);
 }
 export function useActionsData() {
 	const { ActionsPinned, ActionsHeight } = useContext(StoryPanelContext);
 
-	return $tuple(ActionsPinned, ActionsHeight);
+	return CreateTuple(ActionsPinned, ActionsHeight);
 }

@@ -4,6 +4,4 @@ interface ClassIconInfo {
 	ImageRectSize: Vector2;
 }
 
-declare namespace React {
-	type Children = Map<Key, React.Element>;
-}
+type ReactChildren = Map<React.Key, React.Element>;

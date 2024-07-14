@@ -8,7 +8,7 @@ import Overlay from "../Overlay";
 import { useProducer } from "@rbxts/react-reflex";
 import { Detector } from "UI/Styles/Detector";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { useOverlayWrap } from "Hooks/Utils/OutsideWrapper";
+import { useOverlayWrapXY } from "Hooks/Utils/OutsideWrapper";
 
 interface DropdownProps extends PropsWithChildren {
 	Position: UDim2 | React.Binding<UDim2>;
@@ -17,7 +17,7 @@ interface DropdownProps extends PropsWithChildren {
 
 function Dropdown(props: DropdownProps) {
 	const theme = useTheme();
-	const [wrapped, OnAbsoluteSizeChanged] = useOverlayWrap(props.Position, new Vector2(0, 0), "Y");
+	const [wrappedX, wrappedY, OnAbsoluteSizeChanged] = useOverlayWrapXY(props.Position, new Vector2(0, 0));
 	const { resetOverlay } = useProducer<RootProducer>();
 
 	const OnClose = useCallback(() => {
@@ -27,7 +27,7 @@ function Dropdown(props: DropdownProps) {
 	return (
 		<Overlay
 			Size={UDim2.fromOffset(props.Width ?? 220, 0)}
-			AnchorPoint={wrapped ? new Vector2(0, 1) : new Vector2(0, 0)}
+			AnchorPoint={new Vector2(wrappedX ? 1 : 0, wrappedY ? 1 : 0)}
 			AutomaticSize={Enum.AutomaticSize.Y}
 			Position={props.Position}
 			OnClickClose={OnClose}

@@ -11,6 +11,8 @@ import { controlPreview } from "Hooks/Reflex/Control/Preview";
 import { controlStorybooks } from "Hooks/Reflex/Control/ModuleRequire/Storybooks";
 import AppHolder from "./AppHolder";
 import { DescriptionProvider } from "Context/DescriptionContext";
+import { ToolsProvider } from "Context/ToolsContext";
+import ProviderStack from "./Utils/ProviderStack";
 
 interface AppProps {}
 
@@ -21,18 +23,16 @@ function App(props: AppProps) {
 	controlPreview();
 
 	return (
-		<UserInputProvider>
-			<DescriptionProvider>
-				<AppHolder>
-					<Div key={"Plugin"}>
-						<List />
-						<TopBar />
-						<AppPanel />
-					</Div>
-					<OverlayControl />
-				</AppHolder>
-			</DescriptionProvider>
-		</UserInputProvider>
+		<ProviderStack Providers={[UserInputProvider, DescriptionProvider, ToolsProvider]}>
+			<AppHolder>
+				<Div key={"Plugin"}>
+					<List />
+					<TopBar />
+					<AppPanel />
+				</Div>
+				<OverlayControl />
+			</AppHolder>
+		</ProviderStack>
 	);
 }
 

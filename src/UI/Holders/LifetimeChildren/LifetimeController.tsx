@@ -74,7 +74,7 @@ export class LifetimeController {
 			Element: element,
 		});
 	}
-	ProcessChildren(children: React.Children) {
+	ProcessChildren(children: ReactChildren) {
 		const newChildren = new Map<string | number, string>();
 
 		this.RenderedUIDs.forEach((uid, key) => {
@@ -93,9 +93,9 @@ export class LifetimeController {
 		});
 	}
 	RenderComponents() {
-		const renderedChildren: React.Children = new Map();
+		const renderedChildren: ReactChildren = new Map();
 		this.AllComponents.forEach((component, uid) => {
-			const child: React.Children = new Map();
+			const child: ReactChildren = new Map();
 			const element = component.Element as ReactElement;
 			if (typeOf(element.type) === "function") {
 				const props = (element.props as PropsType) ?? {};

@@ -39,14 +39,15 @@ export function UserInputProvider(props: UserInputProps) {
 		inputEnded.Fire(input, false);
 	}, []);
 
-	const contextValue = useMemo<UserInputContext>(() => {
-		return {
+	const contextValue = useMemo(() => {
+		const context: UserInputContext = {
 			MousePosition: mousePos,
 
 			InputChanged: inputChanged,
 			InputBegan: inputBegan,
 			InputEnded: inputEnded,
 		};
+		return context;
 	}, []);
 
 	return (

@@ -13,17 +13,17 @@ function setProps(props: ToastInfoProps) {
 
 function ToastInfo(setprops: ToastInfoProps) {
 	const props = setProps(setprops);
-	const [toastRender, setToastRender] = useState<React.Children>();
+	const [toastRender, setToastRender] = useState<ReactChildren>();
 	const entry = props.PreviewEntry;
 
 	useDebounceEffect(() => setToastRender(undefined), [toastRender], { wait: 0.6 });
 	useUpdateEffect(() => {
-		const renderMap: React.Children = new Map();
+		const renderMap: ReactChildren = new Map();
 		renderMap.set("ZoomDisplay", <ToastInfoRender InfoText={`Zoom: ${entry.Zoom}%`} />);
 		setToastRender(renderMap);
 	}, [entry.Zoom]);
 	useUpdateEffect(() => {
-		const renderMap: React.Children = new Map();
+		const renderMap: ReactChildren = new Map();
 		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${entry.Offset}]`} />);
 		setToastRender(renderMap);
 	}, [entry.Offset]);
