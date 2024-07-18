@@ -2,6 +2,7 @@ import { Binding, useBinding, useCallback, useEffect, useState } from "@rbxts/re
 import { useAppHolder } from "./AppHolder";
 import { Lerp } from "Utils/NumberUtils";
 import { RunService } from "@rbxts/services";
+import { CreateTuple } from "Utils/MiscUtils";
 
 type PropertySet<T> = T | Binding<T>;
 type VectorLike = PropertySet<Vector2> | PropertySet<UDim2>;
@@ -64,5 +65,16 @@ export function useOverlayWrap(position: VectorLike, anchor: Vector2, direction?
 		return () => connection.Disconnect();
 	}, [OutsideCheck, direction, anchor]);
 
-	return $tuple(wrapped, OnAbsoluteSizeChanged);
+	return CreateTuple(wrapped, OnAbsoluteSizeChanged);
+}
+export function useOverlayWrapXY(position: VectorLike, anchor: Vector2) {
+	const [wrappedX, OnAbsoluteSizeChangedX] = useOverlayWrap(position, anchor, "X");
+	const [wrappedY, OnAbsoluteSizeChangedY] = useOverlayWrap(position, anchor, "Y");
+
+	const OnAbsoluteSizeChanged = useCallback((item: GuiBase2d) => {
+		OnAbsoluteSizeChangedX(item);
+		OnAbsoluteSizeChangedY(item);
+	}, []);
+
+	return CreateTuple(wrappedX, wrappedY, OnAbsoluteSizeChanged);
 }

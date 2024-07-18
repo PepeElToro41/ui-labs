@@ -73,13 +73,13 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 
 	const contextValue = useMemo(() => {
 		const isActive = descriptionVisible && currentDescription !== undefined;
-		const value: DescriptionContext = {
+		const context: DescriptionContext = {
 			ActiveDescription: isActive ? currentDescription.Description : undefined,
 			SetDescription: SetDescription,
 			RemoveDescription: RemoveDescription,
 		};
 
-		return value;
+		return context;
 	}, [currentDescription, descriptionVisible]);
 
 	return <DescriptionContext.Provider value={contextValue}>{props["children"]}</DescriptionContext.Provider>;

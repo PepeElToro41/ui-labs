@@ -8,7 +8,6 @@ import { useInstance } from "Hooks/Utils/Instance";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import HolderParenter from "./Holders/HolderParenter";
-import { Storybook } from "@rbxts/ui-labs";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -55,7 +54,7 @@ function PreviewController(props: PreviewControllerProps) {
 		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
 	}, [result]);
 
-	const renderMap: React.Children = new Map();
+	const renderMap: ReactChildren = new Map();
 	if (renderer) renderMap.set(renderer.Key, renderer.Renderer);
 
 	const render = (

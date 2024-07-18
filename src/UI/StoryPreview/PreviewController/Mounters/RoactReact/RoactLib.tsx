@@ -8,6 +8,7 @@ import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import type { MounterProps } from "..";
 import { useInputSignals } from "Context/UserInputContext";
+import { useStoryUnmount } from "../../Utils";
 
 function RoactLib(props: MounterProps<"RoactLib">) {
 	const result = props.Result;
@@ -52,11 +53,8 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		}
 	}, [result, controlValues]);
 
-	useUnmountEffect(() => {
+	useStoryUnmount(result, () => {
 		result.roact.unmount(handle);
-		if (result.cleanup) {
-			result.cleanup();
-		}
 	});
 
 	return <React.Fragment></React.Fragment>;

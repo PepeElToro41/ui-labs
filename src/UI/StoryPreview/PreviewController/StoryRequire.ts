@@ -12,8 +12,8 @@ import { useInputSignals } from "Context/UserInputContext";
 
 export function useStoryRequire(entry: PreviewEntry) {
 	const node = useSelector(selectNodeFromModule(entry.Module));
-	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
 	const [reloader, setReloader] = useState<HotReloader>();
+	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
 	const producer = useProducer<RootProducer>();
 	const widget = useSelector(selectPluginWidget);
 	const inputSignals = useInputSignals();
@@ -56,8 +56,8 @@ export function useStoryRequire(entry: PreviewEntry) {
 		const reloader = new HotReloader(node.Module);
 		reloader.BindToReload(InjectGlobalControls);
 
-		setReloader(reloader);
 		setResultPromise(reloader.Reload());
+		setReloader(reloader);
 
 		return () => {
 			reloader.Destroy();

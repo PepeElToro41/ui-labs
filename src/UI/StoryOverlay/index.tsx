@@ -1,12 +1,14 @@
 import React, { useMemo } from "@rbxts/react";
 import ActionsPanel from "UI/StoryOverlay/ActionsPanel";
 import { Div } from "UI/Styles/Div";
-import IconToolbar from "./IconToolbar";
 import Text from "UI/Styles/Text";
 import CanvasControls from "./CanvasControls";
 import ToastInfo from "./ToastInfo";
 import OnWidgetInfo from "./OnWidgetInfo";
 import OnViewportInfo from "./OnViewportInfo";
+import RightToolbar from "./IconToolbar/RightToolbar";
+import LeftToolbar from "./IconToolbar/LeftToolbar";
+import { useToolsContext } from "Context/ToolsContext";
 
 interface StoryOverlayProps {
 	PreviewEntry: PreviewEntry | undefined;
@@ -20,6 +22,7 @@ function setProps(props: StoryOverlayProps) {
 function StoryOverlay(setprops: StoryOverlayProps) {
 	const props = setProps(setprops);
 	const entry = props.PreviewEntry;
+	const toolsContext = useToolsContext().ToolbarPosition;
 
 	const actionTabs = useMemo(() => {
 		const tabs = new Map<string, ActionTabEntry>();
@@ -33,7 +36,7 @@ function StoryOverlay(setprops: StoryOverlayProps) {
 		<Div>
 			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.Key} />
 			<ToastInfo key={entry.UID} PreviewEntry={entry} />
-			<IconToolbar PreviewEntry={entry} />
+			{toolsContext === "Floating" ? <LeftToolbar PreviewEntry={entry} /> : undefined}
 			{!entry.Visible ? undefined : entry.OnWidget ? (
 				<OnWidgetInfo />
 			) : entry.OnViewport ? (

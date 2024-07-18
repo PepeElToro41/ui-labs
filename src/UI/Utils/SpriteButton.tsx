@@ -20,6 +20,7 @@ interface SpriteButtonProps {
 	Description?: string;
 	Active?: boolean;
 	OnClick?: () => void;
+	OnRightClick?: () => void;
 }
 
 function SpriteButton(props: SpriteButtonProps) {
@@ -56,6 +57,7 @@ function SpriteButton(props: SpriteButtonProps) {
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
 					MouseButton1Click: props.OnClick,
+					MouseButton2Click: props.OnRightClick,
 				}}
 			/>
 			<Sprite

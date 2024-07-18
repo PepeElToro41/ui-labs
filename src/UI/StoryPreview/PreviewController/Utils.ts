@@ -1,3 +1,4 @@
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { LibLike } from "@rbxts/ui-labs/src/Libs";
 import { StoryBase, FunctionStory, WithRoact, WithReact, StoryInfo, ReactStory, RoactStory } from "@rbxts/ui-labs/src/Typing";
@@ -65,4 +66,17 @@ export function CheckTableStory(storyReturn: object): StoryCheck {
 		Sucess: false,
 		Error: "Story table does not contain a library key, internal roact will be used instead (this is not recommended)",
 	};
+}
+
+//This hook runs the cleanup function automatically, because I always forget to add it ;-;
+export function useStoryUnmount(story: StoryBase, unmounter: () => void) {
+	useUnmountEffect(() => {
+		unmounter();
+		if (story.cleanup) {
+			const [success, err] = pcall(story.cleanup);
+			if (!success) {
+				warn("UI-Labs: Error while running cleanup function: ", err);
+			}
+		}
+	});
 }

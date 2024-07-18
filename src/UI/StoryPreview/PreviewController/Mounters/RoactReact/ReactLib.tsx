@@ -8,6 +8,7 @@ import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import { InferControls } from "@rbxts/ui-labs";
 import { useInputSignals } from "Context/UserInputContext";
+import { useStoryUnmount } from "../../Utils";
 
 function ReactLib(props: MounterProps<"ReactLib">) {
 	const result = props.Result;
@@ -47,7 +48,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			root.render(component);
 		}
 	}, []);
-	useUnmountEffect(() => {
+	useStoryUnmount(result, () => {
 		if (root !== undefined) {
 			root.unmount();
 		}

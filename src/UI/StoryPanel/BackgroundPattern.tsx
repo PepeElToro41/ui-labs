@@ -3,13 +3,9 @@ import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface BackgroundPatternProps {}
 
-function setProps(props: BackgroundPatternProps) {
-	return props as Required<BackgroundPatternProps>;
-}
-
-function BackgroundPattern(setprops: BackgroundPatternProps) {
-	const props = setProps(setprops);
+function BackgroundPattern(props: BackgroundPatternProps) {
 	const theme = useTheme();
+
 	return (
 		<React.Fragment>
 			<imagelabel
