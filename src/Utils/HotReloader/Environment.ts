@@ -5,12 +5,12 @@ import { HttpService } from "@rbxts/services";
 type Dependencies = Map<ModuleScript, { Result: unknown }>;
 type Listeners = Map<ModuleScript, RBXScriptConnection>;
 
-export class Enviroment {
+export class Environment {
 	private ActiveConnections = true;
 	private Dependencies: Dependencies = new Map();
 	private Listeners: Listeners = new Map();
 
-	readonly EnviromentUID: string;
+	readonly EnvironmentUID: string;
 	GlobalInjection?: Record<keyof any, unknown>;
 
 	Shared: {} = {};
@@ -19,7 +19,7 @@ export class Enviroment {
 
 	constructor() {
 		const uid = HttpService.GenerateGUID(false);
-		this.EnviromentUID = uid;
+		this.EnvironmentUID = uid;
 	}
 
 	InjectGlobal(key: keyof any, value: unknown) {
@@ -29,8 +29,8 @@ export class Enviroment {
 
 		this.GlobalInjection[key] = value;
 	}
-	InjectEnviromentUID() {
-		this.InjectGlobal("EnviromentUID", this.EnviromentUID);
+	InjectEnvironmentUID() {
+		this.InjectGlobal("EnvironmentUID", this.EnvironmentUID);
 	}
 
 	RegistryDependency(module: ModuleScript, result?: any) {

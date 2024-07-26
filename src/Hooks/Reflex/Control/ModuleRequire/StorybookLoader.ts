@@ -21,7 +21,7 @@ export class StorybookLoader {
 		this.HotReloader = reloader;
 
 		this.OnReloadPromise(reloader.Reload());
-		reloader.BindToReload((enviroment) => {});
+		reloader.BindToReload((environment) => {});
 
 		this.HotReloaderConnection = reloader.OnReloadStarted.Connect((result) => {
 			this.OnReloadPromise(result);

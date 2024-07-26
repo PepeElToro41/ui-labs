@@ -1,6 +1,6 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
-import { CreateReactStory, Enviroment } from "@rbxts/ui-labs";
+import { CreateReactStory, Environment } from "@rbxts/ui-labs";
 import Corner from "UI/Styles/Corner";
 
 const controls = {};

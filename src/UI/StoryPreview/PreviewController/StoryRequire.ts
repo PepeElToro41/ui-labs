@@ -4,7 +4,7 @@ import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
 import { HotReloader } from "Utils/HotReloader";
 import { CreateTuple } from "Utils/MiscUtils";
 import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
-import { Enviroment } from "Utils/HotReloader/Enviroment";
+import { Environment } from "Utils/HotReloader/Environment";
 import { CreateEntrySnapshot, ReloadEntry } from "../Utils";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { Janitor } from "@rbxts/janitor";
@@ -22,27 +22,27 @@ export function useStoryRequire(entry: PreviewEntry) {
 	const latestEntry = useLatest(entry);
 
 	const InjectGlobalControls = useCallback(
-		(enviroment: Enviroment) => {
+		(environment: Environment) => {
 			const janitor = new Janitor();
 
-			enviroment.InjectGlobal("Unmount", () => {
+			environment.InjectGlobal("Unmount", () => {
 				producer.unmountByUID(latestEntry.current.UID);
 			});
-			enviroment.InjectGlobal("Reload", () => {
+			environment.InjectGlobal("Reload", () => {
 				ReloadEntry(latestEntry.current);
 			});
-			enviroment.InjectGlobal("CreateSnapshot", (name?: string) => {
+			environment.InjectGlobal("CreateSnapshot", (name?: string) => {
 				CreateEntrySnapshot(latestEntry.current, name);
 			});
 
-			enviroment.InjectEnviromentUID();
-			enviroment.InjectGlobal("InputListener", latestInput.current);
-			enviroment.InjectGlobal("StoryJanitor", janitor);
-			enviroment.InjectGlobal("PreviewUID", latestEntry.current.UID);
-			enviroment.InjectGlobal("OriginalG", _G);
-			enviroment.InjectGlobal("PluginWidget", widget);
+			environment.InjectEnvironmentUID();
+			environment.InjectGlobal("InputListener", latestInput.current);
+			environment.InjectGlobal("StoryJanitor", janitor);
+			environment.InjectGlobal("PreviewUID", latestEntry.current.UID);
+			environment.InjectGlobal("OriginalG", _G);
+			environment.InjectGlobal("PluginWidget", widget);
 
-			enviroment.HookOnDestroyed(() => {
+			environment.HookOnDestroyed(() => {
 				janitor.Destroy();
 			});
 		},

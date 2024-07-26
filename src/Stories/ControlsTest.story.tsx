@@ -1,7 +1,7 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
 import { CreateReactStory } from "@rbxts/ui-labs";
-import { Enviroment } from "@rbxts/ui-labs";
+import { Environment } from "@rbxts/ui-labs";
 
 const controls = {
 	Color: Color3.fromRGB(25555, 0, 0),

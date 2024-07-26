@@ -1,6 +1,6 @@
 import Signal from "@rbxts/signal";
 import { LoadVirtualModule } from "./Utils";
-import { Enviroment } from "./Enviroment";
+import { Environment } from "./Environment";
 
 declare global {
 	type HotReloaderError = {
@@ -18,7 +18,7 @@ declare global {
 	type HotReloaderResult = HotReloaderIntrinsic & (HotReloaderSucess | HotReloaderError);
 }
 
-type ReloadBinder = (enviroment: Enviroment) => void;
+type ReloadBinder = (environment: Environment) => void;
 
 export class HotReloader {
 	/**
@@ -29,9 +29,9 @@ export class HotReloader {
 
 	readonly Module: ModuleScript;
 
-	private Enviroment?: Enviroment;
+	private Environment?: Environment;
 	private ReloadPromise: Promise<unknown> | undefined;
-	private EnviromentListener?: RBXScriptConnection;
+	private EnvironmentListener?: RBXScriptConnection;
 	readonly OnReloadStarted: Signal<(promise: Promise<unknown>) => void>;
 	private ReloadBinded?: ReloadBinder;
 
@@ -44,37 +44,37 @@ export class HotReloader {
 
 	private ClearReloader() {
 		if (this.ReloadPromise) this.ReloadPromise.cancel();
-		if (this.EnviromentListener && this.EnviromentListener.Connected) {
-			this.EnviromentListener.Disconnect();
-			this.EnviromentListener = undefined;
+		if (this.EnvironmentListener && this.EnvironmentListener.Connected) {
+			this.EnvironmentListener.Disconnect();
+			this.EnvironmentListener = undefined;
 		}
-		if (this.Enviroment) {
-			this.Enviroment.Destroy();
-			this.Enviroment = undefined;
+		if (this.Environment) {
+			this.Environment.Destroy();
+			this.Environment = undefined;
 		}
 	}
 	BindToReload(bind: ReloadBinder) {
 		this.ReloadBinded = bind;
 	}
-	private RunBinded(enviroment: Enviroment) {
+	private RunBinded(environment: Environment) {
 		if (this.ReloadBinded) {
-			this.ReloadBinded(enviroment);
+			this.ReloadBinded(environment);
 		}
 	}
 
 	Reload(): Promise<unknown> {
 		this.ClearReloader();
-		const enviroment = new Enviroment();
-		this.Enviroment = enviroment;
-		this.RunBinded(enviroment);
+		const environment = new Environment();
+		this.Environment = environment;
+		this.RunBinded(environment);
 
-		const listener = enviroment.OnDependencyChanged.Once((module) => {
+		const listener = environment.OnDependencyChanged.Once((module) => {
 			if (!this.AutoReload) return;
 			this.Reload();
 		});
-		this.EnviromentListener = listener;
+		this.EnvironmentListener = listener;
 
-		const handler = Promise.try(() => enviroment.LoadDependency(this.Module));
+		const handler = Promise.try(() => environment.LoadDependency(this.Module));
 		this.ReloadPromise = handler;
 		this.OnReloadStarted.Fire(handler);
 		return handler;
