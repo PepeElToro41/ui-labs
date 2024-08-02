@@ -17,3 +17,7 @@ export function IsLocalPlugin(gotPlugin: Plugin) {
 export function CreateTuple<T extends any[]>(...args: T) {
 	return args;
 }
+
+export function Cast<T>(val: unknown): T {
+	return val as T;
+}

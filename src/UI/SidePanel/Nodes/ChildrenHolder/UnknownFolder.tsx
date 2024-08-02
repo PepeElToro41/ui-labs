@@ -2,19 +2,18 @@ import React, { useMemo } from "@rbxts/react";
 import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Story from "../Story";
-import Corner from "UI/Styles/Corner";
 import UnknownCover from "../UnknownCover";
 
-interface UnknownProps {
+interface UnknownFolderProps {
 	Order: number;
 	Node: UnknownNode;
 }
 
-function setProps(props: UnknownProps) {
-	return props as Required<UnknownProps>;
+function setProps(props: UnknownFolderProps) {
+	return props as Required<UnknownFolderProps>;
 }
 
-function Unknown(setprops: UnknownProps) {
+function UnknownFolder(setprops: UnknownFolderProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 
@@ -36,4 +35,4 @@ function Unknown(setprops: UnknownProps) {
 	);
 }
 
-export default Unknown;
+export default UnknownFolder;

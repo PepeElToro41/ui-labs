@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useMouseOffset, useMousePos, useRelativeMousePos } from "Hooks/Context/UserInput";
+import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { usePosition } from "Hooks/Utils/AppHolder";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Config from "Plugin/Configs";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
@@ -13,7 +12,6 @@ import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import DescriptiveImage from "./DescriptiveImage";
 import Sprite from "UI/Utils/Sprite";
@@ -105,7 +103,7 @@ function MountEntry(props: MountEntryProps) {
 				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 				<Text
 					key={"TextLabel"}
-					Text={(isMain ? "• " : "") + (node ? node.Name : "---")}
+					Text={(isMain ? "• " : "") + (node ? node.Name : "(Deleted)")}
 					TextSize={14}
 					LayoutOrder={count()}
 					TextColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}

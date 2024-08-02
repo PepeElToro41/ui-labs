@@ -2,6 +2,8 @@ import React from "@rbxts/react";
 import Functional from "./Functional";
 import RoactLib from "./RoactReact/RoactLib";
 import ReactLib from "./RoactReact/ReactLib";
+import Generic from "./Generic";
+import FusionLib from "./FusionLib";
 
 export interface MounterProps<T extends MountType> {
 	Entry: PreviewEntry;
@@ -15,5 +17,7 @@ const MountingMap: { [K in MountType]: Mounter<K> } = {
 	Functional: Functional,
 	RoactLib: RoactLib,
 	ReactLib: ReactLib,
+	FusionLib: FusionLib,
+	Generic: Generic,
 };
 export default MountingMap;

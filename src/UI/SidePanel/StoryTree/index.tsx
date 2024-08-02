@@ -3,11 +3,13 @@ import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
 import { useSelector } from "@rbxts/react-reflex";
 import { FilterNodes } from "./SearchFilter";
-import Unknown from "../Nodes/ChildrenHolder/Unknown";
 import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectFilter } from "Reflex/Explorer/Filter";
 import Storybook from "../Nodes/ChildrenHolder/Storybook";
 import { selectOverlay } from "Reflex/Overlay";
+import UnknownNode from "../Nodes/ChildrenHolder/UnknownNode";
+import Divisor from "UI/Utils/Divisor";
+import { Div } from "UI/Styles/Div";
 
 interface StoryTreeProps {}
 
@@ -24,9 +26,12 @@ function StoryTree(props: StoryTreeProps) {
 		filteredNodes.storybooks.forEach((node, index) => {
 			elementsList.push(<Storybook Order={index} Node={node} />);
 		});
-		filteredNodes.unknown.forEach((node, index) => {
-			elementsList.push(<Unknown Order={booksSize + index} Node={node} />);
-		});
+		elementsList.push(
+			<Div Size={new UDim2(1, 0, 0, 8)} LayoutOrder={booksSize}>
+				<Divisor Direction="X" Size={new UDim(1, -25)} Transparency={0.9} />
+			</Div>,
+		);
+		elementsList.push(<UnknownNode Order={booksSize + 1} UnknownNodes={filteredNodes.unknown} />);
 		return elementsList;
 	}, [nodes, filter]);
 

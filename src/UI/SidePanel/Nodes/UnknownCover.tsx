@@ -8,7 +8,7 @@ function UnknownCover(props: UnknownCoverProps) {
 	const theme = useTheme();
 
 	return (
-		<frame BackgroundColor3={theme.SidePanel} BackgroundTransparency={0.5} Size={UDim2.fromScale(1, 1)} ZIndex={2}>
+		<frame BackgroundColor3={theme.SidePanel} BackgroundTransparency={1} Size={UDim2.fromScale(1, 1)} ZIndex={2}>
 			<Corner Radius={6} />
 		</frame>
 	);

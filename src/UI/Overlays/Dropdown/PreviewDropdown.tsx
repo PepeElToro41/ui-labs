@@ -5,11 +5,9 @@ import { Counter } from "Utils/NumberUtils";
 import Dropdown from ".";
 import DropdownEntry from "./DropdownEntry";
 import Divisor from "UI/Utils/Divisor";
-import { Selection, StarterGui } from "@rbxts/services";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
-import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
-import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
+import { selectStoryPreviews } from "Reflex/StoryPreview";
 import { CreateEntrySnapshot, ReloadEntry } from "UI/StoryPreview/Utils";
 
 interface PreviewDropdownProps {
@@ -62,8 +60,8 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 			<DropdownEntry Text="Reset Position" OnClick={OnResetPosition} LayoutOrder={count()} />
 			<DropdownEntry Text="Reset Zoom" OnClick={OnResetZoom} LayoutOrder={count()} />
 			<Divisor Order={count()} />
-			<DropdownEntry Text="Move Before" Disabled={entry.Order <= 1} OnClick={OnOrderBefore} LayoutOrder={count()} />
-			<DropdownEntry Text="Move After" Disabled={entry.Order >= previews.size()} OnClick={OnOrderAfter} LayoutOrder={count()} />
+			<DropdownEntry Text="Move Before" Disabled={entry.Order <= 0} OnClick={OnOrderBefore} LayoutOrder={count()} />
+			<DropdownEntry Text="Move After" Disabled={entry.Order >= previews.size() - 1} OnClick={OnOrderAfter} LayoutOrder={count()} />
 		</Dropdown>
 	);
 }

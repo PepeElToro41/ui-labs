@@ -14,11 +14,11 @@ function Storybook(props: StorybookProps) {
 
 	const children = useMemo(() => {
 		return props.Node.Children.map((child, index) => {
-			//We could also check the type, but I prefer this way
+			//We could also check the type to be "Folder""
 			if ("Children" in child) {
-				return <Folder Node={child} Order={index}></Folder>;
+				return <Folder Node={child} Order={index} />;
 			} else {
-				return <Story Node={child} Order={index}></Story>;
+				return <Story Node={child} Order={index} />;
 			}
 		});
 	}, [props.Node.Children]);

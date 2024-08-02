@@ -1,7 +1,6 @@
 import React, { useMemo } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
-import { selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
-import { Div } from "UI/Styles/Div";
+import { selectStoryPreviews } from "Reflex/StoryPreview";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import MountEntry from "./MountEntry";
@@ -30,7 +29,7 @@ function StoryTitle(props: StoryTitleProps) {
 				Anchor={0}
 				Thickness={1}
 				Transparency={0.5}
-				Position={UDim2.fromScale(0, 1)}
+				Position={new UDim2(0, 0, 1, -1)}
 				Size={new UDim(1, 0)}
 				ZIndex={2}
 			/>

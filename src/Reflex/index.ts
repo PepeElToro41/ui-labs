@@ -1,4 +1,4 @@
-import { InferState, combineProducers, loggerMiddleware } from "@rbxts/reflex";
+import { InferState, combineProducers } from "@rbxts/reflex";
 import { ThemeProducer } from "./Theme";
 import { ExplorerProducer } from "./Explorer";
 import { ModuleListProducer } from "./ModuleList";

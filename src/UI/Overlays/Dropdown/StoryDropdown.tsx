@@ -5,7 +5,7 @@ import { Counter } from "Utils/NumberUtils";
 import { Selection } from "@rbxts/services";
 import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
 import Divisor from "UI/Utils/Divisor";
-import { selectMountAmount, selectPreview } from "Reflex/StoryPreview/StoryMount";
+import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
 import { useOverlayAction } from "../Utils";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import Configs from "Plugin/Configs";

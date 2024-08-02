@@ -1,16 +1,20 @@
 {
-   "name": "ui-labs",
-   "globIgnorePaths": [
-      "**/package.json",
-      "**/tsconfig.json"
-   ],
-   "tree": {
-      "$className": "DataModel",
-      "ServerScriptService": {
-         "$className": "ServerScriptService",
-         "UILabs": {
-            "$path": "./default.project.json"
-         }
-      }
-   }
+	"name": "ui-labs",
+	"globIgnorePaths": [
+		"**/package.json",
+		"**/tsconfig.json",
+
+		"node_modules/@rbxts/roact",
+		"node_modules/@rbxts/fusion",
+		"node_modules/@rbxts/iris"
+	],
+	"tree": {
+		"$className": "DataModel",
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"UILabs": {
+				"$path": "./default.project.json"
+			}
+		}
+	}
 }

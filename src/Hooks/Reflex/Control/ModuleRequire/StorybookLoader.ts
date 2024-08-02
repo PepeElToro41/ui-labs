@@ -1,5 +1,5 @@
+import { HotReloader } from "@rbxts/hmr";
 import Signal from "@rbxts/signal";
-import { HotReloader } from "Utils/HotReloader";
 
 export class StorybookLoader {
 	private StorybookResult?: unknown = undefined;
@@ -21,7 +21,7 @@ export class StorybookLoader {
 		this.HotReloader = reloader;
 
 		this.OnReloadPromise(reloader.Reload());
-		reloader.BindToReload((enviroment) => {});
+		reloader.BeforeReload((environment) => {});
 
 		this.HotReloaderConnection = reloader.OnReloadStarted.Connect((result) => {
 			this.OnReloadPromise(result);
