@@ -36,7 +36,10 @@ function Generic(props: MounterProps<"Generic">) {
 		(oldValues: ParametrizedControls) => {
 			const controlInfos = CreateControlInfos(controls, controlValues, oldValues);
 			for (const listener of listeners.current) {
-				listener(controlValues as InferControls<ReturnControls>, controlInfos);
+				const [success, err] = pcall(() => listener(controlValues as InferControls<ReturnControls>, controlInfos));
+				if (!success) {
+					warn("UI-Labs: Generic Story listener errored when updating.", err);
+				}
 			}
 		},
 		[controlValues],
@@ -49,7 +52,14 @@ function Generic(props: MounterProps<"Generic">) {
 			target: props.MountFrame,
 			subscribe: AddListener,
 		});
-		return result.render(storyProps);
+		const [success, err] = pcall(() => result.render(storyProps));
+		if (!success) {
+			warn("UI-Labs: Generic story errored when mounting. The cleanup function will not be executed: ", err);
+			return () => {
+				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+			};
+		}
+		return err;
 	}, []);
 
 	useUpdateEffect(() => {
@@ -59,7 +69,10 @@ function Generic(props: MounterProps<"Generic">) {
 
 	useStoryUnmount(result, () => {
 		listeners.current = [];
-		cleanup();
+		const [success, err] = pcall(cleanup);
+		if (!success) {
+			warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+		}
 	});
 
 	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);

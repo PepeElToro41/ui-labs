@@ -4,7 +4,10 @@ import { useMouseOffset } from "Hooks/Context/UserInput";
 import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown";
 import RenderToolButtons from "UI/StoryOverlay/IconToolbar/Buttons.tsx";
 import { useButtonElements } from "UI/StoryOverlay/IconToolbar/Utils";
+import Corner from "UI/Styles/Corner";
 import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
+import Padding from "UI/Styles/Padding";
 
 interface AnchoredToolbarProps {
 	PreviewEntry: PreviewEntry;
@@ -21,14 +24,24 @@ function AnchoredToolbar(props: AnchoredToolbarProps) {
 	}, []);
 
 	return (
-		<frame Size={new UDim2(0, 37, 1, 0)} BackgroundTransparency={0.2} BackgroundColor3={Color3.fromRGB(26, 26, 33)} BorderSizePixel={0}>
-			<Detector
-				Event={{
-					MouseButton2Click: OnToolbarLeftClick,
-				}}
-			/>
-			<RenderToolButtons PreviewEntry={props.PreviewEntry} HoverAlpha={UDim2.fromScale(0, 0)} />
-		</frame>
+		<Div Size={new UDim2(0, 39, 1, 0)}>
+			<Padding Padding={2} />
+			<frame
+				Size={UDim2.fromScale(1, 1)}
+				BackgroundTransparency={0.2}
+				BackgroundColor3={Color3.fromRGB(26, 26, 33)}
+				BorderSizePixel={0}
+			>
+				<uistroke Color={Color3.fromRGB(255, 255, 255)} Thickness={1} Transparency={0.95} />
+				<Corner Radius={6} />
+				<Detector
+					Event={{
+						MouseButton2Click: OnToolbarLeftClick,
+					}}
+				/>
+				<RenderToolButtons PreviewEntry={props.PreviewEntry} HoverAlpha={UDim2.fromScale(0, 0)} />
+			</frame>
+		</Div>
 	);
 }
 

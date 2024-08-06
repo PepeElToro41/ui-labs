@@ -21,7 +21,7 @@ export function CreateEntrySnapshot(entry: PreviewEntry, name?: string) {
 }
 export function ReloadEntry(entry: PreviewEntry) {
 	const reloader = entry.HotReloader;
-	if (reloader) {
+	if (reloader !== undefined) {
 		reloader.Reload();
 	}
 }
