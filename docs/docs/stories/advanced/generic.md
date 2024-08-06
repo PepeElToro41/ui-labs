@@ -35,6 +35,7 @@ local story = {
    controls = controls,
    render = function(props)
       local component = Instance.new("Frame")
+      component.Size = UDim2.fromOffset(200, 100)
       component.Parent = props.target
 
       props.subscribe(function(values, infos)
@@ -50,19 +51,20 @@ local story = {
 
 ```tsx [Roblox-TS]
 const story = {
-	controls: controls,
-	render: (props: InferGenericProps<typeof controls>) => {
-		const component = new Instance("Frame");
-		component.Parent = props.target;
+   controls: controls,
+   render: (props: InferGenericProps<typeof controls>) => {
+      const component = new Instance("Frame");
+      component.Size = UDim2.fromOffset(200, 100)
+      component.Parent = props.target;
 
-		props.subscribe((values, infos) => {
-			print("controls changed", values);
-		});
+      props.subscribe((values, infos) => {
+         print("controls changed", values);
+      });
 
-		return () => {
-			component.Destroy();
-		};
-	},
+      return () => {
+         component.Destroy();
+      };
+   },
 };
 ```
 
@@ -113,13 +115,14 @@ local story = {
    controls = controls,
    render = function(props)
       local component = Instance.new("Frame")
-      component.Visible = props.controls.visible -- first update
+      component.Size = UDim2.fromOffset(200, 100)
+      component.Visible = props.controls.Visible -- first update
       component.Parent = props.target
 
       local unsubscribe = props.subscribe(function(values, infos) -- // [!code focus:7]
-         local info = infos.visible -- This will be a GenericInfo<boolean>
+         local info = infos.Visible -- This will be a GenericInfo<boolean>
 
-         if(info.__new ~= info.__old) then
+         if (info.__new ~= info.__old) then
             component.Visible = info.__new
          end
       end)
@@ -133,28 +136,28 @@ local story = {
 
 ```tsx [Roblox-TS] {15-17}
 const controls = {
-	Visible: true,
+   Visible: true,
 };
 
 const story = {
-	controls: controls,
-	render: (props: InferGenericProps<typeof controls>) => {
-		const component = new Instance("Frame");
-		component.Visible = props.controls.Visible; // first update
-		component.Parent = props.target;
+   controls: controls,
+   render: (props: InferGenericProps<typeof controls>) => {
+      const component = new Instance("Frame");
+      component.Size = UDim2.fromOffset(200, 100)
+      component.Visible = props.controls.Visible; // first update
+      component.Parent = props.target;
 
-		const unsubscribe = props.subscribe((values, infos) => {
-			// [!code focus:7]
-			const info = infos.Visible; // This will be a GenericInfo<boolean>
+      const unsubscribe = props.subscribe((values, infos) => { // [!code focus:7]
+         const info = infos.Visible; // This will be a GenericInfo<boolean>
 
-			if (info.__new !== info.__old) {
-				component.Visible = info.__new;
-			}
-		});
+         if (info.__new !== info.__old) {
+            component.Visible = info.__new;
+         }
+      });
 
-		return () => {
-			component.Destroy();
-		};
+      return () => {
+         component.Destroy();
+      };
 	},
 };
 ```
@@ -180,11 +183,12 @@ local story = {
    controls = controls,
    render = function(props)
       local component = Instance.new("Frame")
-      component.Visible = props.controls.visible  -- first update
+      component.Size = UDim2.fromOffset(200, 100)
+      component.Visible = props.controls.Visible  -- first update
       component.Parent = props.target
 
       props.subscribe(function(values, infos) -- // [!code focus:5]
-         ListenControl(infos.visible, function(newValue)
+         ListenControl(infos.Visible, function(newValue)
             component.Visible = newValue
          end)
       end)
@@ -206,20 +210,20 @@ const controls = {
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-		const component = new Instance("Frame");
-		component.Visible = props.controls.Visible; // first update
-		component.Parent = props.target;
+      const component = new Instance("Frame");
+      component.Size = UDim2.fromOffset(200, 100)
+      component.Visible = props.controls.Visible; // first update
+      component.Parent = props.target;
 
-		props.subscribe((values, infos) => {
-			// [!code focus:5]
-			ListenControl(infos.Visible, (newValue) => {
-				component.Visible = newValue;
-			});
-		});
+      props.subscribe((values, infos) => { // [!code focus:5]
+         ListenControl(infos.Visible, (newValue) => {
+            component.Visible = newValue;
+         });
+      });
 
-		return () => {
-			component.Destroy();
-		};
+      return () => {
+         component.Destroy();
+      };
 	},
 };
 ```
@@ -533,21 +537,22 @@ local controls = {
 }
 
 -- This would be the `story` function key
-local function RenderComponent(controls) {
+local function RenderComponent(controls) 
    return React.createElement("Frame", {
+      Size = UDim2.fromOffset(200, 100),
       Visible = controls.Visible
    })
-}
+end
 
 local story = {
    controls = controls,
    render = function(props)
-      local component = Render(props.controls)
+      local component = RenderComponent(props.controls)
       local root = ReactRoblox.createRoot(props.target)
       root:render(component)
 
       props.subscribe(function(values)
-         local newComponent = Render(values)
+         local newComponent = RenderComponent(values)
          root:render(newComponent)
       end)
 
@@ -568,25 +573,25 @@ const controls = {
 };
 
 // This would be the `story` function key
-function RenderComponent(controls: InferControls<controls>) {
-	return <frame Visible={controls.Visible} />;
+function RenderComponent(controlList: InferControls<typeof controls>) {
+	return <frame Size={UDim2.fromOffset(200, 100)} Visible={controlList.Visible} />;
 }
 
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-		const component = Render(props.controls);
-		const root = ReactRoblox.createRoot(props.target);
-		root.render(component);
+      const component = RenderComponent(props.controls);
+      const root = ReactRoblox.createRoot(props.target);
+      root.render(component);
 
-		props.subscribe((values) => {
-			const newComponent = Render(values);
-			root.render(newComponent);
-		});
+      props.subscribe((values) => {
+         const newComponent = RenderComponent(values);
+         root.render(newComponent);
+      });
 
-		return () => {
-			root.unmount();
-		};
+      return () => {
+         root.unmount();
+      };
 	},
 };
 ```
@@ -604,11 +609,12 @@ local controls = {
 }
 
 -- This would be the `story` function key
-function RenderComponent(controls) {
+function RenderComponent(controlList)
    return Roact.createElement("Frame", {
-      Visible = controls.Visible
+      Size = UDim2.fromOffset(200, 100),
+      Visible = controlList.Visible
    })
-}
+end
 
 local story = {
    controls = controls,
@@ -637,24 +643,24 @@ const controls = {
 };
 
 // This would be the `story` function key
-function RenderComponent(controls: InferControls<controls>) {
-	return <frame Visible={controls.Visible} />;
+function RenderComponent(controlList: InferControls<typeof controls>) {
+	return <frame Size={UDim2.fromOffset(200, 100)} Visible={controlList.Visible} />;
 }
 
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-		const component = RenderComponent(props.controls);
-		const tree = Roact.mount(component, props.target);
+      const component = RenderComponent(props.controls);
+      const tree = Roact.mount(component, props.target);
 
-		props.subscribe((values) => {
-			const newComponent = RenderComponent(values);
-			Roact.update(tree, newComponent);
-		});
+      props.subscribe((values) => {
+         const newComponent = RenderComponent(values);
+         Roact.update(tree, newComponent);
+      });
 
-		return () => {
-			React.unmount(tree);
-		};
+      return () => {
+         React.unmount(tree);
+      };
 	},
 };
 ```
@@ -687,12 +693,13 @@ local story = {
 
       local component = Fusion.New "Frame" {
          Parent = props.target,
+         Size = UDim2.fromOffset(200, 100),
          Visible = states.Visible, -- This will be a Fusion.Value<boolean>
       }
 
       props.subscribe(function(values)
          UpdateControlStates(states, props.converted, values, function(state, value)
-            return state:set(value)
+            state:set(value)
          end)
       end)
 
@@ -705,7 +712,13 @@ local story = {
 
 ```tsx [Roblox-TS]
 import Fusion from "@rbxts/fusion";
-import { InferGenericProps, InferCreatedControls, CreateControlStates, UpdateControlStates, HKT } from "@rbxts/ui-labs";
+import {
+   InferGenericProps,
+   InferCreatedControls,
+   CreateControlStates,
+   UpdateControlStates,
+   HKT
+} from "@rbxts/ui-labs";
 
 const controls = {
 	Visible: true,
@@ -720,26 +733,26 @@ type FusionValues = InferCreatedControls<typeof controls, FusionValueCreator>;
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-		ks;
-		const states: FusionValues = CreateControlStates(props.converted, props.controls, (value) => {
-			return Fusion.Value(value);
-		});
+      const states: FusionValues = CreateControlStates(props.converted, props.controls, (value) => {
+         return Fusion.Value(value);
+      });
 
-		const component = Fusion.New("Frame")({
-			Parent: props.target,
-			Visible: states.Visible, // This will be a Fusion.Value<boolean>
-		});
+      const component = Fusion.New("Frame")({
+         Parent: props.target,
+         Size: UDim2.fromOffset(200, 100),
+         Visible: states.Visible, // This will be a Fusion.Value<boolean>
+      });
 
-		props.subscribe((values) => {
-			// we need to cast "state" to the correct type
-			UpdateControlStates(states, props.converted, values, (state: Fusion.Value<any>, value) => {
-				return state.set(value);
-			});
-		});
+      props.subscribe((values) => {
+         // we need to cast "state" to the correct type
+         UpdateControlStates(states, props.converted, values, (state: Fusion.Value<any>, value) => {
+            state.set(value);
+         });
+      });
 
-		return () => {
-			component.Destroy();
-		};
+      return () => {
+         component.Destroy();
+      };
 	},
 };
 ```
@@ -748,11 +761,11 @@ const story = {
 
 ## Using the Story Creator
 
-You can use the story creators to create your story. These will infer the control types for Roblox-TS.
+You can use the Story Creator in the [Utility Package](/docs/installation.md#installing-the-utility-package) to create your story. These will infer the control types for Roblox-TS.
 
-```ts
-function CreateGenericStory(info, render): StoryTable;
-```
+<span class="type-declaration"><span class="type-namespace">UILabs</span>
+<span class="type-name">.</span><span class="type-function-name">CreateGenericStory</span>(<span class="type-name">info</span>,
+<span class="type-name">render</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
 
 ::: details Example
 
@@ -766,6 +779,7 @@ local story = CreateGenericStory({
    controls = {},
 }, function(props)
    local component = Instance.new("Frame")
+   component.Size = UDim2.fromOffset(200, 100)
    component.Parent = props.target
 
    props.subscribe(function(values)
@@ -781,21 +795,19 @@ end)
 ```tsx [Roblox-TS]
 import { CreateGenericStory } from "@rbxts/ui-labs";
 
-const story = CreateGenericStory(
-	{
-		controls: {},
-	},
-	(props) => {
-		const component = new Instance("Frame");
-		component.Parent = props.target;
+const story = CreateGenericStory({
+   controls: {},
+}, (props) => {
+   const component = new Instance("Frame");
+   component.Size = UDim2.fromOffset(200, 100)
+   component.Parent = props.target;
 
-		props.subscribe((values) => {
-			print("controls changed", values);
-		});
+   props.subscribe((values) => {
+      print("controls changed", values);
+   });
 
-		return () => {
-			component.Destroy();
-		};
-	},
-);
+   return () => {
+      component.Destroy();
+   };
+});
 ```

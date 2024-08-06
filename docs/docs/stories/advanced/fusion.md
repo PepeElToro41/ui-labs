@@ -63,9 +63,9 @@ UI Labs will create `Fusion.Value`'s for every control and it will update them w
 
 ::: code-group
  
-```lua [Luau] {7}
+```lua [Luau] {12}
 local controls = {
-   Visible = true,
+   Visible = true
 }
 
 local story = {
@@ -74,15 +74,16 @@ local story = {
    story = function(props)
       local component = Fusion.New "Frame" {
          Parent = props.target,
-         Visible = props.controls.Visible, -- This will be a Fusion.Value<boolean>
+         Size = UDim2.fromOffset(200, 100),
+         Visible = props.controls.Visible -- This will be a Fusion.Value<boolean>
       }
    end
 }
 ```
  
-```tsx [Roblox-TS] {7}
+```tsx [Roblox-TS] {12}
 const controls = {
-   Visible: true,
+   Visible: true
 }
 
 const story = {
@@ -91,7 +92,8 @@ const story = {
    story: (props: InferFusionProps<typeof controls>) => {
       const component = Fusion.New("Frame")({
          Parent: props.target,
-         Visible: props.controls.Visible, // This will be a Fusion.Value<boolean>
+         Size: UDim2.fromOffset(200, 100),
+         Visible: props.controls.Visible // This will be a Fusion.Value<boolean>
       })
    }
 }
@@ -146,11 +148,11 @@ const story = {
 
 ## Using the Story Creator
 
-You can use the story creators to create your story. These will infer the control types for Roblox-TS.
+You can use the Story Creator in the [Utility Package](/docs/installation.md#installing-the-utility-package) to create your story. These will infer the control types for Roblox-TS.
 
-```ts
-function CreateFusionStory(info, story): StoryTable
-```
+<span class="type-declaration"><span class="type-namespace">UILabs</span>
+<span class="type-name">.</span><span class="type-function-name">CreateFusionStory</span>(<span class="type-name">info</span>,
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
 
 ::: details Example
 
@@ -168,9 +170,9 @@ local story = CreateFusionStory({
    fusion = Fusion,
    controls = controls,
 }, function(props)
-   local component = Fusion.New("Frame")({
+   local component = Fusion.New "Frame" {
       Parent = props.target,
-   })
+   }
    
    return function()
       component:Destroy()

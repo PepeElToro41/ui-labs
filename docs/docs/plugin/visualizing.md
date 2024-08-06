@@ -57,7 +57,7 @@ We have our story here!, but it's not centered, and the text is too small. Let's
    You can move your canvas around by either: 
    
 - Holding <span class="item-description">Middle Click</span> and dragging.<br/>
-- Holding <span class="item-description">Shift</span> and dragging with <span class="item-description">Right Click</span>
+- Holding <span class="item-description">Ctrl / Command</span> and dragging with <span class="item-description">Left Click</span>
 
 
 ---

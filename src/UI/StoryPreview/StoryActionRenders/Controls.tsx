@@ -1,7 +1,7 @@
 import Immut from "@rbxts/immut";
 import React, { Dispatch, SetStateAction, useCallback, useMemo } from "@rbxts/react";
 import { ControlGroup } from "@rbxts/ui-labs";
-import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControlList, ConvertedControls, ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import ControlGroupRender from "UI/StoryControls/ControlGroupRender";
 import ControlHolder from "UI/StoryControls/ControlHolder";

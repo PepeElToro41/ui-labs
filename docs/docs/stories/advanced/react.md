@@ -224,13 +224,15 @@ const story = {
 
 ## Using the Story Creator
 
-You can use the story creators to create your story. These will infer the control types for Roblox-TS.
+You can use the Story Creator in the [Utility Package](/docs/installation.md#installing-the-utility-package) to create your story. These will infer the control types for Roblox-TS.
 
-```ts
-function CreateReactStory(info, story): StoryTable
+<span class="type-declaration"><span class="type-namespace">UILabs</span>
+<span class="type-name">.</span><span class="type-function-name">CreateReactStory</span>(<span class="type-name">info</span>,
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
 
-function CreateRoactStory(info, story): StoryTable
-```
+<span class="type-declaration"><span class="type-namespace">UILabs</span>
+<span class="type-name">.</span><span class="type-function-name">CreateRoactStory</span>(<span class="type-name">info</span>,
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
 
 ### Examples
 ::: details React

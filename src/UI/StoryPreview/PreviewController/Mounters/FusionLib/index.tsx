@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from "@rbxts/react";
 import { MounterProps } from "..";
-import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
-import { useInputSignals } from "Context/UserInputContext";
 import { CreateFusion3Values, CreateFusionValues, GetFusionVersion, GetScopedFusion, UpdateFusionValues } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { useStoryUnmount } from "../../Utils";
@@ -37,12 +36,21 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			target: props.MountFrame,
 		});
 
-		const value = result.story(fusionProps);
+		const [success, value] = pcall(() => result.story(fusionProps));
+		if (!success) {
+			warn("UI-Labs: Fusion story errored when mounting. The cleanup function will not be executed: ", value);
+			return () => {
+				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+			};
+		}
 		return typeIs(value, "Instance") ? () => value.Destroy() : value;
 	}, []);
 
 	useStoryUnmount(result, () => {
-		cleanup();
+		const [success, err] = pcall(cleanup);
+		if (!success) {
+			warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+		}
 		if (version === "Fusion3") {
 			Cast<Fusion3>(fusion).doCleanup(fusion);
 		}

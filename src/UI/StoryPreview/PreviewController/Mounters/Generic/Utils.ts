@@ -1,3 +1,4 @@
+import { ConvertedControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { GenericInfo, InferControlInfos } from "@rbxts/ui-labs/src/Typing/Generic";
 
 export function CreateControlInfos(
