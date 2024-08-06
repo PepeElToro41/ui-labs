@@ -18,7 +18,7 @@ hero:
           link: /api/home
 
 features:
-    - title: Instant Feedbacks
+    - title: Instant Feedback
       icon:
           src: /home/play.png
       details: UI Labs features a Hot-Reloader. <br/>See your changes in real-time.
