@@ -17,8 +17,8 @@ const Configs = {
 
 	Version: {
 		Mayor: 1,
-		Minor: 1,
-		Fix: 1,
+		Minor: 2,
+		Fix: 0,
 	},
 
 	Extensions: {
