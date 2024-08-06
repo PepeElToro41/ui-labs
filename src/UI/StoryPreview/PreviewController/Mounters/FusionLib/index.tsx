@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from "@rbxts/react";
 import { MounterProps } from "..";
-import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
-import { useInputSignals } from "Context/UserInputContext";
 import { CreateFusion3Values, CreateFusionValues, GetFusionVersion, GetScopedFusion, UpdateFusionValues } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { useStoryUnmount } from "../../Utils";

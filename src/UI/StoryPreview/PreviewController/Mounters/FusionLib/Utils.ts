@@ -1,5 +1,6 @@
 import Fusion from "@rbxts/fusion";
 import { InferFusionControls } from "@rbxts/ui-labs";
+import { ConvertedControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { Cast } from "Utils/MiscUtils";
 
 export function GetScopedFusion(fusion: Fusion3) {

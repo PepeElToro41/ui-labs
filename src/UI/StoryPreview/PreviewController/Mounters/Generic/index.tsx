@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from "@rbxts/react";
 import { MounterProps } from "..";
 import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
-import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { InferGenericProps, SubscribeListener } from "@rbxts/ui-labs/src/Typing/Generic";
 import { InferControls } from "@rbxts/ui-labs";
 import { CreateControlInfos } from "./Utils";
@@ -45,6 +45,7 @@ function Generic(props: MounterProps<"Generic">) {
 	const cleanup = useMemo(() => {
 		const storyProps: InferGenericProps<ConvertedControls> = GetProps({
 			controls: controlValues as InferControls<ConvertedControls>,
+			converted: controls,
 			target: props.MountFrame,
 			subscribe: AddListener,
 		});

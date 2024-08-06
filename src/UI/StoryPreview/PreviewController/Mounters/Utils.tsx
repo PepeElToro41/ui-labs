@@ -5,7 +5,7 @@ import { Datatype, InferControlType, Primitive } from "@rbxts/ui-labs";
 import { ControlGroup } from "@rbxts/ui-labs/src/ControlTypings/ControlUtils";
 import { IsDatatype } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
 import { IsPrimitive } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
-import { ObjectControl, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControlList, ConvertedControls, ObjectControl, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { InferControlGroup, IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
@@ -13,9 +13,6 @@ import { useInputSignals } from "Context/UserInputContext";
 
 declare global {
 	type ControlValue = InferControlType<ObjectControl>;
-	type ConvertedControlList = Record<string, ObjectControl>;
-
-	type ConvertedControls = Record<string, ObjectControl | ControlGroup<ConvertedControlList>>;
 	type ParametrizedControls = Record<string, ControlValue | InferControlGroup>;
 }
 
