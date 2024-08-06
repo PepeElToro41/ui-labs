@@ -761,11 +761,11 @@ const story = {
 
 ## Using the Story Creator
 
-You can use the story creators to create your story. These will infer the control types for Roblox-TS.
+You can use the Story Creator in the [Utility Package](/docs/installation.md#installing-the-utility-package) to create your story. These will infer the control types for Roblox-TS.
 
-```ts
-function CreateGenericStory(info, render): StoryTable;
-```
+<span class="type-declaration"><span class="type-namespace">UILabs</span>
+<span class="type-name">.</span><span class="type-function-name">CreateGenericStory</span>(<span class="type-name">info</span>,
+<span class="type-name">render</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
 
 ::: details Example
 
@@ -798,17 +798,16 @@ import { CreateGenericStory } from "@rbxts/ui-labs";
 const story = CreateGenericStory({
    controls: {},
 }, (props) => {
-      const component = new Instance("Frame");
-      component.Size = UDim2.fromOffset(200, 100)
-      component.Parent = props.target;
+   const component = new Instance("Frame");
+   component.Size = UDim2.fromOffset(200, 100)
+   component.Parent = props.target;
 
-      props.subscribe((values) => {
-         print("controls changed", values);
-      });
+   props.subscribe((values) => {
+      print("controls changed", values);
+   });
 
-      return () => {
-         component.Destroy();
-      };
-	},
-);
+   return () => {
+      component.Destroy();
+   };
+});
 ```
