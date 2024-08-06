@@ -4,7 +4,10 @@ export default defineConfig({
 	title: "UI Labs",
 	titleTemplate: ":title - Storybook plugin for Roblox",
 	description: "Storybook plugin for Roblox",
-	head: [["link", { rel: "icon", href: "/home/pluginicon.ico" }]],
+	head: [
+		["link", { rel: "icon", href: "/home/pluginicon.ico" }],
+		["link", { rel: "preconnect", href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&display=swap" }],
+	],
 
 	base: "/ui-labs/",
 
