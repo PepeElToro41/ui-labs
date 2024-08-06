@@ -1,10 +1,8 @@
 # Advanced Stories
 
+Advanced Stories are table stories that get mounted internally by UI Labs. They allow UI Labs to have more control and info over how your stories are rendered.
 
-Advanced Stories are table stories that get mounted internally by UI Labs. They allow UI Labs to have more control and info over how your stories are rendered. 
-
-These stories also allows you to add [Controls]("") to edit properties of your story in real-time.
-
+These stories also allows you to add [Controls](/docs/controls/adding.md) to edit properties of your story in real-time.
 
 ::: details Flipbook support
 In order to support [Flipbook Stories](https://flipbook-labs.github.io/flipbook/docs/story-format) and make migration easier, UI Labs uses a very similar format flipbook uses.
@@ -13,16 +11,13 @@ This has some key differences:
 
 ---
 
-- The story library (`React` / `Roact` / `Fusion`) cant be provided in a storybook, only in the story itself. This limitation can be solved in the future. 
-- The story name cant be provided here, therefore, the module name will be always used.<br/>This is because UI Labs would need to perform a Hot-Reload operation on every story and update changes acordingly. This can be very expensive and unnecessary.
-::: 
+-   The story library (`React` / `Roact` / `Fusion`) cant be provided in a storybook, only in the story itself. This limitation can be solved in the future.
+-   The story name cant be provided here, therefore, the module name will be always used.<br/>This is because UI Labs would need to perform a Hot-Reload operation on every story and update changes acordingly. This can be very expensive and unnecessary.
+    :::
 
 ## Creating an Advanced Story
 
-
-
 All advanced stories share a base format table structure.
-
 
 <table>
    <thead> 
@@ -59,8 +54,6 @@ All advanced stories share a base format table structure.
    </tbody>
 </table>
 
-
-
 Let's see an example:
 
 ::: code-group
@@ -88,7 +81,7 @@ const story = {
 
 export = story
 ```
- 
+
 :::
 
 ## Story Types
@@ -97,7 +90,6 @@ You will need to add additional keys depending on the story type you are using.
 
 UI Labs currently supports 3 different types of advanced stories:
 
-- [Roact / React Stories](./react.md)
-- [Fusion Stories](./fusion.md)
-- [Generic Stories](./generic.md) <span class="tiphelp">&nbsp; This story is generic and customizable, doesn't require a library</span>
-
+-   [Roact / React Stories](./react.md)
+-   [Fusion Stories](./fusion.md)
+-   [Generic Stories](./generic.md) <span class="tiphelp">&nbsp; This story is generic and customizable, doesn't require a library</span>
