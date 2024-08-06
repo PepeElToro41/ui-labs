@@ -1,0 +1,67 @@
+:root {
+   --vp-sidebar-width: 350px;
+   --vp-layout-max-width: 1600px;
+}
+
+/* .vitepress/theme/custom.css */
+.content-container {
+   max-width: 100% !important;
+}
+
+/* min-width: 1440px same as original min-width: 960px */
+@media (min-width: 1440px) {
+   .VPSidebar {
+       padding-left: 32px !important;
+       width: var(--vp-sidebar-width) !important;
+   }
+   .VPContent.has-sidebar {
+       padding-left: var(--vp-sidebar-width) !important;
+       padding-right: 0 !important;
+   }
+}
+
+/* Add additional min-width: 1680px */
+@media (min-width: 1680px) {
+   .VPSidebar {
+       padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2) !important;
+       width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px) !important;
+   }
+   .VPContent.has-sidebar {
+       padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)) !important;
+       padding-right: calc((100vw - var(--vp-layout-max-width)) / 2) !important;
+   }
+}
+
+::-webkit-scrollbar {
+   width: 3px;
+   height: 3px;
+ }
+ 
+ /* Track */
+ ::-webkit-scrollbar-track {
+   background-color: transparent;
+   border-left-width: 2px;
+ }
+  
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+   background: var(--vp-c-text-3); 
+   border-radius: 6px;
+ }
+ 
+ /* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+   background: var(--vp-c-text-2); 
+ }
+
+
+
+ @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&display=swap");
+
+.vp-doc code {
+   font-family: "JetBrains Mono", monospace;
+}
+
+.line {
+   font-size: 14px !important;
+}
