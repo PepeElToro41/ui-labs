@@ -1,9 +1,9 @@
 import React, { useMemo } from "@rbxts/react";
 import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
-import { selectPreview, selectStoryPreviews } from "Reflex/StoryPreview/StoryMount";
+import { selectPreview, selectStoryPreviews } from "Reflex/StoryPreview";
 import { Div } from "UI/Styles/Div";
 import PreviewController from "./PreviewController";
-import { useActionsData, useActionsHeight, useActionsPinned } from "Context/StoryPanelContext";
+import { useActionsData } from "Context/StoryPanelContext";
 import LeftList from "UI/Styles/List/LeftList";
 import { useToolsContext } from "Context/ToolsContext";
 import AnchoredToolbar from "UI/StoryPanel/AnchoredToolbar";

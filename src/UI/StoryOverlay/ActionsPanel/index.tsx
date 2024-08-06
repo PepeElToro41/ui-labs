@@ -2,16 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import ResizableFrame from "UI/Holders/ResizableFrame";
 import ControlTabs, { TabEntry } from "./ControlTabs";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import FrameFill from "UI/Holders/FrameFill";
 import TopList from "UI/Styles/List/TopList";
 import { Div } from "UI/Styles/Div";
 import { useTween } from "Hooks/Utils/Tween";
 import DropShadow from "UI/Utils/DropShadow";
-import { HttpService } from "@rbxts/services";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { Detector } from "UI/Styles/Detector";
 import ImageButton from "UI/Utils/ImageButton";
-import { useToggler } from "Hooks/Utils/Toggler";
 import { useActionsHeight, useActionsPinned } from "Context/StoryPanelContext";
 
 const APPEAR_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out);

@@ -1,20 +1,22 @@
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useState, useEffect, useCallback } from "@rbxts/react";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
-import { HotReloader } from "Utils/HotReloader";
 import { CreateTuple } from "Utils/MiscUtils";
 import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
-import { Enviroment } from "Utils/HotReloader/Enviroment";
 import { CreateEntrySnapshot, ReloadEntry } from "../Utils";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { Janitor } from "@rbxts/janitor";
 import { useInputSignals } from "Context/UserInputContext";
+import { Environment, HotReloader } from "@rbxts/hmr";
+import Configs from "Plugin/Configs";
+import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 
 export function useStoryRequire(entry: PreviewEntry) {
+	const plugin = usePlugin();
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const [reloader, setReloader] = useState<HotReloader>();
 	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
-	const producer = useProducer<RootProducer>();
+	const { unmountByUID, updateMountData } = useProducer<RootProducer>();
 	const widget = useSelector(selectPluginWidget);
 	const inputSignals = useInputSignals();
 
@@ -22,29 +24,39 @@ export function useStoryRequire(entry: PreviewEntry) {
 	const latestEntry = useLatest(entry);
 
 	const InjectGlobalControls = useCallback(
-		(enviroment: Enviroment) => {
+		(environment: Environment) => {
+			const pluginInjection: Record<string, unknown> = {};
 			const janitor = new Janitor();
 
-			enviroment.InjectGlobal("Unmount", () => {
-				producer.unmountByUID(latestEntry.current.UID);
-			});
-			enviroment.InjectGlobal("Reload", () => {
+			pluginInjection["Unmount"] = () => {
+				unmountByUID(latestEntry.current.UID);
+			};
+			pluginInjection["Reload"] = () => {
 				ReloadEntry(latestEntry.current);
-			});
-			enviroment.InjectGlobal("CreateSnapshot", (name?: string) => {
+			};
+			pluginInjection["SetStoryHolder"] = (holder?: Instance) => {
+				updateMountData(latestEntry.current.UID, (oldData) => {
+					return {
+						...oldData,
+						OverrideHolder: holder,
+					};
+				});
+			};
+			pluginInjection["CreateSnapshot"] = (name?: string) => {
 				CreateEntrySnapshot(latestEntry.current, name);
-			});
+			};
+			pluginInjection["InputListener"] = latestInput.current;
+			pluginInjection["StoryJanitor"] = janitor;
+			pluginInjection["PreviewUID"] = latestEntry.current.UID;
+			pluginInjection["OriginalG"] = _G;
+			pluginInjection["PluginWidget"] = widget;
+			pluginInjection["EnvironmentUID"] = environment.EnvironmentUID;
+			pluginInjection["Plugin"] = plugin;
 
-			enviroment.InjectEnviromentUID();
-			enviroment.InjectGlobal("InputListener", latestInput.current);
-			enviroment.InjectGlobal("StoryJanitor", janitor);
-			enviroment.InjectGlobal("PreviewUID", latestEntry.current.UID);
-			enviroment.InjectGlobal("OriginalG", _G);
-			enviroment.InjectGlobal("PluginWidget", widget);
-
-			enviroment.HookOnDestroyed(() => {
+			environment.HookOnDestroyed(() => {
 				janitor.Destroy();
 			});
+			environment.InjectGlobal(Configs.GlobalInjectionKey, pluginInjection);
 		},
 		[entry.UID, widget],
 	);
@@ -54,7 +66,7 @@ export function useStoryRequire(entry: PreviewEntry) {
 		if (!node) return;
 
 		const reloader = new HotReloader(node.Module);
-		reloader.BindToReload(InjectGlobalControls);
+		reloader.BeforeReload(InjectGlobalControls);
 
 		setResultPromise(reloader.Reload());
 		setReloader(reloader);

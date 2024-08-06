@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, SetStateAction, useMemo, useState } from "@rbxts/react";
 import { ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
 
-type ToolsButtonActive = Record<ToolButtonType, boolean>;
+export type ToolsButtonActive = Record<ToolButtonType, boolean>;
 
 type ToolbarPosition = "Floating" | "Anchored";
 

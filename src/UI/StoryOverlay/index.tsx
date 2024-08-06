@@ -6,7 +6,6 @@ import CanvasControls from "./CanvasControls";
 import ToastInfo from "./ToastInfo";
 import OnWidgetInfo from "./OnWidgetInfo";
 import OnViewportInfo from "./OnViewportInfo";
-import RightToolbar from "./IconToolbar/RightToolbar";
 import LeftToolbar from "./IconToolbar/LeftToolbar";
 import { useToolsContext } from "Context/ToolsContext";
 
@@ -14,13 +13,8 @@ interface StoryOverlayProps {
 	PreviewEntry: PreviewEntry | undefined;
 }
 
-function setProps(props: StoryOverlayProps) {
-	return props as Required<StoryOverlayProps>;
-}
-
 //Story overlay represents the actions panel (controls/summary), the tools like "Reload", "Zoom", and the zooming/panning controls
-function StoryOverlay(setprops: StoryOverlayProps) {
-	const props = setProps(setprops);
+function StoryOverlay(props: StoryOverlayProps) {
 	const entry = props.PreviewEntry;
 	const toolsContext = useToolsContext().ToolbarPosition;
 
@@ -40,7 +34,7 @@ function StoryOverlay(setprops: StoryOverlayProps) {
 			{!entry.Visible ? undefined : entry.OnWidget ? (
 				<OnWidgetInfo />
 			) : entry.OnViewport ? (
-				<OnViewportInfo />
+				<OnViewportInfo PreviewEntry={entry} />
 			) : (
 				<CanvasControls PreviewEntry={entry} />
 			)}

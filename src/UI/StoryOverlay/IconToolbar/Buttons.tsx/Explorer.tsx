@@ -7,8 +7,12 @@ function Explorer(props: ToolButtonProps) {
 	const entry = props.PreviewEntry;
 
 	const OnViewOnExplorer = useCallback(() => {
-		if (!entry.Holder) return;
-		Selection.Set([entry.Holder!]);
+		if (entry.OverrideHolder) {
+			Selection.Set([entry.OverrideHolder]);
+		} else {
+			if (!entry.Holder) return;
+			Selection.Set([entry.Holder!]);
+		}
 	}, [entry]);
 
 	return (

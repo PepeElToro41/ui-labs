@@ -36,6 +36,9 @@ const Sprites = {
 	Collapse: {
 		RectOffset: new Vector2(64 * 3, 64 * 2),
 	},
+	UnknownIcon: {
+		RectOffset: new Vector2(64 * 3, 64 * 5),
+	},
 	//Toolbar
 	Reload: {
 		RectOffset: new Vector2(64 * 2, 64 * 2),

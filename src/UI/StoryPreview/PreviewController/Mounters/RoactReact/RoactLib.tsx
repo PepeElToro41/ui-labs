@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
-import { ParametrizeControls, useControls } from "./Utils";
+import { ParametrizeControls, useControls } from "../Utils";
 import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { InferControls } from "@rbxts/ui-labs/src/Typing";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import type { MounterProps } from "..";
 import { useInputSignals } from "Context/UserInputContext";
 import { useStoryUnmount } from "../../Utils";
+import { InferControls } from "@rbxts/ui-labs";
 
 function RoactLib(props: MounterProps<"RoactLib">) {
 	const result = props.Result;

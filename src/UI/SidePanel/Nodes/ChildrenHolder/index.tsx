@@ -11,9 +11,9 @@ import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
 import TopList from "UI/Styles/List/TopList";
-import { selectOverlay } from "Reflex/Overlay";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { useToggler } from "Hooks/Utils/Toggler";
+import Divisor from "UI/Utils/Divisor";
 
 interface ChildrenHolderProps extends PropsWithChildren {
 	Name: string | Instance;
@@ -22,8 +22,6 @@ interface ChildrenHolderProps extends PropsWithChildren {
 	SpriteColor: Color3;
 	Children: React.Element[];
 }
-
-const EXPAND_INFO = new TweenInfo(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
 
 function setProps(props: ChildrenHolderProps) {
 	return props as Required<ChildrenHolderProps>;
@@ -128,14 +126,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 				AutomaticSize={Enum.AutomaticSize.Y}
 				Size={UDim2.fromScale(1, 0)}
 			>
-				<frame
-					key="ChildrenDivisor"
-					BackgroundColor3={theme.Divisor.Color}
-					BackgroundTransparency={0.5}
-					BorderSizePixel={0}
-					Position={new UDim2(0, 8, 0, 0)}
-					Size={new UDim2(0, 1, 1, -9)}
-				/>
+				<Divisor key="ChildrenDivisor" Anchor={0} Direction="Y" Position={new UDim2(0, 8, 0, 0)} Size={new UDim(1, -9)} />
 				<Div key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
 					<TopList Padding={new UDim(0, 1)} />
 					<uipadding PaddingLeft={new UDim(0, 13)} />

@@ -1,10 +1,8 @@
-import React, { useMemo } from "@rbxts/react";
+import React from "@rbxts/react";
 import { useToolsContext } from "Context/ToolsContext";
 import StoryOverlay from "UI/StoryOverlay";
 import PreviewControl from "UI/StoryPreview/PreviewControl";
 import { Div } from "UI/Styles/Div";
-import LeftList from "UI/Styles/List/LeftList";
-import AnchoredToolbar from "./AnchoredToolbar";
 
 interface PanelRenderProps {
 	PreviewEntry: PreviewEntry | undefined;

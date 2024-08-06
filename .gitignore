@@ -3,3 +3,11 @@
 /include
 *.tsbuildinfo
 yarn-error.log
+yarn.lock
+
+
+
+docs/.vitepress/dist
+docs/.vitepress/cache
+docs/node_modules
+docs/package-lock.json

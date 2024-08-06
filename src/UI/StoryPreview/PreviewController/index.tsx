@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
-import { CheckStoryReturn, StoryCheck } from "./Utils";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { MountStory } from "./Mount";
 import { useInstance } from "Hooks/Utils/Instance";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import HolderParenter from "./Holders/HolderParenter";
+import { CheckStory } from "./StoryCheck/StoryCheck";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -47,7 +47,7 @@ function PreviewController(props: PreviewControllerProps) {
 	useEffect(() => {
 		//Mounting story
 		if (result === undefined) return;
-		const check = CheckStoryReturn(result);
+		const check = CheckStory(result);
 		if (!check.Sucess) return warn("UI-Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);

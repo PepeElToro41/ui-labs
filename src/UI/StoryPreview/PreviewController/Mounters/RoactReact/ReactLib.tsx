@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import type { MounterProps } from "..";
-import { ParametrizeControls, useControls } from "./Utils";
+import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
 import { useProducer } from "@rbxts/react-reflex";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
@@ -16,13 +16,13 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 	const controls = useControls(returnControls ?? {});
 	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
 	const rendererType = result.renderer ?? "deferred";
-
-	const signals = useInputSignals();
-	const { setActionComponent } = useProducer<RootProducer>();
+	const GetProps = useStoryPassedProps();
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			return result.story({ controls: controlValues as InferControls<ReturnControls>, inputListener: signals });
+			const storyProps = GetProps({ controls: controlValues as InferControls<ReturnControls> });
+
+			return result.story(storyProps);
 		} else {
 			return result.story;
 		}
@@ -61,21 +61,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		}
 	}, [controlValues, result]);
 
-	useEffect(() => {
-		if (props.Result.summary !== undefined) {
-			setActionComponent(props.Entry.Key, "SummaryTab", {
-				DisplayName: "Summary",
-				Render: <Summary SummaryText={props.Result.summary}></Summary>,
-			});
-		}
-		if (returnControls !== undefined) {
-			setActionComponent(props.Entry.Key, "ControlsTab", {
-				DisplayName: "Controls",
-				Render: <Controls Controls={controls} ControlValues={controlValues} SetControlValues={setControlValues} />,
-				Order: 2,
-			});
-		}
-	}, [result, controlValues]);
+	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

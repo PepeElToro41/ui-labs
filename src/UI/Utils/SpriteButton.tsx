@@ -47,7 +47,7 @@ function SpriteButton(props: SpriteButtonProps) {
 			key={props.ButtonName}
 			LayoutOrder={props.Order ?? 0}
 			Position={props.Position ?? UDim2.fromOffset(0, 0)}
-			Size={props.Size ?? UDim2.fromOffset(35, 35)}
+			Size={props.Size ?? UDim2.fromOffset(33, 33)}
 			AnchorPoint={props.Anchor ?? new Vector2(0, 0)}
 			BackgroundTransparency={hovered ? 0.8 : 1}
 		>
@@ -65,7 +65,7 @@ function SpriteButton(props: SpriteButtonProps) {
 				ImageProps={{
 					Position: UDim2.fromScale(0.5, 0.5),
 					AnchorPoint: new Vector2(0.5, 0.5),
-					Size: UDim2.fromOffset(29, 29),
+					Size: UDim2.fromOffset(27, 27),
 					ImageTransparency: props.Transparency ?? 0,
 					ImageColor3: active ? theme.Icon.Active : theme.Icon.Disabled,
 				}}

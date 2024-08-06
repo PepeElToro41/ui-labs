@@ -2,7 +2,7 @@ import { useBindingListener, useEventListener } from "@rbxts/pretty-react-hooks"
 import React, { PropsWithChildren, useBinding, useCallback, useContext, useMemo } from "@rbxts/react";
 import { UserInputService } from "@rbxts/services";
 import Signal from "@rbxts/signal";
-import { InputSignals } from "@rbxts/ui-labs/src/Typing";
+import { InputSignals } from "@rbxts/ui-labs";
 import { useSignal } from "Hooks/Utils/Signal";
 import { Div } from "UI/Styles/Div";
 
