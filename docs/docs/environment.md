@@ -41,7 +41,7 @@ This has the potential to cause an infinite loop.
 <span class="type-declaration"><span class="type-namespace">Environment</span>
 <span class="type-name">.</span><span class="type-function-name">CreateSnapshot</span>(<span class="type-name-opt">name</span>?<span class="type-name">:</span><span class="type-highlight">string</span>)</span>
 
-Does the same as [Create Snapshot](/docs/features/snapshots.md#create-snapshot) button does. Useful for cloning the UI automatically.<br/>
+Does the same as [Create Snapshot](/docs/plugin/extras.md#creating-snapshots) button does. Useful for cloning the UI automatically.<br/>
 An additional `name` argument can be given for the created `ScreenGui`
 
 <span class="tiphelp">Defaults an empty function in non-story environments</span>
