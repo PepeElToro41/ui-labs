@@ -1,4 +1,4 @@
-name: Deploy VitePress site to Pages
+name: deploy-docs
 
 on:
     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
@@ -20,6 +20,10 @@ permissions:
 concurrency:
     group: pages
     cancel-in-progress: false
+
+defaults:
+    run:
+        working-directory: docs
 
 jobs:
     # Build job
