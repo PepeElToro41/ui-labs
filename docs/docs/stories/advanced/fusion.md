@@ -170,9 +170,9 @@ local story = CreateFusionStory({
    fusion = Fusion,
    controls = controls,
 }, function(props)
-   local component = Fusion.New("Frame")({
+   local component = Fusion.New "Frame" {
       Parent = props.target,
-   })
+   }
    
    return function()
       component:Destroy()
