@@ -23,15 +23,23 @@ function StoryTree(props: StoryTreeProps) {
 		const filteredNodes = filter === undefined ? nodes : FilterNodes(nodes, filter);
 		const elementsList: React.Element[] = [];
 		const booksSize = filteredNodes.storybooks.size();
-		filteredNodes.storybooks.forEach((node, index) => {
-			elementsList.push(<Storybook Order={index} Node={node} />);
-		});
-		elementsList.push(
-			<Div Size={new UDim2(1, 0, 0, 8)} LayoutOrder={booksSize}>
-				<Divisor Direction="X" Size={new UDim(1, -25)} Transparency={0.9} />
-			</Div>,
-		);
-		elementsList.push(<UnknownNode Order={booksSize + 1} UnknownNodes={filteredNodes.unknown} />);
+		const unknownSize = filteredNodes.unknown.size();
+
+		if (booksSize > 0) {
+			filteredNodes.storybooks.forEach((node, index) => {
+				elementsList.push(<Storybook Order={index} Node={node} />);
+			});
+			if (unknownSize > 0) {
+				elementsList.push(
+					<Div Size={new UDim2(1, 0, 0, 8)} LayoutOrder={booksSize}>
+						<Divisor Direction="X" Size={new UDim(1, -25)} Transparency={0.9} />
+					</Div>,
+				);
+			}
+		}
+		if (filteredNodes.unknown.size() > 0) {
+			elementsList.push(<UnknownNode Order={booksSize + 1} UnknownNodes={filteredNodes.unknown} />);
+		}
 		return elementsList;
 	}, [nodes, filter]);
 
