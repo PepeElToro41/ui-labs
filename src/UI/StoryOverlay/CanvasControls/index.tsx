@@ -15,8 +15,10 @@ function CanvasControls(props: CanvasControlsProps) {
 	const [mousePos, setMousePos] = useBinding<Vector2>(new Vector2());
 	const [inside, insideApi] = useToggler(false);
 	const [middleClicked, setMiddleClicked] = useState(false);
+	const [leftClicked, setLeftClicked] = useState(false);
 	const [mouseDragging, setMouseDragging] = useState(false);
 	const [shiftClicked, setShiftClicked] = useState(false);
+	const [ctrlClicked, setCtrlClicked] = useState(false);
 
 	const inputEnded = useInputEnded();
 	const inputBegan = useInputBegan();
@@ -40,26 +42,37 @@ function CanvasControls(props: CanvasControlsProps) {
 	const OnInputBegan = useCallback((_: Frame, input: InputObject) => {
 		if (input.UserInputType === Enum.UserInputType.MouseButton3) {
 			setMiddleClicked(true);
+		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
+			setLeftClicked(true);
 		}
 	}, []);
 	useEventListener(inputEnded, (input) => {
 		if (input.UserInputType === Enum.UserInputType.MouseButton3) {
 			setMiddleClicked(false);
+		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
+			setLeftClicked(false);
 		} else if (input.KeyCode === Enum.KeyCode.LeftShift) {
 			setShiftClicked(false);
+		} else if (input.KeyCode === Enum.KeyCode.LeftControl) {
+			setCtrlClicked(false);
 		}
 	});
 	useEventListener(inputBegan, (input) => {
 		if (input.KeyCode === Enum.KeyCode.LeftShift) {
 			setShiftClicked(true);
+		} else if (input.KeyCode === Enum.KeyCode.LeftControl) {
+			setCtrlClicked(true);
 		}
 	});
 
 	useEffect(() => {
 		if (!inside) setMiddleClicked(false);
-		if (!inside || !middleClicked) return setMouseDragging(false);
+		const ctrlDrag = ctrlClicked && leftClicked;
+		if (!inside || !(middleClicked || ctrlDrag)) {
+			return setMouseDragging(false);
+		}
 		setMouseDragging(true);
-	}, [middleClicked]);
+	}, [middleClicked, ctrlClicked, leftClicked]);
 	useEffect(() => {
 		if (!mouseDragging) return;
 
