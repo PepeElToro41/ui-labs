@@ -36,12 +36,21 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			target: props.MountFrame,
 		});
 
-		const value = result.story(fusionProps);
+		const [success, value] = pcall(() => result.story(fusionProps));
+		if (!success) {
+			warn("UI-Labs: Fusion story errored when mounting. The cleanup function will not be executed: ", value);
+			return () => {
+				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+			};
+		}
 		return typeIs(value, "Instance") ? () => value.Destroy() : value;
 	}, []);
 
 	useStoryUnmount(result, () => {
-		cleanup();
+		const [success, err] = pcall(cleanup);
+		if (!success) {
+			warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+		}
 		if (version === "Fusion3") {
 			Cast<Fusion3>(fusion).doCleanup(fusion);
 		}
