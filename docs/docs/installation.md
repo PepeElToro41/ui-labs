@@ -2,7 +2,7 @@
 
 ## Installing UI Labs
 
--   You can find the latest version in the [Roblox Marketplace](https://www.roblox.com/library/721065351/UI-Labs).
+-   You can find the latest version in the [Roblox Marketplace](https://create.roblox.com/store/asset/14293316215/UI-Labs).
 -   You can find it open-sourced in the [GitHub repository](https://github.com/PepeElToro41/ui-labs).
 
 ## Installing the Utility Package
