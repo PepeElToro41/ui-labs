@@ -18,15 +18,18 @@ hero:
           link: /api/home
 
 features:
-    - title: Instant Feedback
-      icon: <img src="/home/play.png" />
+    - title: Instant Feedbacks
+      icon:
+          src: /home/play.png
       details: UI Labs features a Hot-Reloader. <br/>See your changes in real-time.
 
     - title: Controls
-      icon: <img src="/home/controls.png" />
+      icon:
+          src: /home/controls.png
       details: Set controls for your story. Change your UI properties instantly.
 
     - title: Sandboxed Environment
-      icon: <img src="/home/isolation.png" />
+      icon:
+          src: /home/isolation.png
       details: Your code runs virtually in a isolated environment, no conflicts or side effects. Dont need to worry about resetting your code.
 ---
