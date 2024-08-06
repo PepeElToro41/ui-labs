@@ -55,9 +55,6 @@
  }
 
 
-
- @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&display=swap");
-
 .vp-doc code {
    font-family: "JetBrains Mono", monospace;
 }
