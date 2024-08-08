@@ -8,7 +8,7 @@ export function useStoryUnmount(story: StoryBase, unmounter: () => void) {
 		if (story.cleanup) {
 			const [success, err] = pcall(story.cleanup);
 			if (!success) {
-				warn("UI-Labs: Error while running cleanup function: ", err);
+				warn("UI Labs: Error while running cleanup function: ", err);
 			}
 		}
 	});

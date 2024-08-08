@@ -10,15 +10,15 @@ function Functional(props: MounterProps<"Functional">) {
 			.then((cleanup) => {
 				unmounter.current = cleanup;
 			})
-			.catch((err) => warn("UI-Labs: Function story errored when mounting. The cleanup function will not be executed: ", err));
+			.catch((err) => warn("UI Labs: Function story errored when mounting. The cleanup function will not be executed: ", err));
 		return () => {
 			if (unmounter.current) {
 				const [success, err] = pcall(unmounter.current);
 				if (!success) {
-					warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+					warn("UI Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
 				}
 			} else {
-				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+				warn("UI Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
 			}
 		};
 	}, []);
