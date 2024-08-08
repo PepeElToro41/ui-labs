@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
 	title: "UI Labs",
-	titleTemplate: ":title - Storybook plugin for Roblox",
+	titleTemplate: ":title - UI Labs",
 	description: "Storybook plugin for Roblox",
 	head: [
 		["link", { rel: "icon", href: "/home/pluginicon.ico" }],

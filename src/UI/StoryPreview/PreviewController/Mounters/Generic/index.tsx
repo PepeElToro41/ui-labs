@@ -38,7 +38,7 @@ function Generic(props: MounterProps<"Generic">) {
 			for (const listener of listeners.current) {
 				const [success, err] = pcall(() => listener(controlValues as InferControls<ReturnControls>, controlInfos));
 				if (!success) {
-					warn("UI-Labs: Generic Story listener errored when updating.", err);
+					warn("UI Labs: Generic Story listener errored when updating.", err);
 				}
 			}
 		},
@@ -54,9 +54,9 @@ function Generic(props: MounterProps<"Generic">) {
 		});
 		const [success, err] = pcall(() => result.render(storyProps));
 		if (!success) {
-			warn("UI-Labs: Generic story errored when mounting. The cleanup function will not be executed: ", err);
+			warn("UI Labs: Generic story errored when mounting. The cleanup function will not be executed: ", err);
 			return () => {
-				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+				warn("UI Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
 			};
 		}
 		return err;
@@ -71,7 +71,7 @@ function Generic(props: MounterProps<"Generic">) {
 		listeners.current = [];
 		const [success, err] = pcall(cleanup);
 		if (!success) {
-			warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+			warn("UI Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
 		}
 	});
 

@@ -146,6 +146,46 @@ const story = {
 
 :::
 
+## Using Fusion 0.3
+
+Fusion 0.3 introduced scopes as a way to cleanup multiple objects. You can acccess the scope where the controls are created by using the `scope` key in the `props` table.
+
+This scope will be destroyed with `Fusion.doCleanup` when the story is unmounted. This implies that the cleanup function is not needed in most cases, because of this, the cleanup function/instance can be optional.
+
+
+::: warning Cleanup
+Not returning a cleanup in <span class="item-description">Fusion 0.2</span> will result in a warning.
+:::
+
+
+::: details Example
+::: code-group
+ 
+```lua [Luau] {9}
+local Fusion = require(...)
+
+local controls = { ... }
+
+local story = { 
+   fusion = Fusion,
+   controls = controls,
+   story = function(props)
+      local scope = props.scope
+
+      local value = scope:Value("foo")
+      local component = scope:New "Frame" {
+         Parent = props.target,
+      }
+      -- cleanup function is not needed
+   end,
+}
+```
+ 
+```tsx [Roblox-TS] {12-14}
+// Waiting for Fusion 0.3 in roblox-ts
+```
+:::
+
 ## Using the Story Creator
 
 You can use the Story Creator in the [Utility Package](/docs/installation.md#installing-the-utility-package) to create your story. These will infer the control types for Roblox-TS.

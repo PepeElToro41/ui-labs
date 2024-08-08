@@ -1,5 +1,6 @@
+_G.__ROACT_17_MOCK_SCHEDULER__ = undefined;
+
 import { RunService } from "@rbxts/services";
-import App from "UI/App";
 import React from "@rbxts/react";
 import Plugin from "UI/Plugin";
 import { Root, createLegacyRoot, createPortal } from "@rbxts/react-roblox";

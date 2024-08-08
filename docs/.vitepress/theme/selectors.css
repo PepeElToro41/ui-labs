@@ -1,0 +1,234 @@
+:root {
+	--toolbar-x: 86;
+	--toolbar-y: 188;
+
+	--preview-x: 275;
+	--preview-y: 319;
+
+	--ineditor-x: 292;
+	--ineditor-y: 311;
+
+	--unhide-x: 296;
+	--unhide-y: 318;
+
+	--multifull-x: 863;
+	--multifull-y: 616.25;
+
+	--widgetfull-x: 863;
+	--widgetfull-y: 607.02;
+}
+
+/* ---------------------------- IMG DESCRIPTIONS ---------------------------- */
+
+.main-tab-description {
+	top: calc((54 / var(--multifull-y)) * 100%);
+	left: calc((220 / var(--multifull-x)) * 100%);
+	width: calc((78 / var(--multifull-x)) * 100%);
+	height: calc((29 / var(--multifull-y)) * 100%);
+}
+.new-tab-description {
+	top: calc((54 / var(--multifull-y)) * 100%);
+	left: calc((302 / var(--multifull-x)) * 100%);
+	width: calc((72 / var(--multifull-x)) * 100%);
+	height: calc((29 / var(--multifull-y)) * 100%);
+}
+.tabs-amount-description {
+	top: calc((139 / var(--multifull-y)) * 100%);
+	left: calc((215 / var(--multifull-x)) * 100%);
+	width: calc((200 / var(--multifull-x)) * 100%);
+	height: calc((29 / var(--multifull-y)) * 100%);
+}
+
+.widget-tab-description {
+	top: calc((60 / var(--widgetfull-y)) * 100%);
+	left: calc((292 / var(--widgetfull-x)) * 100%);
+	width: calc((100 / var(--widgetfull-x)) * 100%);
+	height: calc((29 / var(--widgetfull-y)) * 100%);
+}
+.widget-window-description {
+	top: calc((280 / var(--widgetfull-y)) * 100%);
+	left: calc((365 / var(--widgetfull-x)) * 100%);
+	width: calc((362 / var(--widgetfull-x)) * 100%);
+	height: calc((204 / var(--widgetfull-y)) * 100%);
+}
+
+.image-description,
+.tabs-amount-description,
+.widget-tab-description,
+.widget-window-description {
+	position: absolute;
+	background-color: transparent;
+	font-size: 15px;
+	font-weight: bold;
+	border-style: none;
+	text-align: left;
+	color: var(--custom-button-reference);
+}
+
+.image-description-2,
+.main-tab-description,
+.new-tab-description {
+	position: absolute;
+	background-color: transparent;
+	font-size: 13px;
+	font-weight: bold;
+	border-style: none;
+	text-align: left;
+	color: var(--custom-button-reference);
+}
+
+/* -------------------------- FULLSCREEN SELECTORS -------------------------- */
+
+.main-tab-selector {
+	top: calc((28 / var(--multifull-y)) * 100%);
+	left: calc((219 / var(--multifull-x)) * 100%);
+	width: calc((74 / var(--multifull-x)) * 100%);
+	height: calc((25 / var(--multifull-y)) * 100%);
+}
+.new-tab-selector {
+	top: calc((28 / var(--multifull-y)) * 100%);
+	left: calc((295 / var(--multifull-x)) * 100%);
+	width: calc((68 / var(--multifull-x)) * 100%);
+	height: calc((25 / var(--multifull-y)) * 100%);
+}
+.tabs-amount-selector {
+	top: calc((138 / var(--multifull-y)) * 100%);
+	left: calc((182 / var(--multifull-x)) * 100%);
+	width: calc((24 / var(--multifull-x)) * 100%);
+	height: calc((24 / var(--multifull-y)) * 100%);
+}
+.mountinwidget-selector {
+	top: calc((199 / var(--multifull-y)) * 100%);
+	left: calc((92 / var(--multifull-x)) * 100%);
+	width: calc((192 / var(--multifull-x)) * 100%);
+	height: calc((29 / var(--multifull-y)) * 100%);
+}
+
+.widget-tab-selector {
+	top: calc((27 / var(--widgetfull-y)) * 100%);
+	left: calc((292 / var(--widgetfull-x)) * 100%);
+	width: calc((85 / var(--widgetfull-x)) * 100%);
+	height: calc((29 / var(--widgetfull-y)) * 100%);
+}
+.widget-window-selector {
+	top: calc((311 / var(--widgetfull-y)) * 100%);
+	left: calc((362 / var(--widgetfull-x)) * 100%);
+	width: calc((362 / var(--widgetfull-x)) * 100%);
+	height: calc((204 / var(--widgetfull-y)) * 100%);
+}
+
+/* -------------------------------- PREVIEW SELECTORS ------------------------------- */
+.resetview-selector {
+	top: calc((189 / var(--preview-y)) * 100%);
+	left: calc((41 / var(--preview-x)) * 100%);
+	width: calc((220 / var(--preview-x)) * 100%);
+	height: calc((58 / var(--preview-y)) * 100%);
+}
+
+.mountontop-selector {
+	top: calc((195 / var(--preview-y)) * 100%);
+	left: calc((114 / var(--preview-x)) * 100%);
+	width: calc((152 / var(--preview-x)) * 100%);
+	height: calc((31 / var(--preview-y)) * 100%);
+}
+
+.ineditor-selector {
+	top: calc((52 / var(--ineditor-y)) * 100%);
+	left: calc((62 / var(--ineditor-x)) * 100%);
+	width: calc((220 / var(--ineditor-x)) * 100%);
+	height: calc((32 / var(--ineditor-y)) * 100%);
+}
+.inwidget-selector {
+	top: calc((55 / var(--preview-y)) * 100%);
+	left: calc((40 / var(--preview-x)) * 100%);
+	width: calc((220 / var(--preview-x)) * 100%);
+	height: calc((32 / var(--preview-y)) * 100%);
+}
+
+.auto-reload-selector {
+	top: calc((135 / var(--preview-y)) * 100%);
+	left: calc((39 / var(--preview-x)) * 100%);
+	width: calc((225 / var(--preview-x)) * 100%);
+	height: calc((33 / var(--preview-y)) * 100%);
+}
+
+.hide-selector {
+	top: calc((80 / var(--preview-y)) * 100%);
+	left: calc((40 / var(--preview-x)) * 100%);
+	width: calc((220 / var(--preview-x)) * 100%);
+	height: calc((32 / var(--preview-y)) * 100%);
+}
+
+.unhide-selector {
+	top: calc((80 / var(--unhide-y)) * 100%);
+	left: calc((62 / var(--unhide-x)) * 100%);
+	width: calc((220 / var(--unhide-x)) * 100%);
+	height: calc((32 / var(--unhide-y)) * 100%);
+}
+
+.snapshot-selector {
+	top: calc((161 / var(--preview-y)) * 100%);
+	left: calc((38 / var(--preview-x)) * 100%);
+	width: calc((227 / var(--preview-x)) * 100%);
+	height: calc((33 / var(--preview-y)) * 100%);
+}
+
+/* --------------------------------- TOOLBAR SELECTORS -------------------------------- */
+
+.zoom-selector {
+	top: calc((36 / var(--toolbar-y)) * 100%);
+	left: calc((14 / var(--toolbar-x)) * 100%);
+	width: calc((42 / var(--toolbar-x)) * 100%);
+	height: calc((77 / var(--toolbar-y)) * 100%);
+}
+
+.viewport-selector {
+	top: calc((108 / var(--toolbar-y)) * 100%);
+	left: calc((15 / var(--toolbar-x)) * 100%);
+	width: calc((41 / var(--toolbar-x)) * 100%);
+	height: calc((41 / var(--toolbar-y)) * 100%);
+}
+
+.explorer-selector {
+	top: calc((142 / var(--toolbar-y)) * 100%);
+	left: calc((15 / var(--toolbar-x)) * 100%);
+	width: calc((41 / var(--toolbar-x)) * 100%);
+	height: calc((41 / var(--toolbar-y)) * 100%);
+}
+
+.image-selector,
+.widget-tab-selector,
+.widget-window-selector,
+.mountinwidget-selector,
+.resetview-selector,
+.mountontop-selector,
+.ineditor-selector,
+.inwidget-selector,
+.snapshot-selector,
+.auto-reload-selector,
+.hide-selector,
+.unhide-selector,
+.zoom-selector,
+.viewport-selector,
+.explorer-selector,
+.tabs-amount-selector {
+	position: absolute;
+	background-color: transparent;
+	border-color: var(--custom-image-selector);
+	border-style: solid;
+	border-width: 3px;
+	filter: drop-shadow(0px 0px 3px var(--custom-image-selector));
+	border-radius: 7px;
+}
+
+.image-selector-2,
+.main-tab-selector,
+.new-tab-selector {
+	position: absolute;
+	background-color: transparent;
+	border-color: var(--custom-image-selector);
+	border-style: solid;
+	border-width: 2px;
+	filter: drop-shadow(0px 0px 3px var(--custom-image-selector));
+	border-radius: 7px;
+}

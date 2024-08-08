@@ -197,12 +197,10 @@
   resolved "https://registry.yarnpkg.com/@rbxts/types/-/types-1.0.791.tgz#8e8dbabc5044ec19b9c063ccf0bb487dcb9cfbc9"
   integrity sha512-kKivHGm9n12L7AlKUH7KfBI7dJTZaWs21rqTpzhcknn7mqjpkZxcn6RDaIIFl3x7mMnvUsJ5amVL25zd7xkTug==
 
-"@rbxts/ui-labs@2.2.0-test1":
-  version "2.2.0-test1"
-  resolved "https://registry.yarnpkg.com/@rbxts/ui-labs/-/ui-labs-2.2.0-test1.tgz#b1b275521c3cfe868c02ee4096110414e07d3bcf"
-  integrity sha512-N+38bvrMDZ39/uHcEObHkIpcejrYBKJGNUMZdS5m9V9xxS3HnzNr1axgnCzcdHra5S92bfFolP6rvG3rEUv8Hg==
-  dependencies:
-    "@rbxts/fusion" "^0.2.0"
+"@rbxts/ui-labs@^2.2.0-ts.1":
+  version "2.2.0-ts.1"
+  resolved "https://registry.yarnpkg.com/@rbxts/ui-labs/-/ui-labs-2.2.0-ts.1.tgz#e1a44de5fa69d3700813d7cb307b5592a44c1403"
+  integrity sha512-pRGI2bqakTdnmwA1+a7JaVZ9DLoBTCKg3Aw+BLzeVT9nd8ofKEzsOXBsLDJYmeECVRt3q8T0Is25wgd0tLxA/A==
 
 "@roblox-ts/luau-ast@=2.0.0":
   version "2.0.0"

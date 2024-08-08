@@ -5,7 +5,7 @@ Additionally, Let's see some extra features that UI Labs offers.
 <div class="image-tip-holder" style="padding-top: 60px;">
    <div style="position: relative;" >
       <img class="image-label" src="/docs/plugin/toolbar.png" alt="Zoom Buttons">
-      <div class="image-selector" style="top: 142px; left: 15px; width: 41px; height: 41px;" />
+      <div class="explorer-selector" />
    </div>
 </div>
 
@@ -23,11 +23,13 @@ By default, UI Labs will detect any changes on the scripts you have required and
 
 <span class="item-description">Right Click</span> your Story Tab and toggle <span class="button-reference">Auto Reload</span>
 
-<div style="position: relative;">
+<div style="position: relative; display: inline-block;">
    <div class="image-label" style="overflow: hidden;">
-      <img src="/docs/plugin/previewdropdown.png" alt="autoreload" style="margin-bottom: -120px;">
+      <div style="position: relative; margin-bottom: -95px;">
+         <img src="/docs/plugin/previewdropdown.png" alt="autoreload">
+         <div class="auto-reload-selector" />
+      </div>
    </div>
-   <div class="image-selector" style="top: 135px; left: 42px; width: 220px; height: 33px;" />
 </div>
 
 This allows you to compare different versions of the same story by mounting it twice, and turning <span class="button-reference">Auto Reload</span> off on one of them.
@@ -41,12 +43,16 @@ For this you can <span class="item-description">Right Click</span> your Story Ta
 
 <div style="position: relative; display: flex; flex-direction: row; gap: 10px;">
    <div class="image-label" style="overflow: hidden;">
-      <img src="/docs/plugin/previewdropdown.png" alt="hide" style="margin-bottom: -150px;">
-      <div class="image-selector" style="top: 80px; left: 40px; width: 220px; height: 32px;" />
+      <div style="position: relative; margin-bottom: -150px;">
+         <img src="/docs/plugin/previewdropdown.png" alt="hide">
+         <div class="hide-selector"/>
+      </div>
    </div> 
    <div class="image-label" style="overflow: hidden;">
-      <img src="/docs/plugin/extras/unhide.png" alt="hide" style="margin-bottom: -150px;">
-      <div class="image-selector" style="top: 80px; left: 62px; width: 220px; height: 32px;" />
+      <div style="position: relative; margin-bottom: -150px;">
+         <img src="/docs/plugin/extras/unhide.png" alt="hide" style="margin-bottom: -150px;">
+         <div class="unhide-selector" />
+      </div >
    </div>
 </div>
 
@@ -62,8 +68,10 @@ This clones the current UI and saves it in a `ScreenGui` inside `StarterGui`
 
 <div style="position: relative; display: flex; flex-direction: row; gap: 50px;">
    <div class="image-label" style="overflow: hidden;">
-      <img src="/docs/plugin/previewdropdown.png" alt="snapshotgui" style="margin-bottom: -150px;">
-      <div class="image-selector" style="top: 80px; left: 40px; width: 220px; height: 32px;" />
+      <div style="position: relative; margin-bottom: -75px;">
+         <img src="/docs/plugin/previewdropdown.png" alt="snapshotgui" >
+         <div class="snapshot-selector" />
+      </div>
    </div> 
    <img class="image-label" src="/docs/plugin/extras/snapshotgui.png" alt="snapshotgui" style="margin-top: 20px; width: fit-content; height: fit-content; margin-bottom: -150px;" />
 </div>

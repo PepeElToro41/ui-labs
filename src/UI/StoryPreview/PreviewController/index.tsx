@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "@rbxts/react";
+import React, { useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
@@ -48,7 +48,7 @@ function PreviewController(props: PreviewControllerProps) {
 		//Mounting story
 		if (result === undefined) return;
 		const check = CheckStory(result);
-		if (!check.Sucess) return warn("UI-Labs: " + check.Error);
+		if (!check.Sucess) return warn("UI Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);
 		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });

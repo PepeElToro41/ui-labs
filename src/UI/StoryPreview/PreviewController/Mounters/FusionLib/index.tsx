@@ -34,22 +34,29 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		const fusionProps: InferFusionProps<ConvertedControls> = GetProps({
 			controls: fusionValues,
 			target: props.MountFrame,
+			scope: Cast<Fusion3>(fusion),
 		});
 
 		const [success, value] = pcall(() => result.story(fusionProps));
 		if (!success) {
-			warn("UI-Labs: Fusion story errored when mounting. The cleanup function will not be executed: ", value);
+			warn("UI Labs: Fusion story errored when mounting. The cleanup function will not be executed: ", value);
 			return () => {
-				warn("UI-Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
+				warn("UI Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
 			};
 		}
-		return typeIs(value, "Instance") ? () => value.Destroy() : value;
+		return value ? (typeIs(value, "Instance") ? () => value.Destroy() : value) : undefined;
 	}, []);
 
 	useStoryUnmount(result, () => {
-		const [success, err] = pcall(cleanup);
-		if (!success) {
-			warn("UI-Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+		if (cleanup) {
+			const [success, err] = pcall(cleanup);
+			if (!success) {
+				warn("UI Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
+			}
+		} else {
+			if (version === "Fusion2") {
+				warn("UI Labs: No cleanup function was returned for Fusion 2.0, there's no way to cleanup the story.");
+			}
 		}
 		if (version === "Fusion3") {
 			Cast<Fusion3>(fusion).doCleanup(fusion);

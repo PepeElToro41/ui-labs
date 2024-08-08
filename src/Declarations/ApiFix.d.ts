@@ -27,3 +27,7 @@ interface NewLuaMetatable<T> {
 }
 
 declare function setmetatable<T extends object>(object: T, metatable: NewLuaMetatable<T>): T;
+
+interface _G {
+	__ROACT_17_MOCK_SCHEDULER__?: boolean | undefined;
+}
