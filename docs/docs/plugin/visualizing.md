@@ -70,7 +70,7 @@ Great!, but now the text is too small so, what can we do about it?.
 <div class="image-tip-holder" style="padding-top: 53px;">
    <div style="position: relative;">
       <img class="image-label" src="/docs/plugin/toolbar.png" alt="Zoom Buttons">
-      <div class="image-selector" style="top: 36px; left: 14px; width: 42px; height: 77px;" />
+      <div class="zoom-selector" />
    </div>
 </div>
 
@@ -97,16 +97,16 @@ Nice!, now we can see our story more clearly.
 
 You can reset the Position and Zoom by <span class="item-description">Right Click</span> your story preview and selecting <span class="button-reference">Reset Position</span> or <span class="button-reference">Reset Zoom</span>
 
-<div style="position: relative;">
+<div style="position: relative; display: inline-block;">
    <img class="image-label" src="/docs/plugin/previewdropdown.png" alt="previewdropdown">
-   <div class="image-selector" style="top: 190px; left: 42px; width: 220px; height: 58px;" />
+   <div class="resetview-selector" />
 </div>
  
 
 <div class="image-tip-holder" style="padding-top: 75px;">
    <div style="position: relative;" >
       <img class="image-label" src="/docs/plugin/toolbar.png" alt="toolbar">
-      <div class="image-selector" style="top: 108px; left: 15px; width: 41px; height: 41px;" />
+      <div class="viewport-selector" />
    </div>
 </div>
 
