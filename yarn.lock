@@ -104,10 +104,10 @@
   resolved "https://registry.yarnpkg.com/@rbxts/fusion/-/fusion-0.2.0.tgz#082cbe02299abe36a0ff376535ce0eaac87ec190"
   integrity sha512-Hs+IXSPM+5KE4FMKh+zyifG2+1EI8B0K1DA3gN6TncwiQxdVzz6XchxRVI/BTqto7uLBtEAVMQzhrkUneaJNIQ==
 
-"@rbxts/hmr@^0.0.1-test2":
-  version "0.0.1-test2"
-  resolved "https://registry.yarnpkg.com/@rbxts/hmr/-/hmr-0.0.1-test2.tgz#7a76e0a2ad0cfc392656b93d2598ee82de966e01"
-  integrity sha512-hZyH1CpqeQavq81NcOpZUC7sKJBgMFbFkU4K/zECwEmWBIzjJfOuaRj6sNUxB2R+37fwgeqa42UoQjPYrH910A==
+"@rbxts/hmr@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@rbxts/hmr/-/hmr-0.1.1.tgz#c4f9a5cc826db094fc2d23fe5c9529a0e4c8c590"
+  integrity sha512-F6dca/S/JED6/NSLkMH0qKtwgqSYOxWEqwewzLFF44A0CbPLF3iinDE6n0KD2dyHXaB9mzp+N9ZfIGzIqDwtpQ==
 
 "@rbxts/immut@^0.4.4-ts.0":
   version "0.4.4-ts.0"
