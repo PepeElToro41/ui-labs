@@ -55,7 +55,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			}
 		} else {
 			if (version === "Fusion2") {
-				warn("UI Labs: No cleanup function was returned for Fusion 2.0, there's no way to cleanup the story.");
+				warn("UI Labs: No cleanup function was returned for Fusion 0.2, there's no way to cleanup the story.");
 			}
 		}
 		if (version === "Fusion3") {

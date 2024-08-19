@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
-import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { MountStory } from "./Mount";
 import { useInstance } from "Hooks/Utils/Instance";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
@@ -21,7 +20,6 @@ function PreviewController(props: PreviewControllerProps) {
 	const key = props.PreviewEntry.Key;
 
 	const { setMountData } = useProducer<RootProducer>();
-	const plugin = usePlugin();
 
 	const mountFrame = useInstance("Frame", undefined, {
 		Name: "StoryHolder",
