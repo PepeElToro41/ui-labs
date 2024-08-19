@@ -17,6 +17,9 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", isLocal ? "rbxassetid://16652065460" : "rbxassetid://13858107432");
 	const stopButton = toolbar.CreateButton("Stop", "Stop UI Labs", "rbxassetid://13960086023");
 
+	pluginButton.ClickableWhenViewportHidden = true;
+	stopButton.ClickableWhenViewportHidden = true;
+
 	const dockWidget = plugin.CreateDockWidgetPluginGui(
 		isLocal ? "UILabs_DEV" : "UILabs",
 		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Left, false, true, 0, 0),
