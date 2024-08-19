@@ -1,8 +1,7 @@
 import { FunctionStory, FusionStory, GenericStory, ReactStory, RoactStory } from "@rbxts/ui-labs";
 import { StoryInfo } from "@rbxts/ui-labs/src/Typing/Typing";
-import { FusionCheck } from "./LIbraries/FusionCheck";
 import { t } from "@rbxts/t";
-import { DefinedStoryLibrary } from "./LIbraries";
+import { DefineStoryLibrary } from "./LibraryDefine";
 
 declare global {
 	interface MountResults {
@@ -15,7 +14,7 @@ declare global {
 	type MountType = keyof MountResults;
 }
 
-type StoryError = {
+export type StoryError = {
 	Sucess: false;
 	Error: string;
 };
@@ -31,9 +30,11 @@ export function CheckStory(storyReturn: unknown): StoryCheck {
 	if (CheckFunctionStory(storyReturn)) {
 		return { Sucess: true, Type: "Functional", Result: storyReturn as MountResults["Functional"] };
 	} else if (CheckObjectStory(storyReturn)) {
-		return DefinedStoryLibrary(storyReturn);
+		return DefineStoryLibrary(storyReturn);
 	}
 	return { Sucess: false, Error: `Story returned ${typeOf(storyReturn)}, this is not a valid type` };
 }
 const CheckFunctionStory = t.callback;
-const CheckObjectStory = t.table;
+function CheckObjectStory(storyReturn: unknown): storyReturn is Record<string, unknown> {
+	return t.interface({})(storyReturn);
+}

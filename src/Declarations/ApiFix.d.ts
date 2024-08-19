@@ -31,3 +31,5 @@ declare function setmetatable<T extends object>(object: T, metatable: NewLuaMeta
 interface _G {
 	__ROACT_17_MOCK_SCHEDULER__?: boolean | undefined;
 }
+
+declare function pairs<T extends object>(object: T): IterableFunction<LuaTuple<[keyof T, Exclude<T[keyof T], undefined>]>>;
