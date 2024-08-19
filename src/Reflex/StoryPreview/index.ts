@@ -86,6 +86,9 @@ function GetEntryByUID(state: StoryPreviewState, uid: string) {
 		}
 	}
 }
+function GetEntryByKey(state: StoryPreviewState, key: string) {
+	return state.mountPreviews.get(key) ?? GetEntryByUID(state, key);
+}
 
 function MountStory(state: StoryPreviewState, module: ModuleScript) {
 	const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
@@ -183,7 +186,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	},
 	//---[MOUNT DATA]---//
 	shiftOrderBefore: (state, key: string) => {
-		const entry = state.mountPreviews.get(key);
+		const entry = GetEntryByKey(state, key);
 		if (!entry) return state;
 		if (entry.Order === 0) {
 			// Already at the start
@@ -200,7 +203,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		};
 	},
 	shiftOrderAfter: (state, key: string) => {
-		const entry = state.mountPreviews.get(key);
+		const entry = GetEntryByKey(state, key);
 		if (!entry) return state;
 		if (entry.Order === state.mountPreviews.size()) {
 			// Already at the end
@@ -217,7 +220,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		};
 	},
 	setMountData: (state, key: string, data: Partial<PreviewEntry>) => {
-		const oldData = state.mountPreviews.get(key);
+		const oldData = GetEntryByKey(state, key);
 		if (!oldData) return state;
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
@@ -227,7 +230,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		});
 	},
 	updateMountData: (state, key: string, updater: (current: PreviewEntry) => PreviewEntry) => {
-		const current = state.mountPreviews.get(key) ?? GetEntryByUID(state, key);
+		const current = GetEntryByKey(state, key);
 		if (!current) return state;
 
 		const updatedData = updater(current);
@@ -236,6 +239,32 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			draft.mountPreviews.set(current.Key, updatedData);
 		});
 	},
+	addZoom: (state, key: string, zoomDelta: number) => {
+		const current = GetEntryByKey(state, key);
+		if (!current) return state;
+
+		const newZoom = current.Zoom + zoomDelta;
+		if (newZoom < 5) return state;
+		return Immut.produce(state, (draft) => {
+			draft.mountPreviews.set(key, {
+				...current,
+				Zoom: newZoom,
+			});
+		});
+	},
+	setZoom: (state, key: string, zoom: number) => {
+		const current = GetEntryByKey(state, key);
+		if (!current) return state;
+
+		if (zoom < 5) return state;
+		return Immut.produce(state, (draft) => {
+			draft.mountPreviews.set(key, {
+				...current,
+				Zoom: zoom,
+			});
+		});
+	},
+
 	setActionComponents: (state, key: string, components: Map<string, ActionTabEntry>) => {
 		const entry = state.mountPreviews.get(key);
 		if (!entry) return state;

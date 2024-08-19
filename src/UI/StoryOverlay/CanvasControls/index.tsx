@@ -22,7 +22,7 @@ function CanvasControls(props: CanvasControlsProps) {
 
 	const inputEnded = useInputEnded();
 	const inputBegan = useInputBegan();
-	const { updateMountData } = useProducer<RootProducer>();
+	const { updateMountData, addZoom } = useProducer<RootProducer>();
 
 	const OnInputChanged = useCallback(
 		(_: Frame, input: InputObject) => {
@@ -30,11 +30,7 @@ function CanvasControls(props: CanvasControlsProps) {
 				setMousePos(new Vector2(input.Position.X, input.Position.Y));
 			} else if (input.UserInputType === Enum.UserInputType.MouseWheel) {
 				if (!shiftClicked) return;
-				updateMountData(props.PreviewEntry.Key, (old) =>
-					Immut.produce(old, (draft) => {
-						draft.Zoom += input.Position.Z * 5;
-					}),
-				);
+				addZoom(props.PreviewEntry.Key, input.Position.Z * 5);
 			}
 		},
 		[shiftClicked],
