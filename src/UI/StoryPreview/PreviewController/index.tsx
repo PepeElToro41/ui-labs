@@ -7,6 +7,7 @@ import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import HolderParenter from "./Holders/HolderParenter";
 import { CheckStory } from "./StoryCheck/StoryCheck";
+import { Signal } from "@rbxts/lemon-signal";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -48,8 +49,17 @@ function PreviewController(props: PreviewControllerProps) {
 		const check = CheckStory(result);
 		if (!check.Sucess) return warn("UI Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
-		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame);
+		const unmountSignal = new Signal();
+
+		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame, unmountSignal);
 		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
+
+		return () => {
+			unmountSignal.Fire();
+			unmountSignal.Destroy();
+
+			mountFrame.ClearAllChildren();
+		};
 	}, [result]);
 
 	const renderMap: ReactChildren = new Map();

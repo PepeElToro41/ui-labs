@@ -1,10 +1,10 @@
 import { HotReloader } from "@rbxts/hmr";
-import Signal from "@rbxts/signal";
+import { Signal } from "@rbxts/lemon-signal";
 
 export class StorybookLoader {
 	private StorybookResult?: unknown = undefined;
 	Module: ModuleScript;
-	OnStorybookUpdated: Signal<() => void>;
+	OnStorybookUpdated: Signal;
 	HotReloader?: HotReloader;
 	ReloadPromise?: Promise<unknown>;
 	HotReloaderConnection?: RBXScriptConnection;

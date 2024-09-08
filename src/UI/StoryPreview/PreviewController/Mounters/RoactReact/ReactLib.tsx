@@ -44,7 +44,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			root.render(component);
 		}
 	}, []);
-	useStoryUnmount(result, () => {
+	useStoryUnmount(result, props.UnmountSignal, () => {
 		if (root !== undefined) {
 			root.unmount();
 		}

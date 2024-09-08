@@ -67,7 +67,7 @@ function Generic(props: MounterProps<"Generic">) {
 		setOldControlValues(controlValues);
 	}, [controlValues]);
 
-	useStoryUnmount(result, () => {
+	useStoryUnmount(result, props.UnmountSignal, () => {
 		listeners.current = [];
 		const [success, err] = pcall(cleanup);
 		if (!success) {

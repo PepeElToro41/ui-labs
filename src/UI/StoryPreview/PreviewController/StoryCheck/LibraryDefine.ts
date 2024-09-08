@@ -15,7 +15,7 @@ type StoryTypeCheck<T> = Required<{
 	[K in keyof T]: t.check<T[K]>;
 }>;
 
-const STORY_TYPE: StoryTypeCheck<StoryBase & { controls?: {} }> = {
+const STORY_TYPE: StoryTypeCheck<StoryBase & { use?: string; controls?: {} }> = {
 	use: t.optional(t.string),
 	controls: t.optional(CONTROL_TYPE),
 	name: t.optional(t.string),

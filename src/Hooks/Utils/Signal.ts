@@ -1,8 +1,8 @@
+import { Signal } from "@rbxts/lemon-signal";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import { useMemo } from "@rbxts/react";
-import Signal from "@rbxts/signal";
 
-export function useSignal<Signature extends Callback>() {
+export function useSignal<Signature extends Array<defined>>() {
 	const newSignal = useMemo(() => {
 		const returnSignal = new Signal<Signature>();
 		return returnSignal;

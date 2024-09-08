@@ -1,12 +1,12 @@
+import { Signal } from "@rbxts/lemon-signal";
 import { useBindingListener, useEventListener } from "@rbxts/pretty-react-hooks";
 import React, { PropsWithChildren, useBinding, useCallback, useContext, useMemo } from "@rbxts/react";
 import { UserInputService } from "@rbxts/services";
-import Signal from "@rbxts/signal";
 import { InputSignals } from "@rbxts/ui-labs";
 import { useSignal } from "Hooks/Utils/Signal";
 import { Div } from "UI/Styles/Div";
 
-type InputSignature = (input: InputObject, gameProcessed: boolean) => void;
+type InputSignature = [input: InputObject, gameProcessed: boolean];
 
 interface UserInputContext {
 	MousePosition: React.Binding<Vector2>;
@@ -68,7 +68,7 @@ export function useInputSignals() {
 	const onInputBegan = useSignal<InputSignature>();
 	const onInputEnded = useSignal<InputSignature>();
 	const onInputChanged = useSignal<InputSignature>();
-	const onMouseMoved = useSignal<(vector: Vector2) => void>();
+	const onMouseMoved = useSignal<[vector: Vector2]>();
 
 	useBindingListener(inputs.MousePosition, (position) => {
 		onMouseMoved.Fire(position);

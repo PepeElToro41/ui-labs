@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import { ParametrizeControls, useControls } from "../Utils";
-import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
 import type { MounterProps } from "..";
@@ -53,7 +53,7 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		}
 	}, [result, controlValues]);
 
-	useStoryUnmount(result, () => {
+	useStoryUnmount(result, props.UnmountSignal, () => {
 		result.roact.unmount(handle);
 	});
 

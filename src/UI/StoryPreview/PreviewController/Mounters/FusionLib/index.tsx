@@ -47,7 +47,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		return value ? (typeIs(value, "Instance") ? () => value.Destroy() : value) : undefined;
 	}, []);
 
-	useStoryUnmount(result, () => {
+	useStoryUnmount(result, props.UnmountSignal, () => {
 		if (cleanup) {
 			const [success, err] = pcall(cleanup);
 			if (!success) {

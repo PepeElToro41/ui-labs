@@ -1,7 +1,7 @@
+import { Signal } from "@rbxts/lemon-signal";
 import { useBindingListener } from "@rbxts/pretty-react-hooks";
 import React, { PropsWithChildren, useBinding, useEffect, useRef, useState } from "@rbxts/react";
 import { RunService } from "@rbxts/services";
-import Signal from "@rbxts/signal";
 import { useConnection } from "Hooks/Utils/Connection";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
@@ -22,7 +22,7 @@ interface ResizableFrameProps extends PropsWithChildren {
 	HolderProps?: Omit<React.InstanceAttributes<Frame>, "Size">;
 	FrameProps?: Omit<React.InstanceAttributes<Frame>, "Size" | "Position" | "AnchorPoint">;
 
-	SetCollapse?: Signal<(collapsed: boolean) => void>;
+	SetCollapse?: Signal<[collapsed: boolean]>;
 	OnResized?: (collapsed: boolean, resized: number) => void;
 }
 
@@ -143,7 +143,7 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 									math.clamp(add.Y, props.ResizeRange.Min, props.ResizeRange.Max),
 								),
 							);
-					  })
+						})
 			}
 			{...props.HolderProps}
 			ref={frameRef}
