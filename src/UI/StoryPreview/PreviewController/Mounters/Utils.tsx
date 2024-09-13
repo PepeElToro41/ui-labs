@@ -1,10 +1,7 @@
 import React, { useCallback } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useEffect, useMemo } from "@rbxts/react";
-import { Datatype, InferControlType, Primitive } from "@rbxts/ui-labs";
-import { ControlGroup } from "@rbxts/ui-labs/src/ControlTypings/ControlUtils";
-import { IsDatatype } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
-import { IsPrimitive } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
+import { ControlGroup, ConvertControl, InferControlType } from "@rbxts/ui-labs";
 import { ConvertedControlList, ConvertedControls, ObjectControl, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { InferControlGroup, IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
 import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
@@ -16,40 +13,26 @@ declare global {
 	type ParametrizedControls = Record<string, ControlValue | InferControlGroup>;
 }
 
-type TypeOfPrimitive = keyof typeof Primitive;
-type TypeOfDatatype = keyof typeof Datatype;
+function TryConvertControl(control: any): ObjectControl | ControlGroup<ConvertedControlList> | undefined {
+	const controlType = typeOf(control);
+	if (controlType === "table") {
+		return control;
+	}
 
-//Typescript kinda hated me here (I refuse to use any or never)
-type Converter<T extends CheckableTypes[keyof CheckableTypes]> = (def: T) => ObjectControl;
-
-//Converts any control that is expressed as a primive ("", 10, false)
-function ConvertPrimitive<T extends TypeOfPrimitive>(control: CheckablePrimitives[T], primitiveType: T) {
-	const converter = Primitive[primitiveType] as Converter<CheckablePrimitives[T]>;
-	return converter(control);
-}
-//Converts any control that is expressed as a Datatype (new Color3,  new Vector3)
-function ConvertDatatype<T extends TypeOfDatatype>(control: CheckableTypes[T], datatypeType: T) {
-	const converter = Datatype[datatypeType] as Converter<CheckableTypes[T]>;
-	return converter(control);
+	const [succes, value] = pcall(ConvertControl, control);
+	if (!succes) {
+		warn(value);
+		return undefined;
+	}
+	return value;
 }
 
-//This function checks anything that is expressed as a literal in the story and converts it to a control
 function ConvertLiterals(controls: ReturnControls) {
 	const converted: ConvertedControls = {};
 
 	for (const [name, control] of pairs(controls)) {
-		const controlType = typeOf(control);
-		let setControl = control;
-
-		if (controlType in Primitive) {
-			setControl = ConvertPrimitive(control as IsPrimitive, controlType as TypeOfPrimitive);
-		} else if (controlType in Datatype) {
-			setControl = ConvertDatatype(control as IsDatatype, controlType as TypeOfDatatype);
-		} else if (controlType !== "table") {
-			warn(`Literal ${controlType} couldn't be converted to a Control`);
-			continue;
-		}
-		const finalControl = setControl as ObjectControl | ControlGroup<ConvertedControlList>;
+		const finalControl = TryConvertControl(control);
+		if (finalControl === undefined) continue;
 
 		if (finalControl.EntryType === "ControlGroup") {
 			converted[name] = {
@@ -60,6 +43,7 @@ function ConvertLiterals(controls: ReturnControls) {
 		}
 		converted[name] = finalControl;
 	}
+	print("Converted Controls: ", converted);
 	return converted;
 }
 

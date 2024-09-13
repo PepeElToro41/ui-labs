@@ -1,0 +1,13 @@
+diff --git a/node_modules/@rbxts/lemon-signal/dist/index.d.ts b/node_modules/@rbxts/lemon-signal/dist/index.d.ts
+index 9830398..5da6fda 100644
+--- a/node_modules/@rbxts/lemon-signal/dist/index.d.ts
++++ b/node_modules/@rbxts/lemon-signal/dist/index.d.ts
+@@ -13,7 +13,7 @@ export declare class Connection<T> {
+ 	public Reconnect(): void;
+ }
+ 
+-export declare class Signal<T> {
++export declare class Signal<T = []> {
+ 	public readonly RBXScriptConnection?: RBXScriptConnection;
+ 	public readonly TotalConnections?: number;
+ 	public readonly OnConnectionsChanged: Signal<number>;

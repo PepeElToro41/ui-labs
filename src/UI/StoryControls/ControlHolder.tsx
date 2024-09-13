@@ -11,6 +11,7 @@ import Text from "UI/Styles/Text";
 interface ControlHolderProps extends PropsWithChildren {
 	ControlName: string;
 	ControlReset: () => void;
+	Order?: number;
 }
 
 function setProps(props: ControlHolderProps) {
@@ -20,16 +21,16 @@ function setProps(props: ControlHolderProps) {
 function ControlHolder(setprops: ControlHolderProps) {
 	const props = setProps(setprops);
 	const [hovered, hoverApi] = useToggler(false);
-	const { setOverlay } = useProducer<RootProducer>();
+	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
 
 	const OnDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("ControlDropdown", <ControlDropdown ControlReset={props.ControlReset} Position={offset} />);
+		setPopup("ControlDropdown", <ControlDropdown ControlReset={props.ControlReset} Position={offset} />);
 	}, [props.ControlReset]);
 
 	return (
-		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={1}>
+		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={props.Order ?? 1}>
 			<frame BackgroundColor3={new Color3(0, 0, 0)} Size={UDim2.fromScale(1, 1)} BackgroundTransparency={0.9} Visible={hovered} />
 			<Div key={"ControlContents"}>
 				<Padding PaddingX={10} />

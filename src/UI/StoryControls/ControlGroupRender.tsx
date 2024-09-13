@@ -12,6 +12,7 @@ import Sprite from "UI/Utils/Sprite";
 
 interface ControlGroupRenderProps extends PropsWithChildren {
 	GroupName: string;
+	Order?: number;
 }
 
 function setProps(props: ControlGroupRenderProps) {
@@ -25,7 +26,7 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 	const theme = useTheme();
 
 	return (
-		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={0}>
+		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={props.Order ?? 0}>
 			<frame
 				key={"HoverOverlay"}
 				BackgroundColor3={new Color3(0, 0, 0)}
