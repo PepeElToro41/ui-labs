@@ -1,8 +1,5 @@
-import React, { useEffect } from "@rbxts/react";
+import React from "@rbxts/react";
 import { Div } from "./Styles/Div";
-import TopBar from "./Topbar";
-import AppPanel from "./AppPanel";
-import List from "./Styles/List";
 import { controlModuleList } from "Hooks/Reflex/Control/ModuleList";
 import { controlNodes } from "Hooks/Reflex/Control/Explorer";
 import OverlayControl from "./Overlays/OverlayControl";
@@ -13,6 +10,9 @@ import AppHolder from "./AppHolder";
 import { DescriptionProvider } from "Context/DescriptionContext";
 import { ToolsProvider } from "Context/ToolsContext";
 import ProviderStack from "./Utils/ProviderStack";
+import LeftList from "./Styles/List/LeftList";
+import SidePanel from "./SidePanel";
+import StoryPanel from "./StoryPanel";
 
 interface AppProps {}
 
@@ -26,9 +26,9 @@ function App(props: AppProps) {
 		<ProviderStack Providers={[UserInputProvider, DescriptionProvider, ToolsProvider]}>
 			<AppHolder>
 				<Div key={"Plugin"}>
-					<List />
-					<TopBar />
-					<AppPanel />
+					<LeftList />
+					<SidePanel />
+					<StoryPanel />
 				</Div>
 				<OverlayControl />
 			</AppHolder>

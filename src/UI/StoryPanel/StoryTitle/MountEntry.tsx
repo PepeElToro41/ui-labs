@@ -32,7 +32,7 @@ function MountEntry(props: MountEntryProps) {
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay("MountCloseButton");
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const selectedEntry = useSelector(selectStorySelected);
-	const { selectStory, setOverlay, resetIdentifiedOverlay, unmountStory } = useProducer<RootProducer>();
+	const { selectStory, setPopup, resetIdentifiedOverlay, unmountStory } = useProducer<RootProducer>();
 
 	const theme = useTheme();
 	const mouseOffset = useMouseOffset();
@@ -50,7 +50,7 @@ function MountEntry(props: MountEntryProps) {
 
 	const OnEntryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />, entry.UID);
+		setPopup("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />, entry.UID);
 	}, [mouseOffset, entry]);
 
 	useEffect(() => {
@@ -81,7 +81,7 @@ function MountEntry(props: MountEntryProps) {
 				MouseButton2Click: OnEntryDropdown,
 			}}
 		>
-			<Corner Radius={6} />
+			<Corner Radius={8} />
 			<uistroke
 				ApplyStrokeMode={Enum.ApplyStrokeMode.Border}
 				Color={Color3.fromRGB(180, 180, 180)}

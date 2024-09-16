@@ -13,7 +13,7 @@ import { useProducer } from "@rbxts/react-reflex";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useConnection } from "Hooks/Utils/Connection";
 import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { GetVector, useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
+import { useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
 import { RunService } from "@rbxts/services";
 import { Counter } from "Utils/NumberUtils";
 import AlphaBar from "./AlphaBar";
@@ -61,7 +61,7 @@ function ColorPicker(props: ColorPickerProps) {
 	const count = Counter();
 
 	const OutsideCheck = useOutsideCheck(props.Position ?? Vector2.zero, size);
-	const { resetOverlay } = useProducer<RootProducer>();
+	const { resetPopup } = useProducer<RootProducer>();
 	const inputBegan = useInputBegan();
 
 	const OnApplyColor = useCallback((color: Color3) => {
@@ -89,7 +89,7 @@ function ColorPicker(props: ColorPickerProps) {
 		inputBegan,
 		(input) => {
 			if (!inside && input.UserInputType === Enum.UserInputType.MouseButton1) {
-				resetOverlay();
+				resetPopup();
 			}
 		},
 		[inside],

@@ -6,12 +6,14 @@ import Padding from "UI/Styles/Padding";
 import MountEntry from "./MountEntry";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Divisor from "UI/Utils/Divisor";
+import { selectFullscreen } from "Reflex/Interface";
 
 interface StoryTitleProps {}
 
 function StoryTitle(props: StoryTitleProps) {
-	const mounts = useSelector(selectStoryPreviews);
 	const theme = useTheme();
+	const mounts = useSelector(selectStoryPreviews);
+	const fullscreen = useSelector(selectFullscreen);
 
 	const entries = useMemo(() => {
 		const elements: ReactChildren = new Map();
@@ -23,7 +25,14 @@ function StoryTitle(props: StoryTitleProps) {
 	}, [mounts]);
 
 	return (
-		<frame key={"Title"} Size={new UDim2(1, 0, 0, 31)} ZIndex={3} BackgroundColor3={theme.StoryPreview.Background} BorderSizePixel={0}>
+		<frame
+			key={"Title"}
+			Size={new UDim2(1, 0, 0, 32)}
+			Visible={!fullscreen}
+			ZIndex={3}
+			BackgroundColor3={theme.StoryPreview.Background}
+			BorderSizePixel={0}
+		>
 			<Divisor
 				Direction="X"
 				Anchor={0}

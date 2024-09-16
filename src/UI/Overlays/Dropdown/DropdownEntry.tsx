@@ -3,7 +3,6 @@ import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
 import { Detector } from "UI/Styles/Detector";
-import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 
@@ -55,6 +54,7 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 					Size={UDim2.fromOffset(13, 13)}
 					BackgroundTransparency={1}
 					Position={new UDim2(1, -8, 0.5, 0)}
+					ImageColor3={theme.Text.Color}
 					AnchorPoint={new Vector2(1, 0.5)}
 					ImageTransparency={props.Active ? 0 : 0.8}
 				></imagelabel>

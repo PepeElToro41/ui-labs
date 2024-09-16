@@ -9,12 +9,12 @@ import EmptyFiller from "./EmptyFiller";
 
 export function useButtonDropdown() {
 	const mouseOffset = useMouseOffset();
-	const { setOverlay } = useProducer<RootProducer>();
+	const { setPopup } = useProducer<RootProducer>();
 
 	const ShowDropdown = useCallback(
 		(buttonType: ToolButtonType) => {
 			const offset = mouseOffset.getValue();
-			setOverlay(buttonType + "Dropdown", <ToolbarButtonDropdown Position={offset} ButtonName={buttonType} />, "ButtonDropdown");
+			setPopup(buttonType + "Dropdown", <ToolbarButtonDropdown Position={offset} ButtonName={buttonType} />, "ButtonDropdown");
 		},
 		[mouseOffset],
 	);
@@ -54,7 +54,7 @@ export function useButtonElements(PreviewEntry: PreviewEntry) {
 				<Render
 					ButtonName={buttonInfo.Name}
 					PreviewEntry={PreviewEntry}
-					Order={index}
+					Order={index * 2}
 					OnRightClick={() => setButtonDropdown(buttonInfo.Name)}
 				/>
 			);

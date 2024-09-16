@@ -1,10 +1,9 @@
-import React, { useMemo } from "@rbxts/react";
-import { ToolButtonsList } from "../ToolButtonsList";
-import { Div } from "UI/Styles/Div";
+import React from "@rbxts/react";
 import Corner from "UI/Styles/Corner";
 import TopList from "UI/Styles/List/TopList";
 import { useButtonElements } from "../Utils";
 import Padding from "UI/Styles/Padding";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface RenderToolButtonsProps {
 	PreviewEntry: PreviewEntry;
@@ -12,15 +11,23 @@ interface RenderToolButtonsProps {
 }
 
 function RenderToolButtons(props: RenderToolButtonsProps) {
+	const theme = useTheme();
 	const buttonElements = useButtonElements(props.PreviewEntry);
 
 	return (
-		<Div key={"ButtonsHolder"} Position={props.HoverAlpha} BackgroundTransparency={0.2} BackgroundColor3={Color3.fromRGB(26, 26, 33)}>
+		<frame
+			key={"ButtonsHolder"}
+			Position={props.HoverAlpha}
+			BackgroundTransparency={0.2}
+			Size={UDim2.fromScale(1, 1)}
+			BackgroundColor3={theme.Toolbar}
+			BorderSizePixel={0}
+		>
 			<Corner Radius={6} />
 			<Padding Padding={2} />
 			<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} Padding={new UDim(0, 2)} />
 			{buttonElements}
-		</Div>
+		</frame>
 	);
 }
 

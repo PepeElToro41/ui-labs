@@ -1,7 +1,9 @@
 import React, { useState } from "@rbxts/react";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
 import ToastInfoRender from "./ToastInfoRender";
-import { useDebounceEffect, useMountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { useDebounceEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import { selectFullscreen } from "Reflex/Interface";
+import { useSelector } from "@rbxts/react-reflex";
 
 interface ToastInfoProps {
 	PreviewEntry: PreviewEntry;
@@ -15,6 +17,7 @@ function ToastInfo(setprops: ToastInfoProps) {
 	const props = setProps(setprops);
 	const [toastRender, setToastRender] = useState<ReactChildren>();
 	const entry = props.PreviewEntry;
+	const fullscreen = useSelector(selectFullscreen);
 
 	useDebounceEffect(() => setToastRender(undefined), [toastRender], { wait: 0.6 });
 	useUpdateEffect(() => {
@@ -27,6 +30,11 @@ function ToastInfo(setprops: ToastInfoProps) {
 		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${entry.Offset}]`} />);
 		setToastRender(renderMap);
 	}, [entry.Offset]);
+	useUpdateEffect(() => {
+		const renderMap: ReactChildren = new Map();
+		renderMap.set("FullscreenMode", <ToastInfoRender InfoText={`Fullscreen Mode: ${fullscreen ? "On" : "Off"}`} />);
+		setToastRender(renderMap);
+	}, [fullscreen]);
 
 	return <LifetimeComponent>{toastRender}</LifetimeComponent>;
 }

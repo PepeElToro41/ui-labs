@@ -1,8 +1,8 @@
 import { useSelector } from "@rbxts/react-reflex";
-import { selectOverlay } from "Reflex/Overlay";
+import { selectPopup } from "Reflex/Overlay";
 
 export function useIsOverlayBlocked() {
-	const overlay = useSelector(selectOverlay);
+	const overlay = useSelector(selectPopup);
 	const isBlocked = overlay !== undefined;
 	return isBlocked;
 }

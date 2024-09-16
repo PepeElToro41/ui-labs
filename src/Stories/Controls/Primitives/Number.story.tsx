@@ -1,23 +1,20 @@
 import React, { useMemo, useState } from "@rbxts/react";
 import { createLegacyRoot } from "@rbxts/react-roblox";
 import ControlHolder from "UI/StoryControls/ControlHolder";
-import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";
 import { ReflexProvider } from "@rbxts/react-reflex";
 import { RootProducer } from "Reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Corner from "UI/Styles/Corner";
-import { Datatype, FunctionStory, Number, Slider } from "@rbxts/ui-labs";
+import { FunctionStory, Number } from "@rbxts/ui-labs";
 import AppHolder from "UI/AppHolder";
 import OverlayControl from "UI/Overlays/OverlayControl";
-import Color3Control from "UI/StoryControls/Controls/Datatypes/Color3";
 import { UserInputProvider } from "Context/UserInputContext";
-import { Div } from "UI/Styles/Div";
 import NumberControl from "UI/StoryControls/Controls/Primitives/Number";
 
 function Story(props: {}) {
 	const theme = useTheme();
 	const control = useMemo(() => {
-		return Number(10, undefined, undefined, 5);
+		return Number(100, undefined, undefined, 1, true, 1000);
 	}, []);
 
 	const [numberValue, setNumberValue] = useState(control.ControlValue);

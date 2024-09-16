@@ -21,7 +21,7 @@ function OptionListControl(props: OptionListControlProps) {
 	const [dropdownActive, setDropdownActive] = useState(false);
 	const [canOpen, setCanOpen] = useState(true);
 
-	const { setOverlay } = useProducer<RootProducer>();
+	const { setPopup } = useProducer<RootProducer>();
 	const getPosition = usePosition();
 
 	const OnUDimApply = useCallback((frame: Frame) => {
@@ -39,7 +39,7 @@ function OptionListControl(props: OptionListControlProps) {
 		});
 
 		const element = props.ListOverlay(mappedPos, () => setDropdownActive(false));
-		setOverlay(element.Key, element.Element);
+		setPopup(element.Key, element.Element);
 		setDropdownActive(true);
 	}, [props.ListOverlay, getPosition, dropdownActive, canOpen]);
 

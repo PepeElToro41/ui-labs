@@ -9,6 +9,7 @@ import { selectStorySelected } from "Reflex/StorySelection";
 import { StoryPanelProvider } from "Context/StoryPanelContext";
 import PanelRender from "./PanelRender";
 import TopList from "UI/Styles/List/TopList";
+import { selectIsLightBackground } from "Reflex/Theme";
 
 interface StoryContentsProps {}
 
@@ -20,9 +21,15 @@ function StoryContents(props: StoryContentsProps) {
 	const theme = useTheme();
 	const selectedEntry = useSelector(selectStorySelected);
 	const entry = useSelectorCreator(selectPreview, selectedEntry);
+	const isLightColor = useSelector(selectIsLightBackground);
 
 	return (
-		<Div key="StoryContents" BackgroundTransparency={0} BackgroundColor3={theme.StoryPanel.Color} LayoutOrder={1}>
+		<Div
+			key="StoryContents"
+			BackgroundTransparency={0}
+			BackgroundColor3={theme.StoryPanel[isLightColor ? "LightColor" : "DarkColor"]}
+			LayoutOrder={1}
+		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 			<BackgroundPattern />
 			<Div key="StoryFrame">

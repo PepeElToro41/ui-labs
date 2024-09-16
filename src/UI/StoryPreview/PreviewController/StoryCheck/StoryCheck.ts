@@ -1,4 +1,4 @@
-import { FunctionStory, FusionStory, GenericStory, ReactStory, RoactStory } from "@rbxts/ui-labs";
+import { FunctionStory, FusionStory, GenericStory, IrisStory, ReactStory, RoactStory, VideStory } from "@rbxts/ui-labs";
 import { StoryInfo } from "@rbxts/ui-labs/src/Typing/Typing";
 import { t } from "@rbxts/t";
 import { DefineStoryLibrary } from "./LibraryDefine";
@@ -9,6 +9,8 @@ declare global {
 		RoactLib: RoactStory<StoryInfo>;
 		ReactLib: ReactStory<StoryInfo>;
 		FusionLib: FusionStory<StoryInfo>;
+		IrisLib: IrisStory<StoryInfo>;
+		VideLib: VideStory<StoryInfo>;
 		Generic: GenericStory<StoryInfo>;
 	}
 	type MountType = keyof MountResults;

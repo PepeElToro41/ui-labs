@@ -68,7 +68,7 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 			setDescriptionVisible(true);
 		},
 		[descriptionName],
-		{ wait: 0.7 },
+		{ wait: 0.45 },
 	);
 
 	const contextValue = useMemo(() => {

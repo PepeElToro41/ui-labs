@@ -1,7 +1,7 @@
 import { lerp, useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
-import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
+import { DatatypeControl } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
 import { usePosition } from "Hooks/Utils/AppHolder";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
@@ -12,7 +12,6 @@ import LeftList from "UI/Styles/List/LeftList";
 import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
-import { useMutable } from "Hooks/Utils/Mutable";
 import { FixColor3, GetColorHex } from "Utils/MiscUtils";
 
 export function GetContrastColor(rawColor: Color3) {
@@ -34,7 +33,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 	const [udim, setUdim] = useBinding<[pos: Vector2, size: Vector2]>([Vector2.zero, Vector2.zero]);
 	const [pickerEnabled, setPickerEnabled] = useState(false);
 
-	const { setOverlay, resetOverlay } = useProducer<RootProducer>();
+	const { setPopup, resetPopup } = useProducer<RootProducer>();
 	const getPosition = usePosition();
 
 	const OnPickerClose = useCallback(() => {
@@ -44,7 +43,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 
 	const OnColorEdit = useCallback(() => {
 		setPickerEnabled(true);
-		setOverlay(
+		setPopup(
 			"ColorEdit",
 			<ColorPicker
 				StartColor={props.Current}
@@ -63,7 +62,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 	}, []);
 	useUnmountEffect(() => {
 		if (pickerEnabled) {
-			resetOverlay();
+			resetPopup();
 		}
 	});
 	useEffect(() => {

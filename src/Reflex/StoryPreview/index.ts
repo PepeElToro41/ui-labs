@@ -38,10 +38,12 @@ const DefaultEntry = {
 
 interface StoryPreviewState {
 	mountPreviews: Map<string, PreviewEntry>;
+	latestViewOnViewport: boolean;
 }
 
 const initialState: StoryPreviewState = {
 	mountPreviews: new Map(),
+	latestViewOnViewport: false,
 };
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
@@ -97,6 +99,7 @@ function MountStory(state: StoryPreviewState, module: ModuleScript) {
 	//For all stories, Key is equal to UID, but for the root story, key is always Configs.RootPreviewKey ("RootStory")
 	const entry = CreateNewEntry(module, listSize);
 	entry.Key = Configs.RootPreviewKey;
+	entry.OnViewport = state.latestViewOnViewport;
 	return Immut.produce(state, (draft) => {
 		draft.mountPreviews.set(Configs.RootPreviewKey, entry);
 	});
@@ -222,11 +225,16 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	setMountData: (state, key: string, data: Partial<PreviewEntry>) => {
 		const oldData = GetEntryByKey(state, key);
 		if (!oldData) return state;
+
+		const updatedData = {
+			...oldData,
+			...data,
+		};
 		return Immut.produce(state, (draft) => {
-			draft.mountPreviews.set(key, {
-				...oldData,
-				...data,
-			});
+			if (updatedData.Key === Configs.RootPreviewKey) {
+				draft.latestViewOnViewport = updatedData.OnViewport;
+			}
+			draft.mountPreviews.set(key, updatedData);
 		});
 	},
 	updateMountData: (state, key: string, updater: (current: PreviewEntry) => PreviewEntry) => {
@@ -235,7 +243,11 @@ export const StoryPreviewProducer = createProducer(initialState, {
 
 		const updatedData = updater(current);
 		if (updatedData === current) return state;
+
 		return Immut.produce(state, (draft) => {
+			if (updatedData.Key === Configs.RootPreviewKey) {
+				draft.latestViewOnViewport = updatedData.OnViewport;
+			}
 			draft.mountPreviews.set(current.Key, updatedData);
 		});
 	},

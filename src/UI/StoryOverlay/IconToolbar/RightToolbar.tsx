@@ -8,7 +8,7 @@ import Rounder from "UI/Styles/Rounder";
 import RenderToolButtons from "./Buttons.tsx";
 import { useSelector, useProducer } from "@rbxts/react-reflex";
 import { useMouseOffset } from "Hooks/Context/UserInput.js";
-import { selectOverlay } from "Reflex/Overlay.js";
+import { selectPopup } from "Reflex/Overlay.js";
 import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown.js";
 
 interface RightToolbarProps {
@@ -20,8 +20,8 @@ const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirect
 function RightToolbar(props: RightToolbarProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [hoverAlpha, tweenHoverAlpha] = useTween(HOVER_INFO, 0);
-	const overlay = useSelector(selectOverlay);
-	const { setOverlay } = useProducer<RootProducer>();
+	const overlay = useSelector(selectPopup);
+	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
 
 	const isBlocked = overlay && overlay.Identifier === "ButtonDropdown";
@@ -33,7 +33,7 @@ function RightToolbar(props: RightToolbarProps) {
 
 	const OnToolbarLeftClick = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
+		setPopup("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
 	}, []);
 
 	return (

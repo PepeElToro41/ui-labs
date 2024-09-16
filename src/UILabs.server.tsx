@@ -22,7 +22,7 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 
 	const dockWidget = plugin.CreateDockWidgetPluginGui(
 		isLocal ? "UILabs_DEV" : "UILabs",
-		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Left, false, true, 0, 0),
+		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Float, false, false, 0, 0),
 	);
 
 	dockWidget.Title = "UI Labs - Storybook";

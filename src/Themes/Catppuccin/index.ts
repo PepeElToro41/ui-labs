@@ -1,5 +1,5 @@
 import { Frappe, Latte, Macchiato, Mocha } from "@rbxts/catppuccin";
-import { Darken } from "@rbxts/colour-utils";
+import Immut from "@rbxts/immut";
 
 type CatppuchinePalette = typeof Frappe;
 
@@ -13,7 +13,7 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 		},
 		Text: {
 			Color: palette.Text,
-			Disabled: palette.Overlay0,
+			Disabled: palette.Overlay2,
 			Inverted: palette.Crust,
 		},
 		ResizePanelDrag: Color3.fromRGB(56, 165, 255),
@@ -34,11 +34,15 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 			Color: palette.Surface0,
 			Placeholder: palette.Overlay2,
 		},
+		Toolbar: palette.Base,
 		SidePanel: palette.Mantle,
 		StoryPanel: {
-			Color: palette.Base,
-			PatternColor: palette.Lavender,
-			PatternTransparency: 0.95,
+			DarkColor: palette.Crust,
+			LightColor: palette.Text,
+			PatternDarkColor: palette.Lavender,
+			PatternLightColor: palette.Base,
+			PatternDarkTransparency: 0.95,
+			PatternLightTransparency: 0.9,
 		},
 		ActionsPanel: {
 			Color: palette.Base,
@@ -89,7 +93,10 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 	return theme;
 }
 
-export const CatppuchineLatte = CatppuchineTheme(Latte);
+export const CatppuchineLatte = Immut.produce(CatppuchineTheme(Latte), (draft) => {
+	draft.StoryPanel.PatternDarkTransparency = 0.85;
+	draft.StoryPanel.PatternLightTransparency = 0.95;
+});
 export const CatppuchineFrappe = CatppuchineTheme(Frappe);
 export const CatppuchineMacchiato = CatppuchineTheme(Macchiato);
 export const CatppuchineMocha = CatppuchineTheme(Mocha);

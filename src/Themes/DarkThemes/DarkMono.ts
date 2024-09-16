@@ -26,11 +26,15 @@ const DarkMono: Theme = {
 		Color: Color3.fromRGB(59, 59, 59),
 		Placeholder: Color3.fromRGB(130, 130, 130),
 	},
+	Toolbar: Color3.fromRGB(61, 61, 61),
 	SidePanel: Color3.fromRGB(40, 40, 40),
 	StoryPanel: {
-		Color: Color3.fromRGB(30, 30, 30),
-		PatternColor: Color3.fromRGB(255, 255, 255),
-		PatternTransparency: 0.95,
+		DarkColor: Color3.fromRGB(30, 30, 30),
+		PatternDarkColor: Color3.fromRGB(255, 255, 255),
+		PatternLightColor: Color3.fromRGB(0, 0, 0),
+		LightColor: Color3.fromRGB(237, 237, 237),
+		PatternDarkTransparency: 0.95,
+		PatternLightTransparency: 0.9,
 	},
 	ActionsPanel: {
 		Color: Color3.fromRGB(33, 33, 33),

@@ -1,7 +1,5 @@
 import Dark from "./DarkThemes/Dark";
 import { CatppuchineFrappe, CatppuchineLatte, CatppuchineMacchiato, CatppuchineMocha } from "./Catppuccin";
-import DarkMono from "./DarkThemes/DarkMono";
-import { Purple } from "./Colors/Purple";
 
 declare global {
 	type Theme = typeof Dark & { ThemeName?: keyof typeof Themes };
@@ -9,7 +7,7 @@ declare global {
 }
 
 const Themes = {
-	Default: CatppuchineMacchiato as Theme,
+	Default: Dark as Theme,
 	//DARK
 	Dark: Dark as Theme,
 	//CATPPUCHINE

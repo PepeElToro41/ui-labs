@@ -1,5 +1,4 @@
-import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import React, { useCallback, useEffect, useState } from "@rbxts/react";
+import React, { useEffect } from "@rbxts/react";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -67,7 +66,7 @@ function SpriteButton(props: SpriteButtonProps) {
 					AnchorPoint: new Vector2(0.5, 0.5),
 					Size: UDim2.fromOffset(27, 27),
 					ImageTransparency: props.Transparency ?? 0,
-					ImageColor3: active ? theme.Icon.Active : theme.Icon.Disabled,
+					ImageColor3: active ? theme.Icon.Active : theme.Icon.Color,
 				}}
 			/>
 		</frame>

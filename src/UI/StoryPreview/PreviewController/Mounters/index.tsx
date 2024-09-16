@@ -5,6 +5,8 @@ import ReactLib from "./RoactReact/ReactLib";
 import Generic from "./Generic";
 import FusionLib from "./FusionLib";
 import { Signal } from "@rbxts/lemon-signal";
+import IrisLib from "./IrisLib";
+import VideLib from "./VideLib";
 
 export interface MounterProps<T extends MountType> {
 	Entry: PreviewEntry;
@@ -20,6 +22,8 @@ const MountingMap: { [K in MountType]: Mounter<K> } = {
 	RoactLib: RoactLib,
 	ReactLib: ReactLib,
 	FusionLib: FusionLib,
+	IrisLib: IrisLib,
+	VideLib: VideLib,
 	Generic: Generic,
 };
 export default MountingMap;

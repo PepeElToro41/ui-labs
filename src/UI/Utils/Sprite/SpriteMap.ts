@@ -58,6 +58,21 @@ const Sprites = {
 	SelectElements: {
 		RectOffset: new Vector2(64 * 2, 64 * 5),
 	},
+	FullscreenMode: {
+		RectOffset: new Vector2(64 * 4, 64 * 5),
+	},
+	LightBackground: {
+		RectOffset: new Vector2(64 * 5, 64 * 2),
+	},
+	MeasureTool: {
+		RectOffset: new Vector2(64 * 2, 64 * 4),
+	},
+	ShowOutlines: {
+		RectOffset: new Vector2(64 * 5, 0),
+	},
+	MouseRules: {
+		RectOffset: new Vector2(64 * 5, 64),
+	},
 
 	//Other
 	Theme: {

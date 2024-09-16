@@ -13,21 +13,23 @@ interface HintEntry {
 }
 
 interface OverlayState {
-	overlay?: OverlayEntry;
+	popup?: OverlayEntry;
 	hint?: HintEntry;
+	overlays: Map<string, OverlayEntry>;
 }
 
 const initialState: OverlayState = {
-	overlay: undefined,
+	popup: undefined,
+	overlays: new Map(),
 };
 
-export const selectOverlay = (state: RootState) => state.overlay.overlay;
+export const selectPopup = (state: RootState) => state.overlay.popup;
 
 export const OverlayProducer = createProducer(initialState, {
-	setOverlay: (state, key: string, element: React.Element, identifier?: unknown) => {
+	setPopup: (state, key: string, element: React.Element, identifier?: unknown) => {
 		return {
 			...state,
-			overlay: {
+			popup: {
 				Key: key,
 				Element: element,
 				Identifier: identifier,
@@ -35,19 +37,19 @@ export const OverlayProducer = createProducer(initialState, {
 		};
 	},
 	resetIdentifiedOverlay: (state, identifier: unknown) => {
-		if (!state.overlay) return state;
-		if (state.overlay.Identifier !== identifier) {
+		if (!state.popup) return state;
+		if (state.popup.Identifier !== identifier) {
 			return state;
 		}
 		return {
 			...state,
-			overlay: undefined,
+			popup: undefined,
 		};
 	},
-	resetOverlay: (state) => {
+	resetPopup: (state) => {
 		return {
 			...state,
-			overlay: undefined,
+			popup: undefined,
 		};
 	},
 });

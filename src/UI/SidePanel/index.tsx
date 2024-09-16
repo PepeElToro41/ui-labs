@@ -1,18 +1,20 @@
 import React, { useCallback } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import ResizableFrame from "UI/Holders/ResizableFrame";
-import List from "UI/Styles/List";
 import Padding from "UI/Styles/Padding";
 import PanelTools from "./PanelTools";
 import StoryTree from "./StoryTree";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { selectOverlay } from "Reflex/Overlay";
 import InputBase from "UI/Utils/InputBase";
+import TopList from "UI/Styles/List/TopList";
+import Branding from "./Branding";
+import { selectFullscreen } from "Reflex/Interface";
 
 interface SidePanelProps {}
 
 function SidePanel(props: SidePanelProps) {
 	const theme = useTheme();
+	const fullscreen = useSelector(selectFullscreen);
 
 	const { setFilter } = useProducer<RootProducer>();
 
@@ -31,6 +33,7 @@ function SidePanel(props: SidePanelProps) {
 				AnchorPoint: new Vector2(0, 1),
 				Position: new UDim2(0, 0, 1, 0),
 				ZIndex: 2,
+				Visible: !fullscreen,
 			}}
 			FrameProps={{
 				BackgroundColor3: theme.SidePanel,
@@ -38,8 +41,9 @@ function SidePanel(props: SidePanelProps) {
 				BorderSizePixel: 0,
 			}}
 		>
-			<Padding Padding={12} />
-			<List HorizontalAlignment={"Center"} Padding={new UDim(0, 10)} />
+			<Padding Padding={12} Top={8} />
+			<TopList HorizontalAlignment={"Center"} Padding={new UDim(0, 10)} />
+			<Branding />
 			<InputBase
 				key="SearchInput"
 				HolderProps={{

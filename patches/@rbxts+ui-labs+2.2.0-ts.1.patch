@@ -1,10 +1,235 @@
+diff --git a/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlConversion.d.ts b/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlConversion.d.ts
+new file mode 100644
+index 0000000..e05b977
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlConversion.d.ts
+@@ -0,0 +1,15 @@
++import { DatatypeControl, Datatypes, IsDatatype } from "./Datatypes";
++import { IsPrimitive, PrimitiveControl, Primitives } from "./Primitives";
++import { AllControls, ObjectControl } from "./Typing";
++
++type ExtractWidenKeys<T, U> = { [K in keyof T]: U extends T[K] ? K : never }[keyof T];
++
++type ConvertControl<T extends AllControls> = T extends IsPrimitive
++	? PrimitiveControl<ExtractWidenKeys<Primitives, T>>
++	: T extends IsDatatype
++	? DatatypeControl<ExtractWidenKeys<Datatypes, T>>
++	: T extends ObjectControl
++	? T
++	: never;
++
++declare function ConvertControl<T extends AllControls>(control: T): ConvertControl<T>;
+diff --git a/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlUtils.d.ts b/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlUtils.d.ts
+index f933497..1e75f32 100644
+--- a/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlUtils.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/ControlTypings/ControlUtils.d.ts
+@@ -1,8 +1,12 @@
+-import { ControlsList } from "./Typing";
++import { ConvertControl } from "./ControlConversion";
++import { AllControls, ControlsList } from "./Typing";
+ 
+ interface ControlGroup<T extends ControlsList = ControlsList> {
+ 	EntryType: "ControlGroup";
++	Order?: number;
+ 	Controls: T;
+ }
+ 
+-declare function ControlGroup<T extends ControlsList>(controls: T): ControlGroup<T>;
++declare function ControlGroup<T extends ControlsList>(controls: T, order?: number): ControlGroup<T>;
++
++declare function Ordered<T extends AllControls>(control: T, order: number): ConvertControl<T>;
+diff --git a/node_modules/@rbxts/ui-labs/src/ControlTypings/Datatypes.d.ts b/node_modules/@rbxts/ui-labs/src/ControlTypings/Datatypes.d.ts
+index 0fee518..b435a2d 100644
+--- a/node_modules/@rbxts/ui-labs/src/ControlTypings/Datatypes.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/ControlTypings/Datatypes.d.ts
+@@ -1,3 +1,4 @@
++import { ExtractWidenKeys } from "./ControlConversion";
+ import { BaseControl } from "./Typing";
+ 
+ export interface Datatypes {
+@@ -29,6 +30,7 @@ interface DatatypeControlProps {
+ }
+ 
+ type DatatypeControl<T extends keyof Datatypes> = BaseControl<T, Datatypes[T]> & DatatypeControlProps[T];
++type ConvertDatatype<T extends IsDatatype> = DatatypeControl<ExtractWidenKeys<Datatypes, T>>;
+ 
+ declare namespace Datatype {
+ 	function Color3(def: Color3): DatatypeControl<"Color3">;
+diff --git a/node_modules/@rbxts/ui-labs/src/ControlTypings/Primitives.d.ts b/node_modules/@rbxts/ui-labs/src/ControlTypings/Primitives.d.ts
+index 20ee264..bbd2456 100644
+--- a/node_modules/@rbxts/ui-labs/src/ControlTypings/Primitives.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/ControlTypings/Primitives.d.ts
+@@ -1,3 +1,4 @@
++import { ExtractWidenKeys } from "./ControlConversion";
+ import { BaseControl } from "./Typing";
+ 
+ export interface Primitives {
+@@ -22,6 +23,7 @@ interface PrimitiveControlProps {
+ }
+ 
+ type PrimitiveControl<T extends keyof Primitives> = BaseControl<T, Primitives[T]> & PrimitiveControlProps[T];
++type ConvertPrimitive<T extends IsPrimitive> = PrimitiveControl<ExtractWidenKeys<Primitives, T>>;
+ 
+ type Filter = (input: string, oldInput: string) => string;
+ 
+diff --git a/node_modules/@rbxts/ui-labs/src/ControlTypings/Typing.d.ts b/node_modules/@rbxts/ui-labs/src/ControlTypings/Typing.d.ts
+index 0010f3c..77c6c5a 100644
+--- a/node_modules/@rbxts/ui-labs/src/ControlTypings/Typing.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/ControlTypings/Typing.d.ts
+@@ -7,9 +7,9 @@ interface BaseControl<T, C> {
+ 	EntryType: "Control";
+ 	Type: T;
+ 	ControlValue: C;
++	Order?: number;
+ 	OnReset?: () => void;
+ }
+-
+ type IsPrimitiveControl = IsPrimitive | PrimitiveControl<keyof Primitives>;
+ type IsDatatypeControl = IsDatatype | PrimitiveControl<keyof Primitives>;
+ 
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/AdvancedControls.lua b/node_modules/@rbxts/ui-labs/src/Controls/AdvancedControls.luau
+similarity index 100%
+rename from node_modules/@rbxts/ui-labs/src/Controls/AdvancedControls.lua
+rename to node_modules/@rbxts/ui-labs/src/Controls/AdvancedControls.luau
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/ControlConversion.luau b/node_modules/@rbxts/ui-labs/src/Controls/ControlConversion.luau
+new file mode 100644
+index 0000000..5cbe147
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/Controls/ControlConversion.luau
+@@ -0,0 +1,36 @@
++local Primitive = require(script.Parent.PrimitiveControls).Primitive
++local Datatype = require(script.Parent.DatatypeControls)
++
++local ControlConversion = {}
++
++local function ConvertPrimitive(value: any, primitive: string)
++	local converter = Primitive[primitive]
++
++	assert(converter, `UI-Labs: Primitive ({primitive}) can't be converted to a control`)
++	return converter(value)
++end
++
++local function ConvertDatatype(value: any, datatype: string)
++	local converter = Datatype[datatype]
++
++	assert(converter, `UI-Labs: Datatype ({datatype}) can't be converted to a control`)
++	return converter(value)
++end
++
++function ControlConversion.ConvertControl(control: any)
++	local controlType = typeof(control)
++
++	if controlType == "table" then
++		return control
++	end
++
++	if Primitive[controlType] then
++		return ConvertPrimitive(control, controlType)
++	elseif Datatype[controlType] then
++		return ConvertDatatype(control, controlType)
++	else
++		error(`UI-Labs: Control ({control}) is not a valid control`)
++	end
++end
++
++return ControlConversion
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.lua b/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.lua
+deleted file mode 100644
+index 2922221..0000000
+--- a/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.lua
++++ /dev/null
+@@ -1,11 +0,0 @@
+-local ControlUtils = {}
+-
+-function ControlUtils.ControlGroup(controls: { [string]: any })
+-	local group = {
+-		EntryType = "ControlGroup",
+-		Controls = controls,
+-	}
+-	return group
+-end
+-
+-return ControlUtils
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.luau b/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.luau
+new file mode 100644
+index 0000000..74af10c
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/Controls/ControlUtils.luau
+@@ -0,0 +1,18 @@
++local ControlConversion = require(script.Parent.ControlConversion)
++local ControlUtils = {}
++
++function ControlUtils.ControlGroup(controls: { [string]: any })
++	local group = {
++		EntryType = "ControlGroup",
++		Controls = controls,
++	}
++	return group
++end
++
++function ControlUtils.Ordered<T>(control: T, order: number): T
++	local converted = ControlConversion.ConvertControl(control)
++	converted.Order = order
++	return converted
++end
++
++return ControlUtils
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/DatatypeControls.lua b/node_modules/@rbxts/ui-labs/src/Controls/DatatypeControls.luau
+similarity index 100%
+rename from node_modules/@rbxts/ui-labs/src/Controls/DatatypeControls.lua
+rename to node_modules/@rbxts/ui-labs/src/Controls/DatatypeControls.luau
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/PrimitiveControls.lua b/node_modules/@rbxts/ui-labs/src/Controls/PrimitiveControls.luau
+similarity index 100%
+rename from node_modules/@rbxts/ui-labs/src/Controls/PrimitiveControls.lua
+rename to node_modules/@rbxts/ui-labs/src/Controls/PrimitiveControls.luau
+diff --git a/node_modules/@rbxts/ui-labs/src/Controls/Utils.lua b/node_modules/@rbxts/ui-labs/src/Controls/Utils.luau
+similarity index 100%
+rename from node_modules/@rbxts/ui-labs/src/Controls/Utils.lua
+rename to node_modules/@rbxts/ui-labs/src/Controls/Utils.luau
+diff --git a/node_modules/@rbxts/ui-labs/src/Environment.lua b/node_modules/@rbxts/ui-labs/src/Environment.luau
+similarity index 81%
+rename from node_modules/@rbxts/ui-labs/src/Environment.lua
+rename to node_modules/@rbxts/ui-labs/src/Environment.luau
+index edeee6c..5760072 100644
+--- a/node_modules/@rbxts/ui-labs/src/Environment.lua
++++ b/node_modules/@rbxts/ui-labs/src/Environment.luau
+@@ -19,6 +19,20 @@ function Environment.IsStory()
+ 
+ 	return env ~= nil
+ end
++function UserInputFallback(userInput: any?)
++	if not userInput then
++		return
++	end
++	if userInput == UserInputService then
++		return
++	end
++
++	local clone = table.clone(userInput)
++
++	return setmetatable(clone, {
++		__index = UserInputService,
++	})
++end
+ 
+ Environment.Unmount = SearchInEnv("Unmount", function() end) :: () -> ()
+ 
+@@ -38,7 +52,7 @@ type InputSignals = {
+ }
+ 
+ Environment.InputListener = SearchInEnv("InputListener", nil) :: InputSignals
+-Environment.UserInput = SearchInEnv("InputListener", UserInputService) :: UserInputService
++Environment.UserInput = UserInputFallback(SearchInEnv("InputListener", UserInputService)) :: UserInputService
+ 
+ Environment.EnvironmentUID = SearchInEnv("EnvironmentUID", "") :: string
+ Environment.PreviewUID = SearchInEnv("PreviewUID", "") :: string
 diff --git a/node_modules/@rbxts/ui-labs/src/Libraries/Signal.d.ts b/node_modules/@rbxts/ui-labs/src/Libraries/Signal.d.ts
-index cc06e4b..4e6c32b 100644
+index cc06e4b..89af398 100644
 --- a/node_modules/@rbxts/ui-labs/src/Libraries/Signal.d.ts
 +++ b/node_modules/@rbxts/ui-labs/src/Libraries/Signal.d.ts
 @@ -1,64 +1,36 @@
 -//Types Borrowed from @rbxts/signal
-+// Types from @rbxts/lemon-signal
++// types from @rbxts/lemon-signal
  
 -export interface Signal<ConnectedFunctionSignature extends (...args: any) => any = () => void, Generic extends boolean = false> {
 -	/**
@@ -69,7 +294,7 @@ index cc06e4b..4e6c32b 100644
 +	public Reconnect(): void;
 +}
 +
-+export declare class Signal<T = []> {
++export declare class Signal<T> {
 +	public readonly RBXScriptConnection?: RBXScriptConnection;
 +	public readonly TotalConnections?: number;
 +	public readonly OnConnectionsChanged: Signal<number>;
@@ -96,6 +321,460 @@ index cc06e4b..4e6c32b 100644
 +	public DisconnectAll(): void;
 +	public Destroy(): void;
  }
+diff --git a/node_modules/@rbxts/ui-labs/src/StoryCreators.d.ts b/node_modules/@rbxts/ui-labs/src/StoryCreators.d.ts
+index 7a515aa..a92c32d 100644
+--- a/node_modules/@rbxts/ui-labs/src/StoryCreators.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/StoryCreators.d.ts
+@@ -5,6 +5,8 @@ import Roact from "@rbxts/roact";
+ import { FusionStory, InferFusionProps, WithFusion } from "./Typing/Fusion";
+ import { RoactStory, WithRoact } from "./Typing/Roact";
+ import { GenericStory, InferGenericProps } from "./Typing/Generic";
++import { InferIrisProps, IrisStory, WithIris } from "./Typing/Iris";
++import { InferVideProps, VideStory, WithVide } from "./Typing/Vide";
+ 
+ declare function CreateReactStory<T extends StoryInfo>(
+ 	info: T & StoryBase & WithReact,
+@@ -18,9 +20,19 @@ declare function CreateRoactStory<T extends StoryInfo>(
+ 
+ declare function CreateFusionStory<T extends StoryInfo>(
+ 	info: T & StoryBase & WithFusion,
+-	render: StoryCreation<InferFusionProps<T["controls"]>, Instance>,
++	render: StoryCreation<InferFusionProps<T["controls"]>, Instance | StoryCleanup | undefined | void>,
+ ): FusionStory<T>;
+ 
++declare function CreateIrisStory<T extends StoryInfo>(
++	info: T & StoryBase & WithIris,
++	render: StoryCreation<InferIrisProps<T["controls"]>, StoryCleanup | void | undefined>,
++): IrisStory<T>;
++
++declare function CreateVideStory<T extends StoryInfo>(
++	info: T & StoryBase & WithVide,
++	render: StoryCreation<InferVideProps<T["controls"]>, Vide.Node | void | undefined>,
++): VideStory<T>;
++
+ declare function CreateGenericStory<T extends StoryInfo>(
+ 	info: T & StoryBase,
+ 	render: StoryCreation<InferGenericProps<T["controls"]>, StoryCleanup>,
+diff --git a/node_modules/@rbxts/ui-labs/src/StoryCreators.lua b/node_modules/@rbxts/ui-labs/src/StoryCreators.lua
+deleted file mode 100644
+index da5bace..0000000
+--- a/node_modules/@rbxts/ui-labs/src/StoryCreators.lua
++++ /dev/null
+@@ -1,105 +0,0 @@
+-local Creators = {}
+-local Utils = require(script.Parent.Controls.Utils)
+-
+-type StoryInfo = {
+-	name: string?,
+-	summary: string?,
+-	cleanup: (() -> ())?,
+-	controls: { [string]: Utils.Control<any> }?,
+-}
+-type WithReact = {
+-	react: any?,
+-	use: "React"?,
+-	reactRoblox: any?,
+-	renderer: ("deferred" | "legacy")?,
+-}
+-type WithRoact = {
+-	roact: any?,
+-	use: "Roact"?,
+-}
+-type WithFusion = {
+-	fusion: any?,
+-	use: "Fusion"?,
+-}
+-type WithGeneric = {
+-	use: "Generic",
+-}
+-
+-type Props = { controls: { [string]: any }, inputListener: InputSignals }
+-type StoryRender = (props: Props) -> any
+-
+-type StoryRenderKey = {
+-	story: StoryRender,
+-}
+-
+-type Listener = (values: { [string]: any }, info: { [string]: any }) -> any
+-type Updater = (listener: Listener) -> any
+-type GenericProps = { controls: { [string]: any }, updated: Updater }
+-type GenericStoryRender = (props: GenericProps) -> any
+-type StoryGenericRenderKey = {
+-	render: StoryRender,
+-}
+-
+-type InputSignals = {
+-	InputBegan: RBXScriptConnection,
+-	InputEnded: RBXScriptConnection,
+-	InputChanged: RBXScriptConnection,
+-	MouseMoved: RBXScriptConnection,
+-}
+-
+-local function CombineTableInfo(table1, table2)
+-	for key, val in pairs(table2) do
+-		table1[key] = val
+-	end
+-	return table1
+-end
+-
+-function Creators.CreateRoactStory(
+-	info: StoryInfo & WithRoact,
+-	render: StoryRender
+-): StoryInfo & WithRoact & StoryRenderKey
+-	local returnStory = {
+-		use = "Roact",
+-		story = render,
+-	}
+-
+-	return CombineTableInfo(returnStory, info)
+-end
+-
+-function Creators.CreateReactStory(
+-	info: StoryInfo & WithReact,
+-	render: StoryRender
+-): StoryInfo & WithReact & StoryRenderKey
+-	local returnStory = {
+-		use = "React",
+-		story = render,
+-	}
+-
+-	return CombineTableInfo(returnStory, info)
+-end
+-
+-function Creators.CreateFusionStory(
+-	info: StoryInfo & WithFusion,
+-	render: StoryRender
+-): StoryInfo & WithFusion & StoryRenderKey
+-	local returnStory = {
+-		use = "Fusion",
+-		story = render,
+-	}
+-
+-	return CombineTableInfo(returnStory, info)
+-end
+-
+-function Creators.CreateGenericStory(
+-	info: StoryInfo & WithGeneric,
+-	render: StoryRender
+-): StoryInfo & WithGeneric & StoryGenericRenderKey
+-	local returnStory = {
+-		use = "Generic",
+-		render = render,
+-	}
+-
+-	return CombineTableInfo(returnStory, info)
+-end
+-
+-return Creators
+diff --git a/node_modules/@rbxts/ui-labs/src/StoryCreators.luau b/node_modules/@rbxts/ui-labs/src/StoryCreators.luau
+new file mode 100644
+index 0000000..542c766
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/StoryCreators.luau
+@@ -0,0 +1,80 @@
++local Creators = {}
++local Types = require(script.Parent.Types)
++
++type InputSignals = {
++	InputBegan: RBXScriptConnection,
++	InputEnded: RBXScriptConnection,
++	InputChanged: RBXScriptConnection,
++	MouseMoved: RBXScriptConnection,
++}
++
++local function CombineTableInfo(table1, table2)
++	for key, val in pairs(table2) do
++		table1[key] = val
++	end
++	return table1
++end
++
++function Creators.CreateRoactStory(
++	info: Types.StoryBase & Types.WithRoact,
++	render: Types.ReactStoryKey
++): Types.RoactStory
++	local returnStory = {
++		use = "roact",
++		story = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++function Creators.CreateReactStory(
++	info: Types.StoryBase & Types.WithReact,
++	render: Types.ReactStoryKey
++): Types.ReactStory
++	local returnStory = {
++		use = "react",
++		story = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++function Creators.CreateFusionStory(
++	info: Types.StoryBase & Types.WithFusion,
++	render: Types.FusionStoryKey
++): Types.FusionStory
++	local returnStory = {
++		use = "fusion",
++		story = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++function Creators.CreateIrisStory(info: Types.StoryBase & Types.WithIris, render: Types.IrisStoryKey): Types.IrisStory
++	local returnStory = {
++		use = "iris",
++		story = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++function Creators.CreateVideStory(info: Types.StoryBase & Types.WithVide, render: Types.VideStoryKey): Types.VideStory
++	local returnStory = {
++		use = "Vide",
++		story = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++function Creators.CreateGenericStory(info: Types.StoryBase, render: Types.GenericRenderKey): Types.GenericStory
++	local returnStory = {
++		render = render,
++	}
++
++	return CombineTableInfo(returnStory, info)
++end
++
++return Creators
+diff --git a/node_modules/@rbxts/ui-labs/src/Test.ts b/node_modules/@rbxts/ui-labs/src/Test.ts
+new file mode 100644
+index 0000000..1369297
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/Test.ts
+@@ -0,0 +1,5 @@
++import { EnumList } from "./ControlTypings/Advanced";
++import { Ordered } from "./ControlTypings/ControlUtils";
++
++const list = EnumList({ Hello: 2, Test: 5 }, "");
++const control = Ordered("list, 1", 2);
+diff --git a/node_modules/@rbxts/ui-labs/src/Types.luau b/node_modules/@rbxts/ui-labs/src/Types.luau
+new file mode 100644
+index 0000000..5746f6a
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/Types.luau
+@@ -0,0 +1,110 @@
++export type Storybook = {
++	name: string?,
++	storyRoots: { Instance },
++	groupRoots: boolean?,
++}
++type Cleanup = () -> ()
++export type FunctionStory = (frame: Frame) -> Cleanup
++
++export type StoryBase = {
++	name: string?,
++	summary: string?,
++	cleanup: Cleanup?,
++}
++
++type StoryControls = { [string]: any }
++
++------------------------------- REACT/ROACT ------------------------------
++
++export type ReactProps = {
++	controls: { [string]: any },
++}
++export type WithReact = {
++	use: "react"?,
++	react: any,
++	reactRoblox: any,
++}
++export type ReactStoryKey = (props: ReactProps) -> any
++export type ReactStory = StoryBase & WithReact & {
++	story: ReactStoryKey,
++}
++
++export type WithRoact = {
++	use: "roact"?,
++	roact: any,
++}
++export type RoactStory = StoryBase & WithRoact & {
++	story: ReactStoryKey,
++}
++
++--------------------------------- FUSION ---------------------------------
++
++export type FusionProps = {
++	controls: { [string]: any },
++	scope: any,
++	target: GuiObject,
++}
++
++export type WithFusion = {
++	use: "fusion",
++	fusion: any,
++}
++
++export type FusionStoryKey = (props: FusionProps) -> Cleanup | nil | Instance
++export type FusionStory = StoryBase & WithFusion & {
++	story: FusionStoryKey,
++}
++
++---------------------------------- IRIS ----------------------------------
++
++export type IrisProps = {
++	controls: { [string]: any },
++	target: GuiObject,
++}
++
++export type WithIris = {
++	use: "iris",
++	iris: any,
++}
++
++export type IrisStoryKey = (props: IrisProps) -> Cleanup | nil
++export type IrisStory = StoryBase & WithIris & {
++	story: IrisStoryKey,
++}
++
++---------------------------------- VIDE ----------------------------------
++
++export type VideProps = {
++	controls: { [string]: any },
++	target: GuiObject,
++}
++
++export type WithVide = {
++	use: "vide",
++	vide: any,
++}
++
++export type VideStoryKey = (props: VideProps) -> Cleanup | nil
++export type VideStory = StoryBase & WithVide & {
++	story: VideStoryKey,
++}
++
++---------------------------------- GENERIC --------------------------------
++export type GenericInfo<T> = { __old: T, __new: T }
++
++export type SubscribeListener = (values: { [string]: any }, info: { [string]: GenericInfo<any> }) -> ()
++
++export type GenericProps = {
++	controls: { [string]: any },
++	target: GuiObject,
++	converted: { [string]: any },
++	subscribe: (listener: SubscribeListener) -> Cleanup,
++}
++
++export type GenericRenderKey = (props: GenericProps) -> Cleanup
++
++export type GenericStory = StoryBase & {
++	render: GenericRenderKey,
++}
++
++return {}
+diff --git a/node_modules/@rbxts/ui-labs/src/Typing/Fusion.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/Fusion.d.ts
+index 0f10c62..518fee3 100644
+--- a/node_modules/@rbxts/ui-labs/src/Typing/Fusion.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/Typing/Fusion.d.ts
+@@ -5,7 +5,7 @@ import { GetStoryProps, InferControlType, StoryCleanup } from "./Typing";
+ import { StoryBase, StoryCreationKey, StoryInfo } from "./Typing";
+ 
+ interface WithFusion {
+-	use?: "Fusion";
++	use?: "fusion";
+ 	fusion: typeof Fusion;
+ }
+ 
+@@ -32,4 +32,4 @@ type InferFusionProps<T extends ReturnControls> = GetStoryProps<FusionProps<T>>;
+ type FusionStory<T extends StoryInfo> = T &
+ 	StoryBase &
+ 	WithFusion &
+-	StoryCreationKey<InferFusionProps<T["controls"]>, Instance | StoryCleanup>;
++	StoryCreationKey<InferFusionProps<T["controls"]>, Instance | StoryCleanup | undefined | void>;
+diff --git a/node_modules/@rbxts/ui-labs/src/Typing/Iris.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/Iris.d.ts
+index 41b7677..6787807 100644
+--- a/node_modules/@rbxts/ui-labs/src/Typing/Iris.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/Typing/Iris.d.ts
+@@ -1,31 +1,30 @@
+-import { State } from "@rbxts/iris/out/IrisDeclaration";
+ import { AllControls, ControlsList, ReturnControls } from "../ControlTypings/Typing";
++import Iris from "@rbxts/iris";
+ import {
+ 	GetStoryProps,
+ 	InferControlType,
+-	IntrinsicProps,
+ 	StoryBase,
+ 	StoryCleanup,
+ 	StoryCreationKey,
+ 	StoryInfo,
+ } from "./Typing";
+-import Iris from "@rbxts/iris";
++
+ import { ControlGroup } from "../ControlTypings/ControlUtils";
+ 
+ interface WithIris {
+-	use?: "Fusion";
+-	fusion: typeof Iris;
++	use?: "iris";
++	iris: typeof Iris;
+ }
+ 
+ type InferIrisControlGroup<T extends ControlsList = ControlsList> = {
+-	[K in keyof T]: State<InferControlType<T[K]>>;
++	[K in keyof T]: Iris.State<InferControlType<T[K]>>;
+ };
+ 
+ type InferIrisControls<T extends ReturnControls> = {
+ 	[K in keyof T]: T[K] extends ControlGroup<infer U>
+ 		? InferIrisControlGroup<U>
+ 		: T[K] extends AllControls
+-		? State<InferControlType<T[K]>>
++		? Iris.State<InferControlType<T[K]>>
+ 		: never;
+ };
+ 
+@@ -36,7 +35,7 @@ type IrisControlProps<T extends ReturnControls> = {
+ 
+ type InferIrisProps<T extends ReturnControls> = GetStoryProps<IrisControlProps<T>>;
+ 
+-type FusionStory<T extends StoryInfo> = T &
++type IrisStory<T extends StoryInfo> = T &
+ 	StoryBase &
+ 	WithIris &
+ 	StoryCreationKey<InferIrisProps<T["controls"]>, StoryCleanup | void | undefined>;
+diff --git a/node_modules/@rbxts/ui-labs/src/Typing/React.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/React.d.ts
+index 20b9901..e66298e 100644
+--- a/node_modules/@rbxts/ui-labs/src/Typing/React.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/Typing/React.d.ts
+@@ -4,7 +4,7 @@ import React from "@rbxts/react";
+ import ReactRoblox from "@rbxts/react-roblox";
+ 
+ interface WithReact {
+-	use?: "React";
++	use?: "react";
+ 	react: typeof React;
+ 	reactRoblox: typeof ReactRoblox;
+ 	renderer?: "deferred" | "legacy";
+diff --git a/node_modules/@rbxts/ui-labs/src/Typing/Roact.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/Roact.d.ts
+index f378a08..4e145f3 100644
+--- a/node_modules/@rbxts/ui-labs/src/Typing/Roact.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/Typing/Roact.d.ts
+@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
+ import { StoryInfo, StoryBase, StoryCreationKey, InferProps } from "./Typing";
+ 
+ interface WithRoact {
+-	use?: "Roact";
++	use?: "roact";
+ 	roact: typeof Roact;
+ }
+ 
 diff --git a/node_modules/@rbxts/ui-labs/src/Typing/Typing.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/Typing.d.ts
 index 7f7345f..2bf418d 100644
 --- a/node_modules/@rbxts/ui-labs/src/Typing/Typing.d.ts
@@ -115,3 +794,192 @@ index 7f7345f..2bf418d 100644
  }
  
  interface StoryBase {
+diff --git a/node_modules/@rbxts/ui-labs/src/Typing/Vide.d.ts b/node_modules/@rbxts/ui-labs/src/Typing/Vide.d.ts
+new file mode 100644
+index 0000000..9a200e1
+--- /dev/null
++++ b/node_modules/@rbxts/ui-labs/src/Typing/Vide.d.ts
+@@ -0,0 +1,34 @@
++import Vide from "@rbxts/vide";
++import { ControlGroup } from "../ControlTypings/ControlUtils";
++import { AllControls, ControlsList, ReturnControls } from "../ControlTypings/Typing";
++import { GetStoryProps, InferControlType } from "./Typing";
++import { StoryBase, StoryCreationKey, StoryInfo } from "./Typing";
++
++interface WithVide {
++	use?: "vide";
++	vide: typeof Vide;
++}
++
++type InferVideControlGroup<T extends ControlsList = ControlsList> = {
++	[K in keyof T]: Vide.Source<InferControlType<T[K]>>;
++};
++
++type InferVideControls<T extends ReturnControls> = {
++	[K in keyof T]: T[K] extends ControlGroup<infer U>
++		? InferVideControlGroup<U>
++		: T[K] extends AllControls
++		? Vide.Source<InferControlType<T[K]>>
++		: never;
++};
++
++type VideProps<T extends ReturnControls> = {
++	controls: T extends ReturnControls ? InferVideControls<T> : never;
++	target: Frame;
++};
++
++type InferVideProps<T extends ReturnControls> = GetStoryProps<VideProps<T>>;
++
++type VideStory<T extends StoryInfo> = T &
++	StoryBase &
++	WithVide &
++	StoryCreationKey<InferVideProps<T["controls"]>, Vide.Node | void | undefined>;
+diff --git a/node_modules/@rbxts/ui-labs/src/Utils/init.lua b/node_modules/@rbxts/ui-labs/src/Utils/init.luau
+similarity index 65%
+rename from node_modules/@rbxts/ui-labs/src/Utils/init.lua
+rename to node_modules/@rbxts/ui-labs/src/Utils/init.luau
+index 19dff3f..241202f 100644
+--- a/node_modules/@rbxts/ui-labs/src/Utils/init.lua
++++ b/node_modules/@rbxts/ui-labs/src/Utils/init.luau
+@@ -1,6 +1,7 @@
+ local Utils = {}
++local Types = require(script.Parent.Types)
+ 
+-function Utils.ListenControl(info, callback)
++function Utils.ListenControl<T>(info: Types.GenericInfo<T>, callback: (newVal: T) -> ())
+ 	local oldValue = info.__old
+ 	local newValue = info.__new
+ 
+@@ -9,7 +10,11 @@ function Utils.ListenControl(info, callback)
+ 	end
+ end
+ 
+-function Utils.CreateControlStates(converted, controls, creator)
++function Utils.CreateControlStates(
++	converted: { [string]: any },
++	controls: { [string]: any },
++	creator: (control: any) -> any
++)
+ 	local states = {}
+ 
+ 	for key, control in pairs(converted) do
+@@ -25,7 +30,12 @@ function Utils.CreateControlStates(converted, controls, creator)
+ 	return states
+ end
+ 
+-function Utils.UpdateControlStates(states, converted, controls, updater)
++function Utils.UpdateControlStates(
++	states: { [string]: any },
++	converted: { [string]: any },
++	controls: { [string]: any },
++	updater: (state: any, value: any) -> ()
++)
+ 	for key, control in pairs(converted) do
+ 		local controlValue = controls[key]
+ 
+diff --git a/node_modules/@rbxts/ui-labs/src/index.d.ts b/node_modules/@rbxts/ui-labs/src/index.d.ts
+index 472615c..3e36b93 100644
+--- a/node_modules/@rbxts/ui-labs/src/index.d.ts
++++ b/node_modules/@rbxts/ui-labs/src/index.d.ts
+@@ -2,7 +2,14 @@ export { String, Number, Boolean, Primitive } from "./ControlTypings/Primitives"
+ 
+ export { Choose, EnumList, RGBA, Slider, Object } from "./ControlTypings/Advanced";
+ 
+-export { CreateReactStory, CreateRoactStory, CreateFusionStory, CreateGenericStory } from "./StoryCreators";
++export {
++	CreateReactStory,
++	CreateRoactStory,
++	CreateFusionStory,
++	CreateIrisStory,
++	CreateVideStory,
++	CreateGenericStory,
++} from "./StoryCreators";
+ export { ListenControl, CreateControlStates, UpdateControlStates } from "./Utils";
+ 
+ export { InferControls, InferControlType, FunctionStory, Storybook, InputSignals } from "./Typing/Typing";
+@@ -10,6 +17,8 @@ export { InferControls, InferControlType, FunctionStory, Storybook, InputSignals
+ export { ReactStory } from "./Typing/React";
+ export { RoactStory } from "./Typing/Roact";
+ export { FusionStory, InferFusionControls, InferFusionProps, InferFusionControlGroup } from "./Typing/Fusion";
++export { IrisStory, InferIrisControls, InferIrisProps, InferIrisControlGroup } from "./Typing/Iris";
++export { VideStory, InferVideControls, InferVideProps, InferVideControlGroup } from "./Typing/Vide";
+ 
+ export {
+ 	GenericStory,
+@@ -22,6 +31,7 @@ export {
+ 
+ export { HKT } from "./HKT";
+ 
+-export { ControlGroup } from "./ControlTypings/ControlUtils";
++export { ConvertControl } from "./ControlTypings/ControlConversion";
++export { ControlGroup, Ordered } from "./ControlTypings/ControlUtils";
+ export { Datatype } from "./ControlTypings/Datatypes";
+ export { Environment } from "./Environment";
+diff --git a/node_modules/@rbxts/ui-labs/src/init.lua b/node_modules/@rbxts/ui-labs/src/init.luau
+similarity index 59%
+rename from node_modules/@rbxts/ui-labs/src/init.lua
+rename to node_modules/@rbxts/ui-labs/src/init.luau
+index 642c22f..88518d7 100644
+--- a/node_modules/@rbxts/ui-labs/src/init.lua
++++ b/node_modules/@rbxts/ui-labs/src/init.luau
+@@ -3,14 +3,17 @@ local DatatypeControls = require(script.Controls.DatatypeControls)
+ local AdvancedControls = require(script.Controls.AdvancedControls)
+ local StoryCreators = require(script.StoryCreators)
+ local ControlUtils = require(script.Controls.ControlUtils)
++local ControlConversion = require(script.Controls.ControlConversion)
+ local Utils = require(script.Utils)
+ local Environment = require(script.Environment)
++local Types = require(script.Types)
+ 
+ type PrimitiveControls = typeof(PrimitiveControls)
+ type DatatypeControls = typeof(DatatypeControls)
+ type AdvancedControls = typeof(AdvancedControls)
+-type StoryCreators = typeof(StoryCreators)
+ type ControlUtils = typeof(ControlUtils)
++type ControlConversion = typeof(ControlConversion)
++type StoryCreators = typeof(StoryCreators)
+ type Utils = typeof(Utils)
+ type Environment = typeof(Environment)
+ 
+@@ -19,16 +22,27 @@ type UILabs =
+ 	& AdvancedControls
+ 	& StoryCreators
+ 	& ControlUtils
++	& ControlConversion
+ 	& Utils
+ 	& { Datatype: DatatypeControls }
+ 	& { Environment: Environment }
+ 
+-export type Storybook = {
+-	name: string?,
+-	storyRoots: { Instance },
+-	groupRoots: boolean?,
+-}
+-export type FunctionStory = (frame: Frame) -> () -> ()
++export type Storybook = Types.Storybook
++export type FunctionStory = Types.FunctionStory
++export type ReactStory = Types.ReactStory
++export type RoactStory = Types.RoactStory
++export type FusionStory = Types.FusionStory
++export type IrisStory = Types.IrisStory
++export type VideStory = Types.VideStory
++export type GenericStory = Types.GenericStory
++
++export type ReactProps = Types.ReactProps
++export type FusionProps = Types.FusionProps
++export type IrisProps = Types.IrisProps
++export type VideProps = Types.VideProps
++export type GenericProps = Types.GenericProps
++export type GenericInfo<T> = Types.GenericInfo<T>
++export type SubscribeListener = Types.SubscribeListener
+ 
+ function CombinedExport(...)
+ 	local final = {}
+@@ -44,6 +58,7 @@ local UILabs = CombinedExport(
+ 	PrimitiveControls,
+ 	ControlUtils,
+ 	Utils,
++	ControlConversion,
+ 	AdvancedControls,
+ 	StoryCreators,
+ 	{ Environment = Environment },

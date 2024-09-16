@@ -2,7 +2,7 @@ import { FromServiceNames } from "Utils/InstanceUtils";
 
 const Configs = {
 	PluginName: "UI Labs",
-	SpriteIcon: "rbxassetid://18717235646",
+	SpriteIcon: "rbxassetid://126235252642457",
 	RootPreviewKey: "RootStory",
 	DefaultSearch: FromServiceNames([
 		"Workspace",

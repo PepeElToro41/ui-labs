@@ -40,7 +40,7 @@ function Story(setprops: StoryProps) {
 	const [transparency, tweenTransparency, setTransparency] = useTween(TRANSPARENCY_INFO, 1);
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.Node.Module);
 
-	const { toggleMount, setOverlay, resetIdentifiedOverlay } = useProducer<RootProducer>();
+	const { toggleMount, setPopup, resetIdentifiedOverlay } = useProducer<RootProducer>();
 	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
 	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
 
@@ -75,7 +75,7 @@ function Story(setprops: StoryProps) {
 	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module), [props.Node]);
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);
+		setPopup("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);
 	}, [mouseOffset, props.Node]);
 
 	const textColor = selected ? theme.Text.Inverted : theme.Text.Color;

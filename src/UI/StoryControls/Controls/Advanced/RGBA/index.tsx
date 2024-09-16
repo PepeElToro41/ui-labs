@@ -2,7 +2,6 @@ import { useUnmountEffect, lerp } from "@rbxts/pretty-react-hooks";
 import { useProducer } from "@rbxts/react-reflex";
 import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { usePosition } from "Hooks/Utils/AppHolder";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
@@ -10,7 +9,6 @@ import ColorPicker, { PickedValue } from "UI/Overlays/ColorPicker";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
-import Padding from "UI/Styles/Padding";
 import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
@@ -24,7 +22,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 	const [udim, setUdim] = useBinding<[pos: Vector2, size: Vector2]>([Vector2.zero, Vector2.zero]);
 	const [pickerEnabled, setPickerEnabled] = useState(false);
 
-	const { setOverlay, resetOverlay } = useProducer<RootProducer>();
+	const { setPopup, resetPopup } = useProducer<RootProducer>();
 	const getPosition = usePosition();
 
 	const OnPickerClose = useCallback(() => {
@@ -34,7 +32,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 
 	const OnColorEdit = useCallback(() => {
 		setPickerEnabled(true);
-		setOverlay(
+		setPopup(
 			"ColorEdit",
 			<ColorPicker
 				StartColor={props.Current.Color}
@@ -54,7 +52,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 	}, []);
 	useUnmountEffect(() => {
 		if (pickerEnabled) {
-			resetOverlay();
+			resetPopup();
 		}
 	});
 	useEffect(() => {

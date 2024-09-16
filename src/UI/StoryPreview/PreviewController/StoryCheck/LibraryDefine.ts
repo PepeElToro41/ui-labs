@@ -7,6 +7,8 @@ import { RoactChecker, RoactKeys } from "./LIbraries/RoactCheck";
 import { FusionChecker, FusionKeys } from "./LIbraries/FusionCheck";
 import { GenericChecker, GenericKeys } from "./LIbraries/GenericCheck";
 import Sift from "@rbxts/sift";
+import { IrisChecker, IrisKeys } from "./LIbraries/IrisCheck";
+import { VideChecker, VideKeys } from "./LIbraries/VideCheck";
 
 //TODO: Add control type
 const CONTROL_TYPE = t.intersection(t.keys(t.string), t.values(t.any));
@@ -32,6 +34,8 @@ const LibraryNames: Record<LibraryType, string> = {
 	RoactLib: "Roact",
 	ReactLib: "React",
 	FusionLib: "Fusion",
+	IrisLib: "Iris",
+	VideLib: "Vide",
 	Generic: "Generic",
 };
 
@@ -39,12 +43,16 @@ const Checkers: Record<LibraryType, LibraryChecker> = {
 	RoactLib: RoactChecker,
 	ReactLib: ReactChecker,
 	FusionLib: FusionChecker,
+	IrisLib: IrisChecker,
+	VideLib: VideChecker,
 	Generic: GenericChecker,
 };
 const LibraryKeys: Record<LibraryType, string[]> = {
 	RoactLib: RoactKeys,
 	ReactLib: ReactKeys,
 	FusionLib: FusionKeys,
+	IrisLib: IrisKeys,
+	VideLib: VideKeys,
 	Generic: GenericKeys,
 };
 const AllKeys = Sift.Dictionary.values(LibraryKeys).reduce<string[]>((a, b) => [...a, ...b], []);

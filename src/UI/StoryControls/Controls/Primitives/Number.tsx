@@ -6,7 +6,6 @@ import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import DeltaDrag from "UI/Utils/Draggers/DeltaDrag";
-import DropShadow from "UI/Utils/DropShadow";
 import InputEntry from "UI/Utils/InputEntry";
 import { Decoders } from "UI/Utils/InputEntry/Decoders";
 import { Filters } from "UI/Utils/InputEntry/Filters";
@@ -22,6 +21,7 @@ function StepAmount(amount: number, step?: number, start?: number) {
 }
 
 function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
+	const [dragging, setDragging] = useState(false);
 	const [dragActive, setDragActive] = useState(false);
 	//This is needed as an proxy for decimal numbers that can get rounded because of stepped (used for the dragger)
 	const [proxyCurrent, setProxyCurrent] = useBinding<number>(props.Current);
@@ -33,6 +33,7 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 	const max = control.Max ?? math.huge;
 
 	const OnDragStateUpdated = useCallback((state: { hovering: boolean; dragging: boolean }) => {
+		setDragging(state.dragging);
 		setDragActive(state.hovering || state.dragging);
 	}, []);
 
@@ -54,6 +55,7 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 		[ApplyAmount, props.Current],
 	);
 	useEffect(() => {
+		if (dragging) return;
 		setProxyCurrent(props.Current);
 	}, [props.Current]);
 	useBindingListener(proxyCurrent, (proxy) => {

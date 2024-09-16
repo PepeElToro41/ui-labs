@@ -47,6 +47,7 @@ function ToolbarDropdownItems(props: ToolbarDropdownItemsProps) {
 			{GenerateButtons()}
 			<Divisor Direction="X" Order={count()} />
 			<DropdownEntry LayoutOrder={count()} Text={"Toolbar Anchored"} OnClick={OnAnchorToolbar} Active={anchored} />
+			<DropdownEntry LayoutOrder={count()} Text={"Shortcuts Enabled"} OnClick={OnAnchorToolbar} Active={anchored} />
 		</React.Fragment>
 	);
 }

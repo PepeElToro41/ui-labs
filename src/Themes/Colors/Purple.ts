@@ -35,11 +35,15 @@ export const Purple: Theme = {
 		Color: Palette.Disabled,
 		Placeholder: Palette.Light,
 	},
+	Toolbar: Palette.Background2,
 	SidePanel: Palette.Background2,
 	StoryPanel: {
-		Color: Palette.Grayed,
-		PatternColor: Color3.fromRGB(255, 255, 255),
-		PatternTransparency: 0.95,
+		DarkColor: Palette.Grayed,
+		LightColor: Palette.Light,
+		PatternDarkColor: Color3.fromRGB(255, 255, 255),
+		PatternLightColor: Color3.fromRGB(8, 8, 8),
+		PatternDarkTransparency: 0.95,
+		PatternLightTransparency: 0.9,
 	},
 	ActionsPanel: {
 		Color: Color3.fromRGB(33, 33, 33),

@@ -28,7 +28,7 @@ function StoryOverlay(props: StoryOverlayProps) {
 
 	return entry ? (
 		<Div>
-			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.Key} />
+			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.UID} />
 			<ToastInfo key={entry.UID} PreviewEntry={entry} />
 			{toolsContext === "Floating" ? <LeftToolbar PreviewEntry={entry} /> : undefined}
 			{!entry.Visible ? undefined : entry.OnWidget ? (

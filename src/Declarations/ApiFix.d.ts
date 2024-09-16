@@ -32,4 +32,8 @@ interface _G {
 	__ROACT_17_MOCK_SCHEDULER__?: boolean | undefined;
 }
 
+interface Instance {
+	UniqueId: string;
+}
+
 declare function pairs<T extends object>(object: T): IterableFunction<LuaTuple<[keyof T, Exclude<T[keyof T], undefined>]>>;

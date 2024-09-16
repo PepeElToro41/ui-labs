@@ -1,9 +1,9 @@
 import React, { useCallback } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useMouseOffset } from "Hooks/Context/UserInput";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown";
 import RenderToolButtons from "UI/StoryOverlay/IconToolbar/Buttons.tsx";
-import { useButtonElements } from "UI/StoryOverlay/IconToolbar/Utils";
 import Corner from "UI/Styles/Corner";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
@@ -14,25 +14,20 @@ interface AnchoredToolbarProps {
 }
 
 function AnchoredToolbar(props: AnchoredToolbarProps) {
-	const buttonElements = useButtonElements(props.PreviewEntry);
-	const { setOverlay } = useProducer<RootProducer>();
+	const theme = useTheme();
+	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
 
 	const OnToolbarLeftClick = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
+		setPopup("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
 	}, []);
 
 	return (
 		<Div Size={new UDim2(0, 39, 1, 0)}>
-			<Padding Padding={2} />
-			<frame
-				Size={UDim2.fromScale(1, 1)}
-				BackgroundTransparency={0.2}
-				BackgroundColor3={Color3.fromRGB(26, 26, 33)}
-				BorderSizePixel={0}
-			>
-				<uistroke Color={Color3.fromRGB(255, 255, 255)} Thickness={1} Transparency={0.95} />
+			<Padding Padding={1} />
+			<Div Size={UDim2.fromScale(1, 1)}>
+				<uistroke Color={theme.Divisor.Color} Thickness={1} Transparency={theme.Divisor.Transparency} />
 				<Corner Radius={6} />
 				<Detector
 					Event={{
@@ -40,7 +35,7 @@ function AnchoredToolbar(props: AnchoredToolbarProps) {
 					}}
 				/>
 				<RenderToolButtons PreviewEntry={props.PreviewEntry} HoverAlpha={UDim2.fromScale(0, 0)} />
-			</frame>
+			</Div>
 		</Div>
 	);
 }

@@ -1,6 +1,6 @@
 const Palette = {
-	Green: Color3.fromRGB(48, 222, 156),
-	Blue: Color3.fromRGB(61, 176, 252),
+	Green: Color3.fromRGB(77, 247, 181),
+	Blue: Color3.fromRGB(105, 181, 255),
 };
 
 const Dark = {
@@ -14,7 +14,7 @@ const Dark = {
 		Inverted: Color3.fromRGB(38, 38, 38),
 	},
 	Icon: {
-		Color: Color3.fromRGB(255, 255, 255),
+		Color: Color3.fromRGB(227, 227, 227),
 		Active: Palette.Blue,
 		Disabled: Color3.fromRGB(102, 102, 102),
 	},
@@ -24,41 +24,46 @@ const Dark = {
 	},
 	Topbar: {
 		Color: Color3.fromRGB(33, 33, 59),
-		Logo: Color3.fromRGB(242, 210, 255),
+		Logo: Color3.fromRGB(222, 148, 250),
 	},
 	Search: {
 		Color: Color3.fromRGB(49, 49, 53),
 		Placeholder: Color3.fromRGB(161, 161, 161),
 	},
-	SidePanel: Color3.fromRGB(28, 28, 28),
+	SidePanel: Color3.fromRGB(30, 30, 31),
 	StoryPanel: {
-		Color: Color3.fromRGB(34, 34, 34),
-		PatternColor: Color3.fromRGB(255, 255, 255),
-		PatternTransparency: 0.95,
+		DarkColor: Color3.fromRGB(19, 20, 20),
+		LightColor: Color3.fromRGB(242, 242, 242),
+		PatternDarkColor: Color3.fromRGB(255, 255, 255),
+		PatternLightColor: Color3.fromRGB(0, 0, 0),
+
+		PatternDarkTransparency: 0.95,
+		PatternLightTransparency: 0.92,
 	},
+	Toolbar: Color3.fromRGB(38, 38, 38),
 	ActionsPanel: {
 		Color: Color3.fromRGB(33, 33, 33),
 		TabsBackground: Color3.fromRGB(43, 43, 43),
 		TabHover: Color3.fromRGB(56, 56, 56),
 	},
 	StoryPreview: {
-		Background: Color3.fromRGB(39, 39, 39),
+		Background: Color3.fromRGB(26, 28, 31),
 		Color: Color3.fromRGB(79, 79, 79),
 		Selected: Palette.Blue,
 		TextSelected: Color3.fromRGB(27, 37, 48),
-		CloseButton: Color3.fromRGB(255, 255, 255),
-		InfoToast: Color3.fromRGB(79, 79, 79),
+		CloseButton: Color3.fromRGB(255, 143, 143),
+		InfoToast: Color3.fromRGB(64, 64, 64),
 	},
 	//NODES
 	Normal: {
 		Color: Color3.fromRGB(82, 82, 92),
-		StoryIcon: Color3.fromRGB(115, 179, 237),
-		FolderIcon: Color3.fromRGB(196, 135, 232),
-		Book: Color3.fromRGB(48, 222, 156),
+		StoryIcon: Color3.fromRGB(120, 189, 232),
+		FolderIcon: Color3.fromRGB(237, 166, 222),
+		Book: Color3.fromRGB(143, 240, 176),
 	},
 	StorySelected: {
 		Color: Palette.Blue,
-		StoryIcon: Color3.fromRGB(31, 48, 66),
+		StoryIcon: Color3.fromRGB(15, 23, 31),
 	},
 
 	ResizePanelDrag: Color3.fromRGB(92, 181, 255),
@@ -74,8 +79,8 @@ const Dark = {
 	Boolean: {
 		SwitchOn: Palette.Green,
 		SwitchOff: Color3.fromRGB(56, 56, 56),
-		SwitchBackOn: Color3.fromRGB(255, 255, 255),
-		SwitchBackOff: Color3.fromRGB(255, 255, 255),
+		SwitchBackOn: Color3.fromRGB(99, 99, 99),
+		SwitchBackOff: Color3.fromRGB(99, 99, 99),
 	},
 	List: {
 		Frame: Color3.fromRGB(48, 48, 48),

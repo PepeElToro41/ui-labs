@@ -20,12 +20,12 @@ interface ChooseListOverlayProps {
 }
 
 function ChooseListOverlay(props: ChooseListOverlayProps) {
-	const { resetOverlay } = useProducer<RootProducer>();
+	const { resetPopup } = useProducer<RootProducer>();
 	const [wrapped, OnAbsoluteSizeChanged] = useOverlayWrap(props.Position, new Vector2(0, 0), "Y");
 	const theme = useTheme();
 
 	const OverlayClose = useCallback(() => {
-		resetOverlay();
+		resetPopup();
 	}, [props.OnClose]);
 	const OnOptionClicked = useOverlayAction(
 		(index: number) => {

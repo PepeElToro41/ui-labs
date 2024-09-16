@@ -22,6 +22,7 @@
       "plugin:prettier/recommended"
    ],
    "rules": {
+      "prefer-const":"off",
       "prettier/prettier": "warn",
       "no-constant-condition": "off",
       "@typescript-eslint/no-explicit-any": "off"

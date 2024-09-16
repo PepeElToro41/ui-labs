@@ -47,7 +47,11 @@ function RenderControlGroup(
 		});
 		controls.set(name, renderedControl);
 	}
-	return <ControlGroupRender GroupName={name}>{controls}</ControlGroupRender>;
+	return (
+		<ControlGroupRender GroupName={name} Order={controlGroup.Order}>
+			{controls}
+		</ControlGroupRender>
+	);
 }
 
 function RenderControl(name: string, control: ObjectControl, value: ControlValue, update: (value: ControlValue) => void) {
@@ -58,6 +62,7 @@ function RenderControl(name: string, control: ObjectControl, value: ControlValue
 	const render = (
 		<ControlHolder
 			ControlName={name}
+			Order={control.Order}
 			ControlReset={() => {
 				if (control.OnReset) control.OnReset();
 				update(control.ControlValue);

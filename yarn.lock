@@ -212,6 +212,11 @@
   resolved "https://registry.yarnpkg.com/@rbxts/ui-labs/-/ui-labs-2.2.0-ts.1.tgz#e1a44de5fa69d3700813d7cb307b5592a44c1403"
   integrity sha512-pRGI2bqakTdnmwA1+a7JaVZ9DLoBTCKg3Aw+BLzeVT9nd8ofKEzsOXBsLDJYmeECVRt3q8T0Is25wgd0tLxA/A==
 
+"@rbxts/vide@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@rbxts/vide/-/vide-0.4.5.tgz#cadea286d9a4108445b610e97f9c63c2762bc548"
+  integrity sha512-eOqoAZyqRCrc7VeijWSe3csvVO3smvNFI5KJgmZ/6SwvgQ02oWH6IetAK1eXhM2HyxSM+CGh5sWHxkFkJ1aAVQ==
+
 "@roblox-ts/luau-ast@=2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@roblox-ts/luau-ast/-/luau-ast-2.0.0.tgz#651ba0be8297bf50b603bd9fd88205fa75ebe0a4"

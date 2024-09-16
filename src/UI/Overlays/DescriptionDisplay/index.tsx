@@ -1,10 +1,9 @@
-import React, { useBinding, useCallback, useEffect, useRef, useState } from "@rbxts/react";
+import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
 import { useDescriptionInfo } from "Context/DescriptionContext";
-import { useMousePos, useRelativeMousePos } from "Hooks/Context/UserInput";
+import { useRelativeMousePos } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
 import Corner from "UI/Styles/Corner";
-import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 
@@ -51,7 +50,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 				key="DescriptionText"
 				AnchorPoint={new Vector2(0, 0.5)}
 				AutomaticSize={Enum.AutomaticSize.XY}
-				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Light)}
+				FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
 				Position={new UDim2(0, 0, 0.5, 0)}
 				Text={description ?? ""}
 				TextColor3={theme.Text.Inverted}

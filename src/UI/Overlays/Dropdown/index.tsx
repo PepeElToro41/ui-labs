@@ -18,10 +18,10 @@ interface DropdownProps extends PropsWithChildren {
 function Dropdown(props: DropdownProps) {
 	const theme = useTheme();
 	const [wrappedX, wrappedY, OnAbsoluteSizeChanged] = useOverlayWrapXY(props.Position, new Vector2(0, 0));
-	const { resetOverlay } = useProducer<RootProducer>();
+	const { resetPopup } = useProducer<RootProducer>();
 
 	const OnClose = useCallback(() => {
-		resetOverlay();
+		resetPopup();
 	}, []);
 
 	return (

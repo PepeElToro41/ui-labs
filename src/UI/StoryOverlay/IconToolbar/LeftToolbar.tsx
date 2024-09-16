@@ -7,8 +7,7 @@ import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
 import RenderToolButtons from "./Buttons.tsx";
-import { selectOverlay } from "Reflex/Overlay.js";
-import Padding from "UI/Styles/Padding.js";
+import { selectPopup } from "Reflex/Overlay.js";
 import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown.js";
 import { useMouseOffset } from "Hooks/Context/UserInput.js";
 
@@ -21,8 +20,8 @@ const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirect
 function LeftToolbar(props: LeftToolbarProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [hoverAlpha, tweenHoverAlpha] = useTween(HOVER_INFO, 0);
-	const overlay = useSelector(selectOverlay);
-	const { setOverlay } = useProducer<RootProducer>();
+	const overlay = useSelector(selectPopup);
+	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
 
 	const isBlocked = overlay && overlay.Identifier === "ButtonDropdown";
@@ -34,7 +33,7 @@ function LeftToolbar(props: LeftToolbarProps) {
 
 	const OnToolbarLeftClick = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setOverlay("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
+		setPopup("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
 	}, []);
 
 	return (
@@ -59,7 +58,7 @@ function LeftToolbar(props: LeftToolbarProps) {
 				key={"Filler"}
 				Size={new UDim2(0, 3, 1, -8)}
 				Position={UDim2.fromOffset(0, 4)}
-				BackgroundColor3={new Color3(1, 1, 1)}
+				BackgroundColor3={new Color3(0.45, 0.45, 0.45)}
 				BackgroundTransparency={hoverAlpha.map((a) => lerp(0.9, 1, a))}
 				ZIndex={2}
 			>

@@ -6,7 +6,7 @@ import { FilterNodes } from "./SearchFilter";
 import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectFilter } from "Reflex/Explorer/Filter";
 import Storybook from "../Nodes/ChildrenHolder/Storybook";
-import { selectOverlay } from "Reflex/Overlay";
+import { selectPopup } from "Reflex/Overlay";
 import UnknownNode from "../Nodes/ChildrenHolder/UnknownNode";
 import Divisor from "UI/Utils/Divisor";
 import { Div } from "UI/Styles/Div";
@@ -16,7 +16,7 @@ interface StoryTreeProps {}
 function StoryTree(props: StoryTreeProps) {
 	const nodes = useSelector(selectNodes).nodes;
 	const filter = useSelector(selectFilter).search;
-	const overlay = useSelector(selectOverlay);
+	const overlay = useSelector(selectPopup);
 	const isBlocked = overlay !== undefined;
 
 	const nodeList = useMemo(() => {
