@@ -18,7 +18,7 @@ const ToolsContext = React.createContext({} as ToolsContext);
 interface ToolsProps extends PropsWithChildren {}
 
 export function ToolsProvider(props: ToolsProps) {
-	const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>("Floating");
+	const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>("Anchored");
 
 	const [toolButtonsActive, setToolButtonsActive] = useState<ToolsButtonActive>(() => {
 		const active = {} as ToolsButtonActive;

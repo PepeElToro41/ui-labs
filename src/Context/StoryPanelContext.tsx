@@ -13,7 +13,7 @@ const StoryPanelContext = React.createContext({} as StoryPanelContext);
 interface StoryPanelProps extends PropsWithChildren {}
 
 export function StoryPanelProvider(props: StoryPanelProps) {
-	const [actionsPinned, setActionsPinned] = useState(false);
+	const [actionsPinned, setActionsPinned] = useState(true);
 	const [actionsHeight, setActionsHeight] = useBinding<number>(0);
 
 	const contextValue = useMemo(() => {
