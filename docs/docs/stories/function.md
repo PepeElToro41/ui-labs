@@ -2,7 +2,7 @@
 
 Function stories are the basic stories, they are functions that UI Labs will run when the story is mounted.
 
-These functions are used in [Hoarcekat](https://github.com/Kampfkarren/hoarcekat) 
+These functions are used in [Hoarcekat](https://github.com/Kampfkarren/hoarcekat)
 
 ## Mounting the story
 
@@ -20,7 +20,7 @@ return story
 
 ```ts [Roblox-TS]
 function story(target: Frame) {
-   // Render your story here inside "target"
+	// Render your story here inside "target"
 }
 
 export = story;
@@ -46,18 +46,17 @@ end
 
 ```ts [Roblox-TS] {4-6}
 function story(target: Frame) {
-   // Render your story here inside "target"
+	// Render your story here inside "target"
 
-   return () => {
-	   // Clean up your story here
-   };
+	return () => {
+		// Clean up your story here
+	};
 }
 
 export = story;
 ```
 
 :::
-
 
 ::: danger Story Erroring
 The cleanup function cant be executed if the mounting function errors. If the story did mount, a **Studio restart** may be needed to avoid memory leaks and non-destroyed Instances
@@ -79,7 +78,6 @@ end
 
 :::
 
-
 ## Examples
 
 ::: details React / Roact
@@ -88,33 +86,30 @@ end
 ```lua [Luau]
 local function story(target)
    local component = Roact.createElement("Frame", {})
-   Roact.mount(component, target)
+   local root = Roact.mount(component, target)
 
    return function()
-      Roact.unmount(component)
+      Roact.unmount(root)
    end
 end
 
 return story
 ```
 
-
-
 ```tsx [Roblox-TS]
 function story(target: Frame) {
-   const component = <frame />
-   Roact.mount(component, target)
+	const component = <frame />;
+	Roact.mount(component, target);
 
-   return () => {
-      Roact.unmount(component)
-   };
+	return () => {
+		Roact.unmount(component);
+	};
 }
 
 export = story;
 ```
- 
-:::
 
+:::
 
 ::: details Fusion
 ::: code-group
@@ -135,13 +130,13 @@ return story
 
 ```ts [Roblox-TS]
 function story(target: Frame) {
-   const component = Fusion.New("Frame")({
-      Parent: target,
-   }); 
-	
-   return () => {
-      component:Destroy()
-   }
+	const component = Fusion.New("Frame")({
+		Parent: target,
+	});
+
+	return () => {
+		component: Destroy();
+	};
 }
 
 export = story;
@@ -149,8 +144,8 @@ export = story;
 
 :::
 
-::: details Roblox Instances 
-::: code-group 
+::: details Roblox Instances
+::: code-group
 
 ```lua [Luau]
 local function story(target: Frame)
@@ -167,12 +162,12 @@ return story
 
 ```ts [Roblox-TS]
 function story(target: Frame) {
-   const component = new Instance("Frame")
-   component.Parent = target
-	
-   return () => {
-      component.Destroy()
-   };
+	const component = new Instance("Frame");
+	component.Parent = target;
+
+	return () => {
+		component.Destroy();
+	};
 }
 
 export = story;
