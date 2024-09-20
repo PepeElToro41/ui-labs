@@ -14,7 +14,7 @@ This has some key differences:
 -   The story library (`React` / `Roact` / `Fusion`) cant be provided in a storybook, only in the story itself. This limitation can be solved in the future.
 -   The story name cant be provided here, therefore, the module name will be always used.<br/>This is because UI Labs would need to perform a Hot-Reload operation on every single story and update changes acordingly. This can be very expensive and unnecessary.
 
-::
+:::
 
 ## Creating an Advanced Story
 
