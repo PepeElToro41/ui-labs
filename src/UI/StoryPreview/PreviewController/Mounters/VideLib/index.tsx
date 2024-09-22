@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "@rbxts/react";
+import React, { useMemo } from "@rbxts/react";
 import { MounterProps } from "..";
 import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
 import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferVideProps } from "@rbxts/ui-labs";
@@ -13,7 +13,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
+	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
 	const GetProps = useStoryPassedProps();
 
 	const [sources, sourcesCleanup] = useMemo(() => {

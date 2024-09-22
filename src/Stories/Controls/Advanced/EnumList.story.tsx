@@ -11,7 +11,6 @@ import AppHolder from "UI/AppHolder";
 import OverlayControl from "UI/Overlays/OverlayControl";
 import { EnumList } from "@rbxts/ui-labs";
 import EnumListControl from "UI/StoryControls/Controls/Advanced/OptionList/EnumList";
-import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 
 function Story(props: {}) {
 	const theme = useTheme();

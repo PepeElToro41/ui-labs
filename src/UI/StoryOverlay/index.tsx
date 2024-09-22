@@ -1,5 +1,4 @@
 import React, { useMemo } from "@rbxts/react";
-import ActionsPanel from "UI/StoryOverlay/ActionsPanel";
 import { Div } from "UI/Styles/Div";
 import Text from "UI/Styles/Text";
 import CanvasControls from "./CanvasControls";
@@ -27,8 +26,7 @@ function StoryOverlay(props: StoryOverlayProps) {
 	}, [entry]);
 
 	return entry ? (
-		<Div>
-			<ActionsPanel key={"ActionsPanel"} Active={entry !== undefined} Tabs={actionTabs} RenderKey={entry?.UID} />
+		<Div ZIndex={3}>
 			<ToastInfo key={entry.UID} PreviewEntry={entry} />
 			{toolsContext === "Floating" ? <LeftToolbar PreviewEntry={entry} /> : undefined}
 			{!entry.Visible ? undefined : entry.OnWidget ? (
@@ -41,7 +39,6 @@ function StoryOverlay(props: StoryOverlayProps) {
 		</Div>
 	) : (
 		<Div>
-			<ActionsPanel key={"ActionsPanel"} Active={false} Tabs={new Map()} />
 			<frame BackgroundColor3={new Color3(0, 0, 0)} BackgroundTransparency={0.6} Size={UDim2.fromScale(1, 1)}>
 				<Text Text={"Select A Story"} TextSize={20} AnchorPoint={new Vector2(0.5, 0.5)} Position={UDim2.fromScale(0.5, 0.5)} />
 			</frame>

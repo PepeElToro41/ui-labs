@@ -8,14 +8,28 @@ import Configs from "Plugin/Configs";
 import HolderParenter from "./Holders/HolderParenter";
 import { CheckStory } from "./StoryCheck/StoryCheck";
 import { Signal } from "@rbxts/lemon-signal";
+import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
 }
 
+export interface RecoverControlEntry {
+	RecoverType: "Control";
+	Control: ObjectControl;
+	Value: ControlValue;
+}
+export interface RecoverGroupEntry {
+	RecoverType: "ControlGroup";
+	Controls: Record<string, RecoverControlEntry>;
+}
+
+export type RecoverControlsData = Record<string, RecoverControlEntry | RecoverGroupEntry>;
+
 function PreviewController(props: PreviewControllerProps) {
 	const [result, reloader] = useStoryRequire(props.PreviewEntry);
 	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: React.Element }>();
+	const [recoverControlsData, setRecoverControlsData] = useState<RecoverControlsData>();
 
 	const entry = props.PreviewEntry;
 	const key = props.PreviewEntry.Key;
@@ -51,7 +65,15 @@ function PreviewController(props: PreviewControllerProps) {
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const unmountSignal = new Signal();
 
-		const gotRenderer = MountStory(check.Type, props.PreviewEntry, check.Result, mountFrame, unmountSignal);
+		const gotRenderer = MountStory(
+			check.Type,
+			props.PreviewEntry,
+			check.Result,
+			mountFrame,
+			unmountSignal,
+			recoverControlsData,
+			setRecoverControlsData,
+		);
 		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
 
 		return () => {

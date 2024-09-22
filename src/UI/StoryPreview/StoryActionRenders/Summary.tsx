@@ -31,7 +31,7 @@ function Summary(setprops: SummaryProps) {
 					Size={UDim2.fromScale(1, 0)}
 					Text={props.SummaryText}
 					TextXAlignment={Enum.TextXAlignment.Left}
-					Weight="Light",
+					Weight="Light"
 					TextWrapped={true}
 				/>
 			</scrollingframe>

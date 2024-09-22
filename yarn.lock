@@ -207,10 +207,10 @@
   resolved "https://registry.yarnpkg.com/@rbxts/types/-/types-1.0.791.tgz#8e8dbabc5044ec19b9c063ccf0bb487dcb9cfbc9"
   integrity sha512-kKivHGm9n12L7AlKUH7KfBI7dJTZaWs21rqTpzhcknn7mqjpkZxcn6RDaIIFl3x7mMnvUsJ5amVL25zd7xkTug==
 
-"@rbxts/ui-labs@^2.2.0-ts.1":
-  version "2.2.0-ts.1"
-  resolved "https://registry.yarnpkg.com/@rbxts/ui-labs/-/ui-labs-2.2.0-ts.1.tgz#e1a44de5fa69d3700813d7cb307b5592a44c1403"
-  integrity sha512-pRGI2bqakTdnmwA1+a7JaVZ9DLoBTCKg3Aw+BLzeVT9nd8ofKEzsOXBsLDJYmeECVRt3q8T0Is25wgd0tLxA/A==
+"@rbxts/ui-labs@^2.3.0-test1":
+  version "2.3.0-test1"
+  resolved "https://registry.yarnpkg.com/@rbxts/ui-labs/-/ui-labs-2.3.0-test1.tgz#0305a542ee78c2f7d802ea59a86283a44e58f2dc"
+  integrity sha512-F6AOcTL3k4Y1X5sYEHk1OyFVZwBuEWqVWNr6SSzMcIaArQp8D0G8Fd481rULkAfZRBaCgra+7mrtWHaGI26dQg==
 
 "@rbxts/vide@^0.4.5":
   version "0.4.5"

@@ -41,22 +41,6 @@ const PrimitiveControlMap: PrimitiveControlMap = {
 
 const DatatypeControlMap: DatatypeControlMap = {
 	Color3: Color3Control,
-	/*
-	UDim2: () => {
-		return <></>;
-	},
-	UDim: () => {
-		return <></>;
-	},
-	CFrame: () => {
-		return <></>;
-	},
-	Vector2: () => {
-		return <></>;
-	},
-	Vector3: () => {
-		return <></>;
-	},*/
 };
 
 const AdvancedControlMap: AdvancedControlMap = {

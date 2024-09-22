@@ -1,4 +1,4 @@
-import React, { Binding, useEffect, useState } from "@rbxts/react";
+import React, { Binding, useEffect, useMemo, useState } from "@rbxts/react";
 import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
 import { useEventListener } from "@rbxts/pretty-react-hooks";
 import { RunService, Selection } from "@rbxts/services";
@@ -15,17 +15,14 @@ interface SelectElementsProps {
 	PreviewEntry: PreviewEntry;
 }
 
-function GetSelectedGui(root?: Frame) {
+function GetSelectedGuis(root?: Frame) {
 	return () => {
-		if (!root) return undefined;
+		if (!root) return [];
 
-		const selections = Selection.Get() as Instance[];
-		if (selections.size() !== 1) return undefined;
-		const selected = selections[0];
-		if (!selected.IsA("GuiObject")) return undefined;
-		if (!selected.IsDescendantOf(root)) return undefined;
+		const selections = Selection.Get() as GuiObject[];
+		if (selections.isEmpty()) return [];
 
-		return selected;
+		return selections.filter((selection) => selection.IsA("GuiObject") && selection.IsDescendantOf(root));
 	};
 }
 
@@ -34,33 +31,46 @@ function SelectElements(props: SelectElementsProps) {
 	const widget = useSelector(selectPluginWidget);
 	const { addMouseIconAction, removeMouseIconAction } = useProducer<RootProducer>();
 	const holder = props.PreviewEntry.Holder;
-	const [hoveredElement, setHoveredElement] = useState<GuiObject>();
-	const [selectedElement, setSelectedElement] = useState<GuiObject | undefined>(GetSelectedGui(holder));
+	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(GetSelectedGuis(holder));
 	const [passThrough, setPassThrough] = useState(false);
 	const inputBegan = useInputBegan();
 	const inputEnded = useInputEnded();
-	const [inside, setInside] = useState<GuiObject[]>([]);
+	const [hovered, setHovered] = useState<GuiObject[]>([]);
+
+	const hoveredElement = useMemo(() => {
+		if (!props.Inside) return undefined;
+		if (!passThrough) return hovered[0];
+		if (selectedElements.isEmpty()) return hovered[0];
+		let passDepth = 0;
+
+		for (const selected of selectedElements) {
+			const index = hovered.indexOf(selected);
+			if (index < 0) continue;
+			passDepth = math.max(passDepth, index + 1);
+		}
+		if (passDepth >= hovered.size()) return undefined;
+		return hovered[passDepth];
+	}, [hovered, props.Inside, passThrough, selectedElements]);
 
 	useEffect(() => {
-		const selected = GetSelectedGui(holder)();
-		setSelectedElement(selected);
+		const selected = GetSelectedGuis(holder)();
+		setSelectedElements(selected);
 	}, [holder]);
 	useEventListener(Selection.SelectionChanged, () => {
-		const selected = GetSelectedGui(holder)();
-		setSelectedElement(selected);
+		const selected = GetSelectedGuis(holder)();
+		setSelectedElements(selected);
 	});
+
 	useEventListener(inputBegan, (input) => {
 		if (!props.Inside) return;
 		if (input.KeyCode === Enum.KeyCode.LeftShift) {
 			setPassThrough(true);
 		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
-			if (inside.isEmpty()) return;
-			const selected = inside[0];
-			if (selected.IsA("GuiObject")) {
-				Selection.Set([selected]);
-			}
+			if (!hoveredElement) return;
+			Selection.Set([hoveredElement]);
 		}
 	});
+
 	useEventListener(inputEnded, (input) => {
 		if (input.KeyCode !== Enum.KeyCode.LeftShift) return;
 		setPassThrough(false);
@@ -80,18 +90,24 @@ function SelectElements(props: SelectElementsProps) {
 
 		const connection = RunService.Heartbeat.Connect(() => {
 			const inside = GetGuisAtPosition(holder, mousePos.getValue());
-			setInside(inside);
+			setHovered(inside);
 		});
 
 		return () => connection.Disconnect();
 	}, [props.Inside, widget, holder]);
 
+	useEffect(() => {
+		if (!props.Inside) {
+			setHovered([]);
+		}
+	}, [props.Inside]);
+
 	useStoryLockAction("SelectElements", props.Inside);
 
 	return (
 		<Div key={"SelectElements"}>
-			{!inside.isEmpty() && holder && (
-				<ComponentHighlight key={"SelectedElement"} UIComponent={inside[0]} Holder={holder} Inset={props.Anchor} />
+			{hoveredElement !== undefined && holder && (
+				<ComponentHighlight key={"SelectedElement"} UIComponent={hoveredElement} Holder={holder} Inset={props.Anchor} />
 			)}
 		</Div>
 	);

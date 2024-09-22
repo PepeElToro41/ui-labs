@@ -33,8 +33,8 @@ function TabItem(setprops: TabItemProps) {
 		>
 			<Text
 				Text={props.TabName}
-				Weight={"Bold"}
-				TextSize={12}
+				Weight={"Medium"}
+				TextSize={13}
 				TextColor3={props.Active ? theme.Text.Color : theme.Text.Disabled}
 				AutomaticSize={Enum.AutomaticSize.X}
 				Size={UDim2.fromScale(0, 1)}

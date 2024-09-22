@@ -13,6 +13,8 @@ import ProviderStack from "./Utils/ProviderStack";
 import LeftList from "./Styles/List/LeftList";
 import SidePanel from "./SidePanel";
 import StoryPanel from "./StoryPanel";
+import { useSelector } from "@rbxts/react-reflex";
+import { selectPopup } from "Reflex/Overlay";
 
 interface AppProps {}
 
@@ -22,10 +24,12 @@ function App(props: AppProps) {
 	controlNodes();
 	controlPreview();
 
+	const popup = useSelector(selectPopup);
+
 	return (
 		<ProviderStack Providers={[UserInputProvider, DescriptionProvider, ToolsProvider]}>
 			<AppHolder>
-				<Div key={"Plugin"}>
+				<Div key={"Plugin"} Interactable={popup === undefined}>
 					<LeftList />
 					<SidePanel />
 					<StoryPanel />

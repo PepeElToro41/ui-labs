@@ -6,6 +6,7 @@ import PreviewController from "./PreviewController";
 import { useActionsData } from "Context/StoryPanelContext";
 import { useToolsContext } from "Context/ToolsContext";
 import { selectStorySelected } from "Reflex/StorySelection";
+import { selectStoryLock } from "Reflex/Interface";
 
 interface PreviewControlProps {}
 
@@ -15,6 +16,7 @@ function PreviewControl(props: PreviewControlProps) {
 	const selectedEntry = useSelector(selectStorySelected);
 	const previewEntry = useSelectorCreator(selectPreview, selectedEntry);
 	const [pinned, height] = useActionsData();
+	const storyLockers = useSelector(selectStoryLock);
 
 	const controllers = useMemo(() => {
 		const children: ReactChildren = new Map();
@@ -27,7 +29,12 @@ function PreviewControl(props: PreviewControlProps) {
 	}, [previews]);
 
 	return (
-		<Div key={"Stories"} Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)} LayoutOrder={2}>
+		<Div
+			key={"Stories"}
+			Interactable={storyLockers.isEmpty()}
+			Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}
+			LayoutOrder={2}
+		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 			{controllers}
 		</Div>

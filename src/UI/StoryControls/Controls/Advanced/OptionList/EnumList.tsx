@@ -17,7 +17,6 @@ function EnumListControl(props: ControlElementProps<AdvancedTypes.EnumList>) {
 			const toSet = props.Control.List[keyIndex];
 			if (toSet === undefined) return;
 			if (toSet === props.Current) return;
-			props.Control.CurrentIndex = keyIndex;
 			props.Apply(toSet);
 		},
 		[props.Control, props.Apply, props.Current],
@@ -34,13 +33,20 @@ function EnumListControl(props: ControlElementProps<AdvancedTypes.EnumList>) {
 
 	const optionType = typeOf(props.Current);
 	const OptionRenderer = (OptionsRendersMap[optionType] ?? DefaultOptionRenderer) as OptionRendererFactory;
+	let currentIndex = "N/A";
+	for (const [key, value] of pairs(props.Control.List)) {
+		if (value === props.Current) {
+			currentIndex = key;
+			break;
+		}
+	}
 
 	return (
 		<OptionListControl ListOverlay={SetListOverlay}>
 			<Div Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 				<LeftList Padding={new UDim(0, 5)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 				<Text
-					Text={props.Control.CurrentIndex}
+					Text={currentIndex}
 					TextSize={12}
 					LayoutOrder={-1}
 					Size={UDim2.fromScale(0, 1)}

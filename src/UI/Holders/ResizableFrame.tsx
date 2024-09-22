@@ -19,8 +19,8 @@ interface ResizableFrameProps extends PropsWithChildren {
 	MinToDeCollapse?: number;
 	DragColor?: Color3;
 
-	HolderProps?: Omit<React.InstanceAttributes<Frame>, "Size">;
-	FrameProps?: Omit<React.InstanceAttributes<Frame>, "Size" | "Position" | "AnchorPoint">;
+	HolderProps?: Omit<React.InstanceProps<Frame>, "Size">;
+	FrameProps?: Omit<React.InstanceProps<Frame>, "Size" | "Position" | "AnchorPoint">;
 
 	SetCollapse?: Signal<[collapsed: boolean]>;
 	OnResized?: (collapsed: boolean, resized: number) => void;

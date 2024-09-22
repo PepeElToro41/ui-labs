@@ -39,7 +39,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const control = props.Control;
 	const [inputSize, setInputSize] = useBinding(0);
 
-	const [percent, setPercent] = useMotor(0.5);
+	const [percent, setPercent] = useMotor(GetPercent(control, props.Current));
 	const [amount, setAmount] = useState(props.Current);
 	const [markVisible, setMarkVisible] = useState(false);
 	const [sliderState, setSliderState] = useState({ Hovering: false, Dragging: false });
@@ -50,9 +50,11 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 
 	const marks = useMemo(() => {
 		const allMarks: React.Element[] = [];
+
 		//First and Last mark (always there)
 		allMarks.push(<Mark Amount={1} Position={0} Percent={percent}></Mark>);
 		allMarks.push(<Mark Amount={1} Position={1} Percent={percent}></Mark>);
+
 		if (control.Step === undefined) return allMarks;
 		if (!markVisible) return allMarks;
 

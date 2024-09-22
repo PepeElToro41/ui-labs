@@ -38,7 +38,6 @@ function RenderControlGroup(
 		const controlValue = groupValues[name] as ControlValue;
 
 		const renderedControl = RenderControl(name, control, controlValue, (value) => {
-			if (control.OnReset) control.OnReset();
 			update(
 				Immut.produce(groupValues, (draft) => {
 					draft[name] = value;
@@ -64,7 +63,6 @@ function RenderControl(name: string, control: ObjectControl, value: ControlValue
 			ControlName={name}
 			Order={control.Order}
 			ControlReset={() => {
-				if (control.OnReset) control.OnReset();
 				update(control.ControlValue);
 			}}
 		>

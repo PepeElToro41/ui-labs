@@ -3,8 +3,8 @@ import { CreateControlStates, InferFusionControls, UpdateControlStates } from "@
 import { ConvertedControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { Cast } from "Utils/MiscUtils";
 
-export function GetScopedFusion(fusion: Fusion3) {
-	return Cast<Fusion>(fusion.scoped(fusion));
+export function GetScopedFusion(fusion: Fusion3, scoped: object[]) {
+	return Cast<Fusion>(fusion.scoped(fusion, ...scoped));
 }
 
 export function GetFusionVersion(fusion: typeof Fusion) {

@@ -7,12 +7,15 @@ import FusionLib from "./FusionLib";
 import { Signal } from "@rbxts/lemon-signal";
 import IrisLib from "./IrisLib";
 import VideLib from "./VideLib";
+import { RecoverControlsData } from "..";
 
 export interface MounterProps<T extends MountType> {
 	Entry: PreviewEntry;
 	Result: MountResults[T];
 	MountFrame: Frame;
 	UnmountSignal: Signal;
+	RecoverControlsData?: RecoverControlsData;
+	SetRecoverControlsData: (data: RecoverControlsData) => void;
 }
 
 export type Mounter<T extends MountType> = React.FunctionComponent<MounterProps<T>>;

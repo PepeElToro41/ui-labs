@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
+import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
 import type { MounterProps } from "..";
-import { ParametrizeControls, useControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferControls } from "@rbxts/ui-labs";
@@ -9,8 +9,9 @@ import { useStoryUnmount } from "../../Utils";
 function ReactLib(props: MounterProps<"ReactLib">) {
 	const result = props.Result;
 	const returnControls = result.controls as ReturnControls;
+
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useState(ParametrizeControls(controls));
+	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
 	const rendererType = result.renderer ?? "deferred";
 	const GetProps = useStoryPassedProps();
 
@@ -44,18 +45,18 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			root.render(component);
 		}
 	}, []);
-	useStoryUnmount(result, props.UnmountSignal, () => {
-		if (root !== undefined) {
-			root.unmount();
-		}
-	});
-
 	useUpdateEffect(() => {
 		const component = RenderComponent();
 		if (root !== undefined) {
 			root.render(component);
 		}
 	}, [controlValues, result]);
+
+	useStoryUnmount(result, props.UnmountSignal, () => {
+		if (root !== undefined) {
+			root.unmount();
+		}
+	});
 
 	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
 

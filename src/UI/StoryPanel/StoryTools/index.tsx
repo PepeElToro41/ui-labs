@@ -32,7 +32,7 @@ function StoryTools(props: StoryToolsProps) {
 			Change={{
 				AbsolutePosition: (frame) => setAnchor(frame.AbsolutePosition),
 			}}
-			ZIndex={3}
+			ZIndex={2}
 		>
 			{showOutlines ? <ShowOutlines Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
 			{selectTool ? <SelectElements Inside={isInside} Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}

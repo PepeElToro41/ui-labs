@@ -100,8 +100,8 @@ function SelectedObject(props: SelectedObjectProps) {
 							object === props.CurrentObject
 								? "Already Assigned"
 								: !object.IsA(props.ClassName)
-								? `[${props.ClassName}] Required`
-								: undefined
+									? `[${props.ClassName}] Required`
+									: undefined
 						}
 						Order={4}
 						OnAssign={OnAssign}
