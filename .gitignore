@@ -1,0 +1,14 @@
+/node_modules
+/out
+/include
+*.tsbuildinfo
+yarn-error.log
+yarn.lock
+.VSCodeCounter
+sourcemap.json
+
+
+docs/.vitepress/dist
+docs/.vitepress/cache
+docs/node_modules
+docs/package-lock.json

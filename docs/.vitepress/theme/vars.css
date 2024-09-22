@@ -1,0 +1,305 @@
+:root {
+   --custom-function-name: #023877;
+   --custom-image-selector: #3183ff;
+   --custom-button-reference: #077bda;
+
+   --custom-instance-folder: url("/docs/storybook/instances/light/folder.png");
+   --custom-instance-module: url("/docs/storybook/instances/light/module.png");
+   --custom-instance-serverscript: url("/docs/storybook/instances/light/serverscript.png");
+   --custom-instance-replicated: url("/docs/storybook/instances/light/replicated.png");
+
+   --vp-c-brand-1: #d474f1; 
+   --vp-c-brand-2: #c07cff; 
+   --vp-c-brand-3: #a15ef8;
+
+   --vp-home-action-color: #e48bff;
+
+   --vp-home-hero-name-color: transparent;
+   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #d986ff, #8558ff);
+}
+.dark {
+   --custom-function-name: #84bdff;
+   --custom-image-selector: #4ca0ff;
+   --custom-button-reference: #67a2e6;
+
+   --custom-instance-folder: url("/docs/storybook/instances/dark/folder.png");
+   --custom-instance-module: url("/docs/storybook/instances/dark/module.png");
+   --custom-instance-serverscript: url("/docs/storybook/instances/dark/serverscript.png");
+   --custom-instance-replicated: url("/docs/storybook/instances/dark/replicated.png");
+}
+
+
+.type-declaration {
+   font-size: var(--vp-code-font-size);
+   background-color: var(--vp-code-bg);
+   padding-top: 6px;
+   padding-bottom: 6px;
+   padding-left: 8px;
+   padding-right: 8px;
+   border-radius: 4px;
+   color: var(--vp-c-text-3);
+}
+
+
+.type-function-name {
+   color: var(--custom-function-name);
+}
+.type-namespace {
+   color: var(--vp-c-green-1);
+}
+
+.type-name {
+   color: var(--vp-c-text-1);
+   padding-left: 2px;
+   padding-right: 2px;
+}
+.type-var {
+   color: var(--vp-c-text-1);
+   padding-left: 1px;
+   padding-right: 1px;
+}
+
+.type-name-opt {
+   color: var(--vp-c-text-1);
+   padding-left: 3px;
+   padding-right: 1px;
+}
+
+.type-highlight {
+   color: var(--vp-code-color);
+   padding-left: 3px;
+   padding-right: 3px;
+}
+
+.item-description {
+   border-width: 1px;
+   border-style: solid;
+   border-color: #424242;
+   border-radius: 6px;
+   width: fit-content;
+   padding: 6px;
+   padding-top: 2px;
+   padding-bottom: 2px;
+}
+
+
+.prop-description-holder {
+   border-width: 1px;
+   border-style: solid;
+   border-color: #424242;
+   border-radius: 6px;
+   padding: 10px;
+   padding-top: 6px;
+   padding-bottom: 6pxpx;
+
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+.prop-description-title {
+   width: 100%;
+   padding-bottom: 8px;
+}
+.prop-description-entry {
+   font-size: 14px;
+   background-color: var(--vp-c-divider);
+   border-radius: 6px; 
+   padding: 6px;
+   padding-top: 3px;
+   padding-bottom: 4px;
+}
+
+.prop-description-contents {
+   height: fit-content;
+   width: 100%;
+   padding-top: 8px;
+   padding-bottom: 2px;
+   border-top: #303030;
+   border-top-width: 1px;
+   border-top-style: solid;
+}
+
+
+.vp-doc table {   
+   border-style: solid;
+   border-width: 1px;
+   border-color: #303030;
+   border-radius: 8px;
+   width: fit-content;
+}
+ 
+.vp-doc tr {
+   border-style: none;
+
+}
+
+.vp-doc td {
+   width: "99%";
+   border-style: none; 
+}
+.vp-doc th {
+   width: "99%";
+   border-style: none;
+} 
+
+.nowrap {
+   white-space: nowrap;
+   overflow: hidden;
+}
+
+.tiphelp {
+   font-size: 13px;
+   color: #727272;
+}
+
+
+.dangertip {
+   font-size: 13px;
+   color: #917676;
+}
+
+.props-table-required {
+   background-color: var(--vp-custom-block-danger-bg); 
+   border-color: #be5858;
+}
+
+.props-table-optional {
+   position: relative;
+   bottom: 2px;
+   background-color: rgba(8, 227, 234, 0.16); 
+   border-color: #58a2be;
+}
+.props-table-ignored {
+   background-color: rgba(94, 94, 94, 0.16); 
+   border-color: #777777;
+}
+ 
+.props-table-required, .props-table-optional, .props-table-ignored {
+   width: fit-content; 
+   height: fit-content; 
+   padding-top: 2px;
+   padding-bottom: 4px;
+   padding-right: 6px;
+   padding-left: 6px; 
+
+   color: var(--vp-c-text-1);
+   font-size: 10px; 
+   border-radius: 10px;  
+   border-width: 1px;
+   border-style: solid;
+}
+
+.spans {
+   display: flex;
+   flex-direction: column;
+   align-items: start;
+   margin-right: 10px; /* Space between the spans and the image, adjust as needed */
+}
+
+.contain-div {
+   display: flex;
+   align-items: center; /* Vertically center the image */
+   justify-content: flex-end; /* Align everything to the right */
+}
+
+.image-tip-holder {
+   position: absolute;
+   width: fit-content;
+   right: 0px;
+   padding-right: 20px;
+}
+
+
+.image-label {
+   border-width: 1px;
+   border-style: solid;
+   border-color: var(--vp-c-border);
+   border-radius: 8px;
+   width: fit-content;
+   filter: drop-shadow(4px 4px 0.1rem var(--vp-sidebar-bg-color));
+}
+
+
+.button-reference {
+   white-space: nowrap;
+   border-width: 1px;
+   color: var(--vp-sidebar-bg-color);
+   background-color: var(--custom-button-reference);
+   border-radius: 6px;
+   filter: drop-shadow(2px 2px 0.1rem rgba(0, 0, 0, 0.2));
+   width: fit-content;
+   font-size: 14px;
+   padding: 8px;
+   padding-top: 4px;
+   padding-bottom: 6px;
+}
+
+.arguments-body {
+   color: var(--vp-c-text-2);
+}
+.argument-name {
+   color: var(--vp-c-text-1);
+}
+
+
+.hierarchy-holder {
+   position: relative;
+
+   background-color: var(--vp-sidebar-bg-color);
+   border-radius: 6px;
+   border-width: 1px;
+   border-style: solid;
+   border-color: var(--vp-c-border);
+   padding: 8px;
+   padding-bottom: 12px;
+}
+
+.hierarchy-item {
+   background-color: transparent;
+   opacity: 0.7;
+   display: flex;
+   align-items: center;
+   flex-direction: row;
+   gap: 8px;
+   margin-right: 100px;
+}
+.hierarchy-item:hover {
+   opacity: 1;
+}
+
+.hierarchy-tip {
+   opacity: 0.5;
+   font-size: 12px;
+   position: absolute;
+   top: 5px;
+   right: 10px;
+}
+
+.child-holder {
+   border-width: 0 0 0 1px;
+   border-style: solid;
+   border-color: var(--vp-c-border);
+   margin-left: 6px;
+   padding-left: 10px;
+}
+
+.custom-instance, .custom-instance-folder, .custom-instance-module, .custom-instance-serverscript, .custom-instance-replicated {
+   background-repeat: no-repeat;
+   background-size: cover;
+   width: 16px;
+   height: 16px;
+   display: inline-block;
+}
+
+.custom-instance-folder {
+   background-image: var(--custom-instance-folder);
+}
+.custom-instance-module {
+   background-image: var(--custom-instance-module);
+}
+.custom-instance-serverscript {
+   background-image: var(--custom-instance-serverscript);
+}
+.custom-instance-replicated {
+   background-image: var(--custom-instance-replicated);
+}

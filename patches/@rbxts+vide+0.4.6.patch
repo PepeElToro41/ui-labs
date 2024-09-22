@@ -1,0 +1,710 @@
+diff --git a/node_modules/@rbxts/vide/src/components.luau b/node_modules/@rbxts/vide/src/components.luau
+index 165c74b..2d11606 100644
+--- a/node_modules/@rbxts/vide/src/components.luau
++++ b/node_modules/@rbxts/vide/src/components.luau
+@@ -3,58 +3,81 @@ local switch = require(script.Parent.switch)
+ local indexes, values = require(script.Parent.maps)()
+ 
+ type Case = {
+-    match: any,
+-    children: () -> any,
++	match: any,
++	children: () -> any,
+ }
+ 
+ local function Fragment(props: { children: any })
+-    return props.children
++	return props.children
+ end
+ 
+ local function For<K, VI, VO>(props: {
+-    each: () -> { [K]: VI },
+-    children: (VI, () -> K) -> VO,
++	each: () -> { [K]: VI },
++	children: (VI, () -> K) -> VO,
+ }): () -> { VO }
+-    return values(props.each, props.children)
++	return values(props.each, props.children)
+ end
+ 
+ local function Index<K, VI, VO>(props: {
+-    each: () -> { [K]: VI },
+-    children: (() -> VI, K) -> VO,
++	each: () -> { [K]: VI },
++	children: (() -> VI, K) -> VO,
+ }): () -> { VO }
+-    return indexes(props.each, props.children)
++	return indexes(props.each, props.children)
+ end
+ 
+ local function Switch(props: {
+-    condition: () -> any,
+-    children: { Case },
++	condition: () -> any,
++	children: { Case },
+ })
+-    local map = {}
++	local map = {}
+ 
+-    for _, node in props.children do
+-        map[node.match] = node.children
+-    end
++	for _, node in props.children do
++		map[node.match] = node.children
++	end
+ 
+-    return switch(props.condition)(map)
++	return switch(props.condition)(map)
+ end
+ 
+ local function Case(props: Case): Case
+-    return props
++	return props
+ end
+ 
+ local function Show(props: {
+-    when: any,
+-    children: () -> any,
+-    fallback: () -> any,
++	when: any,
++	children: () -> any,
++	fallback: () -> any,
+ })
+-    return show(props.when, props.children, props.fallback)
++	return show(props.when, props.children, props.fallback)
++end
++
++type ProviderChildren = { children: Provider | (() -> any) }
++type Provider = (props: ProviderChildren) -> any
++
++function RecurseProviders(providers: { Provider }, index: number, children: () -> any)
++	if index > #providers then
++		return children()
++	end
++
++	return providers[index]({
++		children = function()
++			return RecurseProviders(providers, index + 1, children)
++		end,
++	})
++end
++
++local function ProviderStack(props: {
++	providers: { Provider },
++	children: () -> any,
++})
++	return RecurseProviders(props.providers, 1, props.children)
+ end
+ 
+ return {
+-    Fragment = Fragment,
+-    Switch = Switch,
+-    Case = Case,
+-    For = For,
+-    Index = Index,
+-    Show = Show,
++	Fragment = Fragment,
++	Switch = Switch,
++	Case = Case,
++	For = For,
++	Index = Index,
++	Show = Show,
++	ProviderStack = ProviderStack,
+ }
+diff --git a/node_modules/@rbxts/vide/src/context.luau b/node_modules/@rbxts/vide/src/context.luau
+new file mode 100644
+index 0000000..1d1d5c9
+--- /dev/null
++++ b/node_modules/@rbxts/vide/src/context.luau
+@@ -0,0 +1,81 @@
++local graph = require(script.Parent.graph)
++local create_node = graph.create_node
++local get_scope = graph.get_scope
++local assert_stable_scope = graph.assert_stable_scope
++local push_scope = graph.push_scope
++local pop_scope = graph.pop_scope
++
++type Node = graph.Node<any>
++
++type Context<T> = {
++	provide: <V>(value: T, callback: () -> V) -> V,
++	consume: () -> T,
++}
++
++type InternalContext<T> = Context<T> & {
++	default: T,
++	providers: { [Node]: T },
++}
++
++local function provide_context<T>(context: InternalContext<T>, value: T)
++	local scope = assert_stable_scope()
++	if not scope then
++		error("contexts must be used inside a scope")
++	end
++
++	local provided_scope = create_node(scope, false, false)
++	context.providers[provided_scope] = value
++	return provided_scope
++end
++
++local function consume_context<T>(context: InternalContext<T>): T
++	local owner = get_scope()
++	if not owner then
++		error("contexts must be used inside a scope")
++	end
++
++	while true do
++		local value = context.providers[owner]
++		if value then
++			return value
++		end
++
++		if not owner.owner then
++			break
++		end
++		owner = owner.owner
++	end
++
++	return context.default
++end
++
++local function create_context<T>(default: T): Context<T>
++	local context = {
++		default = default,
++		providers = {},
++	} :: InternalContext<T>
++
++	context.provide = function<V>(value: T, callback: () -> V): V
++		local scope = provide_context(context, value)
++
++		push_scope(scope)
++		local ok, result = pcall(callback)
++		pop_scope()
++
++		if not ok then
++			error(result, 0)
++		end
++
++		return result
++	end
++
++	context.consume = function()
++		return consume_context(context)
++	end
++
++	return context
++end
++
++return table.freeze({
++	create_context = create_context,
++})
+diff --git a/node_modules/@rbxts/vide/src/derive.luau b/node_modules/@rbxts/vide/src/derive.luau
+index fb824a4..65f3de6 100644
+--- a/node_modules/@rbxts/vide/src/derive.luau
++++ b/node_modules/@rbxts/vide/src/derive.luau
+@@ -2,7 +2,7 @@ if not game then script = require "test/relative-string" end
+ 
+ local graph = require(script.Parent.graph)
+ local create_node = graph.create_node
+-local push_child_to_scope = graph.push_child_to_scope
++local track_dependency = graph.track_dependency
+ local assert_stable_scope = graph.assert_stable_scope
+ local evaluate_node = graph.evaluate_node
+ 
+@@ -12,7 +12,7 @@ local function derive<T>(source: () -> T): () -> T
+     evaluate_node(node)
+ 
+     return function()
+-        push_child_to_scope(node)
++        track_dependency(node)
+         return node.cache
+     end
+ end
+diff --git a/node_modules/@rbxts/vide/src/flags.luau b/node_modules/@rbxts/vide/src/flags.luau
+index cc2d2f8..be67473 100644
+--- a/node_modules/@rbxts/vide/src/flags.luau
++++ b/node_modules/@rbxts/vide/src/flags.luau
+@@ -1,7 +1,12 @@
+ local function inline_test(): string
+-    return debug.info(1, "n")
++	return debug.info(1, "n")
+ end
+ 
+ local is_O2 = inline_test() ~= "inline_test"
+ 
+-return { strict = not is_O2, batch = false }
++return {
++	strict = false,
++	batch = false,
++	remove_children = true,
++	auto_deps = true,
++}
+diff --git a/node_modules/@rbxts/vide/src/graph.luau b/node_modules/@rbxts/vide/src/graph.luau
+index 34deff4..bac4535 100644
+--- a/node_modules/@rbxts/vide/src/graph.luau
++++ b/node_modules/@rbxts/vide/src/graph.luau
+@@ -21,6 +21,7 @@ export type Node<T> =  {
+ }
+ 
+ local scopes = { n = 0 } :: { [number]: Node<any>, n: number } -- scopes stack
++local is_using = false
+ 
+ local function ycall<T, U>(fn: (T) -> U, arg: T): (boolean, string|U)
+     local thread = coroutine.create(xpcall)
+@@ -230,11 +231,30 @@ end
+ 
+ local function push_child_to_scope<T>(node: SourceNode<T>)
+     local scope = get_scope()
++
+     if scope and scope.effect then -- do not track nodes with no effect
+         push_child(node, scope)
+     end
+ end
+ 
++local function track_dependency<T>(node: SourceNode<T>)
++    local should_track = is_using or flags.auto_deps  
++    if not should_track then return end
++
++    push_child_to_scope(node)
++end
++
++local function use_dependency<T>(source: () -> T): T
++    is_using = true
++    local ok, result = pcall(source)
++    is_using = false
++
++    if not ok then error(result, 0) end
++
++    return result
++end
++
++
+ local function create_node<T>(owner: false | Node<any>, effect: false | (T) -> T, value: T): Node<T>
+     local node: Node<T> = {
+         cache = value,
+@@ -276,6 +296,8 @@ return table.freeze {
+     destroy = destroy,
+     flush_cleanups = flush_cleanups,
+     push_child_to_scope = push_child_to_scope,
++    track_dependency = track_dependency,
++    use_dependency = use_dependency,
+     update_descendants = update_descendants,
+     push_child = push_child,
+     create_node = create_node,
+diff --git a/node_modules/@rbxts/vide/src/index.d.ts b/node_modules/@rbxts/vide/src/index.d.ts
+index 98b5bbc..878fc5d 100644
+--- a/node_modules/@rbxts/vide/src/index.d.ts
++++ b/node_modules/@rbxts/vide/src/index.d.ts
+@@ -20,6 +20,25 @@ declare namespace Vide {
+ 		(): T;
+ 	}
+ 
++	interface SourceScope<T> {
++		cache: T;
++	}
++	/**
++	 * Just like how a signal's connection may need to be disconnected, a source's effect also may need to be disconnected.
++	 * But the disconnecting of many signals and connections is tedious and verbose.
++	 * Vide instead operates on the concept of scopes which provides a much cleaner API.
++	 */
++	interface Scope<T> {
++		cache: T;
++		effect: (() => T) | false;
++		cleanups: (() => void) | false;
++
++		owned: Array<Scope<T>> | false;
++		owner: Scope<T> | false;
++
++		parents: Array<SourceScope<T>>;
++	}
++
+ 	/**
+ 	 * A value that can be either a reactive source property or a static value.
+ 	 * Useful for defining component props that can be either static or dynamic.
+@@ -83,6 +102,9 @@ declare namespace Vide {
+ 	 */
+ 	let strict: boolean;
+ 
++	let remove_children: boolean;
++	let auto_deps: boolean;
++
+ 	/**
+ 	 * Creates a new stable scope, where creation of effects can be tracked
+ 	 * and properly disposed of. Returns the result of the given function.
+@@ -299,6 +321,17 @@ declare namespace Vide {
+ 	 */
+ 	function untrack<T>(source: Source<T>): T;
+ 
++	/**
++	 * Adds a dependency to the current scope when `auto_deps` is disabled.
++	 * Returns the source value, a non-source value can be given and returned as-is.
++	 *
++	 * @param source The source to track.
++	 *
++	 * @returns The value of the source.
++	 *
++	 */
++	function use<T>(source: Source<T> | T): T;
++
+ 	/**
+ 	 * Reads the source and returns its value. Non-source values are returned
+ 	 * as-is, making this useful for component props that can be either static
+@@ -322,6 +355,21 @@ declare namespace Vide {
+ 	 */
+ 	function batch(setter: () => void): void;
+ 
++	function run_in_scope(scope: Scope<any>, callback: () => void): void;
++	function create_scope(owner: Scope<any>, callback?: () => void): Scope<undefined>;
++	function inner_scope(callback?: () => void): Scope<undefined>;
++	function destroy_scope(scope: Scope<any>): void;
++	function get_scope(): Scope<any> | undefined;
++	function is_stable(scope?: Scope<any>): boolean;
++	function get_owner(scope?: Scope<any>): Scope<any> | undefined;
++
++	interface Context<T> {
++		provide: <V>(val: T, callback: () => V) => V;
++		consume: () => T;
++	}
++
++	function create_context<T>(def: T): Context<T>;
++
+ 	/**
+ 	 * Returns a new source with a value always moving towards the input source
+ 	 * value. The spring will oscillate around the input value until it reaches
+@@ -427,12 +475,12 @@ declare namespace Vide {
+ 	 * @see https://centau.github.io/vide/api/reactivity-flow#values
+ 	 */
+ 	// overload for an array input
+-	function For<VI, VO extends Node | void>(props: {
++	function For<VI, VO extends Node>(props: {
+ 		each: () => readonly VI[];
+ 		children: (item: VI, index: () => number) => VO;
+ 	}): () => VO[];
+ 	// overload for a map or object input
+-	function For<K, VI, VO extends Node | void>(props: {
++	function For<K, VI, VO extends Node>(props: {
+ 		each: () => Table<K, VI>;
+ 		children: (value: VI, key: () => K) => VO;
+ 	}): () => VO[];
+@@ -463,12 +511,12 @@ declare namespace Vide {
+ 	 * @see https://centau.github.io/vide/api/reactivity-flow#indexes
+ 	 */
+ 	// overload for an array input
+-	function Index<VI, VO extends Node | void>(props: {
++	function Index<VI, VO extends Node>(props: {
+ 		each: () => readonly VI[];
+ 		children: (item: () => VI, index: number) => VO;
+ 	}): () => VO[];
+ 	// overload for a map or object input
+-	function Index<K, VI, VO extends Node | void>(props: {
++	function Index<K, VI, VO extends Node>(props: {
+ 		each: () => Table<K, VI>;
+ 		children: (value: () => VI, key: K) => VO;
+ 	}): () => VO[];
+@@ -509,7 +557,7 @@ declare namespace Vide {
+ 	 *
+ 	 * @see Switch
+ 	 */
+-	function Case<T>(props: { match: T; children: () => Node | void }): Node;
++	function Case<T>(props: { match: T; children: () => Node }): Node;
+ 
+ 	/**
+ 	 * Shows one of two components depending on an input source. Renders the
+@@ -531,10 +579,21 @@ declare namespace Vide {
+ 	 *
+ 	 * @see https://centau.github.io/vide/api/reactivity-flow#show
+ 	 */
+-	function Show(props: { when: () => any; children: () => Node | void; fallback?: () => Node | void }): () => Node;
++	function Show(props: { when: () => any; children: () => Node; fallback?: () => Node }): () => Node;
++
++	function ProviderStack(props: { providers: Provider[]; children: Node }): Node;
+ 
+ 	// Elements
+ 
++	/**
++	 * A wrapped context provider.
++	 */
++
++	interface ProviderChildren {
++		children: (props?: {}) => Node;
++	}
++	type Provider = (props: ProviderChildren) => Node;
++
+ 	/**
+ 	 * A value that can be passed to a JSX element.
+ 	 */
+@@ -580,6 +639,7 @@ declare namespace Vide {
+ 	 */
+ 	interface ActionAttributes<T> extends Attributes {
+ 		action?: (instance: T) => void;
++		ref?: (instance: T) => void;
+ 	}
+ 
+ 	/**
+diff --git a/node_modules/@rbxts/vide/src/init.luau b/node_modules/@rbxts/vide/src/init.luau
+index 89e47d4..cbfc17a 100644
+--- a/node_modules/@rbxts/vide/src/init.luau
++++ b/node_modules/@rbxts/vide/src/init.luau
+@@ -14,6 +14,7 @@ local effect = require(script.effect)
+ local derive = require(script.derive)
+ local cleanup = require(script.cleanup)
+ local untrack = require(script.untrack)
++local use = require(script.use)
+ local read = require(script.read)
+ local batch = require(script.batch)
+ local switch = require(script.switch)
+@@ -22,6 +23,9 @@ local indexes, values = require(script.maps)()
+ local spring, update_springs = require(script.spring)()
+ local action = require(script.action)()
+ local changed = require(script.changed)
++
++local create_context = require(script.context).create_context
++local scope = require(script.scope)
+ local components = require(script.components)
+ local throw = require(script.throw)
+ local flags = require(script.flags)
+@@ -63,6 +67,7 @@ local vide = {
+     -- util
+     cleanup = cleanup,
+     untrack = untrack,
++    use = use,
+     read = read,
+     batch = batch,
+ 
+@@ -73,6 +78,17 @@ local vide = {
+     action = action,
+     changed = changed,
+ 
++    -- scope
++    inner_scope = scope.inner_scope,
++    create_scope = scope.create_scope,
++    destroy_scope = scope.destroy_scope,
++    get_scope = scope.get_scope,
++    is_stable = scope.is_stable,
++    get_owner = scope.get_owner,
++
++    -- contexts
++    create_context = create_context,
++
+     -- flags
+     strict = (nil :: any) :: boolean,
+ 
+@@ -97,6 +113,7 @@ local vide = {
+     jsx = jsx,
+     match = switch,
+     Fragment = components.Fragment,
++    ProviderStack = components.ProviderStack,
+     Switch = components.Switch,
+     Case = components.Case,
+     For = components.For,
+@@ -106,16 +123,20 @@ local vide = {
+ 
+ setmetatable(vide :: any, {
+     __index = function(_, index: unknown): ()
+-        if index == "strict" then
+-            return flags.strict
++        if index == "batch" then return end
++
++        if flags[index] ~= nil then
++            return flags[index]
+         else
+             throw(`{tostring(index)} is not a valid member of vide`)
+         end
+     end,
+ 
+     __newindex = function(_, index: unknown, value: unknown)
+-        if index == "strict" then
+-            flags.strict = value :: boolean
++        if index == "batch" then return end
++
++        if flags[index] ~= nil then
++            flags[index] = value :: boolean
+         else
+             throw(`{tostring(index)} is not a valid member of vide`)
+         end
+diff --git a/node_modules/@rbxts/vide/src/jsx.luau b/node_modules/@rbxts/vide/src/jsx.luau
+index 3c1ce5b..6067e59 100644
+--- a/node_modules/@rbxts/vide/src/jsx.luau
++++ b/node_modules/@rbxts/vide/src/jsx.luau
+@@ -2,6 +2,7 @@ local action = require(script.Parent.action)()
+ local changed = require(script.Parent.changed)
+ local create = require(script.Parent.create)
+ local tags = require(script.Parent.tags)
++local flags = require(script.Parent.flags)
+ 
+ type Props = { [any]: any }
+ 
+@@ -28,11 +29,20 @@ local function jsx(tag: string | (Props) -> any, props: Props, ...): any
+             props.action = nil
+         end
+         
++        if props.ref then
++            table.insert(props, action(props.ref))
++            props.ref = nil
++        end
++
+         for index = 1, select("#", ...) do
+             local child = select(index, ...)
+             table.insert(props, child)
+         end
+ 
++        if flags.remove_children then
++            props.children = nil
++        end
++ 
+         return create(tag)(props)
+     end
+ 
+diff --git a/node_modules/@rbxts/vide/src/scope.luau b/node_modules/@rbxts/vide/src/scope.luau
+new file mode 100644
+index 0000000..f2057ac
+--- /dev/null
++++ b/node_modules/@rbxts/vide/src/scope.luau
+@@ -0,0 +1,68 @@
++local graph = require(script.Parent.graph)
++
++type Node<T = any> = graph.Node<T>
++local get_scope = graph.get_scope
++local create_node = graph.create_node
++local push_scope = graph.push_scope
++local pop_scope = graph.pop_scope
++
++local function run_in_scope(scope: Node, callback: () -> any)
++    push_scope(scope)
++
++    local ok, result = pcall(callback)
++
++    pop_scope()
++
++    if not ok then error(result, 0) end
++end
++
++local function create_scope(owner: Node, callback: (() -> any)?): Node
++	local new_scope = create_node(owner, false, false)
++	
++    if callback then run_in_scope(new_scope, callback) end
++
++	return new_scope
++end
++
++local function inner_scope(callback: (() -> ())?): Node
++    local owner = graph.get_scope()
++    if not owner then error("inner_scope must be called inside a scope") end
++
++    return create_scope(owner, callback)
++end
++ 
++
++local function is_stable(scope: Node?): boolean
++    scope = scope or graph.get_scope()
++
++    if not scope then return false end
++    return not scope.effect
++end
++
++local function destroy_scope(scope: Node)
++    graph.destroy(scope)
++end
++
++local function get_owner(scope: Node?): Node?
++    scope = scope or get_scope()
++    if not scope then return nil end
++
++    local owner = scope.owner :: Node | false
++
++    if owner then
++        return owner :: Node
++    else
++        return nil
++    end
++end
++
++
++return table.freeze {
++    run_in_scope = run_in_scope,
++	create_scope = create_scope,
++    inner_scope = inner_scope,
++	destroy_scope = destroy_scope,
++	get_scope = get_scope,
++    is_stable = is_stable,
++	get_owner = get_owner,
++}
+\ No newline at end of file
+diff --git a/node_modules/@rbxts/vide/src/source.luau b/node_modules/@rbxts/vide/src/source.luau
+index e326815..a4c347c 100644
+--- a/node_modules/@rbxts/vide/src/source.luau
++++ b/node_modules/@rbxts/vide/src/source.luau
+@@ -3,7 +3,7 @@ if not game then script = require "test/relative-string" end
+ local graph = require(script.Parent.graph)
+ type Node<T> = graph.Node<T>
+ local create_source_node = graph.create_source_node
+-local push_child_to_scope = graph.push_child_to_scope
++local track_dependency = graph.track_dependency
+ local update_descendants = graph.update_descendants
+ 
+ export type Source<T> = (() -> T) & ((value: T) -> T)
+@@ -13,7 +13,7 @@ local function source<T>(initial_value: T): Source<T>
+ 
+     return function(...): T
+         if select("#", ...) == 0 then -- no args were given
+-            push_child_to_scope(node)
++            track_dependency(node)
+             return node.cache
+         end
+ 
+diff --git a/node_modules/@rbxts/vide/src/spring.luau b/node_modules/@rbxts/vide/src/spring.luau
+index bd1a990..858246b 100644
+--- a/node_modules/@rbxts/vide/src/spring.luau
++++ b/node_modules/@rbxts/vide/src/spring.luau
+@@ -30,7 +30,7 @@ local create_source_node = graph.create_source_node
+ local assert_stable_scope = graph.assert_stable_scope
+ local evaluate_node = graph.evaluate_node
+ local update_descendants = graph.update_descendants
+-local push_child_to_scope = graph.push_child_to_scope
++local track_dependency = graph.track_dependency
+ 
+ local UPDATE_RATE = 120
+ local TOLERANCE = 0.0001
+@@ -202,7 +202,7 @@ local function spring<T>(source: () -> T, period: number?, damping_ratio: number
+     output.cache = data.source_value
+ 
+     return function()
+-        push_child_to_scope(output)
++        track_dependency(output)
+         return output.cache
+     end
+ end
+diff --git a/node_modules/@rbxts/vide/src/tags.luau b/node_modules/@rbxts/vide/src/tags.luau
+index bbc6468..24f8e54 100644
+--- a/node_modules/@rbxts/vide/src/tags.luau
++++ b/node_modules/@rbxts/vide/src/tags.luau
+@@ -232,6 +232,7 @@ local classNames = {
+ 	"Trail",
+ 	"TremoloSoundEffect",
+ 	"TrussPart",
++	"UIDragDetector",
+ 	"UIAspectRatioConstraint",
+ 	"UICorner",
+ 	"UIFlexItem",
+diff --git a/node_modules/@rbxts/vide/src/test.tsx b/node_modules/@rbxts/vide/src/test.tsx
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/node_modules/@rbxts/vide/src/use.luau b/node_modules/@rbxts/vide/src/use.luau
+new file mode 100644
+index 0000000..1ef5959
+--- /dev/null
++++ b/node_modules/@rbxts/vide/src/use.luau
+@@ -0,0 +1,12 @@
++local graph = require(script.Parent.graph)
++local use_dependency = graph.use_dependency
++
++local function use<T>(source: () -> T | T): T
++    if type(source) == "function" then
++        local result = use_dependency(source)
++        return result
++    end
++    return source
++end
++
++return use
+\ No newline at end of file

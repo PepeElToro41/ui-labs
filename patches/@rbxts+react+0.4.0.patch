@@ -1,0 +1,17 @@
+diff --git a/node_modules/@rbxts/react/src/index.d.ts b/node_modules/@rbxts/react/src/index.d.ts
+index d85a375..3ee7db8 100644
+--- a/node_modules/@rbxts/react/src/index.d.ts
++++ b/node_modules/@rbxts/react/src/index.d.ts
+@@ -1177,7 +1177,6 @@ type ReactManagedAttributes<C, P> = C extends { propTypes: infer T; defaultProps
+ 			? Defaultize<P, D>
+ 			: P;
+ 
+-declare global {
+ 	namespace JSX {
+ 		type ElementType = string | React.JSXElementConstructor<any>;
+ 		interface Element extends React.ReactElement<any, any> {}
+@@ -1413,4 +1412,3 @@ declare global {
+ 			wraptarget: React.InstanceProps<WrapTarget>;
+ 		}
+ 	}
+-}
