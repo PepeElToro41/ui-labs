@@ -136,7 +136,7 @@ function Story(setprops: StoryProps) {
 					LayoutOrder={2}
 					TextColor3={textColor}
 					Size={new UDim2(1, -25, 1, 0)}
-					TextTruncate={Enum.TextTruncate.AtEnd}
+					TextTruncate={Enum.TextTruncate.SplitWord}
 					TextXAlignment={Enum.TextXAlignment.Left}
 				/>
 			</Div>

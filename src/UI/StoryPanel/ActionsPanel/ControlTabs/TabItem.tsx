@@ -40,9 +40,9 @@ function TabItem(setprops: TabItemProps) {
 				Size={UDim2.fromScale(0, 1)}
 				ZIndex={2}
 			>
-				<Padding PaddingX={10} />
+				<Padding PaddingX={13} />
 			</Text>
-			<Corner Radius={4} />
+			<Corner Radius={6} />
 			<Detector
 				Event={{
 					MouseEnter: hoverApi.enable,

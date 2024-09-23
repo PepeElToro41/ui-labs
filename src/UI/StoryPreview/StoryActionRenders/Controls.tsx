@@ -1,25 +1,21 @@
 import Immut from "@rbxts/immut";
 import React, { Dispatch, SetStateAction, useCallback, useMemo } from "@rbxts/react";
+import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
 import { ControlGroup } from "@rbxts/ui-labs";
 import { ConvertedControlList, ConvertedControls, ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { selectPreview } from "Reflex/StoryPreview";
 import ControlGroupRender from "UI/StoryControls/ControlGroupRender";
 import ControlHolder from "UI/StoryControls/ControlHolder";
 import { AllControlMap } from "UI/StoryControls/ControlMap";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
+import RightList from "UI/Styles/List/RightList";
 import TopList from "UI/Styles/List/TopList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 import Divisor from "UI/Utils/Divisor";
-
-interface ControlsProps<T extends ParametrizedControls> {
-	Controls: ConvertedControls;
-	ControlValues: T;
-	SetControlValues: Dispatch<SetStateAction<T>>;
-}
-
-const TITLE_NAME_WIDTH = 200;
+import ImageButton from "UI/Utils/ImageButton";
+import { ParametrizeControls } from "../PreviewController/Mounters/Utils";
 
 function CreateControlRender<T extends ObjectControl>(control: T, current: T["ControlValue"], apply: (val: T["ControlValue"]) => void) {
 	const FactoryElement = AllControlMap[control.Type] as unknown as ControlFactory<T>;
@@ -72,8 +68,20 @@ function RenderControl(name: string, control: ObjectControl, value: ControlValue
 	return render;
 }
 
+interface ControlsProps<T extends ParametrizedControls> {
+	Controls: ConvertedControls;
+	ControlValues: T;
+	SetControlValues: Dispatch<SetStateAction<T>>;
+	PreviewKey: string;
+}
+
+const TITLE_NAME_WIDTH = 200;
+
 function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
-	const theme = useTheme();
+	const preview = useSelectorCreator(selectPreview, props.PreviewKey);
+
+	const recoverControls = preview?.RecoverControls ?? false;
+	const { updateMountData } = useProducer<RootProducer>();
 
 	const SetControlByIndex = useCallback(
 		<K extends keyof T>(index: K, value: T[K]) => {
@@ -86,6 +94,18 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 		},
 		[props.SetControlValues],
 	);
+
+	const OnRecoverControls = useCallback(() => {
+		if (!preview) return;
+		updateMountData(props.PreviewKey, (old) => {
+			return { ...old, RecoverControls: !old.RecoverControls };
+		});
+	}, [props.PreviewKey]);
+
+	const OnResetControls = useCallback(() => {
+		const newControls = ParametrizeControls(props.Controls);
+		props.SetControlValues(newControls as T);
+	}, []);
 
 	const controlComponents = useMemo(() => {
 		const components: ReactChildren = new Map();
@@ -113,7 +133,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	return (
 		<Div key={"ControlsAction"}>
 			<Padding PaddingY={3} />
-			<Div key={"TopTitle"} Size={new UDim2(1, 0, 0, 27)}>
+			<Div key={"TopTitle"} Size={new UDim2(1, 0, 0, 28)}>
 				<Text
 					Size={new UDim2(0, TITLE_NAME_WIDTH, 1, 0)}
 					Position={UDim2.fromOffset(10, 0)}
@@ -128,6 +148,30 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 					TextXAlignment={Enum.TextXAlignment.Left}
 					Text={"Control"}
 				/>
+				<Div key={"IconButtons"} Position={UDim2.fromOffset(0, -2)}>
+					<RightList VerticalAlignment={"Center"} Padding={new UDim(0, 2)} />
+					<Padding PaddingX={6} />
+					<ImageButton
+						key={"ReloadIcon"}
+						ButtonName="ResetControlsButton"
+						Description={"Reset Controls"}
+						Icon={"rbxassetid://92882518325887"}
+						IconTransparency={0.3}
+						Size={UDim2.fromOffset(22, 22)}
+						IconScale={0.75}
+						OnClick={OnResetControls}
+					/>
+					<ImageButton
+						key={"BookmarkIcon"}
+						ButtonName="KeepControlsButton"
+						Description={"Keep Controls"}
+						Icon={recoverControls ? "rbxassetid://126982529248827" : "rbxassetid://114811815528934"}
+						IconTransparency={0.3}
+						Size={UDim2.fromOffset(22, 22)}
+						IconScale={0.75}
+						OnClick={OnRecoverControls}
+					/>
+				</Div>
 				<Divisor Direction="X" Anchor={0} Position={UDim2.fromScale(0, 1)} />
 			</Div>
 			<frame Position={new UDim2(1, -10, 0.5, 0)} AnchorPoint={new Vector2(1, 0.5)} Size={new UDim2(0, 0, 1, -2)}>

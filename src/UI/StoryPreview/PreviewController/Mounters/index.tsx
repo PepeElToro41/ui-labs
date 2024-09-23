@@ -15,7 +15,7 @@ export interface MounterProps<T extends MountType> {
 	MountFrame: Frame;
 	UnmountSignal: Signal;
 	RecoverControlsData?: RecoverControlsData;
-	SetRecoverControlsData: (data: RecoverControlsData) => void;
+	SetRecoverControlsData: (data?: RecoverControlsData) => void;
 }
 
 export type Mounter<T extends MountType> = React.FunctionComponent<MounterProps<T>>;

@@ -4,9 +4,11 @@ import { CreateTuple } from "Utils/MiscUtils";
 interface StoryPanelContext {
 	ActionsPinned: boolean;
 	ActionsHeight: React.Binding<number>;
+	ToolbarHovered: boolean;
 
 	SetActionsPinned: Dispatch<SetStateAction<boolean>>;
 	SetActionsHeight: (height: number) => void;
+	SetToolbarHovered: Dispatch<SetStateAction<boolean>>;
 }
 const StoryPanelContext = React.createContext({} as StoryPanelContext);
 
@@ -15,17 +17,20 @@ interface StoryPanelProps extends PropsWithChildren {}
 export function StoryPanelProvider(props: StoryPanelProps) {
 	const [actionsPinned, setActionsPinned] = useState(true);
 	const [actionsHeight, setActionsHeight] = useBinding<number>(0);
+	const [toolbarHovered, setToolbarHovered] = useState(false);
 
 	const contextValue = useMemo(() => {
 		const context: StoryPanelContext = {
 			ActionsPinned: actionsPinned,
 			ActionsHeight: actionsHeight,
+			ToolbarHovered: toolbarHovered,
 
 			SetActionsPinned: setActionsPinned,
 			SetActionsHeight: setActionsHeight,
+			SetToolbarHovered: setToolbarHovered,
 		};
 		return context;
-	}, [actionsPinned]);
+	}, [actionsPinned, toolbarHovered]);
 
 	return <StoryPanelContext.Provider value={contextValue}>{props["children"]}</StoryPanelContext.Provider>;
 }
@@ -40,6 +45,13 @@ export function useActionsHeight() {
 
 	return CreateTuple(ActionsHeight, SetActionsHeight);
 }
+
+export function useToolbarHovered() {
+	const { ToolbarHovered, SetToolbarHovered } = useContext(StoryPanelContext);
+
+	return CreateTuple(ToolbarHovered, SetToolbarHovered);
+}
+
 export function useActionsData() {
 	const { ActionsPinned, ActionsHeight } = useContext(StoryPanelContext);
 

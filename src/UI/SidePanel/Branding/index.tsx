@@ -5,6 +5,7 @@ import Text from "UI/Styles/Text";
 import Corner from "UI/Styles/Corner";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
+import Configs from "Plugin/Configs";
 
 interface BrandingProps {}
 
@@ -27,7 +28,7 @@ function Branding(props: BrandingProps) {
 				<Text
 					key={"Version"}
 					TextColor3={theme.Text.Disabled}
-					Text="v2.0.0"
+					Text={`v${Configs.Version.Mayor}.${Configs.Version.Minor}.${Configs.Version.Fix}`}
 					Weight="Light"
 					TextSize={10}
 					AutomaticSize={Enum.AutomaticSize.X}

@@ -43,14 +43,14 @@ function ControlTabs(setprops: ControlTabsProps) {
 	}, [props.Tabs, props.Selected, props.OnTabSelected]);
 
 	return (
-		<frame key="ControlTabs" BackgroundColor3={theme.ActionsPanel.TabsBackground} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 26)}>
+		<frame key="ControlTabs" BackgroundColor3={theme.ActionsPanel.TabsBackground} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 28)}>
 			<Div key="LeftTabs">
 				<LeftList VerticalAlignment={"Bottom"} Padding={new UDim(0, 1)} />
 				<Padding PaddingX={1} />
 				{tabs}
 			</Div>
 			<Div key="RightTabs">
-				<Padding PaddingX={3} />
+				<Padding PaddingX={5} />
 				<RightList VerticalAlignment={"Center"} HorizontalAlignment={"Right"} />
 				{props.RightTabs ?? []}
 			</Div>

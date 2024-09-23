@@ -1,12 +1,13 @@
 import React, { useMemo } from "@rbxts/react";
 import { MounterProps } from "..";
 import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
 import { CreateFusion3Values, CreateFusionValues, GetFusionVersion, GetScopedFusion, UpdateFusionValues } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { useStoryUnmount } from "../../Utils";
 import { InferFusionProps } from "@rbxts/ui-labs";
 import { Cast } from "Utils/MiscUtils";
+import { useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents } from "../Hooks";
 
 function FusionLib(props: MounterProps<"FusionLib">) {
 	const result = props.Result;
@@ -15,7 +16,12 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
+	const [controlValues, setControlValues] = useParametrizedControls(
+		props.Entry.Key,
+		controls,
+		props.RecoverControlsData,
+		props.SetRecoverControlsData,
+	);
 	const GetProps = useStoryPassedProps();
 
 	const fusionValues = useMemo(() => {
@@ -63,7 +69,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <></>;
 }

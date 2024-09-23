@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
 import type { MounterProps } from "..";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferControls } from "@rbxts/ui-labs";
@@ -11,7 +11,12 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 	const returnControls = result.controls as ReturnControls;
 
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
+	const [controlValues, setControlValues] = useParametrizedControls(
+		props.Entry.Key,
+		controls,
+		props.RecoverControlsData,
+		props.SetRecoverControlsData,
+	);
 	const rendererType = result.renderer ?? "deferred";
 	const GetProps = useStoryPassedProps();
 
@@ -58,7 +63,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

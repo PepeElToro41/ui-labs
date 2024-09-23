@@ -4,6 +4,8 @@ import TopList from "UI/Styles/List/TopList";
 import { useButtonElements } from "../Utils";
 import Padding from "UI/Styles/Padding";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useToolbarHovered } from "Context/StoryPanelContext";
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 
 interface RenderToolButtonsProps {
 	PreviewEntry: PreviewEntry;
@@ -13,6 +15,11 @@ interface RenderToolButtonsProps {
 function RenderToolButtons(props: RenderToolButtonsProps) {
 	const theme = useTheme();
 	const buttonElements = useButtonElements(props.PreviewEntry);
+	const [hovered, setToolbarHovered] = useToolbarHovered();
+
+	useUnmountEffect(() => {
+		setToolbarHovered(false);
+	});
 
 	return (
 		<frame
@@ -22,6 +29,10 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 			Size={UDim2.fromScale(1, 1)}
 			BackgroundColor3={theme.Toolbar}
 			BorderSizePixel={0}
+			Event={{
+				MouseEnter: () => setToolbarHovered(true),
+				MouseLeave: () => setToolbarHovered(false),
+			}}
 		>
 			<Corner Radius={6} />
 			<Padding Padding={2} />

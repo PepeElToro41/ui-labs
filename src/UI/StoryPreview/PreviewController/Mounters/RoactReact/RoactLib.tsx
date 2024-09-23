@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "@rbxts/react";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import type { MounterProps } from "..";
@@ -11,7 +11,12 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 	const returnControls = result.controls as ReturnControls;
 
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
+	const [controlValues, setControlValues] = useParametrizedControls(
+		props.Entry.Key,
+		controls,
+		props.RecoverControlsData,
+		props.SetRecoverControlsData,
+	);
 	const GetProps = useStoryPassedProps();
 
 	const RenderComponent = useCallback(() => {
@@ -35,7 +40,7 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		result.roact.unmount(handle);
 	});
 
-	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

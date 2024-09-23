@@ -8,6 +8,7 @@ import { Div } from "UI/Styles/Div";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { GetGuisAtPosition } from "./Utils";
 import ComponentHighlight from "./Highlight";
+import { useToolbarHovered } from "Context/StoryPanelContext";
 
 interface SelectElementsProps {
 	Inside: boolean;
@@ -36,9 +37,12 @@ function SelectElements(props: SelectElementsProps) {
 	const inputBegan = useInputBegan();
 	const inputEnded = useInputEnded();
 	const [hovered, setHovered] = useState<GuiObject[]>([]);
+	const [toolbarHovered] = useToolbarHovered();
 
 	const hoveredElement = useMemo(() => {
 		if (!props.Inside) return undefined;
+		if (toolbarHovered) return undefined;
+
 		if (!passThrough) return hovered[0];
 		if (selectedElements.isEmpty()) return hovered[0];
 		let passDepth = 0;
@@ -50,7 +54,7 @@ function SelectElements(props: SelectElementsProps) {
 		}
 		if (passDepth >= hovered.size()) return undefined;
 		return hovered[passDepth];
-	}, [hovered, props.Inside, passThrough, selectedElements]);
+	}, [hovered, props.Inside, toolbarHovered, passThrough, selectedElements]);
 
 	useEffect(() => {
 		const selected = GetSelectedGuis(holder)();
@@ -63,6 +67,7 @@ function SelectElements(props: SelectElementsProps) {
 
 	useEventListener(inputBegan, (input) => {
 		if (!props.Inside) return;
+		if (toolbarHovered) return;
 		if (input.KeyCode === Enum.KeyCode.LeftShift) {
 			setPassThrough(true);
 		} else if (input.UserInputType === Enum.UserInputType.MouseButton1) {
@@ -86,6 +91,7 @@ function SelectElements(props: SelectElementsProps) {
 
 	useEffect(() => {
 		if (!props.Inside) return;
+		if (toolbarHovered) return;
 		if (!holder) return;
 
 		const connection = RunService.Heartbeat.Connect(() => {
@@ -94,13 +100,13 @@ function SelectElements(props: SelectElementsProps) {
 		});
 
 		return () => connection.Disconnect();
-	}, [props.Inside, widget, holder]);
+	}, [props.Inside, toolbarHovered, widget, holder]);
 
 	useEffect(() => {
-		if (!props.Inside) {
+		if (!props.Inside || toolbarHovered) {
 			setHovered([]);
 		}
-	}, [props.Inside]);
+	}, [props.Inside, toolbarHovered]);
 
 	useStoryLockAction("SelectElements", props.Inside);
 

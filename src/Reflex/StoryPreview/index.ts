@@ -17,6 +17,7 @@ declare global {
 		OnViewport: boolean;
 		Visible: boolean;
 		AutoReload: boolean;
+		RecoverControls: boolean;
 
 		Zoom: number;
 		Offset: Vector2;
@@ -75,6 +76,7 @@ function CreateNewEntry(module: ModuleScript, order: number) {
 		...DefaultEntry,
 		UID: uid,
 		Key: uid,
+		RecoverControls: true,
 		Module: module,
 		Order: order,
 		ActionComponents: new Map(),
@@ -156,6 +158,8 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		const listSize = state.mountPreviews.size() + 1;
 		const entry = CreateNewEntry(module, listSize);
 		entry.OnWidget = true;
+		entry.OnViewport = false;
+
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(entry.Key, entry);
 		});

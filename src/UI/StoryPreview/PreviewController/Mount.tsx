@@ -10,7 +10,7 @@ export function MountStory<T extends MountType>(
 	frame: Frame,
 	unmountSignal: Signal,
 	recoverControlsData: RecoverControlsData | undefined,
-	setRecoverControlsData: (data: RecoverControlsData) => void,
+	setRecoverControlsData: (data?: RecoverControlsData) => void,
 ) {
 	const Mounter = MountingMap[mountType] as Mounter<T>;
 	const renderer = (

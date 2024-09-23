@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "@rbxts/react";
 import { MounterProps } from "..";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { InferGenericProps, SubscribeListener } from "@rbxts/ui-labs/src/Typing/Generic";
 import { InferControls } from "@rbxts/ui-labs";
@@ -13,7 +13,12 @@ function Generic(props: MounterProps<"Generic">) {
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
-	const [controlValues, setControlValues] = useParametrizedControls(controls, props.RecoverControlsData, props.SetRecoverControlsData);
+	const [controlValues, setControlValues] = useParametrizedControls(
+		props.Entry.Key,
+		controls,
+		props.RecoverControlsData,
+		props.SetRecoverControlsData,
+	);
 	const [oldControlValues, setOldControlValues] = useState<ParametrizedControls>(controlValues);
 	const listeners = useRef<SubscribeListener<ReturnControls>[]>([]);
 	const GetProps = useStoryPassedProps();
@@ -75,7 +80,7 @@ function Generic(props: MounterProps<"Generic">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

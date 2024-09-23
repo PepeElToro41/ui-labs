@@ -2,6 +2,7 @@ import { composeBindings, useEventListener } from "@rbxts/pretty-react-hooks";
 import React, { Binding, useBinding } from "@rbxts/react";
 import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
 import { useStoryLockAction } from "./Utils";
+import { useToolbarHovered } from "Context/StoryPanelContext";
 
 interface MeasureToolProps {
 	Inside: boolean;
@@ -13,8 +14,9 @@ function MeasureTool(props: MeasureToolProps) {
 	const inputBegan = useInputBegan();
 	const inputEnded = useInputEnded();
 	const [measureStart, setMeasureStart] = useBinding<Vector2 | undefined>(undefined);
+	const [toolbarHovered] = useToolbarHovered();
 
-	useStoryLockAction("MeasureTool", props.Inside);
+	useStoryLockAction("MeasureTool", props.Inside && !toolbarHovered);
 
 	const labelPos = composeBindings(props.Anchor, measureStart, (anchor, absolute) => {
 		if (absolute === undefined) return Vector2.zero;
@@ -28,6 +30,7 @@ function MeasureTool(props: MeasureToolProps) {
 	useEventListener(inputBegan, (input) => {
 		if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 		if (!props.Inside) return;
+		if (toolbarHovered) return;
 		const pos = mousePos.getValue();
 		setMeasureStart(pos);
 	});
