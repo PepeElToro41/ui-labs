@@ -34,7 +34,7 @@ export const ToolButtonsList = [
 	{ Name: "ViewOnViewport", Render: Viewport, DisplayName: "View On Viewport" },
 	{ Name: "ViewOnExplorer", Render: Explorer, DisplayName: "View On Explorer" },
 	{ Name: "FullscreenMode", Render: FullscreenMode, DisplayName: "Fullscreen Mode" },
-	{ Name: "LightBackground", Render: LightBackground, DisplayName: "Light Background" },
+	{ Name: "LightBackground", Render: LightBackground, DisplayName: "Invert Background" },
 	{ Name: "MeasureTool", Render: MeasureTool, DisplayName: "Measure Tool" },
 	{ Name: "SelectElements", Render: SelectElements, DisplayName: "Select Elements" },
 	{ Name: "ShowOutlines", Render: ShowOutlines, DisplayName: "Show Outlines" },

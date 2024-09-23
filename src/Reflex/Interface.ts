@@ -5,13 +5,16 @@ interface InterfaceState {
 	holder?: Frame;
 	mousepos: Vector2;
 	mouseIconActions: Set<string>;
+	recomputeStorybooksKey: {};
+
+	shortcutsEnabled: boolean;
+	clearOutputOnReload: boolean;
 
 	fullscreen: boolean;
 	measureTool: boolean;
 	selectTool: boolean;
 	showOutlines: boolean;
 	mouseRules: boolean;
-	shortcutsEnabled: boolean;
 	storyLock: Set<string>;
 }
 
@@ -19,21 +22,27 @@ const initialState: InterfaceState = {
 	holder: undefined,
 	mousepos: Vector2.zero,
 	mouseIconActions: new Set(),
+	recomputeStorybooksKey: {},
+
+	shortcutsEnabled: true,
+	clearOutputOnReload: false,
 
 	fullscreen: false,
 	measureTool: false,
 	selectTool: false,
 	showOutlines: false,
 	mouseRules: false,
-	shortcutsEnabled: true,
 	storyLock: new Set(),
 };
 
 export const selectInterface = (state: RootState) => state.interface;
 export const selectHolder = (state: RootState) => state.interface.holder;
 export const selectMouseIconActions = (state: RootState) => state.interface.mouseIconActions;
+export const selectRecomputeStorybooksKey = (state: RootState) => state.interface.recomputeStorybooksKey;
 
 export const selectShortcutsEnabled = (state: RootState) => state.interface.shortcutsEnabled;
+export const selectClearOutputOnReload = (state: RootState) => state.interface.clearOutputOnReload;
+
 export const selectFullscreen = (state: RootState) => state.interface.fullscreen;
 export const selectMeasureTool = (state: RootState) => state.interface.measureTool;
 export const selectSelectTool = (state: RootState) => state.interface.selectTool;
@@ -45,6 +54,9 @@ export const InterfaceProducer = createProducer(initialState, {
 	setHolder: (state, holder: Frame) => {
 		return { ...state, holder };
 	},
+	recomputeStorybooks: (state) => {
+		return { ...state, recomputeStorybooksKey: {} };
+	},
 	setMousePos: (state, position: Vector2) => {
 		return { ...state, mousepos: position };
 	},
@@ -54,8 +66,12 @@ export const InterfaceProducer = createProducer(initialState, {
 	removeMouseIconAction: (state, action: string) => {
 		return { ...state, mouseIconActions: Sift.Set.delete(state.mouseIconActions, action) };
 	},
-	setShortcutsEnabled: (state, enabled: boolean) => {
-		return { ...state, shortcutsEnabled: enabled };
+
+	toggleShortcutsEnabled: (state) => {
+		return { ...state, shortcutsEnabled: !state.shortcutsEnabled };
+	},
+	toggleClearOutputOnReload: (state) => {
+		return { ...state, clearOutputOnReload: !state.clearOutputOnReload };
 	},
 
 	setFullscreen: (state, fullscreen: boolean) => {

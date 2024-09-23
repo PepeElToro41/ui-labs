@@ -18,7 +18,7 @@ function LightBackground(props: ToolButtonProps) {
 			ButtonName={props.ButtonName}
 			Sprite="LightBackground"
 			Active={isLightBackground}
-			Description="Light Background"
+			Description="Invert Background"
 			OnClick={OnLightBackground}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}

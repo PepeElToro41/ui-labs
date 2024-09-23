@@ -40,11 +40,13 @@ const DefaultEntry = {
 interface StoryPreviewState {
 	mountPreviews: Map<string, PreviewEntry>;
 	latestViewOnViewport: boolean;
+	keepViewOnViewport: boolean;
 }
 
 const initialState: StoryPreviewState = {
 	mountPreviews: new Map(),
 	latestViewOnViewport: false,
+	keepViewOnViewport: true,
 };
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
@@ -56,6 +58,7 @@ export const selectPreview = (key?: string) => (state: RootState) => {
 	}
 	return selectStoryPreviews(state).get(key);
 };
+export const selectKeepViewOnViewport = (state: RootState) => selectStoryPreview(state).keepViewOnViewport;
 
 //gives you the amount of previews of the given module
 
@@ -101,7 +104,10 @@ function MountStory(state: StoryPreviewState, module: ModuleScript) {
 	//For all stories, Key is equal to UID, but for the root story, key is always Configs.RootPreviewKey ("RootStory")
 	const entry = CreateNewEntry(module, listSize);
 	entry.Key = Configs.RootPreviewKey;
-	entry.OnViewport = state.latestViewOnViewport;
+
+	if (state.keepViewOnViewport) {
+		entry.OnViewport = state.latestViewOnViewport;
+	}
 	return Immut.produce(state, (draft) => {
 		draft.mountPreviews.set(Configs.RootPreviewKey, entry);
 	});
@@ -146,6 +152,10 @@ function FilterEntryMap(entryMap: Map<string, PreviewEntry>, predicator: (entry:
 export const StoryPreviewProducer = createProducer(initialState, {
 	//---[MOUNTING/UNMOUNTING]---//
 	mountStory: MountStory,
+	toggleKeepViewOnViewport: (state) => {
+		return { ...state, keepViewOnViewport: !state.keepViewOnViewport };
+	},
+
 	mountOnTop: (state, module: ModuleScript) => {
 		const listSize = state.mountPreviews.size();
 		const entry = CreateNewEntry(module, listSize);

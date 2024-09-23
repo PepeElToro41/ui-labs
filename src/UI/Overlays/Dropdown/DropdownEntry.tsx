@@ -54,7 +54,7 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 					Size={UDim2.fromOffset(13, 13)}
 					BackgroundTransparency={1}
 					Position={new UDim2(1, -8, 0.5, 0)}
-					ImageColor3={theme.Text.Color}
+					ImageColor3={props.Disabled ? theme.Text.Disabled : hovered ? theme.Text.Inverted : theme.Text.Color}
 					AnchorPoint={new Vector2(1, 0.5)}
 					ImageTransparency={props.Active ? 0 : 0.8}
 				></imagelabel>

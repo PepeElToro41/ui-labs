@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "@rbxts/react";
-import { useProducer } from "@rbxts/react-reflex";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
 import { MountStory } from "./Mount";
 import { useInstance } from "Hooks/Utils/Instance";
@@ -9,6 +9,9 @@ import HolderParenter from "./Holders/HolderParenter";
 import { CheckStory } from "./StoryCheck/StoryCheck";
 import { Signal } from "@rbxts/lemon-signal";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { selectClearOutputOnReload } from "Reflex/Interface";
+import { selectStorySelected } from "Reflex/StorySelection";
+import { LogService } from "@rbxts/services";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -27,6 +30,8 @@ export interface RecoverGroupEntry {
 export type RecoverControlsData = Record<string, RecoverControlEntry | RecoverGroupEntry>;
 
 function PreviewController(props: PreviewControllerProps) {
+	const clearOutputOnReload = useSelector(selectClearOutputOnReload);
+	const selectedPreview = useSelector(selectStorySelected);
 	const [result, reloader] = useStoryRequire(props.PreviewEntry);
 	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: React.Element }>();
 	const [recoverControlsData, setRecoverControlsData] = useState<RecoverControlsData>();
@@ -64,6 +69,14 @@ function PreviewController(props: PreviewControllerProps) {
 		if (!check.Sucess) return warn("UI Labs: " + check.Error);
 		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const unmountSignal = new Signal();
+
+		if (clearOutputOnReload) {
+			const isSelected = selectedPreview === props.PreviewEntry.UID || selectedPreview === props.PreviewEntry.Key;
+
+			if (selectedPreview === undefined || isSelected) {
+				LogService.ClearOutput();
+			}
+		}
 
 		const gotRenderer = MountStory(
 			check.Type,
