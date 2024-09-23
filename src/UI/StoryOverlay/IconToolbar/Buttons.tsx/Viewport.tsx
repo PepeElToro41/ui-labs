@@ -20,6 +20,7 @@ function Viewport(props: ToolButtonProps) {
 		<SpriteButton
 			ButtonName={props.ButtonName}
 			Sprite="ViewOnViewport"
+			Shortcut={Enum.KeyCode.Q}
 			Description="View On Viewport"
 			Active={entry.OnViewport}
 			OnClick={OnViewOnViewport}

@@ -4,6 +4,7 @@ import React, { PropsWithChildren, useBinding, useCallback, useContext, useMemo 
 import { UserInputService } from "@rbxts/services";
 import { InputSignals } from "@rbxts/ui-labs";
 import { useSignal } from "Hooks/Utils/Signal";
+import { useToggler } from "Hooks/Utils/Toggler";
 import { Div } from "UI/Styles/Div";
 
 type InputSignature = [input: InputObject, gameProcessed: boolean];
@@ -21,23 +22,34 @@ interface UserInputProps extends PropsWithChildren {}
 
 export function UserInputProvider(props: UserInputProps) {
 	const [mousePos, setMousePos] = useBinding(Vector2.zero);
+	const [hovered, hoverApi] = useToggler(false);
 
 	const inputChanged = useSignal<InputSignature>();
 	const inputBegan = useSignal<InputSignature>();
 	const inputEnded = useSignal<InputSignature>();
 
-	const OnInputChanged = useCallback((_, input: InputObject) => {
-		if (input.UserInputType === Enum.UserInputType.MouseMovement) {
-			setMousePos(new Vector2(input.Position.X, input.Position.Y));
-		}
-		inputChanged.Fire(input, false);
-	}, []);
-	const OnInputBegan = useCallback((_, input: InputObject) => {
-		inputBegan.Fire(input, false);
-	}, []);
-	const OnInputEnded = useCallback((_, input: InputObject) => {
-		inputEnded.Fire(input, false);
-	}, []);
+	const OnInputChanged = useCallback(
+		(_, input: InputObject) => {
+			if (input.UserInputType === Enum.UserInputType.MouseMovement) {
+				setMousePos(new Vector2(input.Position.X, input.Position.Y));
+			}
+			inputChanged.Fire(input, false);
+		},
+		[hovered],
+	);
+	const OnInputBegan = useCallback(
+		(_, input: InputObject) => {
+			if (!hovered) return;
+			inputBegan.Fire(input, false);
+		},
+		[hovered],
+	);
+	const OnInputEnded = useCallback(
+		(_, input: InputObject) => {
+			inputEnded.Fire(input, false);
+		},
+		[hovered],
+	);
 
 	const contextValue = useMemo(() => {
 		const context: UserInputContext = {
@@ -55,7 +67,13 @@ export function UserInputProvider(props: UserInputProps) {
 			<Div
 				key="InputListener"
 				ZIndex={5}
-				Event={{ InputChanged: OnInputChanged, InputBegan: OnInputBegan, InputEnded: OnInputEnded }}
+				Event={{
+					InputChanged: OnInputChanged,
+					InputBegan: OnInputBegan,
+					InputEnded: OnInputEnded,
+					MouseEnter: hoverApi.enable,
+					MouseLeave: hoverApi.disable,
+				}}
 			/>
 			{props["children"]}
 		</UserInputContext.Provider>

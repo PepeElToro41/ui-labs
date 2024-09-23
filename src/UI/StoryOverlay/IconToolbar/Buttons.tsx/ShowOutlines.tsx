@@ -16,6 +16,7 @@ function ShowOutlines(props: ToolButtonProps) {
 		<SpriteButton
 			ButtonName={props.ButtonName}
 			Sprite="ShowOutlines"
+			Shortcut={Enum.KeyCode.S}
 			Description="Show Outlines"
 			Active={showOutlines}
 			OnClick={OnSetShowOutlines}

@@ -19,6 +19,7 @@ function FullscreenMode(props: ToolButtonProps) {
 				ButtonName={props.ButtonName}
 				Sprite="FullscreenMode"
 				Description="Fullscreen Mode"
+				Shortcut={Enum.KeyCode.F}
 				Active={fullscreen}
 				OnClick={OnSetFullscreen}
 				OnRightClick={props.OnRightClick}

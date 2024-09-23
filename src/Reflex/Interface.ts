@@ -33,6 +33,7 @@ export const selectInterface = (state: RootState) => state.interface;
 export const selectHolder = (state: RootState) => state.interface.holder;
 export const selectMouseIconActions = (state: RootState) => state.interface.mouseIconActions;
 
+export const selectShortcutsEnabled = (state: RootState) => state.interface.shortcutsEnabled;
 export const selectFullscreen = (state: RootState) => state.interface.fullscreen;
 export const selectMeasureTool = (state: RootState) => state.interface.measureTool;
 export const selectSelectTool = (state: RootState) => state.interface.selectTool;
@@ -52,6 +53,9 @@ export const InterfaceProducer = createProducer(initialState, {
 	},
 	removeMouseIconAction: (state, action: string) => {
 		return { ...state, mouseIconActions: Sift.Set.delete(state.mouseIconActions, action) };
+	},
+	setShortcutsEnabled: (state, enabled: boolean) => {
+		return { ...state, shortcutsEnabled: enabled };
 	},
 
 	setFullscreen: (state, fullscreen: boolean) => {

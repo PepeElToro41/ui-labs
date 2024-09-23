@@ -15,6 +15,7 @@ function Reload(props: ToolButtonProps) {
 		<SpriteButton
 			ButtonName={props.ButtonName}
 			Sprite="Reload"
+			Shortcut={Enum.KeyCode.R}
 			Description="Reload"
 			OnClick={OnReload}
 			OnRightClick={props.OnRightClick}

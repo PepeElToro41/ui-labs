@@ -19,6 +19,7 @@ function Explorer(props: ToolButtonProps) {
 		<SpriteButton
 			ButtonName={props.ButtonName}
 			Sprite="ViewOnExplorer"
+			Shortcut={Enum.KeyCode.E}
 			Description="View On Explorer"
 			OnClick={OnViewOnExplorer}
 			OnRightClick={props.OnRightClick}

@@ -134,7 +134,7 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 				collapsed
 					? isWidthResizable //collapsed, size to zero
 						? new UDim2(0, 0, props.BaseSize.Y.Scale, props.BaseSize.Y.Offset)
-						: new UDim2(props.BaseSize.X.Scale, props.BaseSize.X.Offset, 0, 1)
+						: new UDim2(props.BaseSize.X.Scale, props.BaseSize.X.Offset, 0, 0)
 					: resizeAdd.map((add) => {
 							//not collapsed, mapping resize vector
 							return props.BaseSize.add(
@@ -151,7 +151,7 @@ function ResizableFrame(setprops: ResizableFrameProps) {
 			<frame
 				key="DragAdornee"
 				BackgroundColor3={props.DragColor ?? Color3.fromRGB(56, 165, 255)}
-				AnchorPoint={new Vector2(0.5, 0.5)}
+				AnchorPoint={new Vector2(isDragging ? 0.5 : 1 - dragHandleX, isDragging ? 0.5 : 1 - dragHandleY)}
 				BorderSizePixel={0}
 				BackgroundTransparency={isDragging ? 0 : mouseInput ? 0.5 : 1}
 				Position={new UDim2(dragHandleX, 0, dragHandleY, 0)}
