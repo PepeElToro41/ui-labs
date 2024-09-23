@@ -21,3 +21,7 @@ UI Labs is a Storybook-like plugin for roblox that allows you to visualize stori
 
 -   [DevForum Post](https://devforum.roblox.com/t/ui-labs-modern-storybook-plugin-for-roblox/3109174)
 -   Find UI Labs post in the [Roblox OSS](https://discord.com/invite/Qm3JNyEc32) Discord server
+
+### Contributing:
+
+-   [Contributing Guide](https://github.com/PepeElToro41/ui-labs/blob/main/CONTRIBUTING.md)
