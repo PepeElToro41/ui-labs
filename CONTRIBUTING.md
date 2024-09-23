@@ -68,7 +68,7 @@ rojo serve
 
 Now you can connect Rojo in your Roblox place. This will sync the files at `ServerScriptService/UILabs`.
 
-To test the plugin locally, mount the story inside `UILabs/Stories/UILabs.story`. This story should work with any storybook plugin like Hoarcekat or UI Labs itself. If you are using UI Labs to visualize it, it's recommended to use `Mount On Viewport`.
+To test the plugin locally, mount the story at `UILabs/Stories/UILabs.story`. This story should work with any storybook plugin like Hoarcekat or UI Labs itself. If you are using UI Labs to preview it, it's recommended to use `Mount On Viewport`.
 
 This story will have have features that require plugin APIs disabled such as `View On Viewport`. To test these, save the **UILabs** folder as a local plugin
 
