@@ -46,7 +46,7 @@ jobs:
             - name: Install dependencies
               run: npm install # or pnpm install / yarn install / bun install
             - name: Build Docs
-              run: npm docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+              run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
