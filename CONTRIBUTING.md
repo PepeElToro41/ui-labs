@@ -116,6 +116,8 @@ Once you have cloned the repository, navigate to the `docs` folder.
 
 ```bash
 cd docs
+----------
+code .
 ```
 
 ### 2. Install the dependencies.
