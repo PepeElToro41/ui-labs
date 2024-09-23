@@ -8,6 +8,8 @@ Please follow these guidelines while contributing to the project.
 
 UI Labs is a storybook plugin for Roblox that allows you to visualize stories in real-time. The goal of this plugin is to provide an intuitive, customizable and feature rich tool for developers. This plugin will be always free and open-source.
 
+---
+
 # Contributing in the Plugin
 
 For contributing in the plugin codebase, please follow these steps:
@@ -91,12 +93,16 @@ git push origin main
 
 -   Open a Pull Request on GitHub.
 
+---
+
 # Contributing with Issues and Feature Requests
 
 If you encounter a bug, have a feature request or UX improvements, [create an issue](https://github.com/PepeElToro41/ui-labs/issues/new/choose) on GitHub.
 
 -   For bugs, include screenshots, error logs, reproduction steps and your code snippets.
 -   For feature requests, include a clear and concise description of the feature, why it would be useful, how it would be implemented and potential alternatives or workarounds.
+
+---
 
 # Contributing in the Documentation
 
