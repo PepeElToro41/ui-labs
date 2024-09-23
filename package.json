@@ -13,7 +13,6 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@rbxts/compiler-types": "^2.3.0-types.0",
-		"@rbxts/fusion": "^0.2.0",
 		"@rbxts/roact": "^3.0.1",
 		"@rbxts/types": "^1.0.758",
 		"@typescript-eslint/eslint-plugin": "^6.2.1",
@@ -31,6 +30,7 @@
 	"dependencies": {
 		"@rbxts/catppuccin": "^1.0.2",
 		"@rbxts/charm": "^0.6.1",
+		"@rbxts/fusion": "^0.2.0",
 		"@rbxts/hmr": "0.1.1",
 		"@rbxts/immut": "^0.4.4-ts.0",
 		"@rbxts/janitor": "^1.15.7-ts.0",

@@ -8,9 +8,7 @@ import ThemeProvider from "Contexts/ThemeProvider";
 
 function App() {
 	return (
-		<ProviderStack
-			providers={[ModuleSearchProvider, StorybooksProvider, StoryNodesProvider, ThemeProvider, AppRenderProvider]}
-		>
+		<ProviderStack providers={[ModuleSearchProvider, StorybooksProvider, StoryNodesProvider, ThemeProvider, AppRenderProvider]}>
 			{UILabs}
 		</ProviderStack>
 	);

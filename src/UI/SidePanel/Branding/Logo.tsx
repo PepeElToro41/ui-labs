@@ -17,7 +17,7 @@ function Logo(props: LogoProps) {
 				Size={UDim2.fromOffset(24, 24)}
 				Image={Images.Logo}
 			/>
-			<DropShadow Elevation={new Vector2(4, 4)} />
+			<DropShadow Elevation={new Vector2(2, 2)} />
 		</Div>
 	);
 }
