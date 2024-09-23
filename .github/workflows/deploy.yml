@@ -40,13 +40,13 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20
-                  cache: yarn # or pnpm / yarn
+                  cache: npm # or pnpm / yarn
             - name: Setup Pages
               uses: actions/configure-pages@v4
             - name: Install dependencies
-              run: yarn install # or pnpm install / yarn install / bun install
+              run: npm install # or pnpm install / yarn install / bun install
             - name: Build Docs
-              run: yarn docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+              run: npm docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
