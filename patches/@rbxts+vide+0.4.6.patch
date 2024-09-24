@@ -1,257 +1,140 @@
 diff --git a/node_modules/@rbxts/vide/src/components.luau b/node_modules/@rbxts/vide/src/components.luau
-index 165c74b..2d11606 100644
+index 165c74b..06cd5d9 100644
 --- a/node_modules/@rbxts/vide/src/components.luau
 +++ b/node_modules/@rbxts/vide/src/components.luau
-@@ -3,58 +3,81 @@ local switch = require(script.Parent.switch)
- local indexes, values = require(script.Parent.maps)()
- 
- type Case = {
--    match: any,
--    children: () -> any,
-+	match: any,
-+	children: () -> any,
- }
- 
- local function Fragment(props: { children: any })
--    return props.children
-+	return props.children
+@@ -50,6 +50,27 @@ local function Show(props: {
+     return show(props.when, props.children, props.fallback)
  end
- 
- local function For<K, VI, VO>(props: {
--    each: () -> { [K]: VI },
--    children: (VI, () -> K) -> VO,
-+	each: () -> { [K]: VI },
-+	children: (VI, () -> K) -> VO,
- }): () -> { VO }
--    return values(props.each, props.children)
-+	return values(props.each, props.children)
- end
- 
- local function Index<K, VI, VO>(props: {
--    each: () -> { [K]: VI },
--    children: (() -> VI, K) -> VO,
-+	each: () -> { [K]: VI },
-+	children: (() -> VI, K) -> VO,
- }): () -> { VO }
--    return indexes(props.each, props.children)
-+	return indexes(props.each, props.children)
- end
- 
- local function Switch(props: {
--    condition: () -> any,
--    children: { Case },
-+	condition: () -> any,
-+	children: { Case },
- })
--    local map = {}
-+	local map = {}
- 
--    for _, node in props.children do
--        map[node.match] = node.children
--    end
-+	for _, node in props.children do
-+		map[node.match] = node.children
-+	end
- 
--    return switch(props.condition)(map)
-+	return switch(props.condition)(map)
- end
- 
- local function Case(props: Case): Case
--    return props
-+	return props
- end
- 
- local function Show(props: {
--    when: any,
--    children: () -> any,
--    fallback: () -> any,
-+	when: any,
-+	children: () -> any,
-+	fallback: () -> any,
- })
--    return show(props.when, props.children, props.fallback)
-+	return show(props.when, props.children, props.fallback)
-+end
-+
+  
 +type ProviderChildren = { children: Provider | (() -> any) }
 +type Provider = (props: ProviderChildren) -> any
 +
-+function RecurseProviders(providers: { Provider }, index: number, children: () -> any)
-+	if index > #providers then
-+		return children()
-+	end
 +
-+	return providers[index]({
-+		children = function()
-+			return RecurseProviders(providers, index + 1, children)
-+		end,
-+	})
++function RecurseProviders(providers: { Provider }, index: number, children: () -> any)
++    if index > #providers then
++        return children()
++    end 
++
++    return providers[index]({ children = function()
++        return RecurseProviders(providers, index + 1, children)
++    end})
 +end
 +
 +local function ProviderStack(props: {
-+	providers: { Provider },
-+	children: () -> any,
++    providers: { Provider },
++    children: () -> any,
 +})
-+	return RecurseProviders(props.providers, 1, props.children)
- end
- 
++    return RecurseProviders(props.providers, 1, props.children)
++end 
++
  return {
--    Fragment = Fragment,
--    Switch = Switch,
--    Case = Case,
--    For = For,
--    Index = Index,
--    Show = Show,
-+	Fragment = Fragment,
-+	Switch = Switch,
-+	Case = Case,
-+	For = For,
-+	Index = Index,
-+	Show = Show,
-+	ProviderStack = ProviderStack,
+     Fragment = Fragment,
+     Switch = Switch,
+@@ -57,4 +78,5 @@ return {
+     For = For,
+     Index = Index,
+     Show = Show,
++    ProviderStack = ProviderStack,
  }
 diff --git a/node_modules/@rbxts/vide/src/context.luau b/node_modules/@rbxts/vide/src/context.luau
 new file mode 100644
-index 0000000..1d1d5c9
+index 0000000..79f8bbd
 --- /dev/null
 +++ b/node_modules/@rbxts/vide/src/context.luau
-@@ -0,0 +1,81 @@
+@@ -0,0 +1,72 @@
 +local graph = require(script.Parent.graph)
 +local create_node = graph.create_node
 +local get_scope = graph.get_scope
-+local assert_stable_scope = graph.assert_stable_scope
 +local push_scope = graph.push_scope
 +local pop_scope = graph.pop_scope
 +
 +type Node = graph.Node<any>
 +
 +type Context<T> = {
-+	provide: <V>(value: T, callback: () -> V) -> V,
-+	consume: () -> T,
++    provide: <V>(value: T, callback: (() -> V)) -> V,
++    consume: () -> T,
 +}
 +
 +type InternalContext<T> = Context<T> & {
-+	default: T,
-+	providers: { [Node]: T },
++    default: T,
++    providers: { [Node]: T }
 +}
 +
-+local function provide_context<T>(context: InternalContext<T>, value: T)
-+	local scope = assert_stable_scope()
-+	if not scope then
-+		error("contexts must be used inside a scope")
-+	end
 +
-+	local provided_scope = create_node(scope, false, false)
-+	context.providers[provided_scope] = value
-+	return provided_scope
++local function provide_context<T>(context: InternalContext<T>, value: T)
++    local scope = get_scope()
++    if not scope then error("contexts must be used inside a scope") end
++
++    local provided_scope = create_node(scope, false, false)
++    context.providers[provided_scope] = value
++    return provided_scope
 +end
 +
 +local function consume_context<T>(context: InternalContext<T>): T
-+	local owner = get_scope()
-+	if not owner then
-+		error("contexts must be used inside a scope")
-+	end
++    local owner = get_scope()
++    if not owner then error("contexts must be used inside a scope") end
 +
-+	while true do
-+		local value = context.providers[owner]
-+		if value then
-+			return value
-+		end
++    while true do
++        local value = context.providers[owner]
++        if value then return value end
 +
-+		if not owner.owner then
-+			break
-+		end
-+		owner = owner.owner
-+	end
++        if not owner.owner then break end
++        owner = owner.owner
++    end
 +
-+	return context.default
++    return context.default
 +end
 +
 +local function create_context<T>(default: T): Context<T>
-+	local context = {
-+		default = default,
-+		providers = {},
-+	} :: InternalContext<T>
++    local context = {
++        default = default,
++        providers = {}
++    } :: InternalContext<T>
 +
-+	context.provide = function<V>(value: T, callback: () -> V): V
-+		local scope = provide_context(context, value)
++    context.provide = function<V>(value: T, callback: (() -> V)): V
++        local scope = provide_context(context, value)
++        
++        push_scope(scope)
++        local ok, result = pcall(callback)
++        pop_scope()
 +
-+		push_scope(scope)
-+		local ok, result = pcall(callback)
-+		pop_scope()
++        if not ok then error(result, 0) end
 +
-+		if not ok then
-+			error(result, 0)
-+		end
++        return result
++    end
 +
-+		return result
-+	end
++    context.consume = function()
++        return consume_context(context)
++    end
 +
-+	context.consume = function()
-+		return consume_context(context)
-+	end
-+
-+	return context
++    return context
 +end
 +
-+return table.freeze({
-+	create_context = create_context,
-+})
-diff --git a/node_modules/@rbxts/vide/src/derive.luau b/node_modules/@rbxts/vide/src/derive.luau
-index fb824a4..65f3de6 100644
---- a/node_modules/@rbxts/vide/src/derive.luau
-+++ b/node_modules/@rbxts/vide/src/derive.luau
-@@ -2,7 +2,7 @@ if not game then script = require "test/relative-string" end
- 
- local graph = require(script.Parent.graph)
- local create_node = graph.create_node
--local push_child_to_scope = graph.push_child_to_scope
-+local track_dependency = graph.track_dependency
- local assert_stable_scope = graph.assert_stable_scope
- local evaluate_node = graph.evaluate_node
- 
-@@ -12,7 +12,7 @@ local function derive<T>(source: () -> T): () -> T
-     evaluate_node(node)
- 
-     return function()
--        push_child_to_scope(node)
-+        track_dependency(node)
-         return node.cache
-     end
- end
++
++return table.freeze {
++    create_context = create_context,
++}
+\ No newline at end of file
 diff --git a/node_modules/@rbxts/vide/src/flags.luau b/node_modules/@rbxts/vide/src/flags.luau
-index cc2d2f8..be67473 100644
+index cc2d2f8..8762a5b 100644
 --- a/node_modules/@rbxts/vide/src/flags.luau
 +++ b/node_modules/@rbxts/vide/src/flags.luau
-@@ -1,7 +1,12 @@
- local function inline_test(): string
--    return debug.info(1, "n")
-+	return debug.info(1, "n")
- end
+@@ -4,4 +4,9 @@ end
  
  local is_O2 = inline_test() ~= "inline_test"
  
 -return { strict = not is_O2, batch = false }
 +return {
-+	strict = false,
-+	batch = false,
-+	remove_children = true,
-+	auto_deps = true,
++    strict = not is_O2,
++    batch = false,
++    remove_children = true,
++    auto_deps = true,
 +}
 diff --git a/node_modules/@rbxts/vide/src/graph.luau b/node_modules/@rbxts/vide/src/graph.luau
-index 34deff4..bac4535 100644
+index 34deff4..9cb3d4f 100644
 --- a/node_modules/@rbxts/vide/src/graph.luau
 +++ b/node_modules/@rbxts/vide/src/graph.luau
-@@ -21,6 +21,7 @@ export type Node<T> =  {
- }
- 
- local scopes = { n = 0 } :: { [number]: Node<any>, n: number } -- scopes stack
-+local is_using = false
- 
- local function ycall<T, U>(fn: (T) -> U, arg: T): (boolean, string|U)
-     local thread = coroutine.create(xpcall)
-@@ -230,11 +231,30 @@ end
+@@ -230,11 +230,13 @@ end
  
  local function push_child_to_scope<T>(node: SourceNode<T>)
      local scope = get_scope()
@@ -261,36 +144,10 @@ index 34deff4..bac4535 100644
      end
  end
  
-+local function track_dependency<T>(node: SourceNode<T>)
-+    local should_track = is_using or flags.auto_deps  
-+    if not should_track then return end
-+
-+    push_child_to_scope(node)
-+end
-+
-+local function use_dependency<T>(source: () -> T): T
-+    is_using = true
-+    local ok, result = pcall(source)
-+    is_using = false
-+
-+    if not ok then error(result, 0) end
-+
-+    return result
-+end
-+
 +
  local function create_node<T>(owner: false | Node<any>, effect: false | (T) -> T, value: T): Node<T>
      local node: Node<T> = {
          cache = value,
-@@ -276,6 +296,8 @@ return table.freeze {
-     destroy = destroy,
-     flush_cleanups = flush_cleanups,
-     push_child_to_scope = push_child_to_scope,
-+    track_dependency = track_dependency,
-+    use_dependency = use_dependency,
-     update_descendants = update_descendants,
-     push_child = push_child,
-     create_node = create_node,
 diff --git a/node_modules/@rbxts/vide/src/index.d.ts b/node_modules/@rbxts/vide/src/index.d.ts
 index 98b5bbc..878fc5d 100644
 --- a/node_modules/@rbxts/vide/src/index.d.ts
@@ -442,18 +299,10 @@ index 98b5bbc..878fc5d 100644
  
  	/**
 diff --git a/node_modules/@rbxts/vide/src/init.luau b/node_modules/@rbxts/vide/src/init.luau
-index 89e47d4..cbfc17a 100644
+index 89e47d4..d5fefa8 100644
 --- a/node_modules/@rbxts/vide/src/init.luau
 +++ b/node_modules/@rbxts/vide/src/init.luau
-@@ -14,6 +14,7 @@ local effect = require(script.effect)
- local derive = require(script.derive)
- local cleanup = require(script.cleanup)
- local untrack = require(script.untrack)
-+local use = require(script.use)
- local read = require(script.read)
- local batch = require(script.batch)
- local switch = require(script.switch)
-@@ -22,6 +23,9 @@ local indexes, values = require(script.maps)()
+@@ -22,6 +22,9 @@ local indexes, values = require(script.maps)()
  local spring, update_springs = require(script.spring)()
  local action = require(script.action)()
  local changed = require(script.changed)
@@ -463,15 +312,7 @@ index 89e47d4..cbfc17a 100644
  local components = require(script.components)
  local throw = require(script.throw)
  local flags = require(script.flags)
-@@ -63,6 +67,7 @@ local vide = {
-     -- util
-     cleanup = cleanup,
-     untrack = untrack,
-+    use = use,
-     read = read,
-     batch = batch,
- 
-@@ -73,6 +78,17 @@ local vide = {
+@@ -73,6 +76,17 @@ local vide = {
      action = action,
      changed = changed,
  
@@ -489,7 +330,7 @@ index 89e47d4..cbfc17a 100644
      -- flags
      strict = (nil :: any) :: boolean,
  
-@@ -97,6 +113,7 @@ local vide = {
+@@ -97,6 +111,7 @@ local vide = {
      jsx = jsx,
      match = switch,
      Fragment = components.Fragment,
@@ -497,7 +338,7 @@ index 89e47d4..cbfc17a 100644
      Switch = components.Switch,
      Case = components.Case,
      For = components.For,
-@@ -106,16 +123,20 @@ local vide = {
+@@ -106,16 +121,20 @@ local vide = {
  
  setmetatable(vide :: any, {
      __index = function(_, index: unknown): ()
@@ -631,80 +472,30 @@ index 0000000..f2057ac
 +}
 \ No newline at end of file
 diff --git a/node_modules/@rbxts/vide/src/source.luau b/node_modules/@rbxts/vide/src/source.luau
-index e326815..a4c347c 100644
+index e326815..ff1497c 100644
 --- a/node_modules/@rbxts/vide/src/source.luau
 +++ b/node_modules/@rbxts/vide/src/source.luau
-@@ -3,7 +3,7 @@ if not game then script = require "test/relative-string" end
- local graph = require(script.Parent.graph)
- type Node<T> = graph.Node<T>
- local create_source_node = graph.create_source_node
--local push_child_to_scope = graph.push_child_to_scope
-+local track_dependency = graph.track_dependency
- local update_descendants = graph.update_descendants
- 
- export type Source<T> = (() -> T) & ((value: T) -> T)
 @@ -13,7 +13,7 @@ local function source<T>(initial_value: T): Source<T>
  
      return function(...): T
          if select("#", ...) == 0 then -- no args were given
 -            push_child_to_scope(node)
-+            track_dependency(node)
++        push_child_to_scope(node)
              return node.cache
          end
  
-diff --git a/node_modules/@rbxts/vide/src/spring.luau b/node_modules/@rbxts/vide/src/spring.luau
-index bd1a990..858246b 100644
---- a/node_modules/@rbxts/vide/src/spring.luau
-+++ b/node_modules/@rbxts/vide/src/spring.luau
-@@ -30,7 +30,7 @@ local create_source_node = graph.create_source_node
- local assert_stable_scope = graph.assert_stable_scope
- local evaluate_node = graph.evaluate_node
- local update_descendants = graph.update_descendants
--local push_child_to_scope = graph.push_child_to_scope
-+local track_dependency = graph.track_dependency
- 
- local UPDATE_RATE = 120
- local TOLERANCE = 0.0001
-@@ -202,7 +202,7 @@ local function spring<T>(source: () -> T, period: number?, damping_ratio: number
-     output.cache = data.source_value
- 
-     return function()
--        push_child_to_scope(output)
-+        track_dependency(output)
-         return output.cache
-     end
- end
 diff --git a/node_modules/@rbxts/vide/src/tags.luau b/node_modules/@rbxts/vide/src/tags.luau
-index bbc6468..24f8e54 100644
+index bbc6468..f34db7f 100644
 --- a/node_modules/@rbxts/vide/src/tags.luau
 +++ b/node_modules/@rbxts/vide/src/tags.luau
-@@ -232,6 +232,7 @@ local classNames = {
- 	"Trail",
- 	"TremoloSoundEffect",
+@@ -234,6 +234,7 @@ local classNames = {
  	"TrussPart",
-+	"UIDragDetector",
  	"UIAspectRatioConstraint",
  	"UICorner",
++    "UIDragDetector",
  	"UIFlexItem",
+ 	"UIGradient",
+ 	"UIGridLayout",
 diff --git a/node_modules/@rbxts/vide/src/test.tsx b/node_modules/@rbxts/vide/src/test.tsx
 deleted file mode 100644
 index e69de29..0000000
-diff --git a/node_modules/@rbxts/vide/src/use.luau b/node_modules/@rbxts/vide/src/use.luau
-new file mode 100644
-index 0000000..1ef5959
---- /dev/null
-+++ b/node_modules/@rbxts/vide/src/use.luau
-@@ -0,0 +1,12 @@
-+local graph = require(script.Parent.graph)
-+local use_dependency = graph.use_dependency
-+
-+local function use<T>(source: () -> T | T): T
-+    if type(source) == "function" then
-+        local result = use_dependency(source)
-+        return result
-+    end
-+    return source
-+end
-+
-+return use
-\ No newline at end of file

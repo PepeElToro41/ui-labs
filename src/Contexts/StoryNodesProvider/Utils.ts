@@ -44,6 +44,7 @@ function IterateRoots(
 			const storyNode: StoryNode = {
 				Type: "Story",
 				Name: RemoveExtension(child.Name, Configs.Extensions.Story),
+				Identifier: child,
 				Module: child,
 				Parent: parentNode,
 			};
@@ -56,6 +57,7 @@ function IterateRoots(
 			const newFolder: FolderNode = {
 				Type: "Folder",
 				Instance: child,
+				Identifier: child,
 				Storybook: bookBind,
 				Parent: parentNode,
 				Children: [],
@@ -80,6 +82,7 @@ export function GenerateStorybooks(storyList: ModuleScript[], storybooks: Storyb
 			Type: "Storybook",
 			Name: book.name ?? RemoveExtension(bookModule.Name, Configs.Extensions.Storybook),
 			Result: book,
+			Identifier: bookModule,
 			Module: bookModule,
 			Children: [],
 		};
@@ -106,6 +109,7 @@ export function GenerateUnknown(storyList: ModuleScript[], lookup: ModuleLookup)
 			const storyNode: StoryNode = {
 				Type: "Story",
 				Name: RemoveExtension(module.Name, Configs.Extensions.Story),
+				Identifier: module,
 				Module: module,
 				Parent: mappedNode,
 			};
@@ -115,11 +119,13 @@ export function GenerateUnknown(storyList: ModuleScript[], lookup: ModuleLookup)
 			const newNode: UnknownNode = {
 				Type: "Unknown",
 				Instance: module.Parent,
+				Identifier: module.Parent,
 				Children: [],
 			};
 			const storyNode: StoryNode = {
 				Type: "Story",
 				Name: RemoveExtension(module.Name, Configs.Extensions.Story),
+				Identifier: module,
 				Module: module,
 				Parent: newNode,
 			};

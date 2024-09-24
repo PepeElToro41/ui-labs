@@ -5,6 +5,7 @@ interface ScrollerProps extends Vide.InstanceAttributes<ScrollingFrame> {}
 function Scroller(props: ScrollerProps) {
 	return (
 		<scrollingframe
+			Name={"Scroller"}
 			BackgroundTransparency={1}
 			Size={new UDim2(1, 0, 1, 0)}
 			Position={new UDim2(0, 0, 0, 0)}

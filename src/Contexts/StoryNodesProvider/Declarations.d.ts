@@ -12,6 +12,7 @@ declare global {
 	interface StoryNode {
 		Type: "Story";
 		Name: string;
+		Identifier: Instance;
 		Module: ModuleScript;
 		Parent: ContainerNode;
 	}
@@ -19,6 +20,7 @@ declare global {
 	interface StorybookNode {
 		Type: "Storybook";
 		Name: string;
+		Identifier: Instance;
 		Module: ModuleScript;
 		Result: Storybook;
 		Children: ChildrenNode[];
@@ -27,6 +29,7 @@ declare global {
 	interface FolderNode {
 		Type: "Folder";
 		Instance: Instance; //No name as this is binded to a roblox instance
+		Identifier: Instance;
 		Storybook: StorybookNode;
 		Parent: ParentNode;
 		Children: ChildrenNode[];
@@ -34,6 +37,7 @@ declare global {
 
 	interface UnknownNode {
 		Type: "Unknown";
+		Identifier: Instance;
 		Instance: Instance;
 		Children: StoryNode[];
 	}

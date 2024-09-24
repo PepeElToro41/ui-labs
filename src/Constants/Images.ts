@@ -8,4 +8,7 @@ export const Images = {
 	Folder: "rbxassetid://84281705413893",
 	Storybook: "rbxassetid://70794806063869",
 	Story: "rbxassetid://137046521780742",
+
+	Expanded: "rbxassetid://80464345551642",
+	Collapsed: "rbxassetid://98515959792894",
 };

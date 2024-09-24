@@ -1,4 +1,5 @@
 import Vide, { cleanup, Source } from "@rbxts/vide";
+import { ExtractProp } from "Utils/Vide";
 
 interface DragDetectorProps extends Vide.InstanceAttributes<UIDragDetector> {
 	Dragging?: Source<boolean>;
@@ -18,11 +19,8 @@ export function ListenDragging(source: Source<boolean>) {
 }
 
 function DragDetector(props: DragDetectorProps) {
-	const dragging = props.Dragging;
-	const DragChanged = props.DragChanged;
-
-	props.Dragging = undefined;
-	props.DragChanged = undefined;
+	const dragging = ExtractProp(props, "Dragging");
+	const DragChanged = ExtractProp(props, "DragChanged");
 
 	const dragger = (<uidragdetector {...props}>{props.children}</uidragdetector>) as UIDragDetector;
 

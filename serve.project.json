@@ -5,6 +5,9 @@
 		"**/tsconfig.json",
 
 		"node_modules/@rbxts/roact",
+		"node_modules/@rbxts/react",
+		"node_modules/@rbxts/react-vendor",
+		"node_modules/@rbxts/react-roblox",
 		"node_modules/@rbxts/fusion",
 		"node_modules/@rbxts/iris"
 	],

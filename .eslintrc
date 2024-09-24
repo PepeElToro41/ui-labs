@@ -25,6 +25,7 @@
       "prefer-const":"off",
       "prettier/prettier": "warn",
       "no-constant-condition": "off",
+      "roblox-ts/no-private-identifier": "off",
       "@typescript-eslint/no-explicit-any": "off"
    }
 }

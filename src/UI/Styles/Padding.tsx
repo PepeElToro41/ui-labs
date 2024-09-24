@@ -1,6 +1,6 @@
 import Vide from "@rbxts/vide";
 
-interface PaddingProps {
+export interface PaddingProps {
 	Padding?: number;
 	PaddingX?: number;
 	PaddingY?: number;

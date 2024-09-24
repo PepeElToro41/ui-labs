@@ -1,5 +1,6 @@
 import Vide, { cleanup, Source } from "@rbxts/vide";
 import { useTheme } from "Contexts/ThemeProvider";
+import { ExtractProp } from "Utils/Vide";
 
 interface TextInputProps extends Vide.InstanceAttributes<TextBox> {
 	Weight?: Enum.FontWeight["Name"];
@@ -8,11 +9,8 @@ interface TextInputProps extends Vide.InstanceAttributes<TextBox> {
 
 function TextInput(props: TextInputProps) {
 	const theme = useTheme();
-	const weight = props.Weight ?? "Medium";
-	props.Weight = undefined;
-
-	const getFocused = props.GetFocused;
-	props.GetFocused = undefined;
+	const weight = ExtractProp(props, "Weight") ?? "Medium";
+	const getFocused = ExtractProp(props, "GetFocused");
 
 	const textbox = (
 		<textbox

@@ -1,5 +1,5 @@
 import { Storybook } from "@rbxts/ui-labs";
-import Vide, { cleanup, effect, ProviderChildren, Source, source } from "@rbxts/vide";
+import Vide, { cleanup, effect, ProviderChildren, Source, source, untrack } from "@rbxts/vide";
 import { StorybookLoader } from "./StorybookLoader";
 import { useStorybookModules } from "Contexts/ModuleSearchProvider";
 import { CheckBookReturn } from "./Utils";
@@ -20,22 +20,27 @@ function StorybooksProvider(props: ProviderChildren) {
 
 	// creating loaders
 	effect(() => {
-		const oldLoaders = storybookLoaders();
+		const oldLoaders = untrack(storybookLoaders);
 		const newLoaders = new Map<ModuleScript, StorybookLoader>();
 
+		// creating needed loaders
 		storybookModules().forEach((module) => {
 			const currentLoader = oldLoaders ? oldLoaders.get(module) : undefined;
-			if (currentLoader) newLoaders.set(module, currentLoader);
+			if (currentLoader) return newLoaders.set(module, currentLoader);
 
 			const newLoader = new StorybookLoader(module);
 			newLoaders.set(module, newLoader);
 			newLoader.Init();
 		});
+
+		// destroying old loaders
 		oldLoaders.forEach((loader, module) => {
 			if (!newLoaders.has(module)) {
 				loader.Destroy();
 			}
 		});
+
+		storybookLoaders(newLoaders);
 	});
 
 	// getting the results
@@ -49,18 +54,17 @@ function StorybooksProvider(props: ProviderChildren) {
 		});
 		storybooks(results);
 	}
-
 	// connecting loaders
 	effect(() => {
 		const connections: RBXScriptConnection[] = [];
 		storybookLoaders().forEach((loader) => {
 			const connection = loader.OnStorybookUpdated.Connect(() => {
-				CollapseStorybookResults();
+				untrack(CollapseStorybookResults);
 			});
 			connections.push(connection);
 		});
 
-		CollapseStorybookResults();
+		untrack(CollapseStorybookResults);
 
 		cleanup(() => {
 			connections.forEach((connection) => {
@@ -68,8 +72,6 @@ function StorybooksProvider(props: ProviderChildren) {
 			});
 		});
 	});
-
-	print("PROPS AS", props);
 
 	return StorybooksContext.provide(storybooks, props.children);
 }

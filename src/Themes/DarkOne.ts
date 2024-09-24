@@ -15,9 +15,8 @@ export const DarkOne = {
 		Green: Color3.fromRGB(135, 255, 176),
 		Blue: Color3.fromRGB(0, 0, 255),
 	},
-	StoryExplorer: {
-		Storybook: Color3.fromRGB(143, 240, 176),
-		Folder: Color3.fromRGB(237, 166, 222),
-		Story: Color3.fromRGB(120, 189, 232),
-	},
+
+	Storybook: Color3.fromRGB(143, 240, 176),
+	Folder: Color3.fromRGB(237, 166, 222),
+	Story: Color3.fromRGB(120, 189, 232),
 };
