@@ -1,3 +1,6 @@
+import Vide from "@rbxts/vide";
+import { Derived } from "Utils/Vide";
+
 export function FilterNodes(nodes: RootNodes, filter: string) {
 	const filteredNodes: RootNodes = { Storybooks: [], Unknown: [] };
 
@@ -40,4 +43,12 @@ export function FilterChildren(children: ChildrenNode[], filter: string) {
 	});
 
 	return filtered;
+}
+
+/* ---------------------------- CONTEXT PROVIDING --------------------------- */
+
+export const FilterContext = Vide.create_context<Derived<string | undefined>>(undefined!);
+
+export function useFilter() {
+	return FilterContext.consume();
 }

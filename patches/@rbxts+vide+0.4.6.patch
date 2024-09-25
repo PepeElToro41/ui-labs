@@ -1,3 +1,18 @@
+diff --git a/node_modules/@rbxts/vide/src/bind.luau b/node_modules/@rbxts/vide/src/bind.luau
+index 3a016a6..c3b3455 100644
+--- a/node_modules/@rbxts/vide/src/bind.luau
++++ b/node_modules/@rbxts/vide/src/bind.luau
+@@ -54,7 +54,9 @@ local function update_children_effect(p: ChildrenBinding)
+             for _, child in next, child do
+                 process_child(child)
+             end
+-        else
++        elseif type(child) == "function" then
++            process_child(child())
++        elseif child then
+             if new_child_set[child] then return end -- stops redundant reparenting
+ 
+             new_child_set[child] = true -- record child set from this update
 diff --git a/node_modules/@rbxts/vide/src/components.luau b/node_modules/@rbxts/vide/src/components.luau
 index 165c74b..06cd5d9 100644
 --- a/node_modules/@rbxts/vide/src/components.luau

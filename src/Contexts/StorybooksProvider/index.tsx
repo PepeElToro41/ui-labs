@@ -1,5 +1,5 @@
 import { Storybook } from "@rbxts/ui-labs";
-import Vide, { cleanup, effect, ProviderChildren, Source, source, untrack } from "@rbxts/vide";
+import Vide, { cleanup, effect, ProviderChildren, Source, source, untrack, values } from "@rbxts/vide";
 import { StorybookLoader } from "./StorybookLoader";
 import { useStorybookModules } from "Contexts/ModuleSearchProvider";
 import { CheckBookReturn } from "./Utils";
@@ -14,43 +14,25 @@ const StorybooksContext = Vide.create_context<StorybooksContext>(undefined!);
 // This provider hot reloads storybooks and provides the results in a list
 function StorybooksProvider(props: ProviderChildren) {
 	const storybooks = source<Storybooks>(new Map());
-	const storybookLoaders = source(new Map<ModuleScript, StorybookLoader>());
 
 	const storybookModules = useStorybookModules();
 
-	// creating loaders
-	effect(() => {
-		const oldLoaders = untrack(storybookLoaders);
-		const newLoaders = new Map<ModuleScript, StorybookLoader>();
+	const storybookLoaders = values(storybookModules, (module) => {
+		const loader = new StorybookLoader(module);
+		loader.Init();
 
-		// creating needed loaders
-		storybookModules().forEach((module) => {
-			const currentLoader = oldLoaders ? oldLoaders.get(module) : undefined;
-			if (currentLoader) return newLoaders.set(module, currentLoader);
-
-			const newLoader = new StorybookLoader(module);
-			newLoaders.set(module, newLoader);
-			newLoader.Init();
-		});
-
-		// destroying old loaders
-		oldLoaders.forEach((loader, module) => {
-			if (!newLoaders.has(module)) {
-				loader.Destroy();
-			}
-		});
-
-		storybookLoaders(newLoaders);
+		cleanup(loader);
+		return loader;
 	});
 
 	// getting the results
 	function CollapseStorybookResults() {
 		const results: Storybooks = new Map();
-		storybookLoaders().forEach((loader, module) => {
+		storybookLoaders().forEach((loader) => {
 			const result = loader.GetCurrentResult();
 			if (result === undefined) return;
 			if (!CheckBookReturn(result)) return;
-			results.set(module, result);
+			results.set(loader.Module, result);
 		});
 		storybooks(results);
 	}

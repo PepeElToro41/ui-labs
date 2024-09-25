@@ -1,7 +1,8 @@
-import Vide, { Derivable, effect, read, Show, source } from "@rbxts/vide";
+import Vide, { Derivable, effect, read, show, source } from "@rbxts/vide";
 import { Images } from "Constants/Images";
 import { useTheme } from "Contexts/ThemeProvider";
 import Divisor from "UI/Elements/Divisor";
+import { useFilter } from "UI/SidePanel/Filtering";
 import Corner from "UI/Styles/Corner";
 import Detector from "UI/Styles/Detector";
 import Div from "UI/Styles/Div";
@@ -11,13 +12,14 @@ import LeftList from "UI/Styles/List/LeftList";
 import TopList from "UI/Styles/List/TopList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
-import { connect, DerivedChildren } from "Utils/Vide";
+import { connect } from "Utils/Vide";
 
-interface ChildrenHolderProps extends DerivedChildren {
+interface ChildrenHolderProps {
 	Name: Derivable<string | Instance>;
 	LayoutOrder?: Derivable<number>;
 	Icon?: Vide.Node;
 	IsChild?: boolean;
+	children: () => Vide.Node;
 }
 
 function ChildrenHolder(props: ChildrenHolderProps) {
@@ -25,6 +27,7 @@ function ChildrenHolder(props: ChildrenHolderProps) {
 	const hovered = source(false);
 	const name = source<string>(undefined!);
 	const expanded = source(false);
+	const filter = useFilter();
 
 	effect(() => {
 		const readName = read(props.Name);
@@ -83,11 +86,14 @@ function ChildrenHolder(props: ChildrenHolderProps) {
 				Size={UDim2.fromScale(1, 0)}
 				AutomaticSize={Enum.AutomaticSize.Y}
 			>
-				<Divisor Direction="Y" Position={new UDim2(0, 9, 0, 0)} Size={new UDim(1, -12)} Anchor={0} Transparency={0.8} />
+				<Divisor Direction="Y" Position={new UDim2(0, 9, 0, 0)} Size={new UDim(1, -13)} Anchor={0} Transparency={0.8} />
 				<Div Name={"Children"} Size={UDim2.fromScale(1, 0)} LayoutOrder={2} AutomaticSize={Enum.AutomaticSize.Y}>
 					<TopList Gap={1} />
 					<Padding Left={16} />
-					<Show when={expanded}>{props.children}</Show>
+					{show(() => {
+						if (filter() !== undefined) return true;
+						return expanded();
+					}, props.children)}
 				</Div>
 			</Div>
 		</Div>

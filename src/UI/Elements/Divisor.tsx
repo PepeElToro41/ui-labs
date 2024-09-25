@@ -31,7 +31,7 @@ function Divisor(setprops: DivisorProps) {
 		<frame
 			Name={"Divisor"}
 			AnchorPoint={props.Direction === "X" ? new Vector2(props.Anchor, 0.5) : new Vector2(0.5, props.Anchor)}
-			BackgroundColor3={props.Color ?? (() => theme().Border)}
+			BackgroundColor3={props.Color ?? theme("Border")}
 			BackgroundTransparency={props.Transparency ?? 0.7}
 			BorderSizePixel={0}
 			LayoutOrder={props.Order ?? 0}

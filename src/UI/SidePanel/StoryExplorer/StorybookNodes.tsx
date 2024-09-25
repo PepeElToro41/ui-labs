@@ -9,7 +9,7 @@ interface StorybookNodesProps {
 
 function StorybookNodes(props: StorybookNodesProps) {
 	return array_keys(props.Nodes, "Identifier", (node, key, index) => {
-		return <Storybook Storybook={node} LayoutOrder={index} />;
+		return <Storybook Node={node} LayoutOrder={index} />;
 	});
 }
 

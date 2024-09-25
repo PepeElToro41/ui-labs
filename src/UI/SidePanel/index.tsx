@@ -6,12 +6,13 @@ import Padding from "UI/Styles/Padding";
 import Branding from "./Branding";
 import StorySearch from "./StorySearch";
 import StoryExplorer from "./StoryExplorer";
+import { FilterContext } from "./Filtering";
 
 function SidePanel() {
 	const theme = useTheme();
 	const filter = source<string>();
 
-	return (
+	return FilterContext.provide(filter, () => (
 		<Frame Name={"SidePanel"} BackgroundColor3={theme("Background2")} ClipsDescendants={true}>
 			<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} Gap={8} />
 			<Padding PaddingY={6} PaddingX={10} />
@@ -19,7 +20,7 @@ function SidePanel() {
 			<StorySearch OnInputChanged={(text) => filter(text === "" ? undefined : text)} />
 			<StoryExplorer Filter={filter} />
 		</Frame>
-	);
+	));
 }
 
 export default SidePanel;
