@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, SetStateAction, useMemo, useState } from "@rbxts/react";
+import React, { PropsWithChildren, SetStateAction, useEffect, useMemo, useState } from "@rbxts/react";
+import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
 
 export type ToolsButtonActive = Record<ToolButtonType, boolean>;
@@ -18,7 +19,18 @@ const ToolsContext = React.createContext({} as ToolsContext);
 interface ToolsProps extends PropsWithChildren {}
 
 export function ToolsProvider(props: ToolsProps) {
-	const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>("Floating");
+	const plugin = usePlugin();
+
+	const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>(
+		(plugin?.GetSetting("ToolbarPosition") as ToolbarPosition) || "Floating"
+	);
+
+	// in case plugin does not exist straight away for whatever reason
+	useEffect(() => {
+		if (plugin !== undefined) {
+			setToolbarPosition((plugin?.GetSetting("ToolbarPosition") as ToolbarPosition) || "Floating")
+		}
+	}, [plugin]);
 
 	const [toolButtonsActive, setToolButtonsActive] = useState<ToolsButtonActive>(() => {
 		const active = {} as ToolsButtonActive;
@@ -32,11 +44,14 @@ export function ToolsProvider(props: ToolsProps) {
 		const context: ToolsContext = {
 			ToolbarPosition: toolbarPosition,
 			ToolButtonsActive: toolButtonsActive,
-			SetToolbarPosition: setToolbarPosition,
+			SetToolbarPosition: (position: ToolbarPosition) => {
+				plugin?.SetSetting("ToolbarPosition", position);
+				setToolbarPosition(position);
+			},
 			SetToolButtonsActive: setToolButtonsActive,
 		};
 		return context;
-	}, [toolbarPosition, toolButtonsActive]);
+	}, [toolbarPosition, toolButtonsActive, plugin]);
 
 	return <ToolsContext.Provider value={contextValue}>{props.children}</ToolsContext.Provider>;
 }
