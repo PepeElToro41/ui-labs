@@ -15,10 +15,12 @@ import SidePanel from "./SidePanel";
 import StoryPanel from "./StoryPanel";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectPopup } from "Reflex/Overlay";
+import { controlPluginSettings } from "Hooks/Reflex/Control/PluginSettings";
 
 interface AppProps {}
 
 function App(props: AppProps) {
+	controlPluginSettings();
 	controlModuleList();
 	controlStorybooks();
 	controlNodes();

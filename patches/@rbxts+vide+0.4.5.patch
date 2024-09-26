@@ -1,0 +1,17 @@
+diff --git a/node_modules/@rbxts/vide/src/index.d.ts b/node_modules/@rbxts/vide/src/index.d.ts
+index 0e00a63..0add27c 100644
+--- a/node_modules/@rbxts/vide/src/index.d.ts
++++ b/node_modules/@rbxts/vide/src/index.d.ts
+@@ -635,7 +635,6 @@ declare namespace Vide {
+ 		InstanceEventCallbacks<T>;
+ }
+ 
+-declare global {
+ 	namespace JSX {
+ 		type Element = Vide.Node;
+ 		type ElementType = string | ((props: any) => Element | void);
+@@ -854,4 +853,3 @@ declare global {
+ 			wraptarget: Vide.InstanceAttributes<WrapTarget>;
+ 		}
+ 	}
+-}

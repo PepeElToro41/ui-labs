@@ -8,6 +8,7 @@ import { OverlayProducer } from "./Overlay";
 import { InterfaceProducer } from "./Interface";
 import { StorySelectionProducer } from "./StorySelection";
 import { PluginProducer } from "./Plugin";
+import { PluginSettingsProducer } from "./PluginSettings";
 
 declare global {
 	type RootProducer = typeof RootProducer;
@@ -20,6 +21,7 @@ export const RootProducer = combineProducers({
 	overlay: OverlayProducer,
 	interface: InterfaceProducer,
 	plugin: PluginProducer,
+	pluginSettings: PluginSettingsProducer,
 
 	moduleList: ModuleListProducer,
 	moduleRequire: ModuleRequireProducer,

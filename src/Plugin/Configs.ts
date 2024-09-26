@@ -4,6 +4,8 @@ const Configs = {
 	PluginName: "UI Labs",
 	SpriteIcon: "rbxassetid://110765369713957",
 	RootPreviewKey: "RootStory",
+	PluginSettingsKey: "UILabsSettingsV1",
+
 	DefaultSearch: FromServiceNames([
 		"Workspace",
 		"ReplicatedFirst",
