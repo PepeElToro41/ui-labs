@@ -7,20 +7,16 @@ export function ExtensionPredicator(extension: string) {
 	};
 }
 
-
 export function SearchPredicatedInstances(searchIn: Instance[], predicator: (instance: Instance) => boolean) {
-   const filtered = Array.filter(ArrayDescendants(searchIn), predicator)
-   return filtered;
+	const filtered = Array.filter(ArrayDescendants(searchIn), predicator);
+	return filtered;
 }
 
 export function RemoveExtension(instanceName: string, extension: string) {
 	return instanceName.gsub("%" + extension + "$", "")[0];
-} 
+}
 
-export function ClassPredicator<T extends keyof Instances>(
-	className: T,
-	filterPredicator: (checkInstance: Instances[T]) => boolean,
-) {
+export function ClassPredicator<T extends keyof Instances>(className: T, filterPredicator: (checkInstance: Instances[T]) => boolean) {
 	return (instance: Instance): instance is Instances[T] => {
 		const [sucess] = pcall(() => {
 			return instance.Name;

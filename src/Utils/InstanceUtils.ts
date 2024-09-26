@@ -9,10 +9,7 @@ export function ArrayDescendants(instanceArray: Instance[]) {
 	return descendants;
 }
 
-export function FromServiceNames<T extends (keyof Services)[]>(
-	serviceTable: T,
-	iterator?: (service: Instance) => void,
-) {
+export function FromServiceNames<T extends (keyof Services)[]>(serviceTable: T, iterator?: (service: Instance) => void) {
 	const servicesFound: Services[T[number]][] = [];
 
 	serviceTable.forEach((serviceName) => {
