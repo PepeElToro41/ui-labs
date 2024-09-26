@@ -1,5 +1,7 @@
-import React, { PropsWithChildren, SetStateAction, useEffect, useMemo, useState } from "@rbxts/react";
+import React, { PropsWithChildren, SetStateAction, useMemo, useState } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
+import { selectToolbarPosition } from "Reflex/PluginSettings";
 import { ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
 
 export type ToolsButtonActive = Record<ToolButtonType, boolean>;
@@ -21,16 +23,8 @@ interface ToolsProps extends PropsWithChildren {}
 export function ToolsProvider(props: ToolsProps) {
 	const plugin = usePlugin();
 
-	const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>(
-		(plugin?.GetSetting("ToolbarPosition") as ToolbarPosition) || "Floating"
-	);
-
-	// in case plugin does not exist straight away for whatever reason
-	useEffect(() => {
-		if (plugin !== undefined) {
-			setToolbarPosition((plugin?.GetSetting("ToolbarPosition") as ToolbarPosition) || "Floating")
-		}
-	}, [plugin]);
+	const toolbarPosition = useSelector(selectToolbarPosition);
+	const { setToolbarPosition } = useProducer<RootProducer>();
 
 	const [toolButtonsActive, setToolButtonsActive] = useState<ToolsButtonActive>(() => {
 		const active = {} as ToolsButtonActive;
