@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, SetStateAction, useMemo, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import { selectToolbarPosition } from "Reflex/PluginSettings";
 import { ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
 
@@ -21,8 +20,6 @@ const ToolsContext = React.createContext({} as ToolsContext);
 interface ToolsProps extends PropsWithChildren {}
 
 export function ToolsProvider(props: ToolsProps) {
-	const plugin = usePlugin();
-
 	const toolbarPosition = useSelector(selectToolbarPosition);
 	const { setToolbarPosition } = useProducer<RootProducer>();
 
@@ -38,14 +35,11 @@ export function ToolsProvider(props: ToolsProps) {
 		const context: ToolsContext = {
 			ToolbarPosition: toolbarPosition,
 			ToolButtonsActive: toolButtonsActive,
-			SetToolbarPosition: (position: ToolbarPosition) => {
-				plugin?.SetSetting("ToolbarPosition", position);
-				setToolbarPosition(position);
-			},
+			SetToolbarPosition: setToolbarPosition,
 			SetToolButtonsActive: setToolButtonsActive,
 		};
 		return context;
-	}, [toolbarPosition, toolButtonsActive, plugin]);
+	}, [toolbarPosition, toolButtonsActive]);
 
 	return <ToolsContext.Provider value={contextValue}>{props.children}</ToolsContext.Provider>;
 }

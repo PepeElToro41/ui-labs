@@ -4,7 +4,7 @@ import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
-import { selectShortcutsEnabled } from "Reflex/Interface";
+import { selectShortcutsEnabled } from "Reflex/PluginSettings";
 import Corner from "UI/Styles/Corner";
 import { Detector } from "UI/Styles/Detector";
 import Sprite from "UI/Utils/Sprite";

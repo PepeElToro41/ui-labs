@@ -5,8 +5,7 @@
 		"**/tsconfig.json",
 
 		"node_modules/@rbxts/roact",
-		"node_modules/@rbxts/fusion",
-		"node_modules/@rbxts/iris"
+		"node_modules/@rbxts/fusion"
 	],
 	"tree": {
 		"$className": "DataModel",

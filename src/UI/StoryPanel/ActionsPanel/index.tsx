@@ -55,8 +55,8 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 	}, [props.Tabs]);
 
 	const OnPinnedToggle = useCallback(() => {
-		setPinned((old) => !old);
-	}, [setPinned]);
+		setPinned(!pinned);
+	}, [setPinned, pinned]);
 	const OnSetHeight = useCallback(
 		(holder: Frame) => {
 			setHeight(holder.AbsoluteSize.Y);

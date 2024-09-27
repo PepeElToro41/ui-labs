@@ -2,10 +2,10 @@ import React from "@rbxts/react";
 import Dropdown from ".";
 import DropdownEntry from "./DropdownEntry";
 import Divisor from "UI/Utils/Divisor";
-import { selectClearOutputOnReload, selectShortcutsEnabled } from "Reflex/Interface";
+import { selectClearOutputOnReload, selectShortcutsEnabled, selectKeepViewOnViewport } from "Reflex/PluginSettings";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useOverlayAction } from "../Utils";
-import { selectKeepViewOnViewport, selectStoryPreviews } from "Reflex/StoryPreview";
+import { selectStoryPreviews } from "Reflex/StoryPreview";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface OptionsDropdownProps {

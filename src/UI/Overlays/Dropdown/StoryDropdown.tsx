@@ -3,12 +3,13 @@ import Dropdown from ".";
 import DropdownEntry from "./DropdownEntry";
 import { Counter } from "Utils/NumberUtils";
 import { Selection } from "@rbxts/services";
-import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
+import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import Divisor from "UI/Utils/Divisor";
 import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
 import { useOverlayAction } from "../Utils";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import Configs from "Plugin/Configs";
+import { selectKeepViewOnViewport } from "Reflex/PluginSettings";
 
 interface StoryDropdownProps {
 	Position: UDim2 | React.Binding<UDim2>;
@@ -17,6 +18,7 @@ interface StoryDropdownProps {
 
 function StoryDropdown(props: StoryDropdownProps) {
 	const { mountOnWidget, mountStory, mountOnTop, unmountByModule } = useProducer<RootProducer>();
+	const keepViewOnViewport = useSelector(selectKeepViewOnViewport);
 	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
 	const rootEntry = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
 
@@ -24,10 +26,10 @@ function StoryDropdown(props: StoryDropdownProps) {
 	const plugin = usePlugin();
 	const isAlreadyMounted = rootEntry ? rootEntry.Module === props.Node.Module : false;
 
-	const deps = [props.Node];
+	const deps = [props.Node, keepViewOnViewport];
 	const module = props.Node.Module;
 
-	const OnViewStory = useOverlayAction(() => mountStory(module), deps);
+	const OnViewStory = useOverlayAction(() => mountStory(module, keepViewOnViewport), deps);
 	const OnMountOnTop = useOverlayAction(() => mountOnTop(module), deps);
 	const OnMountOnWidget = useOverlayAction(() => mountOnWidget(module), deps);
 

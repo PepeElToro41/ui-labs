@@ -40,13 +40,11 @@ const DefaultEntry = {
 interface StoryPreviewState {
 	mountPreviews: Map<string, PreviewEntry>;
 	latestViewOnViewport: boolean;
-	keepViewOnViewport: boolean;
 }
 
 const initialState: StoryPreviewState = {
 	mountPreviews: new Map(),
 	latestViewOnViewport: false,
-	keepViewOnViewport: true,
 };
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
@@ -58,7 +56,6 @@ export const selectPreview = (key?: string) => (state: RootState) => {
 	}
 	return selectStoryPreviews(state).get(key);
 };
-export const selectKeepViewOnViewport = (state: RootState) => selectStoryPreview(state).keepViewOnViewport;
 
 //gives you the amount of previews of the given module
 
@@ -97,7 +94,7 @@ function GetEntryByKey(state: StoryPreviewState, key: string) {
 	return state.mountPreviews.get(key) ?? GetEntryByUID(state, key);
 }
 
-function MountStory(state: StoryPreviewState, module: ModuleScript) {
+function MountStory(state: StoryPreviewState, module: ModuleScript, keepViewOnViewport: boolean) {
 	const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
 	const listSize = rootStory ? rootStory.Order : state.mountPreviews.size() + 1;
 
@@ -105,7 +102,7 @@ function MountStory(state: StoryPreviewState, module: ModuleScript) {
 	const entry = CreateNewEntry(module, listSize);
 	entry.Key = Configs.RootPreviewKey;
 
-	if (state.keepViewOnViewport) {
+	if (keepViewOnViewport) {
 		entry.OnViewport = state.latestViewOnViewport;
 	}
 	return Immut.produce(state, (draft) => {
@@ -152,9 +149,6 @@ function FilterEntryMap(entryMap: Map<string, PreviewEntry>, predicator: (entry:
 export const StoryPreviewProducer = createProducer(initialState, {
 	//---[MOUNTING/UNMOUNTING]---//
 	mountStory: MountStory,
-	toggleKeepViewOnViewport: (state) => {
-		return { ...state, keepViewOnViewport: !state.keepViewOnViewport };
-	},
 
 	mountOnTop: (state, module: ModuleScript) => {
 		const listSize = state.mountPreviews.size();
@@ -192,14 +186,14 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Module !== module),
 		};
 	},
-	toggleMount: (state, module: ModuleScript) => {
+	toggleMount: (state, module: ModuleScript, keepViewOnViewport: boolean) => {
 		const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
 		if (rootStory && rootStory.Module === module) {
 			return Immut.produce(state, (draft) => {
 				draft.mountPreviews.delete(Configs.RootPreviewKey);
 			});
 		}
-		return MountStory(state, module);
+		return MountStory(state, module, keepViewOnViewport);
 	},
 	//---[MOUNT DATA]---//
 	shiftOrderBefore: (state, key: string) => {

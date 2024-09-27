@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
-import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
+import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
@@ -19,6 +19,7 @@ import UnknownCover from "./UnknownCover";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { CreateInstancePath, EncodeInstancePath } from "Utils/InstanceUtils";
+import { selectKeepViewOnViewport } from "Reflex/PluginSettings";
 
 interface StoryProps {
 	Node: StoryNode;
@@ -41,6 +42,7 @@ function Story(setprops: StoryProps) {
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.Node.Module);
 
 	const { toggleMount, setPopup, resetIdentifiedOverlay } = useProducer<RootProducer>();
+	const keepViewOnViewport = useSelector(selectKeepViewOnViewport);
 	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
 	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
 
@@ -72,7 +74,7 @@ function Story(setprops: StoryProps) {
 		setTransparency(hovered ? 0.6 : 1);
 	}, [hovered, selected]);
 
-	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module), [props.Node]);
+	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module, keepViewOnViewport), [props.Node, keepViewOnViewport]);
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
 		setPopup("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);

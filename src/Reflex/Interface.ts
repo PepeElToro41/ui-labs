@@ -7,9 +7,6 @@ interface InterfaceState {
 	mouseIconActions: Set<string>;
 	recomputeStorybooksKey: {};
 
-	shortcutsEnabled: boolean;
-	clearOutputOnReload: boolean;
-
 	fullscreen: boolean;
 	measureTool: boolean;
 	selectTool: boolean;
@@ -24,9 +21,6 @@ const initialState: InterfaceState = {
 	mouseIconActions: new Set(),
 	recomputeStorybooksKey: {},
 
-	shortcutsEnabled: true,
-	clearOutputOnReload: false,
-
 	fullscreen: false,
 	measureTool: false,
 	selectTool: false,
@@ -39,9 +33,6 @@ export const selectInterface = (state: RootState) => state.interface;
 export const selectHolder = (state: RootState) => state.interface.holder;
 export const selectMouseIconActions = (state: RootState) => state.interface.mouseIconActions;
 export const selectRecomputeStorybooksKey = (state: RootState) => state.interface.recomputeStorybooksKey;
-
-export const selectShortcutsEnabled = (state: RootState) => state.interface.shortcutsEnabled;
-export const selectClearOutputOnReload = (state: RootState) => state.interface.clearOutputOnReload;
 
 export const selectFullscreen = (state: RootState) => state.interface.fullscreen;
 export const selectMeasureTool = (state: RootState) => state.interface.measureTool;
@@ -65,13 +56,6 @@ export const InterfaceProducer = createProducer(initialState, {
 	},
 	removeMouseIconAction: (state, action: string) => {
 		return { ...state, mouseIconActions: Sift.Set.delete(state.mouseIconActions, action) };
-	},
-
-	toggleShortcutsEnabled: (state) => {
-		return { ...state, shortcutsEnabled: !state.shortcutsEnabled };
-	},
-	toggleClearOutputOnReload: (state) => {
-		return { ...state, clearOutputOnReload: !state.clearOutputOnReload };
 	},
 
 	setFullscreen: (state, fullscreen: boolean) => {

@@ -1,4 +1,6 @@
 import React, { Dispatch, PropsWithChildren, SetStateAction, useBinding, useContext, useMemo, useState } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
+import { selectActionsPinned } from "Reflex/PluginSettings";
 import { CreateTuple } from "Utils/MiscUtils";
 
 interface StoryPanelContext {
@@ -6,7 +8,7 @@ interface StoryPanelContext {
 	ActionsHeight: React.Binding<number>;
 	ToolbarHovered: boolean;
 
-	SetActionsPinned: Dispatch<SetStateAction<boolean>>;
+	SetActionsPinned: (pinned: boolean) => void;
 	SetActionsHeight: (height: number) => void;
 	SetToolbarHovered: Dispatch<SetStateAction<boolean>>;
 }
@@ -15,9 +17,10 @@ const StoryPanelContext = React.createContext({} as StoryPanelContext);
 interface StoryPanelProps extends PropsWithChildren {}
 
 export function StoryPanelProvider(props: StoryPanelProps) {
-	const [actionsPinned, setActionsPinned] = useState(true);
+	const actionsPinned = useSelector(selectActionsPinned);
 	const [actionsHeight, setActionsHeight] = useBinding<number>(0);
 	const [toolbarHovered, setToolbarHovered] = useState(false);
+	const { setActionsPinned } = useProducer<RootProducer>();
 
 	const contextValue = useMemo(() => {
 		const context: StoryPanelContext = {

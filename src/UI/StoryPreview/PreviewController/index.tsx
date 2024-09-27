@@ -9,9 +9,9 @@ import HolderParenter from "./Holders/HolderParenter";
 import { CheckStory } from "./StoryCheck/StoryCheck";
 import { Signal } from "@rbxts/lemon-signal";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { selectClearOutputOnReload } from "Reflex/Interface";
 import { selectStorySelected } from "Reflex/StorySelection";
 import { LogService } from "@rbxts/services";
+import { selectClearOutputOnReload } from "Reflex/PluginSettings";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
