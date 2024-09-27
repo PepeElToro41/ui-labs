@@ -60,7 +60,6 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 			warn("UI Labs: Iris story errored when unmounting. This may cause a memory leak: ", value);
 		}
 
-		print("SHUTDOWN IRIS");
 		props.Result.iris.Shutdown();
 		uisMock.Destroy();
 	});

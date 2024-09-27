@@ -4,21 +4,22 @@ import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useTween } from "Hooks/Utils/Tween";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
+import Corner from "UI/Styles/Corner";
+import LeftList from "UI/Styles/List/LeftList";
+import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
+import Sprite from "UI/Utils/Sprite";
 import { useToggler } from "Hooks/Utils/Toggler";
 import StoryDropdown from "UI/Overlays/Dropdown/StoryDropdown";
 import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
 import Configs from "Plugin/Configs";
+import UnknownCover from "./UnknownCover";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { CreateInstancePath, EncodeInstancePath } from "Utils/InstanceUtils";
 import { selectKeepViewOnViewport } from "Reflex/PluginSettings";
-import Padding from "UI/Styles/Padding";
-import Corner from "UI/Styles/Corner";
-import LeftList from "UI/Styles/List/LeftList";
-import Sprite from "UI/Utils/Sprite";
 
 interface StoryProps {
 	Node: StoryNode;
@@ -86,66 +87,15 @@ function Story(setprops: StoryProps) {
 	});
 
 	return (
-		<Div key={props.Node.Name} LayoutOrder={props.Order} Size={new UDim2(1, 0, 0, 25)}>
-			<Div key={"Display"}>
-				<Padding Left={14} Right={5} />
-				<frame
-					Size={UDim2.fromScale(1, 1)}
-					BackgroundColor3={theme[selected ? "StorySelected" : "Normal"].Color}
-					BackgroundTransparency={transparency}
-				>
-					<Padding PaddingX={6} />
-					<Corner Radius={6} />
-					<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 6)} />
-					<Sprite
-						key="Icon"
-						Sprite={"StoryIcon"}
-						ImageProps={{
-							ImageColor3: theme[selected ? "StorySelected" : "Normal"].StoryIcon,
-							Size: new UDim2(0, 16, 0, 18),
-						}}
-					/>
-					<Text
-						Size={new UDim2(1, -19, 1, 0)}
-						TextXAlignment={Enum.TextXAlignment.Left}
-						Text={props.Node.Name}
-						TextColor3={textColor}
-						AutomaticSize={Enum.AutomaticSize.X}
-					/>
-				</frame>
-				{mountAmount > 0 && (
-					<Div key={"MountAmount"}>
-						<Text
-							Position={new UDim2(1, -10, 0, 0)}
-							AnchorPoint={new Vector2(1, 0)}
-							Size={UDim2.fromScale(1, 1)}
-							Text={tostring(mountAmount)}
-							TextSize={12}
-							TextColor3={textColor}
-							TextXAlignment={Enum.TextXAlignment.Right}
-						/>
-					</Div>
-				)}
-			</Div>
-			<frame
-				key={"Divider"}
-				Size={UDim2.fromOffset(8, 1)}
-				Position={new UDim2(0, -6, 0.5, 0)}
-				AnchorPoint={new Vector2(0, 0.5)}
-				BackgroundColor3={theme.Text.Color}
-				BackgroundTransparency={0.8}
-				BorderSizePixel={0}
-			/>
-			<imagelabel
-				key={"Dot"}
-				Image={"rbxassetid://90763872297559"}
-				ImageColor3={theme.Text.Color}
-				BackgroundTransparency={1}
-				Size={UDim2.fromOffset(6, 6)}
-				Position={new UDim2(0, 8, 0.5, 0)}
-				ImageTransparency={0.8}
-				AnchorPoint={new Vector2(0, 0.5)}
-			/>
+		<frame
+			key={props.Node.Name}
+			LayoutOrder={props.Order}
+			BackgroundColor3={theme[selected ? "StorySelected" : "Normal"].Color}
+			BackgroundTransparency={transparency}
+			Size={new UDim2(1, 0, 0, 25)}
+		>
+			{props.Unknown && <UnknownCover />}
+			<Corner Radius={6} />
 			<Detector
 				Event={{
 					MouseEnter: hoverApi.enable,
@@ -154,7 +104,45 @@ function Story(setprops: StoryProps) {
 					MouseButton2Click: OnStoryDropdown,
 				}}
 			/>
-		</Div>
+			{mountAmount > 0 && (
+				<Div>
+					<Text
+						Position={new UDim2(1, -10, 0, 0)}
+						AnchorPoint={new Vector2(1, 0)}
+						Size={UDim2.fromScale(1, 1)}
+						Text={tostring(mountAmount)}
+						TextSize={12}
+						TextColor3={textColor}
+						TextXAlignment={Enum.TextXAlignment.Right}
+					/>
+				</Div>
+			)}
+			<Div>
+				<Padding Padding={4} Bottom={5} />
+				<LeftList Padding={new UDim(0, 5)} />
+				<Sprite
+					key="IconLabel"
+					Sprite="StoryIcon"
+					ImageProps={{
+						AnchorPoint: new Vector2(1, 0.5),
+						ImageColor3: theme[selected ? "StorySelected" : "Normal"].StoryIcon,
+						Position: new UDim2(1, 0, 0.5, 0),
+						Size: new UDim2(1, 0, 1.1, 0),
+						LayoutOrder: 1,
+						SizeConstraint: Enum.SizeConstraint.RelativeYY,
+					}}
+				/>
+				<Text
+					key="NameLabel"
+					Text={props.Node.Name}
+					LayoutOrder={2}
+					TextColor3={textColor}
+					Size={new UDim2(1, -25, 1, 0)}
+					TextTruncate={Enum.TextTruncate.SplitWord}
+					TextXAlignment={Enum.TextXAlignment.Left}
+				/>
+			</Div>
+		</frame>
 	);
 }
 

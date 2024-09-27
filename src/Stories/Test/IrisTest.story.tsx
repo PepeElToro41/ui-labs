@@ -7,8 +7,9 @@ const controls = {
 };
 
 const story = CreateIrisStory({ iris: Iris, controls }, (props) => {
-	print("RUNNING");
-	Iris.Connect(ShowDemoWindow);
+	Iris.Connect(() => {
+		ShowDemoWindow();
+	});
 });
 
 export = story;

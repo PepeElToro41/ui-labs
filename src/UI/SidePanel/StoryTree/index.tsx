@@ -57,7 +57,7 @@ function StoryTree(props: StoryTreeProps) {
 				AnchorPoint={new Vector2(0.5, 0.5)}
 				BackgroundTransparency={1}
 				Position={UDim2.fromScale(0.5, 0.5)}
-				Size={UDim2.fromScale(1, 1)}
+				Size={new UDim2(1, 6, 1, 0)}
 			>
 				<TopList HorizontalAlignment={Enum.HorizontalAlignment.Center} Padding={new UDim(0, 1)} />
 				{nodeList}

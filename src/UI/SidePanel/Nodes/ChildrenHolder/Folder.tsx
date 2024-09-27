@@ -1,7 +1,7 @@
 import React, { useMemo } from "@rbxts/react";
-import ChildrenHolder from ".";
-import Story from "../Story";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import Story from "../Story";
+import ChildrenHolder from ".";
 
 interface FolderProps {
 	Order: number;
@@ -19,9 +19,9 @@ function Folder(setprops: FolderProps) {
 	const children = useMemo(() => {
 		return props.Node.Children.map((child, index) => {
 			if ("Children" in child) {
-				return <Folder Node={child} Order={index}></Folder>;
+				return <Folder Node={child} Order={index} />;
 			} else {
-				return <Story Node={child} Order={index}></Story>;
+				return <Story Node={child} Order={index} />;
 			}
 		});
 	}, [props.Node.Children]);
@@ -30,6 +30,7 @@ function Folder(setprops: FolderProps) {
 		<ChildrenHolder
 			Name={props.Node.Instance}
 			Order={props.Order}
+			IsChild={true}
 			Sprite={"FolderIcon"}
 			SpriteColor={theme.Normal.FolderIcon}
 			Children={children}

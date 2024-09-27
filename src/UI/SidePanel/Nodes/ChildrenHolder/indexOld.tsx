@@ -2,22 +2,22 @@ import React, { PropsWithChildren, useCallback, useEffect, useState } from "@rbx
 import { useSelector } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { selectFilter } from "Reflex/Explorer/Filter";
+import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
+import List from "UI/Styles/List";
 import Corner from "UI/Styles/Corner";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
+import Text from "UI/Styles/Text";
+import Sprite from "UI/Utils/Sprite";
 import TopList from "UI/Styles/List/TopList";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { useToggler } from "Hooks/Utils/Toggler";
-import Text from "UI/Styles/Text";
-import Sprite from "UI/Utils/Sprite";
-import { Detector } from "UI/Styles/Detector";
 import Divisor from "UI/Utils/Divisor";
 
 interface ChildrenHolderProps extends PropsWithChildren {
 	Name: string | Instance;
 	Order: number;
-	IsChild?: boolean;
 	Sprite: SpriteName;
 	SpriteColor: Color3;
 	Children: React.Element[];
@@ -68,50 +68,17 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 	}, [filter]);
 
 	return (
-		<Div key={name} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={props.Order}>
-			<TopList Padding={new UDim(0, 1)} />
+		<Div key={name} AutomaticSize={Enum.AutomaticSize.Y} Size={new UDim2(1, 0, 0, 25)} LayoutOrder={props.Order}>
+			<List />
 			<frame
-				key={"Title"}
+				key="EntryLabel"
 				BackgroundColor3={theme.Normal.Color}
 				LayoutOrder={0}
 				BackgroundTransparency={hovered ? 0.6 : 1}
 				Size={new UDim2(1, 0, 0, 25)}
 			>
+				{props["children"] ?? []}
 				<Corner Radius={6} />
-				<Div key={"Display"}>
-					<Padding PaddingX={2} />
-					<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 2)} />
-					<imagelabel
-						Size={UDim2.fromOffset(16, 16)}
-						ImageColor3={theme.Text.Color}
-						BackgroundTransparency={1}
-						Image={expanded ? "rbxassetid://80464345551642" : "rbxassetid://98515959792894"}
-					/>
-					<Sprite
-						key="Icon"
-						Sprite={props.Sprite}
-						ImageProps={{
-							ImageColor3: props.SpriteColor,
-							Size: new UDim2(0, 16, 0, 16),
-						}}
-					/>
-					<Text
-						Size={new UDim2(1, -19, 1, 0)}
-						TextXAlignment={Enum.TextXAlignment.Left}
-						Text={name}
-						AutomaticSize={Enum.AutomaticSize.X}
-					>
-						<Padding PaddingX={4} />
-					</Text>
-				</Div>
-				<Divisor
-					Visible={!!props.IsChild}
-					Anchor={0}
-					Position={new UDim2(0, -6, 0.5, 0)}
-					Size={new UDim(0, 6)}
-					Direction="X"
-					Transparency={0.8}
-				/>
 				<Detector
 					ZIndex={4}
 					Event={{
@@ -120,18 +87,49 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						MouseButton1Click: OnExpand,
 					}}
 				/>
+				<Div key={"Title"}>
+					<LeftList Padding={new UDim(0, 5)} />
+					<Padding Padding={4} Bottom={5} />
+					<Sprite
+						key="Icon"
+						Sprite={props.Sprite}
+						ImageProps={{
+							LayoutOrder: 1,
+							ImageColor3: props.SpriteColor,
+							Size: new UDim2(0, 16, 0, 16),
+						}}
+					/>
+					<Text
+						key="TitleLabel"
+						Text={name}
+						LayoutOrder={2}
+						Size={new UDim2(1, -46, 1, 0)}
+						TextTruncate={Enum.TextTruncate.SplitWord}
+						TextColor3={theme.Text.Color}
+						TextXAlignment={Enum.TextXAlignment.Left}
+					/>
+					<Sprite
+						key="ExpandIcon"
+						Sprite={expanded ? "Collapse" : "Expand"}
+						ImageProps={{
+							LayoutOrder: 3,
+							ImageColor3: theme.Icon.Color,
+							Size: new UDim2(0, 16, 0, 16),
+						}}
+					/>
+				</Div>
 			</frame>
 			<Div
-				key={"ChildrenHolder"}
+				key="ChildrenFrame"
 				ClipsDescendants={true}
-				LayoutOrder={2}
-				Size={UDim2.fromScale(1, 0)}
+				LayoutOrder={1}
 				AutomaticSize={Enum.AutomaticSize.Y}
+				Size={UDim2.fromScale(1, 0)}
 			>
-				<Divisor Direction="Y" Position={new UDim2(0, 9, 0, 0)} Size={new UDim(1, -13)} Anchor={0} Transparency={0.8} />
-				<Div key={"Children"} Size={UDim2.fromScale(1, 0)} LayoutOrder={2} AutomaticSize={Enum.AutomaticSize.Y}>
+				<Divisor key="ChildrenDivisor" Anchor={0} Direction="Y" Position={new UDim2(0, 8, 0, 0)} Size={new UDim(1, -9)} />
+				<Div key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
 					<TopList Padding={new UDim(0, 1)} />
-					<Padding Left={16} />
+					<uipadding PaddingLeft={new UDim(0, 13)} />
 					{expanded ? props.Children : []}
 				</Div>
 			</Div>

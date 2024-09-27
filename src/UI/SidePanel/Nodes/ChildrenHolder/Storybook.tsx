@@ -1,8 +1,8 @@
 import React, { useMemo } from "@rbxts/react";
-import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Story from "../Story";
 import Folder from "./Folder";
+import Story from "../Story";
+import ChildrenHolder from ".";
 
 interface StorybookProps {
 	Node: StorybookNode;
@@ -28,6 +28,7 @@ function Storybook(props: StorybookProps) {
 			Order={props.Order}
 			Name={props.Node.Name}
 			Sprite={"BookIcon"}
+			IsChild={false}
 			SpriteColor={theme.Normal.Book}
 			Children={children}
 		></ChildrenHolder>
