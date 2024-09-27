@@ -31,3 +31,17 @@ index 9830398..128aa17 100644
  	public Wait(): SignalWait<T>;
  	public Fire(...args: SignalParameters<T>): void;
  	public DisconnectAll(): void;
+diff --git a/node_modules/@rbxts/lemon-signal/dist/init.lua b/node_modules/@rbxts/lemon-signal/dist/init.lua
+index 6705db5..9985e4f 100644
+--- a/node_modules/@rbxts/lemon-signal/dist/init.lua
++++ b/node_modules/@rbxts/lemon-signal/dist/init.lua
+@@ -1,6 +1,6 @@
+---!nocheck
+---!optimize 2
+---!native
++--
++--
++--
+ 
+ local FREE_THREADS = {}
+ 
