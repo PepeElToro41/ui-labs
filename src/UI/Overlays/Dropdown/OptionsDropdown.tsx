@@ -38,7 +38,6 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 	const OnSetClearOutputOnReload = useOverlayAction(toggleClearOutputOnReload, []);
 
 	const SetDarkTheme = useOverlayAction(() => setThemeIndex("Dark"), []);
-	const SetCatppuchineLatteTheme = useOverlayAction(() => setThemeIndex("CatppuchineLatte"), []);
 	const SetCatppuchineMacchiatoTheme = useOverlayAction(() => setThemeIndex("CatppuchineMacchiato"), []);
 	const SetCatppuchineMochaTheme = useOverlayAction(() => setThemeIndex("CatppuchineMocha"), []);
 
@@ -54,7 +53,6 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 			<DropdownEntry Text="Theme: Dark" Active={themeName === "Dark"} OnClick={SetDarkTheme} />
 			<DropdownEntry Text="Theme: Macchiato" Active={themeName === "CatppuchineMacchiato"} OnClick={SetCatppuchineMacchiatoTheme} />
 			<DropdownEntry Text="Theme: Mocha" Active={themeName === "CatppuchineMocha"} OnClick={SetCatppuchineMochaTheme} />
-			<DropdownEntry Text="Theme: Latte" Active={themeName === "CatppuchineLatte"} OnClick={SetCatppuchineLatteTheme} />
 		</Dropdown>
 	);
 }

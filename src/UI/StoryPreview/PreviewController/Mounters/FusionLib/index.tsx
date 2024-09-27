@@ -12,7 +12,7 @@ import { useControls, useParametrizedControls, useStoryActionComponents } from "
 function FusionLib(props: MounterProps<"FusionLib">) {
 	const result = props.Result;
 	const version = GetFusionVersion(result.fusion);
-	const fusion = version === "Fusion2" ? result.fusion : GetScopedFusion(Cast<Fusion3>(result.fusion), []);
+	const fusion = version === "Fusion2" ? result.fusion : GetScopedFusion(Cast<Fusion3>(result.fusion), result.scoped ?? []);
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
@@ -37,6 +37,12 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 	}, [controlValues]);
 
 	const cleanup = useMemo(() => {
+		if (props.Result.scoped !== undefined) {
+			if (version === "Fusion2") {
+				warn("UI Labs: scoped key provided for Fusion 0.2, this will be ignored");
+			}
+		}
+
 		const fusionProps: InferFusionProps<ConvertedControls> = GetProps({
 			controls: fusionValues,
 			target: props.MountFrame,
