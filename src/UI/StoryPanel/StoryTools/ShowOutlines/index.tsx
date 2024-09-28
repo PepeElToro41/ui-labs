@@ -6,7 +6,6 @@ import Outliner from "./Outliner";
 import { Div } from "UI/Styles/Div";
 import Listener from "./Listener";
 import { useProducer } from "@rbxts/react-reflex";
-import OutlinesAction from "./OutlinesActionRender";
 
 interface ShowOutlinesProps {
 	PreviewEntry: PreviewEntry;
@@ -27,6 +26,7 @@ function ShowOutlines(props: ShowOutlinesProps) {
 		Recompute();
 	});
 
+	/*
 	useEffect(() => {
 		setActionComponent(props.PreviewEntry.Key, "OutlinerTab", {
 			DisplayName: "Outline Options",
@@ -35,7 +35,7 @@ function ShowOutlines(props: ShowOutlinesProps) {
 		return () => {
 			unsetActionComponent(props.PreviewEntry.Key, "OutlinerTab");
 		};
-	}, [props.PreviewEntry]);
+	}, [props.PreviewEntry]);*/
 
 	const outliners = useMemo(() => {
 		const components: ReactChildren = new Map();

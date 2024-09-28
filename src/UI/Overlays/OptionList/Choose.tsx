@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from "@rbxts/react";
 import Overlay from "../Overlay";
 import { useProducer } from "@rbxts/react-reflex";
-import Corner from "UI/Styles/Corner";
-import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
@@ -11,6 +9,7 @@ import { useOverlayAction } from "../Utils";
 import { useOverlayWrap } from "Hooks/Utils/OutsideWrapper";
 import { Div } from "UI/Styles/Div";
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import ListHolder from "./ListHolder";
 
 interface ChooseListOverlayProps {
 	Position: UDim2 | React.Binding<UDim2>;
@@ -18,6 +17,8 @@ interface ChooseListOverlayProps {
 	ChooseOption: (optionIndex: number) => void;
 	OnClose?: () => void;
 }
+
+const MAX_SCROLL_HEIGHT = 250;
 
 function ChooseListOverlay(props: ChooseListOverlayProps) {
 	const { resetPopup } = useProducer<RootProducer>();
@@ -59,24 +60,7 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 		>
 			<TopList Padding={new UDim(0, 1)} />
 			<Div key={"Separator"} Size={new UDim2(1, 0, 0, wrapped ? 13 : 14)} LayoutOrder={wrapped ? 2 : 0} />
-			<frame
-				key="Holder"
-				LayoutOrder={1}
-				BackgroundColor3={theme.List.Frame}
-				BorderSizePixel={0}
-				Size={UDim2.fromScale(0, 0)}
-				AutomaticSize={Enum.AutomaticSize.XY}
-				ZIndex={2}
-				Change={{
-					AbsoluteSize: OnAbsoluteSizeChanged,
-				}}
-			>
-				<Corner Radius={6} />
-				<Detector key="InputBlocker">
-					<TopList Padding={new UDim(0, 1)} />
-					{options}
-				</Detector>
-			</frame>
+			<ListHolder OnAbsoluteSizeChanged={OnAbsoluteSizeChanged}>{options}</ListHolder>
 		</Overlay>
 	);
 }

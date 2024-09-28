@@ -10,12 +10,11 @@ import ChooseControl from "UI/StoryControls/Controls/Advanced/OptionList/Choose"
 import { UserInputProvider } from "Context/UserInputContext";
 import AppHolder from "UI/AppHolder";
 import OverlayControl from "UI/Overlays/OverlayControl";
-import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 
 function Story(props: {}) {
 	const theme = useTheme();
 	const control = useMemo(() => {
-		return Choose([5, 2, new Color3(1, 0, 0), 4, 5, () => {}], 1);
+		return Choose([5, 2, new Color3(1, 0, 0), 4, 5, 6, 7, 8, 9, 10, () => {}], 1);
 	}, []);
 
 	const [chooseValue, setChooseValue] = useState(() => control.ControlValue);

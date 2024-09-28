@@ -15,7 +15,26 @@ import EnumListControl from "UI/StoryControls/Controls/Advanced/OptionList/EnumL
 function Story(props: {}) {
 	const theme = useTheme();
 	const control = useMemo(() => {
-		return EnumList({ Enum1: 2, Enum2: "Text", Enum3: Color3.fromRGB(255, 80, 255), Enum4: () => {} }, "Enum1");
+		return EnumList(
+			{
+				Enum1: 2,
+				Enum2: "Text",
+				Enum3: Color3.fromRGB(255, 80, 255),
+				Enum4: () => {},
+				Enum5: 3,
+				Enum6: 4,
+				Enum7: 5,
+				Enum8: 6,
+				Enum9: 7,
+				Enum10: 8,
+				Enum11: 9,
+				Enum12: 10,
+				Enum13: 11,
+				Enum14: 12,
+				Enum15: 13,
+			},
+			"Enum1",
+		);
 	}, []);
 
 	const [enumValue, setEnumValue] = useState(() => control.ControlValue);

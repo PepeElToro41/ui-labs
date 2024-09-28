@@ -32,7 +32,7 @@ export const PluginSettingsProducer = createProducer(initialState, {
 	setToolbarPosition: (state, position: ToolbarPosition) => {
 		return {
 			...state,
-			ToolbarPosition: position,
+			toolbarPosition: position,
 		};
 	},
 	toggleClearOutputOnReload: (state) => {

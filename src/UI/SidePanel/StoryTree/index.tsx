@@ -44,7 +44,8 @@ function StoryTree(props: StoryTreeProps) {
 	}, [nodes, filter]);
 
 	return (
-		<Detector key="ScrollerFrame" Size={new UDim2(1, 0, 1, -65)} AnchorPoint={new Vector2(0.5, 0)} LayoutOrder={3}>
+		<Detector key="ScrollerFrame" Size={new UDim2(1, 0, 1, 0)} AnchorPoint={new Vector2(0.5, 0)} LayoutOrder={3}>
+			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 			<scrollingframe
 				key={"Scroller"}
 				AutomaticCanvasSize={Enum.AutomaticSize.Y}

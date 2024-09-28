@@ -40,19 +40,21 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 	const SetDarkTheme = useOverlayAction(() => setThemeIndex("Dark"), []);
 	const SetCatppuchineMacchiatoTheme = useOverlayAction(() => setThemeIndex("CatppuchineMacchiato"), []);
 	const SetCatppuchineMochaTheme = useOverlayAction(() => setThemeIndex("CatppuchineMocha"), []);
+	const SetCatppuchineLatteTheme = useOverlayAction(() => setThemeIndex("CatppuchineLatte"), []);
 
 	return (
 		<Dropdown Position={props.Position} Width={230}>
 			<DropdownEntry Text="Regenerate Storybooks" OnClick={RegenerateExplorer} />
 			<DropdownEntry Text="Reload All Stories" OnClick={ReloadAllStories} />
 			<Divisor Direction="X" />
-			<DropdownEntry Text="Keep  [View In Viewport]" Active={keepViewOnViewport} OnClick={OnSetKeepViewOnViewport} />
+			<DropdownEntry Text="Keep: View In Viewport" Active={keepViewOnViewport} OnClick={OnSetKeepViewOnViewport} />
 			<DropdownEntry Text="Shortcuts Enabled" Active={shortcutsEnabled} OnClick={OnSetShortcutsEnabled} />
 			<DropdownEntry Text="Clear Output On Reload" Active={clearOutputOnReload} OnClick={OnSetClearOutputOnReload} />
 			<Divisor Direction="X" />
 			<DropdownEntry Text="Theme: Dark" Active={themeName === "Dark"} OnClick={SetDarkTheme} />
 			<DropdownEntry Text="Theme: Macchiato" Active={themeName === "CatppuchineMacchiato"} OnClick={SetCatppuchineMacchiatoTheme} />
 			<DropdownEntry Text="Theme: Mocha" Active={themeName === "CatppuchineMocha"} OnClick={SetCatppuchineMochaTheme} />
+			<DropdownEntry Text="Theme: Latte" Active={themeName === "CatppuchineLatte"} OnClick={SetCatppuchineLatteTheme} />
 		</Dropdown>
 	);
 }

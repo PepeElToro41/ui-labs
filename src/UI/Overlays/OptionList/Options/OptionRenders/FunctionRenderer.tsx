@@ -11,7 +11,7 @@ function FunctionRenderer(props: FunctionRendererProps) {
 	const theme = useTheme();
 
 	return (
-		<Div Size={UDim2.fromOffset(70, 15)}>
+		<Div Size={UDim2.fromOffset(80, 15)}>
 			<imagelabel
 				AnchorPoint={props.IsDescription ? new Vector2(1, 0.5) : new Vector2(0, 0.5)}
 				Position={props.IsDescription ? new UDim2(1, 2, 0.5, 0) : new UDim2(0, -2, 0.5, 0)}

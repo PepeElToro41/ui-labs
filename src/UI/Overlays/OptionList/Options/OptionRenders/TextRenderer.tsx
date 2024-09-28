@@ -22,7 +22,7 @@ function TextRenderer(setprops: TextRendererProps) {
 			AutomaticSize={Enum.AutomaticSize.X}
 			TextXAlignment={Enum.TextXAlignment[props.IsDescription ? "Right" : "Left"]}
 		>
-			<uisizeconstraint MinSize={new Vector2(70, 0)} MaxSize={new Vector2(323, math.huge)} />
+			<uisizeconstraint MinSize={new Vector2(80, 0)} MaxSize={new Vector2(323, math.huge)} />
 		</Text>
 	);
 }

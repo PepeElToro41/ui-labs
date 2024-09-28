@@ -47,7 +47,7 @@
 		"@rbxts/services": "^1.5.1",
 		"@rbxts/sift": "^0.0.6",
 		"@rbxts/t": "^3.1.1",
-		"@rbxts/ui-labs": "^2.3.0-test2",
+		"@rbxts/ui-labs": "^2.3.0",
 		"@rbxts/vide": "^0.4.5"
 	}
 }
