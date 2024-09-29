@@ -41,6 +41,8 @@ export default defineConfig({
 							items: [
 								{ text: "React / Roact Stories", link: "/docs/stories/advanced/react" },
 								{ text: "Fusion Stories", link: "/docs/stories/advanced/fusion" },
+                        { text: "Vide Stories", link: "/docs/stories/advanced/vide" },
+                        { text: "Iris Stories", link: "/docs/stories/advanced/iris" },
 								{ text: "Generic Stories", link: "/docs/stories/advanced/generic" },
 							],
 						},
@@ -52,6 +54,7 @@ export default defineConfig({
 					items: [
 						{ text: "Visualizing Stories", link: "/docs/plugin/visualizing" },
 						{ text: "Multi-Mounting", link: "/docs/plugin/multimounting" },
+                  { text: "Story Tools", link: "/docs/plugin/tools" },
 						{ text: "Extra Features", link: "/docs/plugin/extras" },
 					],
 				},

@@ -192,7 +192,7 @@ You can use the Story Creator in the [Utility Package](/docs/installation.md#ins
 
 <span class="type-declaration"><span class="type-namespace">UILabs</span>
 <span class="type-name">.</span><span class="type-function-name">CreateFusionStory</span>(<span class="type-name">info</span>,
-<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">FusionStory</span></span>
 
 ::: details Example
 

@@ -39,7 +39,7 @@ function StoryTools(props: StoryToolsProps) {
 			{measureTool ? <MeasureTool Inside={isInside} Anchor={anchor} /> : undefined}
 			{selectTool ? <SelectElements Inside={isInside} Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
 			{showOutlines ? <ShowOutlines Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
-			{mouseRules ? <MouseRules Inside={isInside} Anchor={anchor} /> : undefined}
+			{mouseRules ? <MouseRules Inside={isInside} Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
 		</Div>
 	);
 }

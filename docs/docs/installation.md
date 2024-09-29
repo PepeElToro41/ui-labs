@@ -9,11 +9,7 @@
 
 UI Labs can be used with no extra code, however, using the utility package will unlock its full potential.
 
--   Find the [NPM Package](https://www.npmjs.com/package/@rbxts/ui-labs) (Roblox-TS).
--   Find the Package in the [Repository Releases](https://github.com/PepeElToro41/ui-labs-utils/releases)
+-   Wally: [`pepeeltoro41/ui-labs`](https://wally.run/package/pepeeltoro41/ui-labs) 
+-   NPM: [`@rbxts/ui-labs`](https://www.npmjs.com/package/@rbxts/ui-labs)
+-   Roblox Studio: [Repository Releases](https://github.com/PepeElToro41/ui-labs-utils/releases)
 
----
-
-::: tip Wally Package
-Wally Package is planned in the future.
-:::

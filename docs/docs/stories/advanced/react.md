@@ -228,11 +228,11 @@ You can use the Story Creator in the [Utility Package](/docs/installation.md#ins
 
 <span class="type-declaration"><span class="type-namespace">UILabs</span>
 <span class="type-name">.</span><span class="type-function-name">CreateReactStory</span>(<span class="type-name">info</span>,
-<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">ReactStory</span></span>
 
 <span class="type-declaration"><span class="type-namespace">UILabs</span>
 <span class="type-name">.</span><span class="type-function-name">CreateRoactStory</span>(<span class="type-name">info</span>,
-<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">StoryTable</span></span>
+<span class="type-name">story</span>)<span class="type-name">:</span><span class="type-highlight">RoactStory</span></span>
 
 ### Examples
 ::: details React

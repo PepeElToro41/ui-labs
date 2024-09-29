@@ -37,14 +37,6 @@ local story = {
       local component = Instance.new("Frame")
       component.Size = UDim2.fromOffset(200, 100)
       component.Parent = props.target
-
-      props.subscribe(function(values, infos)
-         print("controls changed", values)
-      end)
-
-      return function()
-         component:Destroy()
-      end
    end
 }
 ```
@@ -56,12 +48,38 @@ const story = {
       const component = new Instance("Frame");
       component.Size = UDim2.fromOffset(200, 100)
       component.Parent = props.target;
+   },
+};
+```
 
-      props.subscribe((values, infos) => {
-         print("controls changed", values);
-      });
+:::
 
-      return () => {
+## Cleaning up
+
+After the render function is executed, it should return a function that will be called when the story is unmounted.
+
+::: code-group
+
+```lua [Luau]
+local story = {
+   controls = controls,
+   render = function(props)
+      local component = Instance.new("Frame")
+
+      return function() -- Cleanup your story here
+         component:Destroy()
+      end
+   end
+}
+```
+
+```tsx [Roblox-TS]
+const story = {
+   controls: controls,
+   render: (props: InferFusionProps<typeof controls>) => {
+      const component = new Instance("Frame")
+
+      return () => { // Cleanup your story here
          component.Destroy();
       };
    },
@@ -106,7 +124,7 @@ The control infos will give you the old and new values of the controls, you can 
 
 ::: code-group
 
-```lua [Luau] {15-17}
+```lua [Luau] {16-18}
 local controls = {
    Visible = true,
 }
@@ -134,7 +152,7 @@ local story = {
 }
 ```
 
-```tsx [Roblox-TS] {15-17}
+```tsx [Roblox-TS] {16-18}
 const controls = {
    Visible: true,
 };

@@ -173,6 +173,13 @@
 	height: calc((33 / var(--preview-y)) * 100%);
 }
 
+.clearoutput-selector {
+	top: calc((140 / var(--preview-y)) * 100%);
+	left: calc((33 / var(--preview-x)) * 100%);
+	width: calc((230 / var(--preview-x)) * 100%);
+	height: calc((36 / var(--preview-y)) * 100%);
+}
+
 /* --------------------------------- TOOLBAR SELECTORS -------------------------------- */
 
 .zoom-selector {
@@ -196,6 +203,48 @@
 	height: calc((41 / var(--toolbar-y)) * 100%);
 }
 
+.fullscreen-selector {
+	top: calc((22 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
+.invert-selector {
+	top: calc((48 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
+.measure-selector {
+	top: calc((74 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
+.selectelements-selector {
+	top: calc((99 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
+.outlines-selector {
+	top: calc((126 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
+.rules-selector {
+	top: calc((140 / var(--toolbar-y)) * 100%);
+	left: calc((12 / var(--toolbar-x)) * 100%);
+	width: calc((36 / var(--toolbar-x)) * 100%);
+	height: calc((30 / var(--toolbar-y)) * 100%);
+}
+
 .image-selector,
 .widget-tab-selector,
 .widget-window-selector,
@@ -205,13 +254,20 @@
 .ineditor-selector,
 .inwidget-selector,
 .snapshot-selector,
+.clearoutput-selector,
 .auto-reload-selector,
 .hide-selector,
 .unhide-selector,
 .zoom-selector,
 .viewport-selector,
 .explorer-selector,
-.tabs-amount-selector {
+.tabs-amount-selector,
+.fullscreen-selector,
+.invert-selector,
+.measure-selector,
+.selectelements-selector,
+.outlines-selector,
+.rules-selector {
 	position: absolute;
 	background-color: transparent;
 	border-color: var(--custom-image-selector);

@@ -93,7 +93,7 @@ Nice!, now we can see our story more clearly.
    Depending on your setup or Roblox limitations, zooming might give unexpected results.
 :::
 
-## Resetting the View
+## Resetting the View 
 
 You can reset the Position and Zoom by <span class="item-description">Right Click</span> your story preview and selecting <span class="button-reference">Reset Position</span> or <span class="button-reference">Reset Zoom</span>
 
@@ -110,7 +110,7 @@ You can reset the Position and Zoom by <span class="item-description">Right Clic
    </div>
 </div>
 
-## Using the Game Viewport
+## Using the Game Viewport &nbsp; <span class="item-description">Q</span>
 
 You can visualize your story in the game viewport.<br/>
 For this clicking the **View on Viewport** button in the side toolbar. 

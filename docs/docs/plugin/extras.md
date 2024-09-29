@@ -1,6 +1,6 @@
 # Extra Features
 
-Additionally, Let's see some extra features that UI Labs offers.
+Additionally, Let's see some extra features and options UI Labs offers.
 
 <div class="image-tip-holder" style="padding-top: 60px;">
    <div style="position: relative;" >
@@ -9,13 +9,32 @@ Additionally, Let's see some extra features that UI Labs offers.
    </div>
 </div>
 
-## View In Explorer 
+## View In Explorer  &nbsp; <span class="item-description">E</span>
 
 You can view your story in the roblox explorer by <br/>
 selecting the **View In Explorer** button in the side toolbar.
 
 <img class="image-label" src="/docs/plugin/extras/viewinexplorer.png" alt="viewexplorer" />
 
+
+<div class="image-tip-holder" style="padding-top: 75px;">
+   <div style="position: relative;" >
+      <img class="image-label" src="/docs/plugin/toolbar2.png" alt="toolbar">
+      <div class="fullscreen-selector" />
+   </div>
+</div>
+
+## Fullscreen Mode  &nbsp; <span class="item-description">F</span>
+
+You can toggle fullscreen mode by <br/>
+selecting the **Fullscreen Mode** button in the side toolbar. 
+
+
+
+This will make the story explorer and the previews list dissapear,<br/>
+so the story takes up the whole screen. Click it again to bring them back<br/><br/><br/><br/>
+
+<img class="image-label" src="/docs/plugin/extras/fullscreen.png" alt="fullscreen">
 
 ## Auto Reloading
 
@@ -75,3 +94,32 @@ This clones the current UI and saves it in a `ScreenGui` inside `StarterGui`
    </div> 
    <img class="image-label" src="/docs/plugin/extras/snapshotgui.png" alt="snapshotgui" style="margin-top: 20px; width: fit-content; height: fit-content; margin-bottom: -150px;" />
 </div>
+
+<div class="image-tip-holder" style="padding-top: 75px;">
+   <div style="position: relative;" >
+      <img class="image-label" src="/docs/plugin/toolbar2.png" alt="toolbar">
+      <div class="invert-selector" />
+   </div>
+</div>
+
+## Invert Background  &nbsp; <span class="item-description">F</span>
+
+You can change from light to dark background by <br/>
+selecting the **Invert Backgorund** button in the side toolbar. 
+
+This will make dark backgrounds light, for better contrast in your story. <br/><br/><br/><br/>
+
+
+## Clear Output on Reload
+
+UI Labs has an option that clears the output when the story you are selecting is reloaded.
+
+This is disabled by default, you can enable it in the dropdown menu that appears in the ( ... ) at the Side Panel.
+
+
+<div class="image-label" style="overflow: hidden;">
+   <div style="position: relative; margin-bottom: -75px;">
+      <img src="/docs/plugin/titledropdown.png" alt="snapshotgui" >
+      <div class="clearoutput-selector" />
+   </div>
+</div> 
