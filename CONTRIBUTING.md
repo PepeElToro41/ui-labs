@@ -157,6 +157,6 @@ If the build is successful, you can create a pull request to the main repository
 
 UI Labs is *and always will be* a free and open-source project.
 
-This project is always growing and always improving. 
+This project is always growing and improving, trying to be the best storybook plugin on roblox. 
 
 Sponsoring is a great way to support the project and allow me to give more time to work on it.
