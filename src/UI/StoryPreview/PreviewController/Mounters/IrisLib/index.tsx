@@ -27,7 +27,7 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 
 		const states = CreateIrisStates(result.iris, controls, controlValues);
 		const irisProps: InferIrisProps<ConvertedControls> = GetProps({
-			controls: irisStates,
+			controls: states,
 			target: props.MountFrame,
 		});
 
