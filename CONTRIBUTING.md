@@ -151,3 +151,12 @@ npm run docs:preview
 ```
 
 If the build is successful, you can create a pull request to the main repository detailing the changes you made.
+
+
+# Contributing by Sponsoring
+
+UI Labs is *and always will be* a free and open-source project.
+
+This project is always growing and always improving. 
+
+Sponsoring is a great way to support the project and allow me to give more time to work on it.
