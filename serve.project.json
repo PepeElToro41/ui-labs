@@ -1,0 +1,14 @@
+{
+   "name": "ui-labs-vide-dev",
+   "tree": {
+      "$className": "DataModel",
+      "ServerScriptService": {
+         "ui-labs": {
+            "$path": "src/",
+            "Packages": {
+               "$path": "Packages/"
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,7 @@
+{
+   "scripts": {
+      "dev": "sh ./scripts/dev.sh",
+      "install": "sh ./scripts/install.sh",
+      "patch": "sh ./scripts/patch.sh"
+   }
+}

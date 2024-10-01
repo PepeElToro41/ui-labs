@@ -1,0 +1,15 @@
+sourcemap.json
+
+**/*.rbx[lm]*
+roblox.yml
+roblox.toml
+
+globalTypes.d.lua
+/serve
+/include
+*.tsbuildinfo
+
+**/sourcemap.json
+**/darklua-sourcemap.json
+
+Packages

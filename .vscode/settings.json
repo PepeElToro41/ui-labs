@@ -1,0 +1,31 @@
+{
+   "editor.formatOnSave": true,
+   "luau-lsp.require.directoryAliases": {
+		"@pkg": "Packages/",
+      "@constants": "src/constants",
+      "@contexts": "src/contexts",
+      "@hooks": "src/hooks",
+      "@utils": "src/utils",
+      "@styles": "src/ui/styles",
+      "@actions": "src/utils/vide/actions",
+      "@ui": "src/ui",
+      "@themes": "src/themes",
+	},
+   "luau-lsp.completion.imports.enabled": true,
+   "luau-lsp.completion.imports.suggestServices": true,
+   "luau-lsp.completion.imports.suggestRequires": false,
+   "luau-lsp.completion.autocompleteEnd": true,
+
+   "luau-lsp.require.mode": "relativeToFile",
+	"files.eol": "\n",
+	"luau-lsp.sourcemap.rojoProjectFile": "serve.project.json",
+   "luau-lsp.types.definitionFiles": [
+      "types/types.d.luau",
+      "types/services.d.luau",
+      "types/vide.d.luau",
+      "types/nodes.d.luau",
+  ],
+   "[luau]": {
+      "editor.defaultFormatter": "JohnnyMorganz.stylua"
+   },
+}
