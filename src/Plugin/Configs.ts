@@ -20,7 +20,7 @@ const Configs = {
 	Version: {
 		Mayor: 1,
 		Minor: 3,
-		Fix: 0,
+		Fix: 1,
 	},
 
 	Extensions: {
