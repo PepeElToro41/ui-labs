@@ -4,7 +4,7 @@ import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTyp
 import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { InferVideProps } from "@rbxts/ui-labs";
+import { InferVideControls, InferVideProps } from "@rbxts/ui-labs";
 import { useStoryUnmount } from "../../Utils";
 
 function VideLib(props: MounterProps<"VideLib">) {
@@ -22,10 +22,11 @@ function VideLib(props: MounterProps<"VideLib">) {
 	const GetProps = useStoryPassedProps();
 
 	const [sources, sourcesCleanup] = useMemo(() => {
-		return vide.root((cleanup) => {
-			const returnSources = CreateVideScopes(vide, controls, controlValues);
-			return [returnSources, cleanup];
+		let gotSources: InferVideControls<ConvertedControls> = {};
+		const cleanup = vide.mount(() => {
+			gotSources = CreateVideScopes(vide, controls, controlValues);
 		});
+		return [gotSources, cleanup];
 	}, []);
 
 	useUpdateEffect(() => {
