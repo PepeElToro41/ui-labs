@@ -22,15 +22,17 @@ function ToolbarButton(props: ToolbarButtonProps)
 	return Frame {
 		Size = UDim2.new(0, 30, 0, 30),
 		BackgroundTransparency = transparency,
-		BackgroundColor3 = theme "Background3",
+		BackgroundColor3 = theme "Background4",
 
 		Rounder(),
 		Image {
 			Image = props.Image,
-			Size = UDim2.fromOffset(20, 20),
+			Size = UDim2.fromOffset(18, 18),
+			ImageColor3 = function()
+				return (hovered() and theme().Emphasis) or theme().Text1
+			end,
 			Position = UDim2.fromScale(0.5, 0.5),
 			AnchorPoint = Vector2.new(0.5, 0.5),
-			ImageColor3 = theme "Text",
 		},
 		Detector { Hovered = hovered },
 	}

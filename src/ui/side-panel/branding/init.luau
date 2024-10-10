@@ -24,6 +24,7 @@ function Branding()
 		Div {
 			Name = "PluginName",
 			Size = UDim2.new(1, -25, 1, 0),
+			ClipsDescendants = true,
 
 			LeftList {
 				VerticalAlignment = Enum.VerticalAlignment.Center,
@@ -32,7 +33,7 @@ function Branding()
 			Logo(),
 			Text {
 				Name = "PluginName",
-				TextColor3 = theme "Text",
+				TextColor3 = theme "Text1",
 				Text = "UI Labs",
 				Weight = Enum.FontWeight.Bold,
 				TextSize = 18,
@@ -40,7 +41,7 @@ function Branding()
 			},
 			Text {
 				Name = "PluginVersion",
-				TextColor3 = theme "TextDisabled",
+				TextColor3 = theme "Text2",
 				Text = `v{VERSION.Mayor}.{VERSION.Minor}.{VERSION.Fix}`,
 				Weight = Enum.FontWeight.Light,
 				TextSize = 10,

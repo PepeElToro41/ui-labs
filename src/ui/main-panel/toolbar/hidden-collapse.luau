@@ -25,7 +25,7 @@ local source = Vide.source
 local spring = Vide.spring
 
 local TOOLBAR_SIZE = 34
-local START_SIZE = 26
+local START_SIZE = 28
 
 function ToolbarHiddenCollapse()
 	local theme = useTheme()
@@ -42,18 +42,19 @@ function ToolbarHiddenCollapse()
 	end
 
 	return Div {
-		Position = UDim2.fromOffset(6, 6),
+		Position = UDim2.fromOffset(6, 10),
 		Hovered(hovered),
 		Size = targetSize,
 
 		Frame {
 			Name = "ToolbarHolder",
-			BackgroundColor3 = theme "Background1",
+			BackgroundColor3 = theme "Background3",
 			ClipsDescendants = true,
 
 			Rounder(),
 			create "UIStroke" {
 				Thickness = 1,
+				Enabled = false,
 				Color = function()
 					local emphasis = theme().Emphasis
 					local border = theme().Border
@@ -67,7 +68,7 @@ function ToolbarHiddenCollapse()
 		},
 		Frame {
 			Name = "ToolbarCover",
-			BackgroundColor3 = theme "Background1",
+			BackgroundColor3 = theme "Background3",
 			BackgroundTransparency = targetAlpha,
 			Rounder(),
 		},
@@ -82,17 +83,13 @@ function ToolbarHiddenCollapse()
 				AnchorPoint = Vector2.new(0.5, 0.5),
 			},
 		},
-		Glow {
+		Shadow {
 			Blur = 0.8,
-			ZIndex = -2,
-			Transparency = 0.4,
+			Position = Vector2.zero,
+			ZIndex = -1,
+			Transparency = 0.3,
 			Extends = function()
-				return Vector2.new(12, 12):Lerp(Vector2.new(22, 12), targetAlpha())
-			end,
-			Color = function()
-				local emphasis = theme().Emphasis
-				local text = theme().Text
-				return text:Lerp(emphasis, targetAlpha())
+				return Vector2.new(14, 14):Lerp(Vector2.new(16, 16), targetAlpha())
 			end,
 		},
 	}

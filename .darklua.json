@@ -6,6 +6,8 @@
             "name": "path",
             "sources": {
                "@pkg": "Packages/",
+               "@system": "src/system",
+               "@store": "src/store",
                "@constants": "src/constants",
                "@contexts": "src/contexts",
                "@hooks": "src/hooks",

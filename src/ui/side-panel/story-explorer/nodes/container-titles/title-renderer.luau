@@ -23,7 +23,7 @@ function TitleRenderer(props: TitleRendererProps)
 		LeftList { VerticalAlignment = Enum.VerticalAlignment.Center, Gap = 2 },
 		Image {
 			Size = UDim2.fromOffset(16, 16),
-			ImageColor3 = theme "Text",
+			ImageColor3 = theme "Text1",
 			Image = function()
 				return expanded() and IMAGES.Expanded or IMAGES.Collapsed
 			end,

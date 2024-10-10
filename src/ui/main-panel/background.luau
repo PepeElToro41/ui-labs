@@ -7,7 +7,7 @@ local IMAGES = require "@constants/images"
 
 local create = Vide.create
 
-function Background(props: Map<number, any>)
+function Background()
 	local theme = useTheme()
 
 	return Frame {
@@ -23,7 +23,6 @@ function Background(props: Map<number, any>)
 			Size = UDim2.new(1, -10, 1, -10),
 			ImageTransparency = 0.87,
 		},
-		props,
 	}
 end
 

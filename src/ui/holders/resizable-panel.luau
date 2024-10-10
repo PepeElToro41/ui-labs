@@ -17,6 +17,7 @@ local effect = Vide.effect
 local cleanup = Vide.cleanup
 
 type ResizablePanelProps = {
+	Name: string?,
 	HandleThickness: number?,
 	HandleAxis: ("Top" | "Bottom" | "Left" | "Right")?,
 	Size: Derivable<UDim2>?,
@@ -99,7 +100,7 @@ function ResizablePanel(props: ResizablePanelProps)
 
 	return (
 		Div {
-			Name = "ResizablePanel",
+			Name = props.Name or "ResizablePanel",
 			AnchorPoint = Vector2.new(1 - math.floor(handleX), 1 - math.floor(handleY)),
 			props.PanelNative,
 			{ Size = computedSize },
@@ -107,7 +108,7 @@ function ResizablePanel(props: ResizablePanelProps)
 				Name = "DragAdornee",
 				BackgroundColor3 = Color3.fromRGB(56, 165, 255),
 				Position = UDim2.fromScale(handleX, handleY),
-				AnchorPoint = Vector2.new(0.5, 0.5),
+				AnchorPoint = Vector2.new(usesWith and (1 - handleX) or 0.5, (not usesWith) and (1 - handleY) or 0.5),
 				Visible = function()
 					return dragging() or hovered()
 				end,

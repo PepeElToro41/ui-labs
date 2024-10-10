@@ -10,6 +10,7 @@ function UILabs()
 		Name = "UILabs",
 		LeftList(),
 		ResizablePanel {
+			Name = "SidePanel",
 			PanelSize = 250,
 			MinimumSize = 120,
 			MaximumSize = 600,

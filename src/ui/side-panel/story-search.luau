@@ -53,17 +53,17 @@ function StorySearch(props: StorySearchProps)
 				Image = IMAGES.Search,
 				Size = UDim2.fromOffset(14, 14),
 				ImageColor3 = function()
-					return theme().TextDisabled:Lerp(theme().Text, focusAlpha())
+					return theme().Text2:Lerp(theme().Text1, focusAlpha())
 				end,
 			},
 			TextInput {
 				LayoutOrder = 2,
 				TextSize = 13,
 				TextXAlignment = Enum.TextXAlignment.Left,
-				TextColor3 = theme "Text",
+				TextColor3 = theme "Text1",
 				ClipsDescendants = true,
 				PlaceholderText = "Search Story...",
-				PlaceholderColor3 = theme "TextDisabled",
+				PlaceholderColor3 = theme "Text2",
 
 				GetFocused = focused,
 				Changed("Text", props.OnFilterChange),

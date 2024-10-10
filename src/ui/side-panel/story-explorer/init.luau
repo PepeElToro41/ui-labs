@@ -11,6 +11,7 @@ local Div = require "@styles/div"
 local TopList = require "@styles/list/top"
 local Text = require "@styles/text"
 local Scroller = require "@styles/scroller"
+local Padding = require "@styles/padding"
 
 local create = Vide.create
 local derive = Vide.derive
@@ -38,7 +39,7 @@ function StoryExplorer(props: StoryExplorerProps)
 			Text = "Story Explorer",
 			TextSize = 14,
 			Size = UDim2.new(1, 0, 0, 25),
-			TextColor3 = theme "Text",
+			TextColor3 = theme "Text1",
 			TextXAlignment = Enum.TextXAlignment.Left,
 			Padding = 4,
 		},
@@ -53,6 +54,7 @@ function StoryExplorer(props: StoryExplorerProps)
 				ScrollBarImageColor3 = theme "Border",
 
 				TopList { Gap = 1 },
+				Padding { Bottom = 5 },
 				StorybookNodes {
 					Nodes = function()
 						return filteredNodes().Storybooks

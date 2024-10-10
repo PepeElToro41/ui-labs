@@ -12,9 +12,18 @@ local IMAGES = {
 	StoryApp = "rbxassetid://16442161953",
 	HamburgerMenu = "rbxassetid://76684206979292",
 	ToolbarLayout = "rbxassetid://134059879496117",
+	Close = "rbxassetid://94249766332447",
 
 	Dot = "rbxassetid://90763872297559",
 	DotOptions = "rbxassetid://18977916731",
+
+	-- Tabs Panel
+	AnchorOn = "rbxassetid://89755816027619",
+	AnchorOff = "rbxassetid://124734448216646",
+	PanelBottom = "rbxassetid://139169579852676",
+	PanelRight = "rbxassetid://130920712100877",
+	FollowOverlayOn = "rbxassetid://104580135010582",
+	FollowOverlayOff = "rbxassetid://77571386842906",
 
 	-- Explorer
 	Folder = "rbxassetid://84281705413893",

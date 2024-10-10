@@ -8,6 +8,12 @@ function boolean<T>(input: Derivable<boolean>, onTrue: T, onFalse: T): Reactive<
 	end
 end
 
+function key(input: Derivable<any>, index: string): Reactive<any>
+	return function()
+		return read(input)[index]
+	end
+end
+
 function lerp(alpha: Derivable<number>, min: number, max: number): Reactive<number>
 	return function()
 		return min + (max - min) * read(alpha)
@@ -17,4 +23,5 @@ end
 return table.freeze {
 	boolean = boolean,
 	lerp = lerp,
+	key = key,
 }

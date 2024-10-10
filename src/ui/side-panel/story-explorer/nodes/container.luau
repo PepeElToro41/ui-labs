@@ -87,7 +87,7 @@ function NodeContainer(props: NodeContainerProps)
 			end,
 			Size = UDim2.new(1, 0, 0, 25),
 
-			Corner { Radius = 6 },
+			Corner { Radius = 8 },
 
 			-- Title Display
 			switch(nodeType)(GetTitleRenderers(props.Node, expanded, name)),

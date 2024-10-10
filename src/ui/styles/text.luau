@@ -19,7 +19,7 @@ function Text(props: TextProps)
 	return Vide.create "TextLabel" {
 		BackgroundTransparency = 1,
 		Size = UDim2.fromScale(0, 1),
-		TextColor3 = theme "Text",
+		TextColor3 = theme "Text1",
 		FontFace = Font.fromName("GothamSSm", weight),
 		TextSize = 14,
 		BorderSizePixel = 0,
