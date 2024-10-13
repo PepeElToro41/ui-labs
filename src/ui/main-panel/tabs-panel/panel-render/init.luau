@@ -60,11 +60,12 @@ function PanelRender(props: PanelRender)
 					Name = "Buttons",
 					Size = UDim2.fromScale(0, 1),
 					AutomaticSize = Enum.AutomaticSize.X,
-					LeftList { Gap = 7, VerticalAlignment = Enum.VerticalAlignment.Center },
+					LeftList { Gap = 6, VerticalAlignment = Enum.VerticalAlignment.Center },
 					Padding { PaddingX = 6 },
 
 					PanelButton {
 						ButtonIcon = boolean(props.FollowOverlay, IMAGES.FollowOverlayOn, IMAGES.FollowOverlayOff),
+						Active = props.FollowOverlay,
 						OnClick = function()
 							props.FollowOverlay(not props.FollowOverlay())
 						end,
@@ -84,6 +85,7 @@ function PanelRender(props: PanelRender)
 					},
 					PanelButton {
 						ButtonIcon = boolean(props.PanelAnchored, IMAGES.AnchorOn, IMAGES.AnchorOff),
+						Active = props.PanelAnchored,
 						OnClick = function()
 							props.PanelAnchored(not props.PanelAnchored())
 						end,

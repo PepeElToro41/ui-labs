@@ -10,20 +10,21 @@ local IMAGES = {
 	Cross = "rbxassetid://18992233200",
 	Pattern = "rbxassetid://18992659430",
 	StoryApp = "rbxassetid://16442161953",
-	HamburgerMenu = "rbxassetid://76684206979292",
-	ToolbarLayout = "rbxassetid://134059879496117",
-	Close = "rbxassetid://94249766332447",
+	HamburgerMenu = "rbxassetid://75204011324189",
+	ToolbarLayout = "rbxassetid://121773742274698",
+	Close = "rbxassetid://121502092628708",
+	Corner = "rbxassetid://86339120976263",
 
 	Dot = "rbxassetid://90763872297559",
 	DotOptions = "rbxassetid://18977916731",
 
 	-- Tabs Panel
-	AnchorOn = "rbxassetid://89755816027619",
-	AnchorOff = "rbxassetid://124734448216646",
-	PanelBottom = "rbxassetid://139169579852676",
-	PanelRight = "rbxassetid://130920712100877",
-	FollowOverlayOn = "rbxassetid://104580135010582",
-	FollowOverlayOff = "rbxassetid://77571386842906",
+	AnchorOn = "rbxassetid://81592042672386",
+	AnchorOff = "rbxassetid://106299441873088",
+	PanelBottom = "rbxassetid://115599519069654",
+	PanelRight = "rbxassetid://102977980943227",
+	FollowOverlayOn = "rbxassetid://94809684153731",
+	FollowOverlayOff = "rbxassetid://106330709817575",
 
 	-- Explorer
 	Folder = "rbxassetid://84281705413893",
@@ -34,9 +35,9 @@ local IMAGES = {
 	Collapsed = "rbxassetid://98515959792894",
 
 	-- Toolbar
-	Reload = "rbxassetid://76991964587225",
-	ZoomIn = "rbxassetid://70828517608818",
-	ZoomOut = "rbxassetid://98733043477676",
+	Reload = "rbxassetid://137661226785658",
+	ZoomIn = "rbxassetid://107054653929042",
+	ZoomOut = "rbxassetid://94778654264767",
 }
 
 return IMAGES

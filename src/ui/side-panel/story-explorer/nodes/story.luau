@@ -46,7 +46,10 @@ function Story(props: StoryProps)
 		return PreviewsConsumers.PreviewsAmount(module())
 	end, module)
 	local textColor = function()
-		return isRoot() and theme().TextInverted or theme().Text1
+		return isRoot() and theme().TextActive1 or theme().Text1
+	end
+	local amountsTextColor = function()
+		return isRoot() and theme().TextActive3 or theme().Text3
 	end
 
 	local function OnStoryClicked()
@@ -56,7 +59,7 @@ function Story(props: StoryProps)
 	return Div {
 		Name = name,
 		LayoutOrder = props.LayoutOrder,
-		Size = UDim2.new(1, 0, 0, 25),
+		Size = UDim2.new(1, 0, 0, 27),
 
 		Div {
 			Name = "Title",
@@ -71,15 +74,15 @@ function Story(props: StoryProps)
 					return (hovered() or isRoot()) and 0 or 1
 				end,
 
-				Padding { PaddingX = 7 },
-				Corner { Radius = 8 },
+				Padding { Left = 8, Right = 7 },
+				Corner { Padding = 10 },
 
 				Div {
 					LeftList { VerticalAlignment = Enum.VerticalAlignment.Center, Gap = 6 },
 					Image {
 						Image = IMAGES.Story,
 						ImageColor3 = function()
-							return isRoot() and theme().TextInverted or theme().Story
+							return isRoot() and theme().TextActive1 or theme().Story
 						end,
 						Size = UDim2.fromOffset(13, 13),
 					},
@@ -96,9 +99,8 @@ function Story(props: StoryProps)
 					AnchorPoint = Vector2.new(1, 0.5),
 					Size = UDim2.new(0, 5, 1, 0),
 					TextSize = 12,
-					TextTransparency = 0.5,
 					Text = totalPreviews,
-					TextColor3 = textColor,
+					TextColor3 = amountsTextColor,
 					Visible = function()
 						return totalPreviews() > 0
 					end,

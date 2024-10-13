@@ -85,7 +85,7 @@ function NodeContainer(props: NodeContainerProps)
 			BackgroundTransparency = function()
 				return hovered() and 0 or 1
 			end,
-			Size = UDim2.new(1, 0, 0, 25),
+			Size = UDim2.new(1, 0, 0, 27),
 
 			Corner { Radius = 8 },
 

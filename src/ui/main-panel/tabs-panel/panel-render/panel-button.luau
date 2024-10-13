@@ -4,8 +4,8 @@ local useTheme = require("@contexts/theme").useTheme
 local boolean = require("@utils/vide/derivers").boolean
 
 local source = Vide.source
+local read = Vide.read
 
-local Div = require "@styles/div"
 local Frame = require "@styles/frame"
 local Rounder = require "@styles/rounder"
 local Image = require "@styles/image"
@@ -14,6 +14,7 @@ local Detector = require "@styles/detector"
 type PanelButtonProps = {
 	ButtonIcon: Derivable<string>,
 	ButtonSize: number?,
+	Active: Derivable<boolean>?,
 
 	OnClick: () -> (),
 }
@@ -31,7 +32,12 @@ function PanelButton(props: PanelButtonProps)
 		Image {
 			Image = props.ButtonIcon,
 			ImageColor3 = function()
-				return (hovered() and theme().Emphasis) or theme().Text1
+				if props.Active then
+					local active = read(props.Active)
+					return active and theme().Emphasis or theme().Text1
+				else
+					return theme().Text1
+				end
 			end,
 			Size = UDim2.fromOffset(props.ButtonSize or 18, props.ButtonSize or 18),
 			PRESETS.Centered,

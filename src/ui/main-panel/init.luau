@@ -6,11 +6,13 @@ local source = Vide.source
 
 local Div = require "@styles/div"
 local Frame = require "@styles/frame"
+local TopList = require "@styles/list/top"
 
 local Background = require "./background"
 local HiddenCollapseToolbar = require "./toolbar/hidden-collapse"
-local PreviewsSystem = require "./stories/previews-system"
+local PreviewsSystem = require "./story-render/previews-system"
 local TabsPanel = require("./tabs-panel")
+local PreviewList = require("./preview-list")
 
 function MainPanel()
 	local theme = useTheme()
@@ -32,8 +34,14 @@ function MainPanel()
 				return UDim2.new(1, -extends.X, 1, -extends.Y)
 			end,
 
-			PreviewsSystem(),
-			HiddenCollapseToolbar(),
+			TopList(),
+			PreviewList(),
+			Div {
+				Name = "StoryRender",
+
+				PreviewsSystem(),
+				HiddenCollapseToolbar(),
+			},
 		},
 		TabsPanel {
 			PanelAnchored = panelAnchored,

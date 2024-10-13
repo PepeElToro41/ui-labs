@@ -42,7 +42,7 @@ function ToolbarHiddenCollapse()
 	end
 
 	return Div {
-		Position = UDim2.fromOffset(6, 10),
+		Position = UDim2.fromOffset(6, 4),
 		Hovered(hovered),
 		Size = targetSize,
 
@@ -51,7 +51,7 @@ function ToolbarHiddenCollapse()
 			BackgroundColor3 = theme "Background3",
 			ClipsDescendants = true,
 
-			Rounder(),
+			Corner { Radius = 10 },
 			create "UIStroke" {
 				Thickness = 1,
 				Enabled = false,

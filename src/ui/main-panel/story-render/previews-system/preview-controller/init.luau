@@ -18,8 +18,6 @@ type PreviewControllerProps = {
 	Preview: Reactive<StoryPreview>,
 }
 
-local maxTest = 0
-
 function PreviewController(props: PreviewControllerProps)
 	local key = props.Preview().Key
 	local result, reloader = useStoryRequire(props.Preview)
@@ -28,14 +26,14 @@ function PreviewController(props: PreviewControllerProps)
 		Size = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
 	}
-	--
+
 	effect(function()
-		--[[PreviewsDispatchers.PatchStoryPreview(key, {
+		PreviewsDispatchers.PatchStoryPreview(key, {
 			HotReloader = reloader,
 			Holder = mountFrame,
-		})]]
+		})
 	end)
-	--
+
 	HolderController(props.Preview, mountFrame)
 
 	local renderedStory = single(result, function(result)

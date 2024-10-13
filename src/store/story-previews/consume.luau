@@ -19,6 +19,14 @@ function StoryPreview(key: string): StoryPreview?
 	return nil
 end
 
+local MappedPreviews = Charm.computed(function()
+	local map: Map<string, StoryPreview> = {}
+	for _, preview in pairs(StoryPreviews()) do
+		map[preview.UID] = preview
+	end
+	return map
+end)
+
 --[[
    Returns the root story preview.
 ]]
@@ -65,6 +73,7 @@ function OrderedPreviewsList()
 end
 
 return table.freeze {
+	MappedPreviews = MappedPreviews,
 	StoryPreview = StoryPreview,
 	RootPreview = RootPreview,
 	PreviewsAmount = PreviewsAmount,
