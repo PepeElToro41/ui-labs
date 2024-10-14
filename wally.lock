@@ -3,11 +3,6 @@
 registry = "test"
 
 [[package]]
-name = "aloroid/vide-with-types"
-version = "0.2.7"
-dependencies = []
-
-[[package]]
 name = "csqrl/sift"
 version = "0.0.9"
 dependencies = []
@@ -53,8 +48,13 @@ version = "0.9.1"
 dependencies = [["Promise", "evaera/promise@4.0.0"]]
 
 [[package]]
+name = "osyrisrblx/t"
+version = "3.1.1"
+dependencies = []
+
+[[package]]
 name = "pepeeltoro41/modded-vide"
-version = "0.0.4"
+version = "0.0.5"
 dependencies = []
 
 [[package]]
@@ -65,7 +65,7 @@ dependencies = []
 [[package]]
 name = "pepeeltoro41/ui-labs-vide"
 version = "0.1.0"
-dependencies = [["charm", "littensy/charm@0.7.6"], ["collections", "jsdotlua/collections@1.2.7"], ["immut", "solarhorizon/immut@0.4.4"], ["janitor", "howmanysmall/janitor@1.17.0"], ["old-vide", "aloroid/vide-with-types@0.2.7"], ["promise", "howmanysmall/typed-promise@4.0.3"], ["ripple", "littensy/ripple@0.9.1"], ["sift", "csqrl/sift@0.0.9"], ["signal", "sleitnick/signal@2.0.1"], ["ui-labs", "pepeeltoro41/ui-labs@2.3.0"], ["vide", "pepeeltoro41/modded-vide@0.0.4"]]
+dependencies = [["charm", "littensy/charm@0.7.6"], ["collections", "jsdotlua/collections@1.2.7"], ["immut", "solarhorizon/immut@0.4.4"], ["janitor", "howmanysmall/janitor@1.17.0"], ["promise", "howmanysmall/typed-promise@4.0.3"], ["ripple", "littensy/ripple@0.9.1"], ["sift", "csqrl/sift@0.0.9"], ["signal", "sleitnick/signal@2.0.1"], ["t", "osyrisrblx/t@3.1.1"], ["ui-labs", "pepeeltoro41/ui-labs@2.3.0"], ["vide", "pepeeltoro41/modded-vide@0.0.5"]]
 
 [[package]]
 name = "sleitnick/signal"

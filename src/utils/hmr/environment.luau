@@ -22,6 +22,7 @@ function Environment.new(): Environment
 	self._dependencies = {}
 	self._dependencyLoaders = {}
 	self._listeners = {}
+	self._active = true
 
 	self.Shared = {}
 	self.OnDependencyChanged = Signal.new()

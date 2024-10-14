@@ -1,3 +1,4 @@
+local RunService = game:GetService("RunService")
 local Promise = require "@pkg/promise"
 local Signal = require "@pkg/signal"
 
@@ -32,6 +33,7 @@ type Private = {
 	_reloadPromise: Promise,
 	_environmentListener: Connection?,
 	_reloadBinded: ((environment: Environment) -> ())?,
+	_changedDefer: RBXScriptConnection,
 
 	-- methods
 	_ClearReloader: (self: HotReloader) -> (),
@@ -59,6 +61,8 @@ function HotReloader.new(module: ModuleScript): HotReloader
 end
 
 function HotReloader:_ClearReloader()
+	if self._changedDefer and self._changedDefer.Connected then self._changedDefer:Disconnect() end
+
 	if self._reloadPromise then self._reloadPromise:cancel() end
 	if self._environmentListener and self._environmentListener.Connected then
 		self._environmentListener:Disconnect()
@@ -90,7 +94,13 @@ function HotReloader:Reload()
 	local listener = environment.OnDependencyChanged:Once(function(module)
 		self.OnDependencyChanged:Fire(module, environment)
 
-		if self.AutoReload then self:Reload() end
+		local isDefered = self._changedDefer and self._changedDefer.Connected
+		if self.AutoReload and not isDefered then
+			local defer = RunService.Heartbeat:Once(function()
+				self:Reload()
+			end)
+			self._changedDefer = defer
+		end
 	end)
 	self._environmentListener = listener
 

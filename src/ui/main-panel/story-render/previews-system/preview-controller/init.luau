@@ -1,16 +1,22 @@
 local Vide = require "@pkg/vide"
-local StoryPreviews = require("@store/story-previews")
-local PreviewsDispatchers = require("@store/story-previews/dispatch")
-local HolderController = require("./holders")
 local UILabs = require("@pkg/ui-labs")
-
-local useStoryRequire = require("./story-require")
-local single = require("@utils/vide").single
+local WARNINGS = require("@constants/warnings")
 
 local create = Vide.create
 local cleanup = Vide.cleanup
 local effect = Vide.effect
 local untrack = Vide.untrack
+
+local StoryPreviews = require("@store/story-previews")
+local PreviewsDispatchers = require("@store/story-previews/dispatch")
+
+local useStoryRequire = require("./story-require")
+local single = require("@utils/vide").single
+local MiscUtils = require("@utils/misc")
+local UILabsWarn = MiscUtils.UILabsWarn
+
+local Functional = require("./mounters/functional")
+local HolderController = require("./holders")
 
 type StoryPreview = StoryPreviews.StoryPreview
 
@@ -36,11 +42,15 @@ function PreviewController(props: PreviewControllerProps)
 
 	HolderController(props.Preview, mountFrame)
 
-	local renderedStory = single(result, function(result)
-		if result == nil then return nil end
+	single(result, function(result)
+		if result == nil then return UILabsWarn(WARNINGS.NoStory) :: nil end
+
 		if typeof(result) == "function" then
-			local unmounter = (result :: UILabs.FunctionStory)(mountFrame)
-			cleanup(unmounter)
+			Functional({
+				Entry = props.Preview,
+				Result = result :: any,
+				MountFrame = mountFrame,
+			})
 		end
 		return nil
 	end)
