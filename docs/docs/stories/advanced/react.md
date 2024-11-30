@@ -83,6 +83,8 @@ local story = {
       return component
    end
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -95,6 +97,8 @@ const story = {
       return component
    }, 
 }
+
+export = story;
 ``` 
  
 :::
@@ -122,6 +126,8 @@ local story = {
       return component
    end
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS] {7}
@@ -139,6 +145,8 @@ const story = {
       return component
    }
 }
+
+export = story;
 ```
 
 :::
@@ -166,6 +174,8 @@ local story = {
       return component
    end 
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -183,6 +193,8 @@ const story = {
       return component
    },
 }
+
+export = story;
 ```
 :::
 
@@ -203,6 +215,8 @@ local story = {
       return component
    end 
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -218,6 +232,8 @@ const story = {
       return component
    },
 }
+
+export = story;
 ```
 :::
 
@@ -253,6 +269,8 @@ local story = CreateReactStory({
    local component = React.createElement("Frame", {})
    return component
 end)
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -269,6 +287,8 @@ const story = CreateReactStory({
    const component = <frame />
    return component
 })
+
+export = story;
 ```
 
 :::
@@ -290,6 +310,8 @@ local story = CreateRoactStory({
    local component = Roact.createElement("Frame", {})
    return component
 end)
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -305,6 +327,7 @@ const story = CreateRoactStory({
    return component
 })
 
+export = story;
 ```
 
 :::

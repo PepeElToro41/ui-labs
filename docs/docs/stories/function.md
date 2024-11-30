@@ -42,6 +42,8 @@ function story(target: Frame)
       -- Clean up your story here
    end
 end
+
+return story
 ```
 
 ```ts [Roblox-TS] {4-6}
@@ -74,6 +76,8 @@ local function story(target)
       Roact.unmount(handle)
    end
 end
+
+return story
 ```
 
 :::

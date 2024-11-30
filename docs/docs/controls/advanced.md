@@ -155,6 +155,8 @@ local story = {
    controls = controls,
    story = ...
 }
+
+return story
 ```
 
 :::

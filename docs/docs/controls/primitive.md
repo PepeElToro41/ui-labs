@@ -35,6 +35,8 @@ local story = {
    controls = controls,
    story = ...
 }
+
+return story
 ```
 
 ```ts [Roblox-TS] {2-5}
@@ -49,6 +51,8 @@ const story = {
    controls: controls,
    story: ...
 }
+
+export = story;
 ```
 
 :::
@@ -156,6 +160,8 @@ local story = {
    controls = controls,
    story = ...
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]

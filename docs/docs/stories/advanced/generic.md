@@ -39,6 +39,8 @@ local story = {
       component.Parent = props.target
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -84,6 +86,8 @@ const story = {
       };
    },
 };
+
+export = story;
 ```
 
 :::
@@ -150,6 +154,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS] {16-18}
@@ -178,6 +184,8 @@ const story = {
       };
 	},
 };
+
+export = story;
 ```
 
 :::
@@ -216,6 +224,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -244,6 +254,8 @@ const story = {
       };
 	},
 };
+
+export = story;
 ```
 
 :::
@@ -302,6 +314,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -323,6 +337,8 @@ const story = {
       }
    }
 }
+
+export = story;
 ```
 
 :::
@@ -481,6 +497,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -509,6 +527,8 @@ const story = {
       }
    }
 }
+
+export = story;
 ```
 
 :::
@@ -579,6 +599,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -612,6 +634,8 @@ const story = {
       };
 	},
 };
+
+export = story;
 ```
 
 :::
@@ -650,6 +674,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -681,6 +707,8 @@ const story = {
       };
 	},
 };
+
+export = story;
 ```
 
 :::
@@ -726,6 +754,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -773,6 +803,8 @@ const story = {
       };
 	},
 };
+
+export = story;
 ```
 
 :::
@@ -808,6 +840,8 @@ local story = CreateGenericStory({
       component:Destroy()
    end
 end)
+
+return story
 ```
 
 ```tsx [Roblox-TS]
@@ -828,4 +862,6 @@ const story = CreateGenericStory({
       component.Destroy();
    };
 });
+
+export = story;
 ```
