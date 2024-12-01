@@ -41,6 +41,8 @@ local story = {
       }
    end
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS] {4-8}
@@ -53,6 +55,8 @@ const story = {
       })
    }
 }
+
+export = story;
 ```
 
 :::
@@ -79,6 +83,8 @@ local story = {
       }
    end
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS] {12}
@@ -97,6 +103,8 @@ const story = {
       })
    }
 }
+
+export = story;
 ```
 
 :::
@@ -126,6 +134,8 @@ local story = {
       end
    end
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS] {9-11}
@@ -142,6 +152,8 @@ const story = {
       }
    }
 }
+
+export = story;
 ```
 
 :::
@@ -179,6 +191,8 @@ local story = {
       -- cleanup function is not needed
    end,
 }
+
+return story
 ```
  
 ```tsx [Roblox-TS] {12-14}
@@ -218,6 +232,8 @@ local story = CreateFusionStory({
       component:Destroy()
    end
 end)
+
+return story
 ```
  
 ```tsx [Roblox-TS]
@@ -239,6 +255,7 @@ const story = CreateFusionStory({
    }
 })
 
+export = story;
 ```
 
 :::

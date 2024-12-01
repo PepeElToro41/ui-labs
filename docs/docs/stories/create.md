@@ -8,20 +8,18 @@ Stories are `ModuleScript`s that ends with `.story` in their name. These modules
 
 ---
 
-</br>Story modules should return the story you want to render. We're gonna learn how stories are written in the next section.
+</br>Story modules should return the story you want to render. We will learn how stories are written in the next section.
 
 ::: code-group
 
 ```lua [Luau]
 local story = ...
-
 return story
 ```
 
 ```ts [Roblox-TS]
 const story = ...
-
-export = story
+export = story;
 ```
 
 :::
