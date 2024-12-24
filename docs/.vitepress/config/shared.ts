@@ -11,7 +11,7 @@ export const shared = defineConfig({
     },
 
     head: [
-		["link", { rel: "icon", href: "home/pluginicon.ico" }],
+		["link", { rel: "icon", type: "image/x-icon", href: "/ui-labs/home/pluginicon.ico" }],
 		["link", { rel: "preconnect", href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&display=swap" }],
 	],
 
