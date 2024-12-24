@@ -21,16 +21,18 @@
 /* ---------------------------- IMG DESCRIPTIONS ---------------------------- */
 
 .main-tab-description {
-	top: calc((54 / var(--multifull-y)) * 100%);
+	top: calc((60 / var(--multifull-y)) * 100%);
 	left: calc((220 / var(--multifull-x)) * 100%);
 	width: calc((78 / var(--multifull-x)) * 100%);
 	height: calc((29 / var(--multifull-y)) * 100%);
+	line-height: 130%;
 }
 .new-tab-description {
-	top: calc((54 / var(--multifull-y)) * 100%);
+	top: calc((60 / var(--multifull-y)) * 100%);
 	left: calc((302 / var(--multifull-x)) * 100%);
 	width: calc((72 / var(--multifull-x)) * 100%);
 	height: calc((29 / var(--multifull-y)) * 100%);
+	line-height: 130%;
 }
 .tabs-amount-description {
 	top: calc((139 / var(--multifull-y)) * 100%);
@@ -40,10 +42,11 @@
 }
 
 .widget-tab-description {
-	top: calc((60 / var(--widgetfull-y)) * 100%);
+	top: calc((62 / var(--widgetfull-y)) * 100%);
 	left: calc((292 / var(--widgetfull-x)) * 100%);
 	width: calc((100 / var(--widgetfull-x)) * 100%);
 	height: calc((29 / var(--widgetfull-y)) * 100%);
+	line-height: 130%;
 }
 .widget-window-description {
 	top: calc((280 / var(--widgetfull-y)) * 100%);
@@ -239,7 +242,7 @@
 }
 
 .rules-selector {
-	top: calc((140 / var(--toolbar-y)) * 100%);
+	top: calc((152 / var(--toolbar-y)) * 100%);
 	left: calc((12 / var(--toolbar-x)) * 100%);
 	width: calc((36 / var(--toolbar-x)) * 100%);
 	height: calc((30 / var(--toolbar-y)) * 100%);
