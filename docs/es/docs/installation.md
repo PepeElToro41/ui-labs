@@ -1,15 +1,47 @@
 # Instalación
 
 ## Instalación de UI Labs
+UI Labs actualmente se encuentra disponible en:
 
--   Puedes encontrar la última versión en el [Marketplace de Roblox](https://create.roblox.com/store/asset/14293316215/UI-Labs).
--   Puedes encontrarlo de código abierto en el [repositorio de GitHub](https://github.com/PepeElToro41/ui-labs).
+<div class="card-container">
+  <div class="cards">
+        <a class="card" href="https://create.roblox.com/store/asset/14293316215/UI-Labs">
+            <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" />
+            <p><b>Marketplace de Roblox</b></p>
+        </a>
+        <a class="card" href="https://github.com/PepeElToro41/ui-labs">
+            <img class="card-img dynamic-logo" src="/docs/logos/package.svg" />
+            <div>
+                <p><b>GitHub</b></p>
+                <p class="card-detail">Source Code</p>
+            </div>
+        </a>
+    </div>
+</div>
 
 ## Instalación del Paquete de Utilidades
 
 UI Labs puede ser utilizado sin código adicional, sin embargo, podrás aprovechar todo su potencial haciendo uso del paquete de utilidades.
 
--   Wally: [`pepeeltoro41/ui-labs`](https://wally.run/package/pepeeltoro41/ui-labs) 
--   NPM: [`@rbxts/ui-labs`](https://www.npmjs.com/package/@rbxts/ui-labs)
--   Roblox Studio: [Repository Releases](https://github.com/PepeElToro41/ui-labs-utils/releases)
-
+<div class="card-container">
+  <div class="cards">
+    <a class="card" href="https://wally.run/package/pepeeltoro41/ui-labs">
+        <img class="card-img" src="/docs/logos/wally.svg" />
+        <div>
+            <p><b>Wally</b></p>
+            <p class="card-detail">pepeeltoro41/ui-labs</p>
+        </div>
+    </a>
+    <a class="card" href="https://www.npmjs.com/package/@rbxts/ui-labs">
+        <img class="card-img" src="/docs/logos/rbxts.svg" />
+        <div>
+            <p><b>NPM</b></p>
+            <p class="card-detail">@rbxts/ui-labs</p>
+        </div>
+    </a>
+    <a class="card" href="https://github.com/PepeElToro41/ui-labs-utils/releases">
+        <img class="card-img" src="/docs/logos/studio.svg" />
+        <p><b>Roblox Studio</b></p>
+    </a>
+    </div>
+</div>
