@@ -91,11 +91,10 @@ You will need to add additional keys depending on the story type you are using.
 
 UI Labs currently supports the following types of advanced stories:
 
-
 <div class="card-container">
   <div class="cards">
    <a class="card" href="react">
-      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Roblox Logo" />
+      <div class="react-dynamic-logo card-img" />
       <p><b>React Stories</b></p>
    </a>
    <a class="card" href="fusion">
