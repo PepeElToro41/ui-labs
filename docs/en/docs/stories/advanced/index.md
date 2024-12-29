@@ -93,28 +93,34 @@ UI Labs currently supports the following types of advanced stories:
 
 <div class="card-container">
   <div class="cards">
-   <a class="card" href="react">
-      <div class="react-dynamic-logo card-img" />
-      <p><b>React Stories</b></p>
-   </a>
-   <a class="card" href="fusion">
-      <div class="fusion-dynamic-logo card-img" />
-      <p><b>Fusion Stories</b></p>
-   </a>
-   <a class="card" href="vide">
-      <img class="card-img" src="/docs/logos/vide.svg" alt="Vide Logo" />
-      <p><b>Vide Stories</b></p>
-   </a>
-   <a class="card" href="iris">
-      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Package Icon" />
-      <p><b>Iris Stories</b></p>
-   </a>
-   <a class="card" href="generic">
-      <img class="card-img" src="/docs/logos/studio.svg" alt="Roblox Studio Logo" />
-      <div>
-         <p><b>Generic Stories</b></p>
-         <p class="card-detail">No library required</p>
-      </div>
-   </a>
+   <NavCard 
+      MainString="React Stories"
+      DivImg=true
+      AdditionalImgClass="react-dynamic-logo"
+      URL="react"
+   />
+   <NavCard 
+      MainString="Fusion Stories"
+      DivImg=true
+      AdditionalImgClass="fusion-dynamic-logo"
+      URL="fusion"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/vide.svg"
+      MainString="Vide Stories"
+      URL="vide"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/package.svg"
+      DynamicLogo=true
+      MainString="Iris Stories"
+      URL="iris"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/studio.svg"
+      MainString="Generic Stories"
+      SubString="No library required"
+      URL="generic"
+   />
   </div>
 </div>
