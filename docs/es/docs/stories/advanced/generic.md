@@ -1,12 +1,12 @@
 # Historias Genéricas
 
-Las historias genéricas son historias que se pueden usar con cualquier cosa. No están vinculadas a una biblioteca específica y son lo suficientemente flexibles como para adaptarse a casi cualquier situación
+Las historias genéricas son historias que se pueden usar en casi cualquier caso. No están vinculadas a una librería específica y son lo suficientemente flexibles como para adaptarse a casi cualquier situación
 
 ## Cómo Renderizar Historias
 
-Las historias genéricas necesitarán una nueva clave llamada `render` en lugar de `story`. Esta diferencia de nombres le indicará a UI Labs que se trata de una historia genérica y no se espera ninguna biblioteca específica.
+Las historias genéricas necesitarán un nuevo indice llamado `render` en lugar de `story`. Esta diferencia de nombres le indicará a UI Labs que se trata de una historia genérica y no se esperará ninguna librería específica.
 
-Esta función de renderizado se ejecutará una vez y recibirá una tabla `props` que contendrá las siguientes claves:
+Esta función se ejecutará una sola vez y recibirá una tabla `props` que contendrá los siguientes indices:
 
 <div class="prop-description-holder">
    <span class="prop-description-title"><span class="prop-description-entry">target</span> <code>Frame</code><br/></span>
@@ -14,11 +14,11 @@ Esta función de renderizado se ejecutará una vez y recibirá una tabla `props`
 </div>
 <div class="prop-description-holder">
    <span class="prop-description-title"><span class="prop-description-entry">controls</span> <code>ControlValues</code><br/></span>
-   <span class="prop-description-contents">Los valores de control con los que comenzó la historia.</span>
+   <span class="prop-description-contents">Los valores de los controles con los que comenzó la historia.</span>
 </div>
 <div class="prop-description-holder">
    <span class="prop-description-title"><span class="prop-description-entry">converted</span> <code>ConvertedControls</code><br/></span>
-   <span class="prop-description-contents">Objetos de control que UI Labs está utilizando actualmente. No deben ser manipulados, pero son útiles para obtener información sobre los controles.</span><br/><br/>
+   <span class="prop-description-contents">Objetos de control que UI Labs está utilizando internamente. No deben ser manipulados, pero son útiles para obtener información sobre estos.</span><br/><br/>
 </div>
 <div class="prop-description-holder">
    <span class="prop-description-title"><span class="prop-description-entry">subscribe</span> <code>(listener: Listener) => disconnect</code><br/></span>
@@ -44,12 +44,12 @@ return story
 
 ```tsx [Roblox-TS]
 const story = {
-   controls: controls,
-   render: (props: InferGenericProps<typeof controls>) => {
-      const component = new Instance("Frame");
-      component.Size = UDim2.fromOffset(200, 100)
-      component.Parent = props.target;
-   },
+	controls: controls,
+	render: (props: InferGenericProps<typeof controls>) => {
+		const component = new Instance("Frame");
+		component.Size = UDim2.fromOffset(200, 100);
+		component.Parent = props.target;
+	},
 };
 ```
 
@@ -76,14 +76,15 @@ local story = {
 
 ```tsx [Roblox-TS]
 const story = {
-   controls: controls,
-   render: (props: InferFusionProps<typeof controls>) => {
-      const component = new Instance("Frame")
+	controls: controls,
+	render: (props: InferFusionProps<typeof controls>) => {
+		const component = new Instance("Frame");
 
-      return () => { // Limpia tu historia aquí
-         component.Destroy();
-      };
-   },
+		return () => {
+			// Limpia tu historia aquí
+			component.Destroy();
+		};
+	},
 };
 
 export = story;
@@ -91,9 +92,9 @@ export = story;
 
 :::
 
-## Seguimiento de los Cambios en los Controles
+## Como Detectar Cambios en los Controles
 
-La función `subscribe` se puede utilizar para conectar un *callback* que se ejecutará cada vez que los controles cambien. Este *callback* recibirá dos argumentos:
+La función `subscribe` se puede utilizar para conectar un _callback_ que se ejecutará cada vez que los controles cambien. Este _callback_ recibirá dos argumentos:
 
 -   values: `ControlValues`: Los valores actuales de los controles.
 -   infos: `ControlInfos`: La información de lo actualizado, esto te dará los valores nuevos y antiguos de los controles.
@@ -159,28 +160,29 @@ return story
 
 ```tsx [Roblox-TS] {16-18}
 const controls = {
-   Visible: true,
+	Visible: true,
 };
 
 const story = {
-   controls: controls,
-   render: (props: InferGenericProps<typeof controls>) => {
-      const component = new Instance("Frame");
-      component.Size = UDim2.fromOffset(200, 100)
-      component.Visible = props.controls.Visible; // primera actualización
-      component.Parent = props.target;
+	controls: controls,
+	render: (props: InferGenericProps<typeof controls>) => {
+		const component = new Instance("Frame");
+		component.Size = UDim2.fromOffset(200, 100);
+		component.Visible = props.controls.Visible; // primera actualización
+		component.Parent = props.target;
 
-      const unsubscribe = props.subscribe((values, infos) => { // [!code focus:7]
-         const info = infos.Visible; // Este será un GenericInfo<boolean>
+		const unsubscribe = props.subscribe((values, infos) => {
+			// [!code focus:7]
+			const info = infos.Visible; // Este será un GenericInfo<boolean>
 
-         if (info.__new !== info.__old) {
-            component.Visible = info.__new;
-         }
-      });
+			if (info.__new !== info.__old) {
+				component.Visible = info.__new;
+			}
+		});
 
-      return () => {
-         component.Destroy();
-      };
+		return () => {
+			component.Destroy();
+		};
 	},
 };
 
@@ -191,7 +193,7 @@ export = story;
 
 ### Utilidad `ListenControl`
 
-UI Labs tiene una función de utilidad llamada `ListenControl(info, callback)` que realiza la comparación de valores antiguos y nuevos por ti. Simplemente ejecuta eta funcion dentro del *callback* de `subscribe`y verificará si el control ha cambiado.
+UI Labs tiene una función de utilidad llamada `ListenControl(info, callback)` que realiza la comparación de valores antiguos y nuevos por ti. Simplemente ejecuta eta funcion dentro del _callback_ de `subscribe`y verificará si el control ha cambiado.
 
 ::: details Ejemplo
 ::: code-group
@@ -237,20 +239,21 @@ const controls = {
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-      const component = new Instance("Frame");
-      component.Size = UDim2.fromOffset(200, 100)
-      component.Visible = props.controls.Visible; // primera actualización
-      component.Parent = props.target;
+		const component = new Instance("Frame");
+		component.Size = UDim2.fromOffset(200, 100);
+		component.Visible = props.controls.Visible; // primera actualización
+		component.Parent = props.target;
 
-      props.subscribe((values, infos) => { // [!code focus:5]
-         ListenControl(infos.Visible, (newValue) => {
-            component.Visible = newValue;
-         });
-      });
+		props.subscribe((values, infos) => {
+			// [!code focus:5]
+			ListenControl(infos.Visible, (newValue) => {
+				component.Visible = newValue;
+			});
+		});
 
-      return () => {
-         component.Destroy();
-      };
+		return () => {
+			component.Destroy();
+		};
 	},
 };
 
@@ -260,7 +263,7 @@ export = story;
 :::
 
 ::: details Implementación
-Así es como se implementa la utilidad `ListenControl`, en caso de que la desees reimplementar tú mismo:
+Así es como esta implementada la utilidad `ListenControl`, en caso de que la desees reimplementar tú mismo:
 
 ```lua [Luau]
 local function ListenControl(info, callback)
@@ -275,11 +278,11 @@ end
 
 :::
 
-## Cómo usar una Biblioteca Personalizada
+## Cómo usar una Librería Personalizada
 
-Este tipo de historia no está vinculada a una biblioteca específica. Puedes usar cualquier biblioteca.
+Este tipo de historia no está vinculada a una librería específica. Puedes usar cualquier librería.
 
-Hay algunas utilidades que UI Labs proporciona para ayudarte con esto.
+Hay algunas herramientas que UI Labs proporciona para ayudarte con esto.
 
 ### CreateControlStates
 
@@ -287,7 +290,7 @@ Hay algunas utilidades que UI Labs proporciona para ayudarte con esto.
 <span class="type-name">controls</span>,
 <span class="type-name">creator</span>)</span>
 
-Esta función utilizará la clave `converted` para crear valores de estado de control (similares a `Fusion.Value`) para tu biblioteca de UI.
+Esta función utilizará el valor dentro de `converted` para crear estados (similares a `Fusion.Value`) que tu librería usaria.
 
 ---
 
@@ -297,7 +300,7 @@ Esta función utilizará la clave `converted` para crear valores de estado de co
 local UILabs = require(...)
 local CreateControlStates = UILabs.CreateControlStates
 
--- Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
+-- Usaremos una librería imaginaria llamada Lib para este ejemplo
 
 local controls = { ... }
 
@@ -305,7 +308,7 @@ local story = {
    controls = controls,
    render = function(props)
       local states = CreateControlStates(props.converted, props.controls, function(value) -- // [!code focus:3]
-         return Lib.State(value) -- Así es como la biblioteca crearía un estado
+         return Lib.State(value) -- Así es como la librería crearía un estado
       end)
 
       return function()
@@ -320,7 +323,7 @@ return story
 ```tsx [Roblox-TS]
 import { CreateControlStates, InferGenericProps } from "@rbxts/ui-labs"
 
-// Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
+// Usaremos una librería imaginaria llamada Lib para este ejemplo
 
 const controls = { ... }
 
@@ -328,7 +331,7 @@ const story = {
    controls: controls,
    render: (props: InferGenericProps<typeof controls>) => {
       const states = CreateControlStates(props.converted, props.controls, (value) => { // [!code focus:3]
-         return Lib.State(value) // Así es como la biblioteca crearía un estado
+         return Lib.State(value) // Así es como la librería crearía un estado
       })
 
       return () => {
@@ -344,7 +347,7 @@ export = story;
 
 ::: details Implementación
 
-Así es como se implementa la utilidad `CreateControlStates`, en caso de que la desees reimplementar tú mismo:
+Así es como esta implementada la utilidad `CreateControlStates`, en caso de que la desees reimplementar tú mismo:
 
 ```lua [Luau]
 local function CreateControlStates(converted, controls, creator)
@@ -389,7 +392,7 @@ const controls = {
 	Value: "foo",
 };
 
-// utilizaremos la función "new" como la que lo crea, tendrá x como el tipo del control 
+// utilizaremos la función "new" como la que lo crea, tendrá x como el tipo del control
 interface FusionValueCreator extends HKT {
 	new: (x: this["T"]) => Fusion.Value<typeof x>; // usa typeof x para obtener el tipo del control
 }
@@ -414,7 +417,7 @@ const controls = {
 	Value: "foo",
 };
 
-// utilizaremos la función "new" como la que lo crea, tendrá x como el tipo del control 
+// utilizaremos la función "new" para crear el tipo, tendrá x como el tipo del control
 interface IrisStateCreator extends HKT {
 	new: (x: this["T"]) => State<typeof x>; // usa typeof x para obtener el tipo del control
 }
@@ -439,7 +442,7 @@ const controls = {
 	Value: "foo",
 };
 
-// utilizaremos la función "new" como la que lo crea, tendrá x como el tipo del control 
+// utilizaremos la función "new" para crear el tipo, tendrá x como el tipo del control
 interface VideSourceCreator extends HKT {
 	new: (x: this["T"]) => Vide.Source<typeof x>; // usa typeof x para obtener el tipo del control
 }
@@ -451,8 +454,8 @@ const states: VideSources = CreateControlStates(props.converted, props.controls,
 	return Vide.source(value);
 });
 
-states.Visible; // Video.Source<boolean>
-states.Value; // Video.Source<string>
+states.Visible; // Vide.Source<boolean>
+states.Value; // Vide.Source<string>
 ```
 
 :::
@@ -464,7 +467,7 @@ states.Value; // Video.Source<string>
 <span class="type-name">controls</span>,
 <span class="type-name">updater</span>)</span>
 
-Esta función actualizará los estados de control proporcionados por `CreateControlStates` con los nuevos valores. Debe ser ejecutada dentro del callback `subscribe`.
+Esta función actualizará los estados dados por `CreateControlStates` con los nuevos valores. Debe ser ejecutada dentro del callback `subscribe`.
 
 ---
 
@@ -475,26 +478,26 @@ local UILabs = require(...)
 local CreateControlStates = UILabs.CreateControlStates
 local UpdateControlStates = UILabs.UpdateControlStates
 
--- Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
+-- Usaremos una librería imaginaria llamada Lib para este ejemplo
 
 local controls = { ... }
 
 local story = {
-   controls = controls,
-   render = function(props)
-      local states = CreateControlStates(props.converted, props.controls, function(value)
-         return Lib.State(value) -- Así es como la biblioteca crearía un estado
-      end)
+    controls = controls,
+    render = function(props)
+        local states = CreateControlStates(props.converted, props.controls, function(value)
+            return Lib.State(value) -- Así es como la librería crearía un estado
+        end)
 
-      props.subscribe(function(values) -- // [!code focus:5]
-         UpdateControlStates(states, props.converted, values, function(state, value)
-            return state:set(value) -- Así es como la biblioteca actualizaría un estado
-         end)
-      end)
+        props.subscribe(function(values) -- // [!code focus:5]
+            UpdateControlStates(states, props.converted, values, function(state, value)
+                return state:set(value) -- Así es como la librería actualizaría un estado
+            end)
+        end)
 
-      return function()
-         -- Limpieza
-      end
+        return function()
+            -- Limpieza
+        end
    end
 }
 
@@ -504,7 +507,7 @@ return story
 ```tsx [Roblox-TS]
 import { CreateControlStates, UpdateControlStates, InferGenericProps } from "@rbxts/ui-labs"
 
-// Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
+// Usaremos una librería imaginaria llamada Lib para este ejemplo
 
 const controls = { ... }
 
@@ -512,13 +515,13 @@ const story = {
    controls: controls,
    render: (props: InferGenericProps<typeof controls>) => {
       const states = CreateControlStates(props.converted, props.controls, (value) => {
-         return Lib.State(value) // Así es como la biblioteca crearía un estado
+         return Lib.State(value) // Así es como la librería crearía un estado
       })
 
       props.subscribe((values) => { // [!code focus:6]
-         // el tipo del argumento "state" es any, sin embargo, lo debes actualizar con el tipo que uses
+         // el tipo de "state" es any, sin embargo, lo debes actualizar con el tipo que uses
          UpdateControlStates(states, props.converted, values, (state: Lib.State<any>, value) => {
-            return state.set(value) // Así es como la biblioteca actualizaría un estado
+            return state.set(value) // Así es como la librería actualizaría un estado
          })
       })
 
@@ -535,7 +538,7 @@ export = story;
 
 ::: details Implementación
 
-Así es como se implementa la utilidad `UpdateControlStates`, en caso de que la desees reimplementar tú mismo:
+Así es como esta implementada la utilidad `UpdateControlStates`, en caso de que la desees reimplementar tú mismo:
 
 ```lua [Luau]
 local function UpdateControlStates(states, converted, controls, updater)
@@ -555,10 +558,10 @@ end
 
 ## Ejemplos
 
-Veamos cómo podemos reimplementar las bibliotecas ya compatibles usando Historias Genéricas para familiarizarnos con su uso.
+Veamos cómo podemos reimplementar las librerías ya compatibles usando Historias Genéricas para familiarizarnos con su uso.
 
 ::: tip Consejo
-Si vas a usar una biblioteca para tus historias, se recomienda abstraerla con tu propia utilidad para no tener que escribir el mismo código repetitivo una y otra vez.
+Si vas a usar una librería para tus historias, se recomienda abstraerla con tu propia utilidad para no tener que repetitir el mismo código una y otra vez.
 :::
 
 ---
@@ -574,8 +577,8 @@ local controls = {
    Visible = true,
 }
 
--- Esta sería la clave de la función `story`
-local function RenderComponent(controls) 
+-- Esta sería el indice de la función `story`
+local function RenderComponent(controls)
    return React.createElement("Frame", {
       Size = UDim2.fromOffset(200, 100),
       Visible = controls.Visible
@@ -612,7 +615,7 @@ const controls = {
 	Visible: true,
 };
 
-// Esta sería la clave de la función `story`
+// Esta sería el indice de la función `story`
 function RenderComponent(controlList: InferControls<typeof controls>) {
 	return <frame Size={UDim2.fromOffset(200, 100)} Visible={controlList.Visible} />;
 }
@@ -620,18 +623,18 @@ function RenderComponent(controlList: InferControls<typeof controls>) {
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-      const component = RenderComponent(props.controls);
-      const root = ReactRoblox.createRoot(props.target);
-      root.render(component);
+		const component = RenderComponent(props.controls);
+		const root = ReactRoblox.createRoot(props.target);
+		root.render(component);
 
-      props.subscribe((values) => {
-         const newComponent = RenderComponent(values);
-         root.render(newComponent);
-      });
+		props.subscribe((values) => {
+			const newComponent = RenderComponent(values);
+			root.render(newComponent);
+		});
 
-      return () => {
-         root.unmount();
-      };
+		return () => {
+			root.unmount();
+		};
 	},
 };
 
@@ -650,28 +653,28 @@ local controls = {
    Visible = true,
 }
 
--- Esta sería la clave de la función `story`
+-- Esta sería el indice de la función `story`
 function RenderComponent(controlList)
-   return Roact.createElement("Frame", {
-      Size = UDim2.fromOffset(200, 100),
-      Visible = controlList.Visible
-   })
+    return Roact.createElement("Frame", {
+        Size = UDim2.fromOffset(200, 100),
+        Visible = controlList.Visible
+    })
 end
 
 local story = {
-   controls = controls,
-   render = function(props)
-      local component = RenderComponent(props.controls)
-      local tree = Roact.mount(component, props.target)
+    controls = controls,
+    render = function(props)
+        local component = RenderComponent(props.controls)
+        local tree = Roact.mount(component, props.target)
 
-      props.subscribe(function(values)
-         local newComponent = RenderComponent(values)
-         Roact.update(tree, newComponent)
-      end)
+        props.subscribe(function(values)
+            local newComponent = RenderComponent(values)
+            Roact.update(tree, newComponent)
+        end)
 
-      return function()
-         React.unmount(tree)
-      end
+        return function()
+            React.unmount(tree)
+        end
    end
 }
 
@@ -686,7 +689,7 @@ const controls = {
 	Visible: true,
 };
 
-// Esta sería la clave de la función `story`
+// Esta sería el indice de la función `story`
 function RenderComponent(controlList: InferControls<typeof controls>) {
 	return <frame Size={UDim2.fromOffset(200, 100)} Visible={controlList.Visible} />;
 }
@@ -694,17 +697,17 @@ function RenderComponent(controlList: InferControls<typeof controls>) {
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-      const component = RenderComponent(props.controls);
-      const tree = Roact.mount(component, props.target);
+		const component = RenderComponent(props.controls);
+		const tree = Roact.mount(component, props.target);
 
-      props.subscribe((values) => {
-         const newComponent = RenderComponent(values);
-         Roact.update(tree, newComponent);
-      });
+		props.subscribe((values) => {
+			const newComponent = RenderComponent(values);
+			Roact.update(tree, newComponent);
+		});
 
-      return () => {
-         React.unmount(tree);
-      };
+		return () => {
+			React.unmount(tree);
+		};
 	},
 };
 
@@ -760,13 +763,7 @@ return story
 
 ```tsx [Roblox-TS]
 import Fusion from "@rbxts/fusion";
-import {
-   InferGenericProps,
-   InferCreatedControls,
-   CreateControlStates,
-   UpdateControlStates,
-   HKT
-} from "@rbxts/ui-labs";
+import { InferGenericProps, InferCreatedControls, CreateControlStates, UpdateControlStates, HKT } from "@rbxts/ui-labs";
 
 const controls = {
 	Visible: true,
@@ -781,26 +778,26 @@ type FusionValues = InferCreatedControls<typeof controls, FusionValueCreator>;
 const story = {
 	controls: controls,
 	render: (props: InferGenericProps<typeof controls>) => {
-      const states: FusionValues = CreateControlStates(props.converted, props.controls, (value) => {
-         return Fusion.Value(value);
-      });
+		const states: FusionValues = CreateControlStates(props.converted, props.controls, (value) => {
+			return Fusion.Value(value);
+		});
 
-      const component = Fusion.New("Frame")({
-         Parent: props.target,
-         Size: UDim2.fromOffset(200, 100),
-         Visible: states.Visible, // Este será un Fusion.Value<boolean>
-      });
+		const component = Fusion.New("Frame")({
+			Parent: props.target,
+			Size: UDim2.fromOffset(200, 100),
+			Visible: states.Visible, // Este será un Fusion.Value<boolean>
+		});
 
-      props.subscribe((values) => {
-         // Necesitamos convertir 'state' al tipo correcto
-         UpdateControlStates(states, props.converted, values, (state: Fusion.Value<any>, value) => {
-            state.set(value);
-         });
-      });
+		props.subscribe((values) => {
+			// Necesitamos convertir 'state' al tipo correcto
+			UpdateControlStates(states, props.converted, values, (state: Fusion.Value<any>, value) => {
+				state.set(value);
+			});
+		});
 
-      return () => {
-         component.Destroy();
-      };
+		return () => {
+			component.Destroy();
+		};
 	},
 };
 
@@ -811,7 +808,7 @@ export = story;
 
 ## Cómo Usar el Generador de Historias
 
-Puedes usar el Generador de Historias del [Paquete de Utilidades](/es/docs/installation.md#instalacion-del-paquete-de-utilidades) para crear tu historia. Estos inferirán los tipos de controles para Roblox-TS.
+Puedes usar el Creador de Historias del [Paquete de Utilidades](/es/docs/installation.md#instalacion-del-paquete-de-utilidades) para crear tu historia. Estos inferirán los tipos de controles para Roblox-TS.
 
 <span class="type-declaration"><span class="type-namespace">UILabs</span>
 <span class="type-name">.</span><span class="type-function-name">CreateGenericStory</span>(<span class="type-name">info</span>,
@@ -847,21 +844,24 @@ return story
 ```tsx [Roblox-TS]
 import { CreateGenericStory } from "@rbxts/ui-labs";
 
-const story = CreateGenericStory({
-   controls: {},
-}, (props) => {
-   const component = new Instance("Frame");
-   component.Size = UDim2.fromOffset(200, 100)
-   component.Parent = props.target;
+const story = CreateGenericStory(
+	{
+		controls: {},
+	},
+	(props) => {
+		const component = new Instance("Frame");
+		component.Size = UDim2.fromOffset(200, 100);
+		component.Parent = props.target;
 
-   props.subscribe((values) => {
-      print("los controles cambiaron", values);
-   });
+		props.subscribe((values) => {
+			print("los controles cambiaron", values);
+		});
 
-   return () => {
-      component.Destroy();
-   };
-});
+		return () => {
+			component.Destroy();
+		};
+	},
+);
 
 export = story;
 ```

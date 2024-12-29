@@ -12,8 +12,8 @@ Esto tiene algunas diferencias clave:
 
 ---
 
-- No se puede proporcionar una biblioteca de interfaz a un storybook, en cambio, solo en cada historia. Esta limitación podría solucionarse en el futuro.
-- Se agrega la clave `groupRoots`.
+-   No se puede proporcionar una librería de interfaz a un storybook, en cambio, solo en cada historia. Esta limitación podría solucionarse en el futuro.
+-   Se agrega la clave `groupRoots`.
 
 :::
 
@@ -52,17 +52,17 @@ Un módulo de storybook debe regresar una tabla con la siguiente estructura:
       <tr>
          <td><span class="nowrap"> roact &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">Roact</span></code></td>
-         <td>No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td>No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
       <tr>
          <td><span class="nowrap"> react &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">React</span></code></td>
-         <td> No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td> No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
       <tr>
          <td><span class="nowrap"> reactRoblox &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">ReactRoblox</span></code></td>
-         <td> No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td> No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
    </tbody>
 </table>
@@ -121,10 +121,11 @@ Supongamos que tenemos la siguiente estructura:
 </div>
 
 :::
- 
+
 Ahora, crearemos un Storybook para la estructura anterior:
 
 ::: code-group
+
 ```lua [Luau]
 local storybook = {
    name = "Stories",
@@ -139,15 +140,13 @@ return storybook
 
 ```ts [Roblox-TS]
 const storybook: Storybook = {
-   name: "Stories",
-   storyRoots: [
-      game.ServerScriptService.GameStories,
-      game.ReplicatedStorage.OtherStories,
-   ],
+	name: "Stories",
+	storyRoots: [game.ServerScriptService.GameStories, game.ReplicatedStorage.OtherStories],
 };
 
 export = storybook;
 ```
+
 :::
 
 Finalmente, podemos observar que nuestras historias están organizadas en el explorador de UI Labs:
@@ -159,6 +158,7 @@ Finalmente, podemos observar que nuestras historias están organizadas en el exp
 Si deseas agrupar cada entrada de `storyRoots` en una carpeta separada dentro del storybook, puedes establecer la clave `groupRoots` en `true`. Esto te permitirá organizar diferentes historias dentro de un único storybook, manteniendo una estructura más clara y organizada.
 
 ::: code-group
+
 ```lua [Luau] {7}
 local storybook = {
    name = "Stories",
@@ -169,14 +169,12 @@ local storybook = {
    groupRoots = true,
 }
 ```
+
 ```ts [Roblox-TS] {7}
 const storybook: Storybook = {
-   name: "Stories",
-   storyRoots: [
-      game.ServerScriptService.GameStories,
-      game.ReplicatedStorage.OtherStories,
-   ],
-   groupRoots: true,
+	name: "Stories",
+	storyRoots: [game.ServerScriptService.GameStories, game.ReplicatedStorage.OtherStories],
+	groupRoots: true,
 };
 ```
 
@@ -191,6 +189,7 @@ Establecer `groupRoots` en `true` también agregará las historias que se añada
 Esto te permite proporcionar las historias directamente en la matriz.
 
 ::: code-group
+
 ```lua [Luau] {7}
 local storybook = {
    name = "Stories",
@@ -198,13 +197,15 @@ local storybook = {
    groupRoots = true
 }
 ```
+
 ```ts [Roblox-TS] {7}
 const storybook: Storybook = {
-   name: "Stories",
-   storyRoots: game.ServerScriptService.GameStories.GetChildren(),
-   groupRoots: true
+	name: "Stories",
+	storyRoots: game.ServerScriptService.GameStories.GetChildren(),
+	groupRoots: true,
 };
 ```
+
 :::
 
 <img class="image-label" src="/docs/storybook/storyinroots.png" alt="groupedstories.png" width="500"/>

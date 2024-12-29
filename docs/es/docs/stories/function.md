@@ -1,18 +1,18 @@
-# Historias Funcionales
+# Historias de Funcion
 
-Las historias funcionales son el tipo más básico de historias; son funciones que UI Labs ejecutará al montar la historia.
+Las historias de funcion son el tipo más básico de historias; son funciones que UI Labs ejecutará al montar la historia.
 
-Estas funciones son utilizadas en [Hoarcekat](https://github.com/Kampfkarren/hoarcekat)
+Estas son utilizadas en [Hoarcekat](https://github.com/Kampfkarren/hoarcekat)
 
 ## Cómo Montar una Historia
 
-Estas funciones recibirán a `target` como un parametro, el cual es el *Frame* donde la historia se debe representar.
+Estas funciones recibirán un `target` como un parametro, el cual es el *Frame* donde la historia se debe crear.
 
 ::: code-group
 
 ```lua [Luau]
 function story(target: Frame)
-   -- Renderiza tu historia aquí dentro de "target"
+   -- Crea tu historia aquí dentro de "target"
 end
 
 return story
@@ -20,7 +20,7 @@ return story
 
 ```ts [Roblox-TS]
 function story(target: Frame) {
-	// Renderiza tu historia aquí dentro de "target"
+	// Crea tu historia aquí dentro de "target"
 }
 
 export = story;
@@ -36,10 +36,10 @@ Después de ejecutar una función, esta debe regresar una función de limpieza q
 
 ```lua [Luau] {4-6}
 function story(target: Frame)
-   -- Renderiza tu historia aquí dentro de "target"
+   -- Crea tu historia aquí dentro de "target"
 
    return function()
-      -- Realiza la limpieza de tu historia aquí
+      -- Limpia tu historia aquí
    end
 end
 
@@ -48,10 +48,10 @@ return story
 
 ```ts [Roblox-TS] {4-6}
 function story(target: Frame) {
-	// Renderiza tu historia aquí dentro de "target"
+	// Crea tu historia aquí dentro de "target"
 
 	return () => {
-		// Realiza la limpieza de tu historia aquí
+		// Limpia tu historia aquí
 	};
 }
 
@@ -61,14 +61,14 @@ export = story;
 :::
 
 ::: danger Posibles Errores
-La función de limpieza no puede ejecutarse si la función de montaje presenta errores. Si la historia se montó, es posible que sea necesario **reiniciar Studio** para evitar fugas de memoria y instancas no destruidas.
+La función de limpieza no puede ejecutarse si la función principal da errores. Si la historia necesita limpiar algo, es posible que sea necesario **Reiniciar Studio** para evitar fugas de memoria e instancas no destruidas.
 
 <span class="dangertip">UI Labs te advertirá sobre esto</span>
 
 ```lua {5}
 local function story(target)
    local newElement = Roact.createElement("TextLabel", {})
-   local handle = Roact.mount(newElement, target) --Montado con Roact
+   local handle = Roact.mount(newElement, target) --Fue montado, necesita limpiar
 
    error("error") --Este error no permitirá que la función de limpieza sea regresada
    return function()
@@ -148,7 +148,7 @@ export = story;
 
 :::
 
-::: details Roblox Instances
+::: details Creando Instancias
 ::: code-group
 
 ```lua [Luau]

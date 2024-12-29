@@ -2,13 +2,13 @@
 
 ## Cómo crear una Historia
 
-Las historias son `ModuleScript`s que terminan con `.story` en su nombre. Estos módulos le indicarán a UI Labs representar tus historias. 
+Las historias son `ModuleScript`s que terminan con `.story` en su nombre. Estos módulos le indicarán a UI Labs como mostrar tus historias. 
 
 <img class="image-label" src="/docs/stories/storyname.png" alt="storyname" />
 
 ---
 
-</br>Estos módulos deben proporcionar la historia que se desea visualizar. En la siguiente sección aprenderemos cómo se escriben las historias.
+</br>Estos módulos deben regresar la historia que se desea visualizar. En la siguiente sección aprenderemos cómo se escriben las historias.
 
 ::: code-group
 
@@ -26,9 +26,9 @@ export = story;
 
 ---
 
-## Cómo Encontrar las Historias
+## Encontrar Historias
 
-Una vez creada una historia, esta aparecerá en el explorador de historias de UI Labs.
+Una vez creada una historia, esta aparecerá en el explorador de UI Labs.
 
 <img class="image-label" src="/docs/plugin/visualize/storyinexplorer.png" alt="storyinexplorer" />
 

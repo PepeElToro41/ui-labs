@@ -1,13 +1,13 @@
 # Vide
 
-## Cómo Proporcionar la Biblioteca
+## Cómo Proporcionar la Librería
 
-Para proporcionar tu biblioteca, necesitarás agregar las siguientes claves a tu tabla de historias:
+Para proporcionar tu librería, necesitarás agregar las siguientes entradas a la tabla de tu historia:
 
 <table>
    <thead> 
       <tr>
-         <th>Clave</th>
+         <th>Indice</th>
          <th>Tipo</th>
          <th width="100%">Descripción</th>
       </tr>
@@ -16,18 +16,18 @@ Para proporcionar tu biblioteca, necesitarás agregar las siguientes claves a tu
       <tr>
          <td><span class="nowrap"> vide &nbsp; <span class="props-table-required">Obligatorio</span> </span></td>
          <td><code>Vide</code></td>
-         <td>La biblioteca de Vide que será utilizada</td>
+         <td>La librería de Vide que será utilizada</td>
       </tr>
    </tbody>
 </table>
 
-
 ## Cómo Renderizar Historias
 
-Las historias de Vide serán renderizadas al ejecutar la función `story` *una única vez*.
-La función de la historia será ejecutada dentro de un *scope* estable que será destruido cuando la historia sea desmontada.
+Las historias de Vide ejecutaran la función `story` _una única vez_.
 
-Puedes proporcionar una instancia que será ubicada dentro del objetivo o Frame que aloja la previsualización.
+La función de la historia será ejecutada dentro de un _scope_ estable que será destruido cuando la historia sea desmontada.
+
+Puedes regresar una instancia que será ubicada dentro del `target` automaticamente
 
 ::: code-group
 
@@ -45,19 +45,18 @@ local story = {
 
 ```tsx [Roblox-TS]
 const story = {
-   vide: Vide,
-   story: (props: {}) => {
-      return <frame Size={UDim2.fromOffset(200, 100)} />
-   }
-}
-
+	vide: Vide,
+	story: (props: {}) => {
+		return <frame Size={UDim2.fromOffset(200, 100)} />;
+	},
+};
 ```
 
 :::
 
-Además puedes hacer uso de la clave `target` que se encuentra en la tabla `props` para obtener este Frame objetivo.
+Además puedes hacer uso de `target` que se encuentra en la tabla `props` para obtener el Frame `target`.
 
-De esta manera, puedes establecer el contenedor del componente al Frame objetivo y regresar `nil`.
+De esta manera, puedes ubicar la historia dentro de `target` y regresar `nil`.
 
 ::: details Ejemplo
 
@@ -79,28 +78,23 @@ local story = {
 
 ```tsx [Roblox-TS]
 const story = {
-   vide: Vide,
-   story: (props: {}) => {
-      const frame = (
-         <frame
-            Size={UDim2.fromOffset(200, 100)} 
-            Parent={props.target}
-         />
-      );
+	vide: Vide,
+	story: (props: {}) => {
+		const frame = <frame Size={UDim2.fromOffset(200, 100)} Parent={props.target} />;
 
-      return undefined
-   }
-}
+		return undefined;
+	},
+};
 ```
 
 :::
 
 ## Cómo Usar Controles
 
-UI Labs creará un `Vide.Source` para cada control y los actualizará cuando el control cambie. Estos controles estarán disponibles en la tabla `props`.
+UI Labs creará un `Vide.Source` para cada control y lo actualizará cuando el control cambie. Estos controles estarán disponibles en la tabla `props`.
 
 ::: code-group
- 
+
 ```lua [Luau] {11}
 local controls = {
    Visible = true
@@ -117,33 +111,35 @@ local story = {
    end
 }
 ```
- 
+
 ```tsx [Roblox-TS] {11}
 const controls = {
-   Visible: true
-}
+	Visible: true,
+};
 
 const story = {
-   vide: Vide,
-   controls: controls,
-   story: (props: InferVideProps<typeof controls>) => {
-      return (<frame
-         Size={UDim2.fromOffset(200, 100)}
-         Visible={props.controls.Visible} // Este será un Vide.Source<boolean>
-      />)
-   }
-}
+	vide: Vide,
+	controls: controls,
+	story: (props: InferVideProps<typeof controls>) => {
+		return (
+			<frame
+				Size={UDim2.fromOffset(200, 100)}
+				Visible={props.controls.Visible} // Este será un Vide.Source<boolean>
+			/>
+		);
+	},
+};
 ```
 
 :::
 
 ## Limpieza
- 
-La función de la historia es ejecutada dentro de un entorno estable, lo que significa que puedes usar `Vide.effect` o `Vide.cleanup` para detectar cuándo la historia está siendo desmontada.
+
+La función de la historia es ejecutada dentro de un `scope` estable, lo que significa que puedes usar `Vide.effect` o `Vide.cleanup` para detectar cuándo la historia este siendo desmontada.
 
 ::: details Ejemplo
 ::: code-group
- 
+
 ```lua [Luau] {6-8}
 local story = {
    vide = Vide,
@@ -158,7 +154,7 @@ local story = {
    end
 }
 ```
- 
+
 ```tsx [Roblox-TS] {6-8}
 const story = {
    vide: Vide,
@@ -176,10 +172,9 @@ const story = {
 
 :::
 
+## Cómo Usar el Creador de Historias
 
-## Cómo Usar el Generador de Historias
-
-Puedes usar el Generador de Historias del [Paquete de Utilidades](/es/docs/installation.md#instalacion-del-paquete-de-utilidades) para crear tu historia. Estos inferirán los tipos de controles para Roblox-TS.
+Puedes usar el Creador de Historias del [Paquete de Utilidades](/es/docs/installation.md#instalacion-del-paquete-de-utilidades) para crear tu historia. Estos inferirán los tipos de controles para Roblox-TS.
 
 <span class="type-declaration"><span class="type-namespace">UILabs</span>
 <span class="type-name">.</span><span class="type-function-name">CreateVideStory</span>(<span class="type-name">info</span>,
@@ -188,7 +183,7 @@ Puedes usar el Generador de Historias del [Paquete de Utilidades](/es/docs/insta
 ::: details Ejemplo
 
 ::: code-group
- 
+
 ```lua [Luau]
 local Vide = require(...)
 
@@ -197,7 +192,7 @@ local CreateVideStory = UILabs.CreateVideStory
 
 local controls = { ... }
 
-local story = CreateVideStory({ 
+local story = CreateVideStory({
    vide = Vide,
    controls = controls,
 }, function(props)
@@ -207,7 +202,7 @@ local story = CreateVideStory({
    }
 end)
 ```
- 
+
 ```tsx [Roblox-TS]
 import Vide from "@rbxts/vide"
 import { CreateVideStory } from "@rbxts/ui-labs"
@@ -219,7 +214,7 @@ const story = CreateVideStory({
    controls: controls,
 }, (props: InferVideProps<typeof controls>) => {
 
-   return <frame 
+   return <frame
       Size={UDim2.fromOffset(200, 100)}
    />
 })

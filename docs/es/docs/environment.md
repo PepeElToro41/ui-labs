@@ -14,7 +14,7 @@ Dado que la historia se ejecuta dentro del mismo entorno, puedes usar cualquiera
 Devuelve `true` si la historia actual se está ejecutando dentro de UI Labs
 
 ## Environment.Unmount
-
+ 
 <span class="type-declaration"><span class="type-namespace">Environment</span>
 <span class="type-name">.</span><span class="type-function-name">Unmount</span>( )</span>
 
