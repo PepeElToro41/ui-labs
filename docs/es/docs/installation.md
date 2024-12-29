@@ -1,16 +1,17 @@
 # Instalación
 
 ## Instalación de UI Labs
+
 UI Labs actualmente se encuentra disponible en:
 
 <div class="card-container">
   <div class="cards">
-        <a class="card" href="https://create.roblox.com/store/asset/14293316215/UI-Labs">
+        <a class="card" href="https://create.roblox.com/store/asset/14293316215/UI-Labs" target="_blank">
             <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Logo de Roblox" />
             <p><b>Marketplace de Roblox</b></p>
         </a>
-        <a class="card" href="https://github.com/PepeElToro41/ui-labs">
-            <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Icono de Paquete" />
+        <a class="card" href="https://github.com/PepeElToro41/ui-labs" target="_blank">
+            <img class="card-img dynamic-logo" src="/docs/logos/github.svg" alt="Icono de Paquete" />
             <div>
                 <p><b>GitHub</b></p>
                 <p class="card-detail">Source Code</p>
@@ -25,23 +26,26 @@ UI Labs puede ser utilizado sin código adicional, sin embargo, podrás aprovech
 
 <div class="card-container">
   <div class="cards">
-    <a class="card" href="https://wally.run/package/pepeeltoro41/ui-labs">
+    <a class="card" href="https://wally.run/package/pepeeltoro41/ui-labs" target="_blank">
         <img class="card-img" src="/docs/logos/wally.svg" alt="Logo de Wally" />
         <div>
             <p><b>Wally</b></p>
             <p class="card-detail">pepeeltoro41/ui-labs</p>
         </div>
     </a>
-    <a class="card" href="https://www.npmjs.com/package/@rbxts/ui-labs">
+    <a class="card" href="https://www.npmjs.com/package/@rbxts/ui-labs" target="_blank">
         <img class="card-img" src="/docs/logos/rbxts.svg" alt="Logo de Roblox TS" />
         <div>
             <p><b>NPM</b></p>
             <p class="card-detail">@rbxts/ui-labs</p>
         </div>
     </a>
-    <a class="card" href="https://github.com/PepeElToro41/ui-labs-utils/releases">
+    <a class="card" href="https://github.com/PepeElToro41/ui-labs-utils/releases" target="_blank">
         <img class="card-img" src="/docs/logos/studio.svg" alt="Logo de Roblox Studio"/>
-        <p><b>Roblox Studio</b></p>
+         <div>
+            <p><b>Roblox Studio</b></p>
+            <p class="card-detail">Package.rbxm</p>
+        </div>
     </a>
     </div>
 </div>
