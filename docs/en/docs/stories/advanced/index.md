@@ -89,8 +89,33 @@ export = story
 
 You will need to add additional keys depending on the story type you are using.
 
-UI Labs currently supports 3 different types of advanced stories:
+UI Labs currently supports the following types of advanced stories:
 
--   [Roact / React Stories](./react.md)
--   [Fusion Stories](./fusion.md)
--   [Generic Stories](./generic.md) <span class="tiphelp">&nbsp; This story is generic and customizable, doesn't require a library</span>
+
+<div class="card-container">
+  <div class="cards">
+   <a class="card" href="react">
+      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" />
+      <p><b>React Stories</b></p>
+   </a>
+   <a class="card" href="fusion">
+      <div class="fusion-dynamic-logo card-img" />
+      <p><b>Fusion Stories</b></p>
+   </a>
+   <a class="card" href="vide">
+      <img class="card-img" src="/docs/logos/vide.svg" />
+      <p><b>Vide Stories</b></p>
+   </a>
+   <a class="card" href="iris">
+      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" />
+      <p><b>Iris Stories</b></p>
+   </a>
+   <a class="card" href="generic">
+      <img class="card-img" src="/docs/logos/studio.svg" />
+      <div>
+         <p><b>Generic Stories</b></p>
+         <p class="card-detail">No library required</p>
+      </div>
+   </a>
+  </div>
+</div>
