@@ -18,14 +18,19 @@ const props = defineProps({
         type: String,
         default: ''
     },
+    IncludeBaseURL: {
+        type: Boolean,
+        default: false
+    },
     URL: String
 });
 
 const imgClass = ['card-img', props.DynamicLogo ? 'dynamic-logo' : '', props.AdditionalImgClass];
+const fixedURL = props.IncludeBaseURL ? withBase(props.URL) : props.URL;
 </script>
 
 <template>
-    <a class="card" :href="URL" target="_blank">
+    <a class="card" :href="fixedURL" target="_blank">
         <div v-if="DivImg" :class="imgClass"></div>
         <img v-else :class="imgClass" :src="withBase(props.ImgSrc)" />
         
