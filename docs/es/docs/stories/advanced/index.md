@@ -89,10 +89,32 @@ export = story
 
 Necesitarás agregar claves adicionales dependiendo del tipo de historia que estés utilizando.
 
-UI Labs actualmente es compatible con 5 tipos diferentes de historias avanzadas:
+UI Labs actualmente es compatible con los siguientes tipos de historias avanzadas:
 
--   [Historias de Roact / React](./react.md)
--   [Historias de Fusion](./fusion.md)
--   [Historias de Vide](./vide.md)
--   [Historias de Iris](./iris.md)
--   [Historias Genéricas](./generic.md) <span class="tiphelp">&nbsp; Esta historia es genérica y personalizable, no requiere una biblioteca</span>
+<div class="card-container">
+  <div class="cards">
+   <a class="card" href="react">
+      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Logo de Roblox" />
+      <p><b>Historias de React</b></p>
+   </a>
+   <a class="card" href="fusion">
+      <div class="fusion-dynamic-logo card-img" alt="Logo de Fusion" />
+      <p><b>Historias de Fusion</b></p>
+   </a>
+   <a class="card" href="vide">
+      <img class="card-img" src="/docs/logos/vide.svg" alt="Logo de Vide" />
+      <p><b>Historias de Vide</b></p>
+   </a>
+   <a class="card" href="iris">
+      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Icono Paquete" />
+      <p><b>Historias de Iris</b></p>
+   </a>
+   <a class="card" href="generic">
+      <img class="card-img" src="/docs/logos/studio.svg" alt="Logo de Roblox Studio" />
+      <div>
+         <p><b>Historias Genéricas</b></p>
+         <p class="card-detail">No requiere biblioteca</p>
+      </div>
+   </a>
+  </div>
+</div>

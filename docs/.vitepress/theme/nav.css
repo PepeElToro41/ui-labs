@@ -1,0 +1,105 @@
+.card-container {
+    display: flex;
+    justify-content: left;
+    width: auto;
+}
+
+.cards {
+    display: grid;
+    width: 100%;
+    grid-gap: 16px;
+
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    @media (min-width: 750px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.card {
+    display: flex;
+    cursor: pointer;
+
+    box-sizing: border-box;
+    justify-content: left;
+    align-items: center;
+
+    height: 90px;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+    gap: 1rem;
+
+    text-decoration: none !important; 
+    color: var(--vp-c-text-1) !important;
+    background-color: var(--vp-c-bg-soft);
+
+    border-radius: 8px;
+    border: 1px solid #303030;
+}
+
+.card:hover {
+    background-color: rgba(var(--vp-c-bg-soft), 0.8);
+}
+
+.card img {
+    pointer-events: none;
+	-webkit-user-drag: none;
+	-moz-user-select: none;
+    user-select: none;
+}
+
+.card p {
+    margin: 0;
+    line-height: 1.3 !important;
+}
+
+.card-detail {
+    font-size: 0.8rem !important;
+    opacity: 0.6;
+}
+
+.card-img {
+    width: 36px;
+    height: 36px;
+    aspect-ratio: auto 1 / 1;
+
+    display: block;
+    box-sizing: border-box;
+}
+
+.only-dark {
+    @media (color-scheme: normal) {
+        display: none !important;
+    }
+}
+
+.only-light {
+    @media (color-scheme: dark) {
+        display: none !important;
+    }
+}
+
+
+.fusion-dynamic-logo {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+html.dark .fusion-dynamic-logo {
+    background-image: url('/docs/logos/fusion-dark.svg');
+}
+  
+html:not(.dark) .fusion-dynamic-logo {
+    background-image: url('/docs/logos/fusion-light.svg');
+}
+
+html.dark .dynamic-logo {
+    filter: invert(0);
+}
+  
+html:not(.dark) .dynamic-logo {
+    filter: invert(.9);
+}
