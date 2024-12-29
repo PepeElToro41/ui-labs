@@ -1,8 +1,8 @@
 # Iris
 
-## Cómo Proporcionar la Librería
+## Cómo Proporcionar la Biblioteca
 
-Para proporcionar tu librería, necesitarás agregar las siguientes entradas a la tabla de tu historia:
+Para proporcionar tu biblioteca, necesitarás agregar las siguientes entradas a la tabla de tu historia:
 
 <table>
    <thead> 
@@ -16,7 +16,7 @@ Para proporcionar tu librería, necesitarás agregar las siguientes entradas a l
       <tr>
          <td><span class="nowrap"> iris &nbsp; <span class="props-table-required">Obligatorio</span> </span></td>
          <td><code>Iris</code></td>
-         <td>La librería de Iris que será utilizada</td>
+         <td>La biblioteca de Iris que será utilizada</td>
       </tr>
    </tbody>
 </table>

@@ -11,7 +11,7 @@ Esto tiene algunas diferencias clave:
 
 ---
 
--   No se puede proporcionar una librería (`React` / `Roact` / `Fusion`) globalmente en un Storybook, solo individualmente en cada historia. Esta limitación podría solucionarse en el futuro.
+-   No se puede proporcionar una biblioteca (`React` / `Roact` / `Fusion`) globalmente en un Storybook, solo individualmente en cada historia. Esta limitación podría solucionarse en el futuro.
 -   En UI Labs el nombre de la historia no puede aqui, por lo que siempre se utilizará el nombre del script.<br/>Esto se debe a que UI Labs necesitaría realizar una operación de Hot-Reload en cada historia y actualizar los cambios. Esto puede ser muy costoso e innecesario.
 
 :::
@@ -119,7 +119,7 @@ UI Labs actualmente es compatible con los siguientes tipos de historias avanzada
    <NavCard 
       ImgSrc="/docs/logos/studio.svg"
       MainString="Historias Genéricas"
-      SubString="No requiere librería"
+      SubString="No requiere biblioteca"
       URL="generic"
    />
   </div>

@@ -92,7 +92,7 @@ export default defineConfig({
 					link: "/es/api/primitives",
 				},
 				{
-					text: "Librerías de UI",
+					text: "Bibliotecas de UI",
 					link: "/es/api/uilibraries",
 				},
 				{

@@ -1,10 +1,10 @@
 # Historias Genéricas
 
-Las historias genéricas son historias que se pueden usar en casi cualquier caso. No están vinculadas a una librería específica y son lo suficientemente flexibles como para adaptarse a casi cualquier situación
+Las historias genéricas son historias que se pueden usar en casi cualquier caso. No están vinculadas a una biblioteca específica y son lo suficientemente flexibles como para adaptarse a casi cualquier situación
 
 ## Cómo Renderizar Historias
 
-Las historias genéricas necesitarán un nuevo indice llamado `render` en lugar de `story`. Esta diferencia de nombres le indicará a UI Labs que se trata de una historia genérica y no se esperará ninguna librería específica.
+Las historias genéricas necesitarán un nuevo indice llamado `render` en lugar de `story`. Esta diferencia de nombres le indicará a UI Labs que se trata de una historia genérica y no se esperará ninguna biblioteca específica.
 
 Esta función se ejecutará una sola vez y recibirá una tabla `props` que contendrá los siguientes indices:
 
@@ -278,9 +278,9 @@ end
 
 :::
 
-## Cómo usar una Librería Personalizada
+## Cómo usar una Biblioteca Personalizada
 
-Este tipo de historia no está vinculada a una librería específica. Puedes usar cualquier librería.
+Este tipo de historia no está vinculada a una biblioteca específica. Puedes usar cualquier biblioteca.
 
 Hay algunas herramientas que UI Labs proporciona para ayudarte con esto.
 
@@ -290,7 +290,7 @@ Hay algunas herramientas que UI Labs proporciona para ayudarte con esto.
 <span class="type-name">controls</span>,
 <span class="type-name">creator</span>)</span>
 
-Esta función utilizará el valor dentro de `converted` para crear estados (similares a `Fusion.Value`) que tu librería usaria.
+Esta función utilizará el valor dentro de `converted` para crear estados (similares a `Fusion.Value`) que tu biblioteca usará.
 
 ---
 
@@ -300,7 +300,7 @@ Esta función utilizará el valor dentro de `converted` para crear estados (simi
 local UILabs = require(...)
 local CreateControlStates = UILabs.CreateControlStates
 
--- Usaremos una librería imaginaria llamada Lib para este ejemplo
+-- Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
 
 local controls = { ... }
 
@@ -308,7 +308,7 @@ local story = {
    controls = controls,
    render = function(props)
       local states = CreateControlStates(props.converted, props.controls, function(value) -- // [!code focus:3]
-         return Lib.State(value) -- Así es como la librería crearía un estado
+         return Lib.State(value) -- Así es como la biblioteca crearía un estado
       end)
 
       return function()
@@ -323,7 +323,7 @@ return story
 ```tsx [Roblox-TS]
 import { CreateControlStates, InferGenericProps } from "@rbxts/ui-labs"
 
-// Usaremos una librería imaginaria llamada Lib para este ejemplo
+// Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
 
 const controls = { ... }
 
@@ -331,7 +331,7 @@ const story = {
    controls: controls,
    render: (props: InferGenericProps<typeof controls>) => {
       const states = CreateControlStates(props.converted, props.controls, (value) => { // [!code focus:3]
-         return Lib.State(value) // Así es como la librería crearía un estado
+         return Lib.State(value) // Así es como la biblioteca crearía un estado
       })
 
       return () => {
@@ -478,7 +478,7 @@ local UILabs = require(...)
 local CreateControlStates = UILabs.CreateControlStates
 local UpdateControlStates = UILabs.UpdateControlStates
 
--- Usaremos una librería imaginaria llamada Lib para este ejemplo
+-- Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
 
 local controls = { ... }
 
@@ -486,12 +486,12 @@ local story = {
     controls = controls,
     render = function(props)
         local states = CreateControlStates(props.converted, props.controls, function(value)
-            return Lib.State(value) -- Así es como la librería crearía un estado
+            return Lib.State(value) -- Así es como la biblioteca crearía un estado
         end)
 
         props.subscribe(function(values) -- // [!code focus:5]
             UpdateControlStates(states, props.converted, values, function(state, value)
-                return state:set(value) -- Así es como la librería actualizaría un estado
+                return state:set(value) -- Así es como la biblioteca actualizaría un estado
             end)
         end)
 
@@ -507,7 +507,7 @@ return story
 ```tsx [Roblox-TS]
 import { CreateControlStates, UpdateControlStates, InferGenericProps } from "@rbxts/ui-labs"
 
-// Usaremos una librería imaginaria llamada Lib para este ejemplo
+// Usaremos una biblioteca imaginaria llamada Lib para este ejemplo
 
 const controls = { ... }
 
@@ -515,13 +515,13 @@ const story = {
    controls: controls,
    render: (props: InferGenericProps<typeof controls>) => {
       const states = CreateControlStates(props.converted, props.controls, (value) => {
-         return Lib.State(value) // Así es como la librería crearía un estado
+         return Lib.State(value) // Así es como la biblioteca crearía un estado
       })
 
       props.subscribe((values) => { // [!code focus:6]
          // el tipo de "state" es any, sin embargo, lo debes actualizar con el tipo que uses
          UpdateControlStates(states, props.converted, values, (state: Lib.State<any>, value) => {
-            return state.set(value) // Así es como la librería actualizaría un estado
+            return state.set(value) // Así es como la biblioteca actualizaría un estado
          })
       })
 
@@ -558,10 +558,10 @@ end
 
 ## Ejemplos
 
-Veamos cómo podemos reimplementar las librerías ya compatibles usando Historias Genéricas para familiarizarnos con su uso.
+Veamos cómo podemos reimplementar las bibliotecas ya compatibles usando Historias Genéricas para familiarizarnos con su uso.
 
 ::: tip Consejo
-Si vas a usar una librería para tus historias, se recomienda abstraerla con tu propia utilidad para no tener que repetitir el mismo código una y otra vez.
+Si vas a usar una biblioteca para tus historias, se recomienda abstraerla con tu propia utilidad para no tener que repetitir el mismo código una y otra vez.
 :::
 
 ---

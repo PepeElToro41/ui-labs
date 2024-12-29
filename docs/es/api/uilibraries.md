@@ -1,4 +1,4 @@
-# Librerías de UI
+# Bibliotecas de UI
 
 ::: info
 Trabajo en curso.
