@@ -71,14 +71,15 @@ Puedes mover tu lienzo de las siguientes maneras:
 </div>
 
 ## Acercar / Alejar
+<div class="side-img-text">
 Puedes acercarte u alejarte al:
 
 -  Usar las lupas de la barra de herramientas lateral
 -  Mantener presionado <span class="item-description">Shift</span> y desplazando la rueda del ratón arriba/abajo
 
-<br/><span style="size: 0px"/>
-
 <img class="image-label" src="/docs/plugin/visualize/storyzoomed.png" alt="Story Zoomed" width="300"/>
+
+</div>
 
 ¡Genial!, ahora podemos ver nuestra historia con más claridad.
 
@@ -106,10 +107,12 @@ Puedes restablecer la posición y el zoom haciendo <span class="item-description
 
 ## Usar la Vista del Juego &nbsp; <span class="item-description">Q</span>
 
-Puedes observar tu historia dentro de la vista del juego.<br/>
-Para lograr esto debes presionar en el botón **View on Viewport**<br/><span class="tiphelp">(Ver en la Vista del Juego)</span> de la barra de herramientas lateral.
+<div class="side-img-text">
+Puedes observar tu historia dentro de la vista del juego.
+Para lograr esto debes presionar en el botón <b>View on Viewport</b> <span class="tiphelp">(Ver en la Vista del Juego)</span> de la barra de herramientas lateral.
 
-Una vez presionado, UI Labs acomodará tu interfaz a la vista del juego.<br/>Presiona de nuevo el botón para volver a la vista de UI Labs.
+Una vez presionado, UI Labs acomodará tu interfaz a la vista del juego. Presiona de nuevo el botón para volver a la vista de UI Labs.
 
 <span class="tiphelp">No se aplicará posición ni zoom aquí.</span>
 <img class="image-label" src="/docs/plugin/visualize/inviewport.png" alt="viewport" />
+</div>

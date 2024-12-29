@@ -11,11 +11,12 @@ Additionally, Let's see some extra features and options UI Labs offers.
 
 ## View In Explorer  &nbsp; <span class="item-description">E</span>
 
-You can view your story in the roblox explorer by <br/>
-selecting the **View In Explorer** button in the side toolbar.
+<div class="side-img-text">
+You can view your story in the roblox explorer by selecting the <b>View In Explorer</b> button in the side toolbar.
+</div>
+<br />
 
 <img class="image-label" src="/docs/plugin/extras/viewinexplorer.png" alt="viewexplorer" />
-
 
 <div class="image-tip-holder" style="padding-top: 75px;">
    <div style="position: relative;" >
@@ -26,15 +27,13 @@ selecting the **View In Explorer** button in the side toolbar.
 
 ## Fullscreen Mode  &nbsp; <span class="item-description">F</span>
 
-You can toggle fullscreen mode by <br/>
-selecting the **Fullscreen Mode** button in the side toolbar. 
+<div class="side-img-text">
+You can toggle fullscreen mode by selecting the <b>Fullscreen Mode</b> button in the side toolbar. 
 
-
-
-This will make the story explorer and the previews list dissapear,<br/>
-so the story takes up the whole screen. Click it again to bring them back<br/><br/><br/><br/>
+This will make the story explorer and the previews list dissapear, so the story takes up the whole screen. Click it again to bring them back
 
 <img class="image-label" src="/docs/plugin/extras/fullscreen.png" alt="fullscreen">
+</div>
 
 ## Auto Reloading
 
@@ -104,11 +103,11 @@ This clones the current UI and saves it in a `ScreenGui` inside `StarterGui`
 
 ## Invert Background  &nbsp; <span class="item-description">F</span>
 
-You can change from light to dark background by <br/>
-selecting the **Invert Backgorund** button in the side toolbar. 
+<div class="side-img-text">
+You can change from light to dark background by selecting the <b>Invert Backgorund</b> button in the side toolbar. 
 
 This will make dark backgrounds light, for better contrast in your story. <br/><br/><br/><br/>
-
+</div>
 
 ## Clear Output on Reload
 

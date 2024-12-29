@@ -10,11 +10,11 @@ Por otro lado, veamos algunas funciones y opciones adicionales que ofrece UI Lab
 </div>
 
 ## Ver en el Explorador  &nbsp; <span class="item-description">E</span>
-
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes ver tu historia en el explorador de Roblox seleccionando el botón <b>View In Explorer</b> <span class="tiphelp">(Ver en el Explorador)</span> en la barra lateral de herramientas.
-</p>
+</div>
 
+<br />
 <img class="image-label" src="/docs/plugin/extras/viewinexplorer.png" alt="viewexplorer" />
 
 <div class="image-tip-holder" style="padding-top: 75px;">
@@ -25,17 +25,13 @@ Puedes ver tu historia en el explorador de Roblox seleccionando el botón <b>Vie
 </div>
 
 ## Modo Pantalla Completa  &nbsp; <span class="item-description">F</span>
-
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes alternar el modo de pantalla completa seleccionando el botón <b>Fullscreen Mode</b> <span class="tiphelp">(Modo Pantalla Completa)</span> en la barra lateral de herramientas.
-</p>
 
-<p style="margin-right: 170px">
 Esto hará que el explorador de historias y la lista de vistas previas desaparezcan, permitiendo que la historia ocupe toda la pantalla. Haz clic nuevamente en el botón para que vuelvan a aparecer.
-</p>
-<br/><br/><br/><br/>
 
 <img class="image-label" src="/docs/plugin/extras/fullscreen.png" alt="fullscreen">
+</div>
 
 ## Recarga Automática
 
@@ -104,13 +100,12 @@ Esta función clona la interfaz actual y la almacena en un `ScreenGui` dentro de
 
 ## Invertir Fondo  &nbsp; <span class="item-description">F</span>
 
-<p style="margin-right: 170px">
-Puedes alternar entre fondo oscuro y claro seleccionando el botón <span class="button-reference">Invert Background</span> <span class="tiphelp">(Invertir Fondo)</span> en la barra lateral de herramientas.
-</p>
 
-<p style="margin-right: 170px">
+<div class="side-img-text">
+Puedes alternar entre fondo oscuro y claro seleccionando el botón <span class="button-reference">Invert Background</span> <span class="tiphelp">(Invertir Fondo)</span> en la barra lateral de herramientas.
+
 Esto hará que los fondos oscuros se vuelvan claros, mejorando el contraste en tu historia.
-</p>
+</div>
 <br/><br/><br/><br/>
 
 ## Borrar *Output* al Recargar

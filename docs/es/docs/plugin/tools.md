@@ -10,14 +10,13 @@ UI Labs tiene unas cuantas herramientas que te pueden ayudar al visualizar tus h
 </div>
 
 ## Herramienta de Medida
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes hacer uso de la Herramienta de Medida para medir el tamaño de una sección específica.
-</p>
-<p style="margin-right: 170px">
-Cuando la herramienta se encuentra activa puedes hacer clic y arrastrar el mouse para cubrir un área.
-</p>
 
-- <p style="margin-right: 170px">Al mantener la tecla <span class="item-description">Alt</span> con la herramienta activa, bloquearás cualquier interacción en la historia para que puedas usar esta herramienta sin interactuar con tus componentes.</p>
+Cuando la herramienta se encuentra activa puedes hacer clic y arrastrar el mouse para cubrir un área.
+
+- Al mantener la tecla <span class="item-description">Alt</span> con la herramienta activa, bloquearás cualquier interacción en la historia para que puedas usar esta herramienta sin interactuar con tus componentes.
+</div>
 
 <img class="image-label" src="/docs/plugin/storytools/measure.png" alt="measure" width="300"/>
 
@@ -29,17 +28,15 @@ Cuando la herramienta se encuentra activa puedes hacer clic y arrastrar el mouse
 </div>
 
 ## Búsqueda de Elementos
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes usar la herramienta de Selección de Elementos para seleccionar elementos específicos.
-</p>
-<p style="margin-right: 170px">
+
 Cuando esté activa, puedes pasar el cursor sobre los elementos y hacer clic en ellos para seleccionarlos.
-</p>
 
-- <p style="margin-right: 170px"> Si mantienes presionada la tecla <span class="item-description">Shift</span> mientras haces clic, puedes seleccionar elementos más profundos que están debajo del elemento seleccionado.</p>
+- Si mantienes presionada la tecla <span class="item-description">Shift</span> mientras haces clic, puedes seleccionar elementos más profundos que están debajo del elemento seleccionado.
 
-- <p style="margin-right: 170px"> Si mantienes presionada la tecla <span class="item-description">Alt</span> con la herramienta activa, bloquearás cualquier interacción en la historia para que puedas usar esta herramienta sin interactuar con tus componentes.</p>
-
+- Si mantienes presionada la tecla <span class="item-description">Alt</span> con la herramienta activa, bloquearás cualquier interacción en la historia para que puedas usar esta herramienta sin interactuar con tus componentes.
+</div>
 
 <img class="image-label" src="/docs/plugin/storytools/selectelements.png" alt="measure" width="300"/>
 
@@ -51,12 +48,11 @@ Cuando esté activa, puedes pasar el cursor sobre los elementos y hacer clic en 
 </div>
 
 ## Mostrar Esquema
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes activar la Herramienta de Mostrar Esquema para ver el contorno de elementos escondidos.
-</p>
-<p style="margin-right: 170px">
+
 Un contorno se dibujará alrededor de cualquier elemento cuando se cumplan las siguientes condiciones:
-</p>
+</div>
 
 <div style="border-width: 1px; border-style: solid; border-color: rgba(255,255,255,0.2); padding-left: 10px; padding-right: 10px; margin-right: 170px; border-radius: 10px;">
 
@@ -78,11 +74,10 @@ Un contorno se dibujará alrededor de cualquier elemento cuando se cumplan las s
 </div>
 
 ## Regla del Cursor
-<p style="margin-right: 170px">
+<div class="side-img-text">
 Puedes activar la herramienta de Reglas del Cursor para mostrar la posición exacta del mouse en tu historia, incluyendo sus coordenadas X y Y.
-</p>
-<p style="margin-right: 170px">
+
 Esto se vuelve especialmente útil cuando mueves tu historia, ya que el mouse se calculará en función de la posición de la historia.
-</p>
+</div>
 
 <img class="image-label" src="/docs/plugin/storytools/rules.png" alt="measure" width="300"/>

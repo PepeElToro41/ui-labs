@@ -75,16 +75,15 @@ Great!, but now the text is too small so, what can we do about it?.
 </div>
 
 ## Zooming In / Out
+<div class="side-img-text">
 You can zoom in and out by either: 
-
 
 -  Using the magnifying glasses at the side toolbar
 -  Holding <span class="item-description">Shift</span> and scrolling Up/Down
 
-<br/><span style="size: 0px"/>
-
 <img class="image-label" src="/docs/plugin/visualize/storyzoomed.png" alt="Story Zoomed" width="300"/>
 
+</div>
 
 Nice!, now we can see our story more clearly.
 
@@ -112,11 +111,13 @@ You can reset the Position and Zoom by <span class="item-description">Right Clic
 
 ## Using the Game Viewport &nbsp; <span class="item-description">Q</span>
 
-You can visualize your story in the game viewport.<br/>
-For this clicking the **View on Viewport** button in the side toolbar. 
 
-Once clicked, UI Labs will move your UI to the game viewport.<br/>Click it again to bring it back.
+<div class="side-img-text">
+You can visualize your story in the game viewport. For this clicking the <b>View on Viewport</b> button in the side toolbar. 
 
+Once clicked, UI Labs will move your UI to the game viewport. Click it again to bring it back.
 
 <span class="tiphelp">No position or zoom will be applied here.</span>
 <img class="image-label" src="/docs/plugin/visualize/inviewport.png" alt="viewport" />
+
+</div>
