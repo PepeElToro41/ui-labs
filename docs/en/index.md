@@ -13,9 +13,6 @@ hero:
         - theme: brand
           text: Get Started
           link: /docs/getstarted
-        - theme: alt
-          text: API Reference
-          link: /api/home
 
 features:
     - title: Instant Feedback

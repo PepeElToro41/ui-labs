@@ -5,7 +5,7 @@ layout: home
 hero:
     name: UI Labs
     text: ""
-    tagline: Plugin de <i>Storybook</i> para Roblox
+    tagline: Plugin <i>Storybook</i> para Roblox
     image:
         src: /home/pluginlogo.png
         alt: UI Labs
@@ -13,15 +13,12 @@ hero:
         - theme: brand
           text: Comenzar
           link: /es/docs/getstarted
-        - theme: alt
-          text: Referencia de la API
-          link: /es/api/home
 
 features:
     - title: Retroalimentación Instantánea
       icon:
           src: /home/play.png
-      details: UI Labs cuenta con un <i>Recargador en Caliente</i> (Hot-Reloader). Visualiza tus cambios en tiempo real.
+      details: UI Labs cuenta con un Hot-Reloader. Visualiza tus cambios en tiempo real.
 
     - title: Controles
       icon:
@@ -31,5 +28,5 @@ features:
     - title: Entorno Aislado
       icon:
           src: /home/isolation.png
-      details: Tu código se ejecuta virtualmente en un entorno aislado, sin conflictos ni efectos secundarios. No necesitas preocuparte por restablecer tu código.
+      details: Tu código se ejecuta virtualmente en un entorno aislado, sin conflictos ni efectos secundarios. No necesitas preocuparte por revertir tu código.
 ---
