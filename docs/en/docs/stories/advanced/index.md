@@ -95,7 +95,7 @@ UI Labs currently supports the following types of advanced stories:
 <div class="card-container">
   <div class="cards">
    <a class="card" href="react">
-      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" />
+      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Roblox Logo" />
       <p><b>React Stories</b></p>
    </a>
    <a class="card" href="fusion">
@@ -103,15 +103,15 @@ UI Labs currently supports the following types of advanced stories:
       <p><b>Fusion Stories</b></p>
    </a>
    <a class="card" href="vide">
-      <img class="card-img" src="/docs/logos/vide.svg" />
+      <img class="card-img" src="/docs/logos/vide.svg" alt="Vide Logo" />
       <p><b>Vide Stories</b></p>
    </a>
    <a class="card" href="iris">
-      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" />
+      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Package Icon" />
       <p><b>Iris Stories</b></p>
    </a>
    <a class="card" href="generic">
-      <img class="card-img" src="/docs/logos/studio.svg" />
+      <img class="card-img" src="/docs/logos/studio.svg" alt="Roblox Studio Logo" />
       <div>
          <p><b>Generic Stories</b></p>
          <p class="card-detail">No library required</p>

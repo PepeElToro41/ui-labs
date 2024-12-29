@@ -94,26 +94,26 @@ UI Labs actualmente es compatible con los siguientes tipos de historias avanzada
 <div class="card-container">
   <div class="cards">
    <a class="card" href="react">
-      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" />
+      <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Logo de Roblox" />
       <p><b>Historias de React</b></p>
    </a>
    <a class="card" href="fusion">
-      <div class="fusion-dynamic-logo card-img" />
+      <div class="fusion-dynamic-logo card-img" alt="Logo de Fusion" />
       <p><b>Historias de Fusion</b></p>
    </a>
    <a class="card" href="vide">
-      <img class="card-img" src="/docs/logos/vide.svg" />
+      <img class="card-img" src="/docs/logos/vide.svg" alt="Logo de Vide" />
       <p><b>Historias de Vide</b></p>
    </a>
    <a class="card" href="iris">
-      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" />
+      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Icono Paquete" />
       <p><b>Historias de Iris</b></p>
    </a>
    <a class="card" href="generic">
-      <img class="card-img" src="/docs/logos/studio.svg" />
+      <img class="card-img" src="/docs/logos/studio.svg" alt="Logo de Roblox Studio" />
       <div>
          <p><b>Historias Genéricas</b></p>
-         <p class="card-detail">No library required</p>
+         <p class="card-detail">No requiere biblioteca</p>
       </div>
    </a>
   </div>
