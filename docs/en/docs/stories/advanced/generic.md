@@ -367,14 +367,16 @@ end
 :::
 
 ::: danger Roblox-TS Typing
-Typing for `CreateControlStates` wont be possible in typescript as this requires Higher Kinded Types ( HKT ) to infer it correctly which typescript doesnt support.
+Typing for `CreateControlStates` wont be possible in typescript as this requires Higher Kinded Types ( HKT ) to infer it correctly which typescript doesn't support.
 However, there's a workaround for this.
 
 ::: details Workaround
 
 The function wont be able to infer the type of the states, but this will return `any` so you can cast it to the correct type.
 
-UI Labs exports a `HKT` type to make this possible. The sintax is weird, but follow these examples below.
+UI Labs exports a `HKT` type to make this possible. More info in this [Blog Post](https://code.lol/post/programming/higher-kinded-types/)
+
+The sintax is weird, but follow these examples below.
 
 ---
 

@@ -377,7 +377,9 @@ Sin embargo, hay una solución alternativa para esto.
 
 La función no podrá inferir el tipo de los estados, pero devolverá `any`, por lo que puedes convertirlo al tipo correcto.
 
-UI Labs exporta un tipo `HKT` para hacer esto posible. La sintaxis es extraña, pero sigue los ejemplos a continuación.
+UI Labs exporta un tipo `HKT` para hacer esto posible. Mas información en este [Blog Post](https://code.lol/post/programming/higher-kinded-types/)
+
+La sintaxis es extraña, pero sigue los ejemplos a continuación.
 
 ---
 
