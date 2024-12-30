@@ -8,6 +8,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    BlankTarget: {
+        type: Boolean,
+        default: false
+    },
     MainString: String,
     SubString: String,
     DynamicLogo: {
@@ -30,7 +34,7 @@ const fixedURL = props.IncludeBaseURL ? withBase(props.URL) : props.URL;
 </script>
 
 <template>
-    <a class="card" :href="fixedURL" target="_blank">
+    <a class="card" :href="fixedURL" :target="props.BlankTarget ? '_blank' : '_self'">
         <div v-if="DivImg" :class="imgClass"></div>
         <img v-else :class="imgClass" :src="withBase(props.ImgSrc)" />
         
