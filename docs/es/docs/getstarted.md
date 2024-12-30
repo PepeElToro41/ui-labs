@@ -2,7 +2,7 @@
 
 UI Labs es un <i>Storybook</i> para Roblox.
 
-Al trabajar con **Librerías UI Declarativas** como **[Roact](https://roblox.github.io/roact/)** o **[Fusion](https://elttob.uk/Fusion/0.2/)**, crear interfaces con código se vuelve desafiante cuando intentas previsualizarlas. UI Labs tiene como objetivo resolver este problema:
+Al trabajar con **Bibliotecas de UI Declarativas** como **[Roact](https://roblox.github.io/roact/)** o **[Fusion](https://elttob.uk/Fusion/0.2/)**, crear interfaces con código se vuelve desafiante cuando intentas previsualizarlas. UI Labs tiene como objetivo resolver este problema:
 
 ---
 

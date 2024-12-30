@@ -1,8 +1,8 @@
 # React / Roact
 
-## Cómo Proporcionar la Librería
+## Cómo Proporcionar la biblioteca
 
-Para proporcionar tu librería, necesitarás agregar las siguientes entradas a la tabla de tu historia:
+Para proporcionar tu biblioteca, necesitarás agregar las siguientes entradas a la tabla de tu historia:
 
 ### Al Usar React
 
@@ -18,12 +18,12 @@ Para proporcionar tu librería, necesitarás agregar las siguientes entradas a l
       <tr>
          <td><span class="nowrap"> react &nbsp; <span class="props-table-required">Obligatorio</span> </span></td>
          <td><code>ReactRoblox</code></td>
-         <td>La librería de React que será utilizada</td>
+         <td>La biblioteca de React que será utilizada</td>
       </tr>
       <tr>
          <td><span class="nowrap"> reactRoblox &nbsp; <span class="props-table-required">Obligatorio</span> </span></td>
          <td><code>ReactRoblox</code></td>
-         <td>La librería de ReactRoblox que será utilizada</td>
+         <td>La biblioteca de ReactRoblox que será utilizada</td>
       </tr>
       <tr>
          <td valign="top"><span class="nowrap"> renderer &nbsp; <span class="props-table-optional">Opcional</span> </span></td>
@@ -56,7 +56,7 @@ Para proporcionar tu librería, necesitarás agregar las siguientes entradas a l
       <tr>
          <td><span class="nowrap"> roact &nbsp; <span class="props-table-required">Obligatorio</span> </span></td>
          <td><code>Roact</code></td>
-         <td>La librería de Roact que será utilizada</td>
+         <td>La biblioteca de Roact que será utilizada</td>
       </tr>
    </tbody>
 </table>

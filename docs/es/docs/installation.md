@@ -6,17 +6,19 @@ UI Labs actualmente se encuentra disponible en:
 
 <div class="card-container">
   <div class="cards">
-        <a class="card" href="https://create.roblox.com/store/asset/14293316215/UI-Labs" target="_blank">
-            <img class="card-img dynamic-logo" src="/docs/logos/roblox.svg" alt="Logo de Roblox" />
-            <p><b>Marketplace de Roblox</b></p>
-        </a>
-        <a class="card" href="https://github.com/PepeElToro41/ui-labs" target="_blank">
-            <img class="card-img dynamic-logo" src="/docs/logos/github.svg" alt="Icono de Paquete" />
-            <div>
-                <p><b>GitHub</b></p>
-                <p class="card-detail">Source Code</p>
-            </div>
-        </a>
+    <NavCard 
+        ImgSrc="/docs/logos/roblox.svg"
+        MainString="Marketplace de Roblox"
+        DynamicLogo=true
+        URL="https://create.roblox.com/store/asset/14293316215/UI-Labs"
+    />
+    <NavCard 
+        ImgSrc="/docs/logos/github.svg"
+        MainString="GitHub"
+        SubString="Código Fuente"
+        DynamicLogo=true
+        URL="https://github.com/PepeElToro41/ui-labs"
+    />
     </div>
 </div>
 
@@ -26,26 +28,23 @@ UI Labs puede ser utilizado sin código adicional, sin embargo, podrás aprovech
 
 <div class="card-container">
   <div class="cards">
-    <a class="card" href="https://wally.run/package/pepeeltoro41/ui-labs" target="_blank">
-        <img class="card-img" src="/docs/logos/wally.svg" alt="Logo de Wally" />
-        <div>
-            <p><b>Wally</b></p>
-            <p class="card-detail">pepeeltoro41/ui-labs</p>
-        </div>
-    </a>
-    <a class="card" href="https://www.npmjs.com/package/@rbxts/ui-labs" target="_blank">
-        <img class="card-img" src="/docs/logos/rbxts.svg" alt="Logo de Roblox TS" />
-        <div>
-            <p><b>NPM</b></p>
-            <p class="card-detail">@rbxts/ui-labs</p>
-        </div>
-    </a>
-    <a class="card" href="https://github.com/PepeElToro41/ui-labs-utils/releases" target="_blank">
-        <img class="card-img" src="/docs/logos/studio.svg" alt="Logo de Roblox Studio"/>
-         <div>
-            <p><b>Roblox Studio</b></p>
-            <p class="card-detail">Package.rbxm</p>
-        </div>
-    </a>
+    <NavCard 
+        ImgSrc="/docs/logos/wally.svg"
+        MainString="Wally"
+        SubString="pepeeltoro41/ui-labs"
+        URL="https://wally.run/package/pepeeltoro41/ui-labs"
+    />
+    <NavCard 
+        ImgSrc="/docs/logos/rbxts.svg"
+        MainString="NPM"
+        SubString="@rbxts/ui-labs"
+        URL="https://www.npmjs.com/package/@rbxts/ui-labs"
+    />
+    <NavCard 
+        ImgSrc="/docs/logos/studio.svg"
+        MainString="Roblox Studio"
+        SubString="Package.rbxm"
+        URL="https://github.com/PepeElToro41/ui-labs-utils/releases"
+    />
     </div>
 </div>

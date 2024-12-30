@@ -11,7 +11,7 @@ Esto tiene algunas diferencias clave:
 
 ---
 
--   No se puede proporcionar una librería (`React` / `Roact` / `Fusion`) globalmente en un Storybook, solo individualmente en cada historia. Esta limitación podría solucionarse en el futuro.
+-   No se puede proporcionar una biblioteca (`React` / `Roact` / `Fusion`) globalmente en un Storybook, solo individualmente en cada historia. Esta limitación podría solucionarse en el futuro.
 -   En UI Labs el nombre de la historia no puede aqui, por lo que siempre se utilizará el nombre del script.<br/>Esto se debe a que UI Labs necesitaría realizar una operación de Hot-Reload en cada historia y actualizar los cambios. Esto puede ser muy costoso e innecesario.
 
 :::
@@ -93,28 +93,35 @@ UI Labs actualmente es compatible con los siguientes tipos de historias avanzada
 
 <div class="card-container">
   <div class="cards">
-   <a class="card" href="react">
-      <div class="react-dynamic-logo card-img" alt="Logo de React" />
-      <p><b>Historias de React</b></p>
-   </a>
-   <a class="card" href="fusion">
-      <div class="fusion-dynamic-logo card-img" alt="Logo de Fusion" />
-      <p><b>Historias de Fusion</b></p>
-   </a>
-   <a class="card" href="vide">
-      <img class="card-img" src="/docs/logos/vide.svg" alt="Logo de Vide" />
-      <p><b>Historias de Vide</b></p>
-   </a>
-   <a class="card" href="iris">
-      <img class="card-img dynamic-logo" src="/docs/logos/package.svg" alt="Icono Paquete" />
-      <p><b>Historias de Iris</b></p>
-   </a>
-   <a class="card" href="generic">
-      <img class="card-img" src="/docs/logos/studio.svg" alt="Logo de Roblox Studio" />
-      <div>
-         <p><b>Historias Genéricas</b></p>
-         <p class="card-detail">No requiere librería</p>
-      </div>
-   </a>
+   <NavCard 
+      MainString="Historias de React"
+      DivImg=true
+      AdditionalImgClass="react-dynamic-logo"
+      URL="react"
+   />
+   <NavCard 
+      MainString="Historias de Fusion"
+      DivImg=true
+      AdditionalImgClass="fusion-dynamic-logo"
+      URL="fusion"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/vide.svg"
+      MainString="Historias de Vide"
+      URL="vide"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/package.svg"
+      DynamicLogo=true
+      MainString="Historias de Iris"
+      URL="iris"
+   />
+   <NavCard 
+      ImgSrc="/docs/logos/studio.svg"
+      MainString="Historias Genéricas"
+      SubString="No requiere biblioteca"
+      URL="generic"
+   />
   </div>
 </div>
+

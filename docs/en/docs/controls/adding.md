@@ -55,8 +55,21 @@ export = story;
 
 We can create two types of controls:
 
-- [Primitive Controls](/docs/controls/primitive)
-- [Advanced Controls](/docs/controls/advanced)
-
-
-
+<div class="card-container">
+  <div class="cards">
+   <NavCard 
+      ImgSrc="/docs/icons/primitive.svg"
+      DynamicLogo=true
+      MainString="Primitive Controls"
+      IncludeBaseURL=true
+      URL="/docs/controls/primitive"
+   />
+   <NavCard 
+      ImgSrc="/docs/icons/advanced.svg"
+      DynamicLogo=true
+      MainString="Advanced Controls"
+      IncludeBaseURL=true
+      URL="/docs/controls/advanced"
+   />
+  </div>
+</div>

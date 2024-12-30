@@ -12,7 +12,7 @@ Esto tiene algunas diferencias clave:
 
 ---
 
--   No se puede proporcionar una librería de interfaz a un storybook, en cambio, solo en cada historia. Esta limitación podría solucionarse en el futuro.
+-   No se puede proporcionar una biblioteca de interfaz a un storybook, en cambio, solo en cada historia. Esta limitación podría solucionarse en el futuro.
 -   Se agrega la clave `groupRoots`.
 
 :::
@@ -52,17 +52,17 @@ Un módulo de storybook debe regresar una tabla con la siguiente estructura:
       <tr>
          <td><span class="nowrap"> roact &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">Roact</span></code></td>
-         <td>No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td>No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
       <tr>
          <td><span class="nowrap"> react &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">React</span></code></td>
-         <td> No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td> No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
       <tr>
          <td><span class="nowrap"> reactRoblox &nbsp; <span class="props-table-ignored">Ignorado</span></span></td>
          <td><code><span class="nowrap">ReactRoblox</span></code></td>
-         <td> No puedes proporcionar tu librería de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
+         <td> No puedes proporcionar tu biblioteca de UI aquí, se incluye aquí solo por compatibilidad con Flipbook</td>
       </tr>
    </tbody>
 </table>
