@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build to Plugins",
+			"detail": "Builds the plugin to the local Studio plugins directory.",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "build:local"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"icon": {
+				"id": "tools"
+			}
+		}
+	]
+}
