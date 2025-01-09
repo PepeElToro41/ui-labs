@@ -45,9 +45,13 @@ export function StoryPanelProvider(props: PropsWithChildren) {
 			CanvasHeight: canvasHeight,
 
 			SetActionsPinned: setActionsPinned,
-			SetActionsHeight: setActionsHeight,
+			SetActionsHeight: (height: number) => {
+				setActionsHeight(math.max(height, 0));
+			},
 			SetToolbarHovered: setToolbarHovered,
-			SetCanvasHeight: setCanvasHeight,
+			SetCanvasHeight: (height: number) => {
+				setCanvasHeight(math.max(height, 0));
+			},
 		};
 		return context;
 	}, [actionsPinned, toolbarHovered, canvasHeight]);
