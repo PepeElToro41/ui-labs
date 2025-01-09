@@ -5,13 +5,14 @@ import TopList from "UI/Styles/List/TopList";
 import Padding from "UI/Styles/Padding";
 
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import { useCanvasHeight, useToolbarHovered } from "Context/StoryPanelContext";
+import { useToolbarHovered } from "Context/StoryPanelContext";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useButtonElements } from "../Utils";
 
 interface RenderToolButtonsProps {
 	PreviewEntry: PreviewEntry;
 	HoverAlpha: React.Binding<UDim2> | UDim2;
+	IsAnchored?: boolean;
 
 	onContentHeightChanged?: (height: number) => void;
 }
@@ -20,10 +21,9 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 	const theme = useTheme();
 
 	const buttonElements = useButtonElements(props.PreviewEntry);
-	const [hovered, setToolbarHovered] = useToolbarHovered();
+	const [, setToolbarHovered] = useToolbarHovered();
 
 	const [contentHeight, setContentHeight] = useState(0);
-	const [canvasHeight] = useCanvasHeight();
 
 	useEffect(() => {
 		if (props.onContentHeightChanged) {
@@ -47,7 +47,7 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 				MouseLeave: () => setToolbarHovered(false),
 			}}
 		>
-			<Corner Radius={6} />
+			{!props.IsAnchored && <Corner Radius={6} />}
 
 			<scrollingframe
 				key={"ButtonsContainer"}
