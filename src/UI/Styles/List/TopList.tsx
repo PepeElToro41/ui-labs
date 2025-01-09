@@ -1,6 +1,8 @@
-import React from "@rbxts/react";
+import React, { InstanceChangeEvent } from "@rbxts/react";
 
-interface TopListProps extends React.InstanceAttributes<UIListLayout> {}
+interface TopListProps extends React.InstanceAttributes<UIListLayout> {
+	Change?: InstanceChangeEvent<UIListLayout>;
+}
 
 export default (props: TopListProps) => {
 	return (

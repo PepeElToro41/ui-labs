@@ -1,22 +1,25 @@
 import React, { useMemo } from "@rbxts/react";
+
 import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
+import { useActionsData, useCanvasHeight } from "Context/StoryPanelContext";
+
+import { selectStoryLock } from "Reflex/Interface";
 import { selectPreview, selectStoryPreviews } from "Reflex/StoryPreview";
+import { selectStorySelected } from "Reflex/StorySelection";
+
 import { Div } from "UI/Styles/Div";
 import PreviewController from "./PreviewController";
-import { useActionsData } from "Context/StoryPanelContext";
-import { useToolsContext } from "Context/ToolsContext";
-import { selectStorySelected } from "Reflex/StorySelection";
-import { selectStoryLock } from "Reflex/Interface";
 
 interface PreviewControlProps {}
 
 function PreviewControl(props: PreviewControlProps) {
-	const toolsContext = useToolsContext();
 	const previews = useSelector(selectStoryPreviews);
 	const selectedEntry = useSelector(selectStorySelected);
 	const previewEntry = useSelectorCreator(selectPreview, selectedEntry);
-	const [pinned, height] = useActionsData();
 	const storyLockers = useSelector(selectStoryLock);
+
+	const [pinned, height] = useActionsData();
+	const [, setCanvasHeight] = useCanvasHeight();
 
 	const controllers = useMemo(() => {
 		const children: ReactChildren = new Map();
@@ -32,8 +35,15 @@ function PreviewControl(props: PreviewControlProps) {
 		<Div
 			key={"Stories"}
 			Interactable={storyLockers.isEmpty()}
-			Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}
+			Size={
+				pinned
+					? height.map((h) => new UDim2(1, 0, 1, -h))
+					: UDim2.fromScale(1, 1)
+			}
 			LayoutOrder={2}
+			Change={{
+				AbsoluteSize: (rbx) => setCanvasHeight(rbx.AbsoluteSize.Y - 10),
+			}}
 		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 			{controllers}
