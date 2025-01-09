@@ -110,6 +110,14 @@ function SpriteButton(props: SpriteButtonProps) {
 				return;
 			}
 
+			if (!props.ShortcutModifier) {
+				for (const modifier of Enum.ModifierKey.GetEnumItems()) {
+					if (input.IsModifierKeyDown(modifier)) {
+						return;
+					}
+				}
+			}
+
 			props.OnClick();
 		});
 

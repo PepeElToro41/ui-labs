@@ -22,6 +22,7 @@ function SelectElements(props: ToolButtonProps) {
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
 			Shortcut={Enum.KeyCode.C}
+			ShortcutModifier={Enum.ModifierKey.Shift}
 		/>
 	);
 }
