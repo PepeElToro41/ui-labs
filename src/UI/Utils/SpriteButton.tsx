@@ -10,7 +10,7 @@ import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 
-import { GuiService } from "@rbxts/services";
+import { GuiService, UserInputService } from "@rbxts/services";
 import { selectShortcutsEnabled } from "Reflex/PluginSettings";
 
 type ValidModifierKeys = Exclude<Enum.ModifierKey, Enum.ModifierKey.Meta>;
@@ -71,7 +71,9 @@ function SpriteButton(props: SpriteButtonProps) {
 		}
 
 		if (shortcut) {
-			let shortcutName = KeycodeMaps[shortcut.Name] ?? shortcut.Name;
+			let shortcutName =
+				KeycodeMaps[shortcut.Name] ??
+				UserInputService.GetStringForKeyCode(shortcut.Name);
 
 			if (props.ShortcutModifier) {
 				const modifierName =
