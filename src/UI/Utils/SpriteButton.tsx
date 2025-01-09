@@ -1,13 +1,19 @@
 import React, { useEffect } from "@rbxts/react";
+
+import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import Sprite from "UI/Utils/Sprite";
+
 import { useSelector } from "@rbxts/react-reflex";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
+
+import { GuiService } from "@rbxts/services";
 import { selectShortcutsEnabled } from "Reflex/PluginSettings";
-import Corner from "UI/Styles/Corner";
-import { Detector } from "UI/Styles/Detector";
-import Sprite from "UI/Utils/Sprite";
+
+type ValidModifierKeys = Exclude<Enum.ModifierKey, Enum.ModifierKey.Meta>;
 
 interface SpriteButtonProps {
 	ButtonName: string;
@@ -17,55 +23,98 @@ interface SpriteButtonProps {
 	Order?: number;
 	Radius?: number;
 	Shortcut?: Enum.KeyCode;
+	ShortcutModifier?: ValidModifierKeys;
 
 	Sprite: SpriteName;
 	Transparency?: number;
 	Description?: string;
 	Active?: boolean;
+
 	OnClick: () => void;
 	OnRightClick?: () => void;
 }
 
 type KeycodeMaps = Partial<Record<Enum.KeyCode["Name"], string>>;
+type ModifierKeyMaps = Partial<Record<ValidModifierKeys["Name"], string>>;
+
 const KeycodeMaps: KeycodeMaps = {};
+
+const IS_MAC = GuiService.IsWindows === false;
+const ModifierKeyMaps: ModifierKeyMaps = {
+	[Enum.ModifierKey.Alt.Name]: IS_MAC ? "OPT" : "ALT",
+	[Enum.ModifierKey.Ctrl.Name]: IS_MAC ? "CMD" : "CTRL",
+	[Enum.ModifierKey.Shift.Name]: "SHIFT",
+};
 
 function SpriteButton(props: SpriteButtonProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const theme = useTheme();
-	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.ButtonName);
+
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(
+		props.ButtonName,
+	);
+
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
-	const shortcut = shortcutsEnabled ? props.Shortcut : undefined;
 	const inputBegan = useInputBegan();
 
+	const shortcut = shortcutsEnabled ? props.Shortcut : undefined;
 	const active = props.Active ?? false;
 
 	useEffect(() => {
-		if (hovered) {
-			if (props.Description !== undefined) {
-				if (shortcut) {
-					const shortcutName = KeycodeMaps[shortcut.Name] ?? shortcut.Name;
-					DisplayDescription(props.Description + ` (${shortcutName})`);
-				} else {
-					DisplayDescription(props.Description);
-				}
-			}
-		} else {
-			if (props.Description !== undefined) {
-				RemoveDescription();
-			}
+		if (props.Description === undefined) {
+			return;
 		}
-	}, [props.Description, shortcut, hovered, DisplayDescription, RemoveDescription]);
+
+		if (!hovered) {
+			RemoveDescription();
+			return;
+		}
+
+		if (shortcut) {
+			let shortcutName = KeycodeMaps[shortcut.Name] ?? shortcut.Name;
+
+			if (props.ShortcutModifier) {
+				const modifierName =
+					ModifierKeyMaps[props.ShortcutModifier.Name] ??
+					props.ShortcutModifier.Name;
+				shortcutName = `${modifierName}+${shortcutName}`;
+			}
+
+			DisplayDescription(props.Description + ` (${shortcutName})`);
+			return;
+		}
+
+		DisplayDescription(props.Description);
+	}, [
+		props.Description,
+		shortcut,
+		hovered,
+		DisplayDescription,
+		RemoveDescription,
+	]);
 
 	useEffect(() => {
-		if (!shortcut) return;
+		if (!shortcut) {
+			return;
+		}
 
 		const connection = inputBegan.Connect((input) => {
-			if (input.KeyCode !== shortcut) return;
+			if (input.KeyCode !== shortcut) {
+				return;
+			}
+
+			if (
+				props.ShortcutModifier &&
+				!input.IsModifierKeyDown(props.ShortcutModifier)
+			) {
+				return;
+			}
+
 			props.OnClick();
 		});
 
 		return () => connection.Disconnect();
-	}, [shortcut, props.OnClick]);
+	}, [shortcut, props.OnClick, props.ShortcutModifier]);
 
 	return (
 		<frame
