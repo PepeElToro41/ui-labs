@@ -3,11 +3,13 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
-   "private": true,
+	"private": true,
 	"scripts": {
 		"build": "rbxtsc",
 		"watch": "rbxtsc -w",
-		"postinstall": "patch-package"
+		"postinstall": "patch-package",
+		"build:local": "bun run build && rojo build default.project.json --plugin ui-labs.rbxm",
+		"format": "prettier --write ."
 	},
 	"keywords": [],
 	"author": "",

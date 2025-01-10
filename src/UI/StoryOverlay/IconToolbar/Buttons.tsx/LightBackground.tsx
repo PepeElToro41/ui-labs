@@ -1,8 +1,8 @@
 import React, { useCallback } from "@rbxts/react";
-import { ToolButtonProps } from "../ToolButtonsList";
-import SpriteButton from "UI/Utils/SpriteButton";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectIsLightBackground } from "Reflex/Theme";
+import SpriteButton from "UI/Utils/SpriteButton";
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function LightBackground(props: ToolButtonProps) {
 	const entry = props.PreviewEntry;
@@ -22,6 +22,7 @@ function LightBackground(props: ToolButtonProps) {
 			OnClick={OnLightBackground}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
+			Shortcut={Enum.KeyCode.V}
 		/>
 	);
 }

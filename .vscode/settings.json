@@ -1,6 +1,10 @@
 {
-   "typescript.tsdk": "node_modules/typescript/lib",
-   "files.eol": "\n",
-   "eslint.run": "onType",
-   "eslint.format.enable": true
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"eslint.format.enable": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "always"
+	}
 }

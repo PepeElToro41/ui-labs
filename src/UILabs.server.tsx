@@ -45,10 +45,7 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 		}
 	});
 
-	dockWidget.BindToClose(() => {
-		dockWidget.Enabled = false;
-	});
-	const dockEnableConnection = dockWidget.GetPropertyChangedSignal("Enabled").Connect(() => {
+	const onDockWidgetToggled = () => {
 		pluginButton.SetActive(dockWidget.Enabled);
 		isOpen = dockWidget.Enabled;
 		if (dockWidget.Enabled && !pluginRoot) {
@@ -63,7 +60,15 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 			pluginRoot = createLegacyRoot(new Instance("Folder"));
 			pluginRoot.render(createPortal(pluginApp, dockWidget));
 		}
+	};
+
+	dockWidget.BindToClose(() => {
+		dockWidget.Enabled = false;
 	});
+
+	const dockEnableConnection = dockWidget.GetPropertyChangedSignal("Enabled").Connect(onDockWidgetToggled);
+	onDockWidgetToggled();
+
 	plugin.Unloading.Connect(() => {
 		if (pluginRoot) {
 			pluginRoot.unmount();

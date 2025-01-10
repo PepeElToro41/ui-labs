@@ -1,8 +1,8 @@
 import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectMouseRules } from "Reflex/Interface";
+import SpriteButton from "UI/Utils/SpriteButton";
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function MouseRules(props: ToolButtonProps) {
 	const { setMouseRules } = useProducer<RootProducer>();
@@ -21,6 +21,8 @@ function MouseRules(props: ToolButtonProps) {
 			OnClick={OnSetMouseRules}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
+			Shortcut={Enum.KeyCode.R}
+			ShortcutModifier={Enum.ModifierKey.Shift}
 		/>
 	);
 }

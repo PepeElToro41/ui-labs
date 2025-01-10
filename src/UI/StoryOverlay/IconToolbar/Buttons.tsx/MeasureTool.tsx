@@ -1,8 +1,8 @@
 import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectMeasureTool } from "Reflex/Interface";
+import SpriteButton from "UI/Utils/SpriteButton";
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function MeasureTool(props: ToolButtonProps) {
 	const { setMeasureTool } = useProducer<RootProducer>();
@@ -21,6 +21,7 @@ function MeasureTool(props: ToolButtonProps) {
 			OnClick={OnSetMeasureTool}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
+			Shortcut={Enum.KeyCode.M}
 		/>
 	);
 }

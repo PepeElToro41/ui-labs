@@ -1,8 +1,8 @@
 import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectSelectTool } from "Reflex/Interface";
+import SpriteButton from "UI/Utils/SpriteButton";
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function SelectElements(props: ToolButtonProps) {
 	const { setSelectTool } = useProducer<RootProducer>();
@@ -21,6 +21,8 @@ function SelectElements(props: ToolButtonProps) {
 			OnClick={OnSetSelectTool}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
+			Shortcut={Enum.KeyCode.C}
+			ShortcutModifier={Enum.ModifierKey.Shift}
 		/>
 	);
 }

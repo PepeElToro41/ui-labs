@@ -1,7 +1,7 @@
 import React, { useCallback } from "@rbxts/react";
+import { useProducer } from "@rbxts/react-reflex";
 import SpriteButton from "UI/Utils/SpriteButton";
 import { ToolButtonProps } from "../ToolButtonsList";
-import { useProducer } from "@rbxts/react-reflex";
 
 function ZoomIn(props: ToolButtonProps) {
 	const { addZoom } = useProducer<RootProducer>();
@@ -20,6 +20,7 @@ function ZoomIn(props: ToolButtonProps) {
 			OnClick={OnZoomIn}
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
+			Shortcut={Enum.KeyCode.Equals}
 		/>
 	);
 }

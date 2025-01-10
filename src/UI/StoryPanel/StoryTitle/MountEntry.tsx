@@ -79,6 +79,11 @@ function MountEntry(props: MountEntryProps) {
 				MouseLeave: hoverApi.disable,
 				MouseButton1Click: OnEntryClicked,
 				MouseButton2Click: OnEntryDropdown,
+				InputBegan: (_, input) => {
+					if (input.UserInputType === Enum.UserInputType.MouseButton3) {
+						OnEntryClosed();
+					}
+				},
 			}}
 		>
 			<Corner Radius={8} />

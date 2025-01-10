@@ -1,14 +1,18 @@
+import { useEventListener, useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { Binding, useEffect, useMemo, useState } from "@rbxts/react";
-import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
-import { useEventListener } from "@rbxts/pretty-react-hooks";
-import { RunService, Selection } from "@rbxts/services";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useStoryLockAction } from "../Utils";
-import { Div } from "UI/Styles/Div";
-import { selectPluginWidget } from "Reflex/Plugin";
-import { GetGuisAtPosition } from "./Utils";
-import ComponentHighlight from "./Highlight";
+import { RunService, Selection } from "@rbxts/services";
 import { useToolbarHovered } from "Context/StoryPanelContext";
+import {
+	useInputBegan,
+	useInputEnded,
+	useMousePos,
+} from "Hooks/Context/UserInput";
+import { selectPluginWidget } from "Reflex/Plugin";
+import { Div } from "UI/Styles/Div";
+import { useStoryLockAction } from "../Utils";
+import ComponentHighlight from "./Highlight";
+import { GetGuisAtPosition } from "./Utils";
 
 interface SelectElementsProps {
 	Inside: boolean;
@@ -23,16 +27,22 @@ function GetSelectedGuis(root?: Frame) {
 		const selections = Selection.Get() as GuiObject[];
 		if (selections.isEmpty()) return [];
 
-		return selections.filter((selection) => selection.IsA("GuiObject") && selection.IsDescendantOf(root));
+		return selections.filter(
+			(selection) =>
+				selection.IsA("GuiObject") && selection.IsDescendantOf(root),
+		);
 	};
 }
 
 function SelectElements(props: SelectElementsProps) {
 	const mousePos = useMousePos();
 	const widget = useSelector(selectPluginWidget);
-	const { addMouseIconAction, removeMouseIconAction } = useProducer<RootProducer>();
+	const { addMouseIconAction, removeMouseIconAction, unlockStoryFrame } =
+		useProducer<RootProducer>();
 	const holder = props.PreviewEntry.Holder;
-	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(GetSelectedGuis(holder));
+	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(
+		GetSelectedGuis(holder),
+	);
 	const [passThrough, setPassThrough] = useState(false);
 	const inputBegan = useInputBegan();
 	const inputEnded = useInputEnded();
@@ -89,6 +99,11 @@ function SelectElements(props: SelectElementsProps) {
 		}
 	}, [passThrough]);
 
+	useUnmountEffect(() => {
+		removeMouseIconAction("OnionLayers");
+		unlockStoryFrame("SelectElements");
+	});
+
 	useEffect(() => {
 		if (!props.Inside) return;
 		if (toolbarHovered) return;
@@ -113,7 +128,12 @@ function SelectElements(props: SelectElementsProps) {
 	return (
 		<Div key={"SelectElements"}>
 			{hoveredElement !== undefined && holder && (
-				<ComponentHighlight key={"SelectedElement"} UIComponent={hoveredElement} Holder={holder} Inset={props.Anchor} />
+				<ComponentHighlight
+					key={"SelectedElement"}
+					UIComponent={hoveredElement}
+					Holder={holder}
+					Inset={props.Anchor}
+				/>
 			)}
 		</Div>
 	);
