@@ -1,13 +1,21 @@
-import React, { useMemo } from "@rbxts/react";
-import { MounterProps } from "..";
-import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
-import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import React, { useMemo } from "@rbxts/react";
 import { InferVideControls, InferVideProps } from "@rbxts/ui-labs";
-import { useStoryUnmount } from "../../Utils";
-import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import {
+	ConvertedControls,
+	ReturnControls
+} from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import { MounterProps } from "..";
+import { useStoryUnmount } from "../../Utils";
+import {
+	useControls,
+	useParametrizedControls,
+	useStoryActionComponents,
+	useStoryPassedProps
+} from "../Hooks";
+import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 
 const VIDE_ERR = WARNING_STORY_TYPES.Vide;
 
@@ -21,7 +29,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 		props.Entry.Key,
 		controls,
 		props.RecoverControlsData,
-		props.SetRecoverControlsData,
+		props.SetRecoverControlsData
 	);
 	const GetProps = useStoryPassedProps();
 
@@ -40,7 +48,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 	const cleanup = useMemo(() => {
 		const videProps: InferVideProps<ConvertedControls> = GetProps({
 			target: props.MountFrame,
-			controls: sources,
+			controls: sources
 		});
 		const unmount = vide.mount(() => {
 			return YCall(result.story, videProps, (didYield, err) => {
@@ -55,6 +63,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 	}, []);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
+		vide.step(0); // disconnect spring connection;
 		FastSpawn(() => {
 			const [success, err] = pcall(cleanup);
 			if (!success) {
@@ -65,7 +74,14 @@ function VideLib(props: MounterProps<"VideLib">) {
 		vide.step(1 / 120); // disconnect spring connection;
 	});
 
-	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(
+		props.Entry.Key,
+		props.Result,
+		returnControls,
+		controls,
+		controlValues,
+		setControlValues
+	);
 
 	return <></>;
 }
