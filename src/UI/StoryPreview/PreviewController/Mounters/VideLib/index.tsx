@@ -71,7 +71,6 @@ function VideLib(props: MounterProps<"VideLib">) {
 			}
 		});
 		sourcesCleanup();
-		vide.step(1 / 120); // disconnect spring connection;
 	});
 
 	useStoryActionComponents(
