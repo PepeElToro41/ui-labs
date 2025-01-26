@@ -6,6 +6,10 @@ import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferVideControls, InferVideProps } from "@rbxts/ui-labs";
 import { useStoryUnmount } from "../../Utils";
+import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+
+const VIDE_ERR = WARNING_STORY_TYPES.Vide;
 
 function VideLib(props: MounterProps<"VideLib">) {
 	const result = props.Result;
@@ -39,21 +43,26 @@ function VideLib(props: MounterProps<"VideLib">) {
 			controls: sources,
 		});
 		const unmount = vide.mount(() => {
-			const [success, value] = pcall(() => result.story(videProps));
-			if (!success) {
-				return warn("UI Labs: Vide story errored when mounting. The story won't cleanup: ", value);
-			}
-			return value;
+			return YCall(result.story, videProps, (didYield, err) => {
+				if (didYield) {
+					UILabsWarn(WARNINGS.Yielding.format(VIDE_ERR));
+				} else {
+					UILabsWarn(WARNINGS.StoryError.format(VIDE_ERR), err);
+				}
+			});
 		}, props.MountFrame);
 		return unmount;
 	}, []);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
-		const [success, err] = pcall(cleanup);
-		if (!success) {
-			warn("UI Labs: Vide errored when unmounting, this may cause a memory leak: ", err);
-		}
+		FastSpawn(() => {
+			const [success, err] = pcall(cleanup);
+			if (!success) {
+				UILabsWarn(WARNINGS.CleanupError, err);
+			}
+		});
 		sourcesCleanup();
+		vide.step(1 / 120); // disconnect spring connection;
 	});
 
 	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);

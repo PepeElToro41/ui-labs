@@ -1,30 +1,27 @@
 {
-   "parser": "@typescript-eslint/parser",
-   "parserOptions": {
-      "jsx": true,
-      "useJSXTextNode": true,
-      "ecmaVersion": 2018,
-      "sourceType": "module",
-      "project": "./tsconfig.json"
-   },
-   "ignorePatterns": [
-      "/out"
-   ],
-   "plugins": [
-      "@typescript-eslint",
-      "roblox-ts",
-      "prettier"
-   ],
-   "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:roblox-ts/recommended",
-      "plugin:prettier/recommended"
-   ],
-   "rules": {
-      "prefer-const":"off",
-      "prettier/prettier": "warn",
-      "no-constant-condition": "off",
-      "@typescript-eslint/no-explicit-any": "off"
-   }
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"jsx": true,
+		"useJSXTextNode": true,
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"project": "./tsconfig.json"
+	},
+	"ignorePatterns": ["/out"],
+	"plugins": ["@typescript-eslint", "roblox-ts", "prettier"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:roblox-ts/recommended",
+		"plugin:prettier/recommended"
+	],
+	"rules": {
+		"prefer-const": "off",
+		"no-constant-condition": "off",
+		"prettier/prettier": [
+			"warn",
+			{ "endOfLine": "auto", "trailingComma": "none" }
+		],
+		"@typescript-eslint/no-explicit-any": "off"
+	}
 }

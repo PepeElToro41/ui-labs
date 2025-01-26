@@ -1,3 +1,4 @@
+import { Environment } from "@rbxts/ui-labs";
 import { FromServiceNames } from "Utils/InstanceUtils";
 
 const Configs = {
@@ -15,7 +16,7 @@ const Configs = {
 		"StarterGui",
 		"StarterPlayer",
 	]),
-	GlobalInjectionKey: "__hotreload_env_global_injection__", //the longer the better
+	GlobalInjectionKey: Environment.EnvGlobalInjectionKey, //the longer the better
 
 	Version: {
 		Mayor: 1,

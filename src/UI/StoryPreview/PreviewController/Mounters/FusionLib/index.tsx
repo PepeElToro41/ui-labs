@@ -5,9 +5,12 @@ import { CreateFusion3Values, CreateFusionValues, GetFusionVersion, GetScopedFus
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { useStoryUnmount } from "../../Utils";
 import { InferFusionProps } from "@rbxts/ui-labs";
-import { Cast } from "Utils/MiscUtils";
+import { Cast, FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
 import { useStoryPassedProps } from "../Utils";
 import { useControls, useParametrizedControls, useStoryActionComponents } from "../Hooks";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+
+const FUSION_ERR = WARNING_STORY_TYPES.Fusion;
 
 function FusionLib(props: MounterProps<"FusionLib">) {
 	const result = props.Result;
@@ -49,22 +52,24 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			scope: Cast<Fusion3>(fusion),
 		});
 
-		const [success, value] = pcall(() => result.story(fusionProps));
-		if (!success) {
-			warn("UI Labs: Fusion story errored when mounting. The cleanup function will not be executed: ", value);
-			return () => {
-				warn("UI Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
-			};
-		}
+		const value = YCall(result.story, fusionProps, (didYield, err) => {
+			if (didYield) {
+				UILabsWarn(WARNINGS.Yielding.format(FUSION_ERR));
+			} else {
+				UILabsWarn(WARNINGS.StoryError.format(FUSION_ERR), err);
+			}
+		});
 		return value ? (typeIs(value, "Instance") ? () => value.Destroy() : value) : undefined;
 	}, []);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
 		if (cleanup) {
-			const [success, err] = pcall(cleanup);
-			if (!success) {
-				warn("UI Labs: The cleanup function errored when unmounting. This may cause a memory leak: ", err);
-			}
+			FastSpawn(() => {
+				const [success, err] = pcall(cleanup);
+				if (!success) {
+					UILabsWarn(WARNINGS.CleanupError, err);
+				}
+			});
 		} else {
 			if (version === "Fusion2") {
 				warn("UI Labs: No cleanup function was returned for Fusion 0.2, there's no way to cleanup the story.");

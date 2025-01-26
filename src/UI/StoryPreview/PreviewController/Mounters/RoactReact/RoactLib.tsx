@@ -5,6 +5,10 @@ import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import type { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
 import { InferControls } from "@rbxts/ui-labs";
+import { UILabsWarn, YCall } from "Utils/MiscUtils";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+
+const ROACT_ERR = WARNING_STORY_TYPES.Roact;
 
 function RoactLib(props: MounterProps<"RoactLib">) {
 	const result = props.Result;
@@ -21,23 +25,39 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			return result.story(GetProps({ controls: controlValues as InferControls<ReturnControls> }));
+			const props = GetProps({ controls: controlValues as InferControls<ReturnControls> });
+
+			return YCall(result.story, props, (didYield, err) => {
+				if (didYield) {
+					UILabsWarn(WARNINGS.Yielding.format(ROACT_ERR));
+				} else {
+					UILabsWarn(WARNINGS.StoryError.format(ROACT_ERR), err);
+				}
+			});
 		} else {
 			return result.story;
 		}
 	}, [controlValues, props.Result]);
 
 	const handle = useMemo(() => {
-		return result.roact.mount(RenderComponent(), props.MountFrame);
+		const component = RenderComponent();
+
+		if (component) {
+			return result.roact.mount(component, props.MountFrame);
+		}
 	}, []);
 
 	useUpdateEffect(() => {
 		const component = RenderComponent();
-		result.roact.update(handle, component);
+		if (component && handle) {
+			result.roact.update(handle, component);
+		}
 	}, [controlValues, result]);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
-		result.roact.unmount(handle);
+		if (handle) {
+			result.roact.unmount(handle);
+		}
 	});
 
 	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);

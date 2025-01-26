@@ -6,6 +6,10 @@ import { CreateIrisStates, useUserInputServiceMock, SetupIris, UpdateIrisStates 
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferIrisProps } from "@rbxts/ui-labs";
 import { useStoryUnmount } from "../../Utils";
+import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+
+const IRIS_ERR = WARNING_STORY_TYPES.Iris;
 
 function IrisLib(props: MounterProps<"IrisLib">) {
 	const result = props.Result;
@@ -21,7 +25,7 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 	);
 	const GetProps = useStoryPassedProps();
 
-	const [irisStates, cleanup] = useMemo(() => {
+	const [irisStates, SetupCleanup, StoryCleanup] = useMemo(() => {
 		const setupCleanup = SetupIris(result.iris, props.MountFrame, uisMock);
 		result.iris.Init(props.MountFrame);
 
@@ -31,23 +35,14 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 			target: props.MountFrame,
 		});
 
-		const [success, value] = pcall(() => result.story(irisProps));
-
-		if (!success) {
-			warn("UI Labs: Iris story errored when mounting. The cleanup function will not be executed: ", value);
-			const defCleanup = () => {
-				setupCleanup();
-				warn("UI Labs: The cleanup function was not found. This might be due to the story erroring. This may cause a memory leak.");
-			};
-			return [states, defCleanup];
-		}
-		const returnCleanup = () => {
-			if (value) {
-				pcall(value);
+		const cleanup = YCall(result.story, irisProps, (didYield, err) => {
+			if (didYield) {
+				UILabsWarn(WARNINGS.Yielding.format(IRIS_ERR));
+			} else {
+				UILabsWarn(WARNINGS.StoryError.format(IRIS_ERR), err);
 			}
-			setupCleanup();
-		};
-		return [states, returnCleanup];
+		});
+		return [states, setupCleanup, cleanup];
 	}, []);
 
 	useUpdateEffect(() => {
@@ -55,10 +50,15 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 	}, [controlValues]);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
-		const [success, value] = pcall(cleanup);
-		if (!success) {
-			warn("UI Labs: Iris story errored when unmounting. This may cause a memory leak: ", value);
+		if (StoryCleanup) {
+			FastSpawn(() => {
+				const [success, err] = pcall(StoryCleanup);
+				if (!success) {
+					UILabsWarn(WARNINGS.CleanupError, err);
+				}
+			});
 		}
+		SetupCleanup();
 
 		props.Result.iris.Shutdown();
 		uisMock.Destroy();

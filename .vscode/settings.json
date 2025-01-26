@@ -2,9 +2,12 @@
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
 	"editor.formatOnSave": true,
-	"editor.formatOnPaste": true,
 	"eslint.format.enable": true,
+	"files.eol": "\n",
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "always"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	}
 }

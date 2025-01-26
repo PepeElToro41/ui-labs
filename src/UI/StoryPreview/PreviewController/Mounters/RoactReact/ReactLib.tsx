@@ -5,6 +5,10 @@ import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import { InferControls } from "@rbxts/ui-labs";
 import { useStoryUnmount } from "../../Utils";
+import { UILabsWarn, YCall } from "Utils/MiscUtils";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+
+const REACT_ERR = WARNING_STORY_TYPES.React;
 
 function ReactLib(props: MounterProps<"ReactLib">) {
 	const result = props.Result;
@@ -24,7 +28,13 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		if (typeIs(result.story, "function")) {
 			const storyProps = GetProps({ controls: controlValues as InferControls<ReturnControls> });
 
-			return result.story(storyProps);
+			return YCall(result.story, storyProps, (didYield, err) => {
+				if (didYield) {
+					UILabsWarn(WARNINGS.Yielding.format(REACT_ERR));
+				} else {
+					UILabsWarn(WARNINGS.StoryError.format(REACT_ERR), err);
+				}
+			});
 		} else {
 			return result.story;
 		}
@@ -35,12 +45,12 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			return result.reactRoblox.createRoot(props.MountFrame);
 		} else if (rendererType === "legacy") {
 			if (result.reactRoblox["createLegacyRoot"] === undefined) {
-				warn('UI-Labs: Legacy renderer requires the function "createLegacyRoot" inside React-Roblox');
+				UILabsWarn('Legacy renderer requires the function "createLegacyRoot" inside React-Roblox');
 				return result.reactRoblox.createRoot(props.MountFrame);
 			}
 			return result.reactRoblox.createLegacyRoot(props.MountFrame);
 		} else {
-			warn(`UI-Labs: Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`);
+			UILabsWarn(`Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`);
 		}
 	}, []);
 
