@@ -14,21 +14,21 @@ const Configs = {
 		"ServerScriptService",
 		"ServerStorage",
 		"StarterGui",
-		"StarterPlayer",
+		"StarterPlayer"
 	]),
 	GlobalInjectionKey: Environment.EnvGlobalInjectionKey, //the longer the better
 
 	Version: {
 		Mayor: 1,
-		Minor: 3,
-		Fix: 1,
+		Minor: 4,
+		Fix: 0
 	},
 
 	Extensions: {
 		Story: ".story",
 		Storybook: ".storybook",
-		Settings: ".uilabs", //Not implemented (it probably wont)
-	},
+		Settings: ".uilabs" //Not implemented (it probably wont)
+	}
 };
 
 export default Configs;

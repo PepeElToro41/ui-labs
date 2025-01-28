@@ -27,7 +27,7 @@
 		"eslint-plugin-roblox-ts": "^0.0.35",
 		"patch-package": "^8.0.0",
 		"postinstall-postinstall": "^2.1.0",
-		"roblox-ts": "^2.3.0-dev-576ad98",
+		"roblox-ts": "^3.0.0",
 		"typescript": "4.9.4"
 	},
 	"dependencies": {
