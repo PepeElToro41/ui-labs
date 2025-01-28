@@ -1,20 +1,29 @@
-import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useState, useEffect, useCallback } from "@rbxts/react";
-import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
-import { CreateTuple } from "Utils/MiscUtils";
-import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
-import { CreateEntrySnapshot, ReloadEntry } from "../Utils";
-import { selectPluginWidget } from "Reflex/Plugin";
 import { Janitor } from "@rbxts/janitor";
+import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
+import { useCallback, useEffect, useState } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useInputSignals } from "Context/UserInputContext";
-import { Environment, HotReloader } from "@rbxts/hmr";
-import Configs from "Plugin/Configs";
+import { useWidgetStateContext } from "Context/WidgetStateContext";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
+import Configs from "Plugin/Configs";
+import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
+import { selectPluginWidget } from "Reflex/Plugin";
+import { Environment } from "Utils/HotReloader/Environment";
+import { HotReloader } from "Utils/HotReloader/HotReloader";
+import { CreateTuple } from "Utils/MiscUtils";
+import { CreateEntrySnapshot, ReloadEntry } from "../Utils";
 
-export function useStoryRequire(entry: PreviewEntry) {
+export function useStoryRequire(
+	entry: PreviewEntry,
+	studioMode: boolean,
+	canReload: boolean
+) {
 	const plugin = usePlugin();
+	const widgetState = useWidgetStateContext();
+
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const [reloader, setReloader] = useState<HotReloader>();
+	const [reloadQuery, setReloadQuery] = useState(false);
 	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
 	const { unmountByUID, updateMountData } = useProducer<RootProducer>();
 	const widget = useSelector(selectPluginWidget);
@@ -22,11 +31,13 @@ export function useStoryRequire(entry: PreviewEntry) {
 
 	const latestInput = useLatest(inputSignals);
 	const latestEntry = useLatest(entry);
+	const latestWidgetState = useLatest(widgetState);
 
 	const InjectGlobalControls = useCallback(
 		(environment: Environment) => {
 			const pluginInjection: Record<string, unknown> = {};
 			const janitor = new Janitor();
+			const runtimeListeners: Array<() => void> = [];
 
 			pluginInjection["Unmount"] = () => {
 				unmountByUID(latestEntry.current.UID);
@@ -34,11 +45,23 @@ export function useStoryRequire(entry: PreviewEntry) {
 			pluginInjection["Reload"] = () => {
 				ReloadEntry(latestEntry.current);
 			};
+			pluginInjection["__RunOnRuntimeListeners__"] = () => {
+				runtimeListeners.forEach((listener) => {
+					listener();
+				});
+			};
+			pluginInjection["OnRuntimeStart"] = (listener: () => void) => {
+				if (pluginInjection["Runtime"] === undefined) {
+					runtimeListeners.push(listener);
+				} else {
+					listener();
+				}
+			};
 			pluginInjection["SetStoryHolder"] = (holder?: Instance) => {
 				updateMountData(latestEntry.current.UID, (oldData) => {
 					return {
 						...oldData,
-						OverrideHolder: holder,
+						OverrideHolder: holder
 					};
 				});
 			};
@@ -58,7 +81,7 @@ export function useStoryRequire(entry: PreviewEntry) {
 			});
 			environment.InjectGlobal(Configs.GlobalInjectionKey, pluginInjection);
 		},
-		[entry.UID, widget],
+		[entry.UID, widget]
 	);
 
 	//Creating the hot reloader
@@ -80,13 +103,35 @@ export function useStoryRequire(entry: PreviewEntry) {
 	useEffect(() => {
 		if (!node) return;
 		if (!reloader) return;
+		reloader.AutoReload = !studioMode;
 
 		const changed = reloader.OnReloadStarted.Connect((promise) => {
 			setResultPromise(promise);
 		});
-
+		if (studioMode) {
+			const onReloadQuery = reloader.OnDependencyChanged.Connect(() => {
+				setReloadQuery(true);
+			});
+			return () => {
+				onReloadQuery.Disconnect();
+				changed.Disconnect();
+			};
+		} else {
+			setReloadQuery(false);
+		}
 		return () => changed.Disconnect();
-	}, [reloader]);
+	}, [reloader, studioMode]);
+
+	// Flushing queried reloads (studio mode)
+	useEffect(() => {
+		if (!reloader) return;
+		if (!reloadQuery) return;
+		if (!canReload) return;
+		if (!studioMode) return;
+
+		reloader.ScheduleReload();
+		setReloadQuery(false);
+	}, [reloader, reloadQuery, canReload, studioMode]);
 
 	//Resolving promises
 	const [result] = useAsync(() => {

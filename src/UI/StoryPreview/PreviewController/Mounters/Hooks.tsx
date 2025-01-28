@@ -1,26 +1,41 @@
-import React, { useCallback, useState } from "@rbxts/react";
-import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
-import { useEffect, useMemo } from "@rbxts/react";
-import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
-import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
-import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
-import { useInputSignals } from "Context/UserInputContext";
-import { RecoverControlsData } from "..";
-import { CreateTuple } from "Utils/MiscUtils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
+import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
+import {
+	ConvertedControls,
+	ReturnControls
+} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
+import { useInputSignals } from "Context/UserInputContext";
+import Configs from "Plugin/Configs";
 import { selectPreview } from "Reflex/StoryPreview";
-import { ConvertLiterals, CreateRecoverControlsData, ParametrizeControls } from "./Utils";
+import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
+import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
+import { CreateTuple } from "Utils/MiscUtils";
+import { MounterProps } from ".";
+import { RecoverControlsData } from "..";
+import {
+	ConvertLiterals,
+	CreateRecoverControlsData,
+	ParametrizeControls
+} from "./Utils";
 
 export function useParametrizedControls(
 	previewKey: string,
 	controls: ConvertedControls,
 	recoverControlsData: RecoverControlsData | undefined,
-	setRecoverControlsData: (data?: RecoverControlsData) => void,
+	setRecoverControlsData: (data?: RecoverControlsData) => void
 ) {
 	const entry = useSelectorCreator(selectPreview, previewKey);
 	const [values, setValues] = useState(
-		ParametrizeControls(controls, entry ? (entry.RecoverControls ? recoverControlsData : undefined) : undefined),
+		ParametrizeControls(
+			controls,
+			entry
+				? entry.RecoverControls
+					? recoverControlsData
+					: undefined
+				: undefined
+		)
 	);
 
 	useUpdateEffect(() => {
@@ -45,13 +60,27 @@ export function useControls(returnedControls: ReturnControls) {
 	return controls;
 }
 
+export function useEnvironmentInjection(entryKey: string) {
+	const entry = useSelectorCreator(selectPreview, entryKey);
+
+	const injection = useMemo(() => {
+		if (entry === undefined) return;
+		const hotreloader = entry.HotReloader;
+		if (!hotreloader) return;
+		const environment = hotreloader.GetEnvironment();
+		if (!environment) return;
+		return environment.GetInjectedGlobal(Configs.GlobalInjectionKey);
+	}, [entry]);
+	return injection as Record<string, unknown>;
+}
+
 export function useStoryActionComponents(
 	previewKey: string,
 	result: StoryBase,
 	returnControls: ReturnControls,
 	controls: ConvertedControls,
 	controlValues: ParametrizedControls,
-	setControlValues: React.Dispatch<React.SetStateAction<ParametrizedControls>>,
+	setControlValues: React.Dispatch<React.SetStateAction<ParametrizedControls>>
 ) {
 	const { setActionComponent } = useProducer<RootProducer>();
 
@@ -61,7 +90,7 @@ export function useStoryActionComponents(
 		if (result.summary !== undefined && result.summary !== "") {
 			setActionComponent(previewKey, "SummaryTab", {
 				DisplayName: "Summary",
-				Render: <Summary SummaryText={result.summary}></Summary>,
+				Render: <Summary SummaryText={result.summary}></Summary>
 			});
 		}
 		if (returnControls !== undefined) {
@@ -75,7 +104,7 @@ export function useStoryActionComponents(
 						PreviewKey={previewKey}
 					/>
 				),
-				Order: 2,
+				Order: 2
 			});
 		}
 	}, [previewKey, result, controlValues, returnControls, controls]);
@@ -83,22 +112,23 @@ export function useStoryActionComponents(
 
 type Props = Record<string, any>;
 
-export function useStoryPassedProps() {
+export function useStoryPassedProps(mounter: MounterProps<MountType>) {
 	const inputSignals = useInputSignals();
 
 	const GetStoryProps = useCallback(
 		<T extends Props>(setProps: T) => {
 			const intrinsic: IntrinsicProps = {
 				inputListener: inputSignals,
+				target: mounter.MountFrame
 			};
 
 			const props: IntrinsicProps & T = {
 				...setProps,
-				...intrinsic,
+				...intrinsic
 			};
 			return props;
 		},
-		[inputSignals],
+		[inputSignals]
 	);
 	return GetStoryProps;
 }

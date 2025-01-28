@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
+import React, { useMemo } from "@rbxts/react";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
 import { CreateHolder } from ".";
-import { LifetimeController } from "UI/Holders/LifetimeChildren/LifetimeController";
 
 interface HolderParenterProps {
 	MountFrame: Frame;
 	Entry: PreviewEntry;
 	MountType?: MountType;
+	SetCanReload: (canReload: boolean) => void;
 }
 
-//This component parents your story, Im using "LifetimeComponent" to delay the components unmounting and avoid to Roact destroying it
+//This component parents your story.
+// Im using "LifetimeComponent" to delay the components unmounting and avoid to React destroying the story
 function HolderParenter(props: HolderParenterProps) {
 	const entry = props.Entry;
 
@@ -17,10 +18,28 @@ function HolderParenter(props: HolderParenterProps) {
 		const holders = new Map<HolderType, React.Element>();
 
 		const mainHolder: HolderType = entry.OnWidget ? "Widget" : "Editor";
-		holders.set(mainHolder, CreateHolder(mainHolder, entry, props.MountType, props.MountFrame));
+		holders.set(
+			mainHolder,
+			CreateHolder(
+				mainHolder,
+				entry,
+				props.MountType,
+				props.MountFrame,
+				props.SetCanReload
+			)
+		);
 
 		if (entry.OnViewport) {
-			holders.set("Viewport", CreateHolder("Viewport", entry, props.MountType, props.MountFrame));
+			holders.set(
+				"Viewport",
+				CreateHolder(
+					"Viewport",
+					entry,
+					props.MountType,
+					props.MountFrame,
+					props.SetCanReload
+				)
+			);
 		}
 		return holders;
 	}, [entry]);

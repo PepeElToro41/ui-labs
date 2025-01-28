@@ -1,12 +1,17 @@
-import React, { useCallback, useMemo } from "@rbxts/react";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import React, { useCallback, useMemo } from "@rbxts/react";
+import { InferControls } from "@rbxts/ui-labs";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { UILabsWarn, YCall } from "Utils/MiscUtils";
 import type { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import { InferControls } from "@rbxts/ui-labs";
-import { UILabsWarn, YCall } from "Utils/MiscUtils";
-import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import {
+	useControls,
+	useParametrizedControls,
+	useStoryActionComponents,
+	useStoryPassedProps
+} from "../Hooks";
 
 const ROACT_ERR = WARNING_STORY_TYPES.Roact;
 
@@ -19,13 +24,15 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		props.Entry.Key,
 		controls,
 		props.RecoverControlsData,
-		props.SetRecoverControlsData,
+		props.SetRecoverControlsData
 	);
-	const GetProps = useStoryPassedProps();
+	const GetProps = useStoryPassedProps(props);
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			const props = GetProps({ controls: controlValues as InferControls<ReturnControls> });
+			const props = GetProps({
+				controls: controlValues as InferControls<ReturnControls>
+			});
 
 			return YCall(result.story, props, (didYield, err) => {
 				if (didYield) {
@@ -60,7 +67,14 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(
+		props.Entry.Key,
+		props.Result,
+		returnControls,
+		controls,
+		controlValues,
+		setControlValues
+	);
 
 	return <React.Fragment></React.Fragment>;
 }

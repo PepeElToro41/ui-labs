@@ -1,5 +1,7 @@
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
+import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -13,11 +15,9 @@ import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
-import DescriptiveImage from "./DescriptiveImage";
 import Sprite from "UI/Utils/Sprite";
-import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { Counter } from "Utils/NumberUtils";
-import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import DescriptiveImage from "./DescriptiveImage";
 
 interface MountEntryProps {
 	PreviewEntry: PreviewEntry;
@@ -29,10 +29,13 @@ function MountEntry(props: MountEntryProps) {
 	const count = Counter();
 
 	const entry = props.PreviewEntry;
-	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay("MountCloseButton");
+	const { DisplayDescription, RemoveDescription } =
+		useDescriptionDisplay("MountCloseButton");
+
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const selectedEntry = useSelector(selectStorySelected);
-	const { selectStory, setPopup, resetIdentifiedOverlay, unmountStory } = useProducer<RootProducer>();
+	const { selectStory, setPopup, resetIdentifiedOverlay, unmountStory } =
+		useProducer<RootProducer>();
 
 	const theme = useTheme();
 	const mouseOffset = useMouseOffset();
@@ -50,7 +53,11 @@ function MountEntry(props: MountEntryProps) {
 
 	const OnEntryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setPopup("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />, entry.UID);
+		setPopup(
+			"PreviewDropdown",
+			<PreviewDropdown Position={offset} PreviewEntry={entry} />,
+			entry.UID,
+		);
 	}, [mouseOffset, entry]);
 
 	useEffect(() => {
@@ -69,7 +76,9 @@ function MountEntry(props: MountEntryProps) {
 		<Detector
 			key={"Entry"}
 			AutomaticSize={Enum.AutomaticSize.X}
-			BackgroundColor3={selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color}
+			BackgroundColor3={
+				selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color
+			}
 			BackgroundTransparency={0}
 			LayoutOrder={entry.Order}
 			BorderSizePixel={0}
@@ -78,7 +87,7 @@ function MountEntry(props: MountEntryProps) {
 				MouseEnter: hoverApi.enable,
 				MouseLeave: hoverApi.disable,
 				MouseButton1Click: OnEntryClicked,
-				MouseButton2Click: OnEntryDropdown,
+				MouseButton2Up: OnEntryDropdown,
 				InputBegan: (_, input) => {
 					if (input.UserInputType === Enum.UserInputType.MouseButton3) {
 						OnEntryClosed();
@@ -105,13 +114,18 @@ function MountEntry(props: MountEntryProps) {
 			</frame>
 			<Div key={"Holder"}>
 				<Padding PaddingX={8} />
-				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
+				<LeftList
+					VerticalAlignment={Enum.VerticalAlignment.Center}
+					Padding={new UDim(0, 5)}
+				/>
 				<Text
 					key={"TextLabel"}
-					Text={(isMain ? "• " : "") + (node ? node.Name : "(Deleted)")}
+					Text={(isMain ? "• " : "") + (node ? node.Name : "-----")}
 					TextSize={14}
 					LayoutOrder={count()}
-					TextColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+					TextColor3={
+						selected ? theme.StoryPreview.TextSelected : theme.Text.Color
+					}
 					TextXAlignment={Enum.TextXAlignment.Left}
 					AutomaticSize={Enum.AutomaticSize.X}
 					Size={UDim2.fromScale(0, 1)}
@@ -119,12 +133,18 @@ function MountEntry(props: MountEntryProps) {
 					<Padding Right={3} />
 				</Text>
 				{entry.OnWidget && (
-					<Div key={"OnWidget"} Size={UDim2.fromOffset(12, 12)} LayoutOrder={count()}>
+					<Div
+						key={"OnWidget"}
+						Size={UDim2.fromOffset(12, 12)}
+						LayoutOrder={count()}
+					>
 						<DescriptiveImage
 							ImageName="WidgetIcon"
 							Description={"In Widget"}
 							Image={"rbxassetid://16442161953"}
-							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+							ImageColor3={
+								selected ? theme.StoryPreview.TextSelected : theme.Text.Color
+							}
 							ScaleType={Enum.ScaleType.Fit}
 							BackgroundTransparency={1}
 							ImageTransparency={0.4}
@@ -135,12 +155,18 @@ function MountEntry(props: MountEntryProps) {
 					</Div>
 				)}
 				{!entry.Visible && (
-					<Div key={"Hidden"} Size={UDim2.fromOffset(14, 14)} LayoutOrder={count()}>
+					<Div
+						key={"Hidden"}
+						Size={UDim2.fromOffset(14, 14)}
+						LayoutOrder={count()}
+					>
 						<DescriptiveImage
 							ImageName="HiddenIcon"
 							Description={"Hidden"}
 							Image={"rbxassetid://16158493311"}
-							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
+							ImageColor3={
+								selected ? theme.StoryPreview.TextSelected : theme.Text.Color
+							}
 							ScaleType={Enum.ScaleType.Fit}
 							BackgroundTransparency={1}
 							ImageTransparency={0.3}
@@ -163,7 +189,9 @@ function MountEntry(props: MountEntryProps) {
 						key={"CloseIcon"}
 						Sprite="Close"
 						ImageProps={{
-							ImageColor3: selected ? theme.StoryPreview.TextSelected : theme.Text.Color,
+							ImageColor3: selected
+								? theme.StoryPreview.TextSelected
+								: theme.Text.Color,
 							ScaleType: Enum.ScaleType.Fit,
 							Position: UDim2.fromScale(0.5, 0.5),
 							AnchorPoint: new Vector2(0.5, 0.5),

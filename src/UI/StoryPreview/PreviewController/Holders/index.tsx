@@ -1,7 +1,7 @@
 import React from "@rbxts/react";
+import Editor from "./Preview/Editor";
 import Viewport from "./Preview/Viewport";
 import Widget from "./Preview/Widget";
-import Editor from "./Preview/Editor";
 
 declare global {
 	type HolderType = keyof typeof StoryHoldersMap;
@@ -9,6 +9,7 @@ declare global {
 		PreviewEntry: PreviewEntry;
 		MountFrame: Frame;
 		MountType?: MountType;
+		SetCanReload: (canReload: boolean) => void;
 	}
 }
 
@@ -18,11 +19,24 @@ type SetHolder = (holderType: HolderType, holder: Frame) => void;
 export const StoryHoldersMap = {
 	Widget: Widget,
 	Editor: Editor,
-	Viewport: Viewport,
+	Viewport: Viewport
 } satisfies Record<string, HolderComponent>;
 
-export function CreateHolder(holderType: HolderType, entry: PreviewEntry, mountType: MountType | undefined, mountFrame: Frame) {
+export function CreateHolder(
+	holderType: HolderType,
+	entry: PreviewEntry,
+	mountType: MountType | undefined,
+	mountFrame: Frame,
+	setCanReload: (canReload: boolean) => void
+) {
 	const HolderFactory = StoryHoldersMap[holderType];
 
-	return <HolderFactory PreviewEntry={entry} MountType={mountType} MountFrame={mountFrame} />;
+	return (
+		<HolderFactory
+			PreviewEntry={entry}
+			MountType={mountType}
+			MountFrame={mountFrame}
+			SetCanReload={setCanReload}
+		/>
+	);
 }

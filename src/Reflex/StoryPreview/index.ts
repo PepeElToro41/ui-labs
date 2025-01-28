@@ -1,14 +1,16 @@
-import { HotReloader } from "@rbxts/hmr";
 import Immut from "@rbxts/immut";
 import { createProducer } from "@rbxts/reflex";
 import { HttpService } from "@rbxts/services";
 import Configs from "Plugin/Configs";
+import { HotReloader } from "Utils/HotReloader/HotReloader";
 
 declare global {
 	interface PreviewEntry {
 		UID: string;
 		Key: string;
 		Module: ModuleScript;
+		EnvironmentTarget?: string; // nil for root, otherwise the PreviewUID to share environment with
+
 		HotReloader?: HotReloader; // Assigned on Runtime (UI/StoryPreview/PreviewController/index)
 		Holder?: Frame; // Assigned on Runtime (UI/StoryPreview/PreviewController/index)
 		OverrideHolder?: Instance; // Assigned with the Enviroment
@@ -34,7 +36,7 @@ const DefaultEntry = {
 	OnWidget: false,
 
 	OnViewport: false,
-	AutoReload: true,
+	AutoReload: true
 } satisfies Partial<PreviewEntry>;
 
 interface StoryPreviewState {
@@ -44,31 +46,33 @@ interface StoryPreviewState {
 
 const initialState: StoryPreviewState = {
 	mountPreviews: new Map(),
-	latestViewOnViewport: false,
+	latestViewOnViewport: false
 };
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
-export const selectStoryPreviews = (state: RootState) => selectStoryPreview(state).mountPreviews;
+export const selectStoryPreviews = (state: RootState) =>
+	selectStoryPreview(state).mountPreviews;
 export const selectPreview = (key?: string) => (state: RootState) => {
 	if (key === undefined) {
 		//key can be undefined mostly for react hooks purposes
 		return undefined;
 	}
-	return selectStoryPreviews(state).get(key);
+	return GetEntryByKey(selectStoryPreview(state).mountPreviews, key);
 };
 
 //gives you the amount of previews of the given module
 
-export const selectMountAmount = (module: ModuleScript) => (state: RootState) => {
-	const previews = selectStoryPreviews(state);
-	let found = 0;
-	previews.forEach((entry) => {
-		if (entry.Module === module) {
-			found++;
-		}
-	});
-	return found;
-};
+export const selectMountAmount =
+	(module: ModuleScript) => (state: RootState) => {
+		const previews = selectStoryPreviews(state);
+		let found = 0;
+		previews.forEach((entry) => {
+			if (entry.Module === module) {
+				found++;
+			}
+		});
+		return found;
+	};
 
 function CreateNewEntry(module: ModuleScript, order: number) {
 	const uid = HttpService.GenerateGUID(false);
@@ -79,22 +83,32 @@ function CreateNewEntry(module: ModuleScript, order: number) {
 		RecoverControls: true,
 		Module: module,
 		Order: order,
-		ActionComponents: new Map(),
+		ActionComponents: new Map()
 	};
 	return newEntry;
 }
-function GetEntryByUID(state: StoryPreviewState, uid: string) {
-	for (const [key, entry] of state.mountPreviews) {
+export function GetEntryByUID(
+	previews: Map<string, PreviewEntry>,
+	uid: string
+) {
+	for (const [key, entry] of previews) {
 		if (entry.UID === uid) {
 			return entry;
 		}
 	}
 }
-function GetEntryByKey(state: StoryPreviewState, key: string) {
-	return state.mountPreviews.get(key) ?? GetEntryByUID(state, key);
+export function GetEntryByKey(
+	previews: Map<string, PreviewEntry>,
+	key: string
+) {
+	return previews.get(key) ?? GetEntryByUID(previews, key);
 }
 
-function MountStory(state: StoryPreviewState, module: ModuleScript, keepViewOnViewport: boolean) {
+function MountStory(
+	state: StoryPreviewState,
+	module: ModuleScript,
+	keepViewOnViewport: boolean
+) {
 	const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
 	const listSize = rootStory ? rootStory.Order : state.mountPreviews.size() + 1;
 
@@ -109,7 +123,10 @@ function MountStory(state: StoryPreviewState, module: ModuleScript, keepViewOnVi
 		draft.mountPreviews.set(Configs.RootPreviewKey, entry);
 	});
 }
-function GetOrderedEntryMap(entryMap: Map<string, PreviewEntry>, predicator?: (entry: PreviewEntry, uid: string) => boolean) {
+function GetOrderedEntryMap(
+	entryMap: Map<string, PreviewEntry>,
+	predicator?: (entry: PreviewEntry, uid: string) => boolean
+) {
 	const sorted: PreviewEntry[] = [];
 	entryMap.forEach((entry, uid) => {
 		if (predicator) {
@@ -128,13 +145,16 @@ function FromOrderedEntryMap(list: PreviewEntry[]) {
 	list.forEach((entry, index) => {
 		entryMap.set(entry.Key, {
 			...entry,
-			Order: index,
+			Order: index
 		});
 	});
 	return entryMap;
 }
 
-function FilterEntryMap(entryMap: Map<string, PreviewEntry>, predicator: (entry: PreviewEntry, uid: string) => boolean) {
+function FilterEntryMap(
+	entryMap: Map<string, PreviewEntry>,
+	predicator: (entry: PreviewEntry, uid: string) => boolean
+) {
 	const sorted: PreviewEntry[] = [];
 	entryMap.forEach((entry, uid) => {
 		if (predicator(entry, uid)) {
@@ -171,19 +191,28 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	unmountStory: (state, key: string = Configs.RootPreviewKey) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Key !== key),
+			mountPreviews: FilterEntryMap(
+				state.mountPreviews,
+				(entry) => entry.Key !== key
+			)
 		};
 	},
 	unmountByUID: (state, uid: string) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.UID !== uid),
+			mountPreviews: FilterEntryMap(
+				state.mountPreviews,
+				(entry) => entry.UID !== uid
+			)
 		};
 	},
 	unmountByModule: (state, module: ModuleScript) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Module !== module),
+			mountPreviews: FilterEntryMap(
+				state.mountPreviews,
+				(entry) => entry.Module !== module
+			)
 		};
 	},
 	toggleMount: (state, module: ModuleScript, keepViewOnViewport: boolean) => {
@@ -197,7 +226,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	},
 	//---[MOUNT DATA]---//
 	shiftOrderBefore: (state, key: string) => {
-		const entry = GetEntryByKey(state, key);
+		const entry = GetEntryByKey(state.mountPreviews, key);
 		if (!entry) return state;
 		if (entry.Order === 0) {
 			// Already at the start
@@ -210,11 +239,11 @@ export const StoryPreviewProducer = createProducer(initialState, {
 
 		return {
 			...state,
-			mountPreviews: FromOrderedEntryMap(ordered),
+			mountPreviews: FromOrderedEntryMap(ordered)
 		};
 	},
 	shiftOrderAfter: (state, key: string) => {
-		const entry = GetEntryByKey(state, key);
+		const entry = GetEntryByKey(state.mountPreviews, key);
 		if (!entry) return state;
 		if (entry.Order === state.mountPreviews.size()) {
 			// Already at the end
@@ -227,16 +256,16 @@ export const StoryPreviewProducer = createProducer(initialState, {
 
 		return {
 			...state,
-			mountPreviews: FromOrderedEntryMap(ordered),
+			mountPreviews: FromOrderedEntryMap(ordered)
 		};
 	},
 	setMountData: (state, key: string, data: Partial<PreviewEntry>) => {
-		const oldData = GetEntryByKey(state, key);
+		const oldData = GetEntryByKey(state.mountPreviews, key);
 		if (!oldData) return state;
 
 		const updatedData = {
 			...oldData,
-			...data,
+			...data
 		};
 		return Immut.produce(state, (draft) => {
 			if (updatedData.Key === Configs.RootPreviewKey) {
@@ -245,8 +274,12 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			draft.mountPreviews.set(key, updatedData);
 		});
 	},
-	updateMountData: (state, key: string, updater: (current: PreviewEntry) => PreviewEntry) => {
-		const current = GetEntryByKey(state, key);
+	updateMountData: (
+		state,
+		key: string,
+		updater: (current: PreviewEntry) => PreviewEntry
+	) => {
+		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
 		const updatedData = updater(current);
@@ -260,7 +293,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		});
 	},
 	addZoom: (state, key: string, zoomDelta: number) => {
-		const current = GetEntryByKey(state, key);
+		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
 		const newZoom = current.Zoom + zoomDelta;
@@ -268,35 +301,44 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
 				...current,
-				Zoom: newZoom,
+				Zoom: newZoom
 			});
 		});
 	},
 	setZoom: (state, key: string, zoom: number) => {
-		const current = GetEntryByKey(state, key);
+		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
 		if (zoom < 5) return state;
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
 				...current,
-				Zoom: zoom,
+				Zoom: zoom
 			});
 		});
 	},
 
-	setActionComponents: (state, key: string, components: Map<string, ActionTabEntry>) => {
+	setActionComponents: (
+		state,
+		key: string,
+		components: Map<string, ActionTabEntry>
+	) => {
 		const entry = state.mountPreviews.get(key);
 		if (!entry) return state;
 
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
 				...entry,
-				ActionComponents: components,
+				ActionComponents: components
 			});
 		});
 	},
-	setActionComponent: (state, key: string, index: string, actionEntry: ActionTabEntry) => {
+	setActionComponent: (
+		state,
+		key: string,
+		index: string,
+		actionEntry: ActionTabEntry
+	) => {
 		const entry = state.mountPreviews.get(key);
 		if (!entry) return state;
 
@@ -311,5 +353,5 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.get(key)!.ActionComponents.delete(index);
 		});
-	},
+	}
 });

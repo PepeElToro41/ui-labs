@@ -1,6 +1,12 @@
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
-import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
-import { PrimitiveControl, Primitives } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
+import {
+	DatatypeControl,
+	Datatypes
+} from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
+import {
+	PrimitiveControl,
+	Primitives
+} from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { ApplyFilters } from "Utils/StringUtils";
 
@@ -9,7 +15,7 @@ export type ControlRecoverer<T extends ObjectControl> = (
 	control: T,
 	oldControl: T,
 	value: T["ControlValue"],
-	parametrized: ParametrizedControls,
+	parametrized: ParametrizedControls
 ) => void;
 
 type PrimitiveRecovererMap = {
@@ -22,7 +28,9 @@ type AdvancedRecovererMap = {
 	[K in keyof AdvancedTypes.All]: ControlRecoverer<AdvancedTypes.All[K]>;
 };
 
-export type AllRecovererMap = PrimitiveRecovererMap & DatatypeRecovererMap & AdvancedRecovererMap;
+export type AllRecovererMap = PrimitiveRecovererMap &
+	DatatypeRecovererMap &
+	AdvancedRecovererMap;
 
 const PrimitiveRecovererMap: PrimitiveRecovererMap = {
 	String: (key, control, _, value, parametrized) => {
@@ -30,18 +38,22 @@ const PrimitiveRecovererMap: PrimitiveRecovererMap = {
 		parametrized[key] = filtered;
 	},
 	Number: (key, control, _, value, parametrized) => {
-		const clamped = math.clamp(value, control.Min ?? -math.huge, control.Max ?? math.huge);
+		const clamped = math.clamp(
+			value,
+			control.Min ?? -math.huge,
+			control.Max ?? math.huge
+		);
 		parametrized[key] = clamped;
 	},
 	Boolean: (key, control, _, value, parametrized) => {
 		parametrized[key] = value;
-	},
+	}
 };
 
 const DatatypeRecovererMap: DatatypeRecovererMap = {
 	Color3: (key, control, _, value, parametrized) => {
 		parametrized[key] = value;
-	},
+	}
 };
 
 const AdvancedRecovererMap: AdvancedRecovererMap = {
@@ -69,7 +81,11 @@ const AdvancedRecovererMap: AdvancedRecovererMap = {
 		parametrized[key] = value;
 	},
 	Slider: (key, control, _, value, parametrized) => {
-		const clamped = math.clamp(value, control.Min ?? -math.huge, control.Max ?? math.huge);
+		const clamped = math.clamp(
+			value,
+			control.Min ?? -math.huge,
+			control.Max ?? math.huge
+		);
 		//TODO: Respect step snapping
 		parametrized[key] = clamped;
 	},
@@ -83,11 +99,11 @@ const AdvancedRecovererMap: AdvancedRecovererMap = {
 			if (!control.Predicator(value)) return;
 		}
 		parametrized[key] = value;
-	},
+	}
 };
 
 export const AllRecovererMap: AllRecovererMap = {
 	...PrimitiveRecovererMap,
 	...DatatypeRecovererMap,
-	...AdvancedRecovererMap,
+	...AdvancedRecovererMap
 };

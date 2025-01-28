@@ -1,5 +1,4 @@
-import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import React, { useRef } from "@rbxts/react";
+import React from "@rbxts/react";
 import { Dictionary } from "@rbxts/sift";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useConnection } from "Hooks/Utils/Connection";
@@ -18,7 +17,10 @@ function Overlay(props: OverlayProps) {
 	useConnection(
 		inputBegan,
 		(input) => {
-			if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
+			const isMouse1 = input.UserInputType === Enum.UserInputType.MouseButton1;
+			const isMouse2 = input.UserInputType === Enum.UserInputType.MouseButton2;
+
+			if (!isMouse1 && !isMouse2) return;
 			if (!inside) OnClickClose();
 		},
 		[inside, OnClickClose],

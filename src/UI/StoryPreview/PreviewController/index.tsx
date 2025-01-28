@@ -1,17 +1,22 @@
+import { Signal } from "@rbxts/lemon-signal";
 import React, { useEffect, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
-import { MountStory } from "./Mount";
-import { useInstance } from "Hooks/Utils/Instance";
-import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
-import Configs from "Plugin/Configs";
-import HolderParenter from "./Holders/HolderParenter";
-import { CheckStory } from "./StoryCheck/StoryCheck";
-import { Signal } from "@rbxts/lemon-signal";
-import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { selectStorySelected } from "Reflex/StorySelection";
 import { LogService } from "@rbxts/services";
-import { selectClearOutputOnReload } from "Reflex/PluginSettings";
+import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
+import { useInstance } from "Hooks/Utils/Instance";
+import Configs from "Plugin/Configs";
+import { WARNINGS } from "Plugin/Warnings";
+import {
+	selectClearOutputOnReload,
+	selectStudioMode
+} from "Reflex/PluginSettings";
+import { selectStorySelected } from "Reflex/StorySelection";
+import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
+import { UILabsWarn } from "Utils/MiscUtils";
+import HolderParenter from "./Holders/HolderParenter";
+import { MountStory } from "./Mount";
+import { CheckStory } from "./StoryCheck/StoryCheck";
 
 interface PreviewControllerProps {
 	PreviewEntry: PreviewEntry;
@@ -27,14 +32,35 @@ export interface RecoverGroupEntry {
 	Controls: Record<string, RecoverControlEntry>;
 }
 
-export type RecoverControlsData = Record<string, RecoverControlEntry | RecoverGroupEntry>;
+export type RecoverControlsData = Record<
+	string,
+	RecoverControlEntry | RecoverGroupEntry
+>;
+
+interface MountInfo {
+	Key: string;
+	MountType: MountType;
+	Result: MountResults[MountType];
+}
 
 function PreviewController(props: PreviewControllerProps) {
 	const clearOutputOnReload = useSelector(selectClearOutputOnReload);
 	const selectedPreview = useSelector(selectStorySelected);
-	const [result, reloader] = useStoryRequire(props.PreviewEntry);
-	const [renderer, setRenderer] = useState<{ Key: string; MountType: MountType; Renderer: React.Element }>();
-	const [recoverControlsData, setRecoverControlsData] = useState<RecoverControlsData>();
+	const studioMode = useSelector(selectStudioMode);
+
+	const [canReload, setCanReload] = useState(false);
+	const [result, reloader] = useStoryRequire(
+		props.PreviewEntry,
+		studioMode,
+		canReload
+	);
+	const [renderer, setRenderer] = useState<{
+		Key: string;
+		MountType: MountType;
+		Renderer: React.Element;
+	}>();
+	const [recoverControlsData, setRecoverControlsData] =
+		useState<RecoverControlsData>();
 
 	const entry = props.PreviewEntry;
 	const key = props.PreviewEntry.Key;
@@ -44,8 +70,9 @@ function PreviewController(props: PreviewControllerProps) {
 	const mountFrame = useInstance("Frame", undefined, {
 		Name: "StoryHolder",
 		Size: UDim2.fromScale(1, 1),
-		BackgroundTransparency: 1,
+		BackgroundTransparency: 1
 	});
+
 	useEffect(() => {
 		//Updating the reloader
 		setMountData(key, { HotReloader: reloader });
@@ -56,22 +83,26 @@ function PreviewController(props: PreviewControllerProps) {
 	useEffect(() => {
 		mountFrame.Visible = entry.Visible;
 	}, [entry.Visible]);
-	//AutoReload
-	useEffect(() => {
-		if (!reloader) return;
-		reloader.AutoReload = entry.AutoReload;
-	}, [reloader, entry.AutoReload]);
 
+	// Running story
+	useEffect(() => {}, [result]);
+
+	// Creating story
 	useEffect(() => {
-		//Mounting story
 		if (result === undefined) return;
 		const check = CheckStory(result);
-		if (!check.Sucess) return warn("UI Labs: " + check.Error);
-		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
+		if (!check.Sucess) return UILabsWarn(WARNINGS.StoryTypeError, check.Error);
+
+		mountFrame.Name = RemoveExtension(
+			props.PreviewEntry.Module.Name,
+			Configs.Extensions.Story
+		);
 		const unmountSignal = new Signal();
 
 		if (clearOutputOnReload) {
-			const isSelected = selectedPreview === props.PreviewEntry.UID || selectedPreview === props.PreviewEntry.Key;
+			const isSelected =
+				selectedPreview === props.PreviewEntry.UID ||
+				selectedPreview === props.PreviewEntry.Key;
 
 			if (selectedPreview === undefined || isSelected) {
 				LogService.ClearOutput();
@@ -85,9 +116,13 @@ function PreviewController(props: PreviewControllerProps) {
 			mountFrame,
 			unmountSignal,
 			recoverControlsData,
-			setRecoverControlsData,
+			setRecoverControlsData
 		);
-		setRenderer({ Key: tostring(newproxy()), MountType: check.Type, Renderer: gotRenderer });
+		setRenderer({
+			Key: tostring(newproxy()),
+			MountType: check.Type,
+			Renderer: gotRenderer
+		});
 
 		return () => {
 			unmountSignal.Fire();
@@ -102,7 +137,12 @@ function PreviewController(props: PreviewControllerProps) {
 
 	const render = (
 		<React.Fragment>
-			<HolderParenter MountFrame={mountFrame} MountType={renderer?.MountType} Entry={entry} />
+			<HolderParenter
+				MountFrame={mountFrame}
+				MountType={renderer?.MountType}
+				Entry={entry}
+				SetCanReload={setCanReload}
+			/>
 			{renderMap}
 		</React.Fragment>
 	);

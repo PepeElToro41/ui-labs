@@ -1,32 +1,44 @@
-import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
-import type { MounterProps } from "..";
-import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
-import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
+import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
+import { useSelectorCreator } from "@rbxts/react-reflex";
 import { InferControls } from "@rbxts/ui-labs";
-import { useStoryUnmount } from "../../Utils";
-import { UILabsWarn, YCall } from "Utils/MiscUtils";
+import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { selectPreview } from "Reflex/StoryPreview";
+import { UILabsWarn, YCall } from "Utils/MiscUtils";
+import type { MounterProps } from "..";
+import { useStoryUnmount } from "../../Utils";
+import {
+	useControls,
+	useParametrizedControls,
+	useStoryActionComponents,
+	useStoryPassedProps
+} from "../Hooks";
 
 const REACT_ERR = WARNING_STORY_TYPES.React;
 
 function ReactLib(props: MounterProps<"ReactLib">) {
 	const result = props.Result;
 	const returnControls = result.controls as ReturnControls;
+	const entry = useSelectorCreator(selectPreview, props.Entry.Key);
 
 	const controls = useControls(returnControls ?? {});
 	const [controlValues, setControlValues] = useParametrizedControls(
 		props.Entry.Key,
 		controls,
 		props.RecoverControlsData,
-		props.SetRecoverControlsData,
+		props.SetRecoverControlsData
 	);
 	const rendererType = result.renderer ?? "deferred";
-	const GetProps = useStoryPassedProps();
+	const GetProps = useStoryPassedProps(props);
+	// const injection = useEnvironmentInjection(props.Entry.Key);
 
 	const RenderComponent = useCallback(() => {
 		if (typeIs(result.story, "function")) {
-			const storyProps = GetProps({ controls: controlValues as InferControls<ReturnControls> });
+			const storyProps = GetProps({
+				controls: controlValues as InferControls<ReturnControls>
+			});
+			//const runtime = InjectStoryRuntime(injection, "React", storyProps);
 
 			return YCall(result.story, storyProps, (didYield, err) => {
 				if (didYield) {
@@ -45,12 +57,16 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			return result.reactRoblox.createRoot(props.MountFrame);
 		} else if (rendererType === "legacy") {
 			if (result.reactRoblox["createLegacyRoot"] === undefined) {
-				UILabsWarn('Legacy renderer requires the function "createLegacyRoot" inside React-Roblox');
+				UILabsWarn(
+					'Legacy renderer requires the function "createLegacyRoot" inside React-Roblox'
+				);
 				return result.reactRoblox.createRoot(props.MountFrame);
 			}
 			return result.reactRoblox.createLegacyRoot(props.MountFrame);
 		} else {
-			UILabsWarn(`Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`);
+			UILabsWarn(
+				`Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`
+			);
 		}
 	}, []);
 
@@ -73,7 +89,14 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(
+		props.Entry.Key,
+		props.Result,
+		returnControls,
+		controls,
+		controlValues,
+		setControlValues
+	);
 
 	return <React.Fragment></React.Fragment>;
 }

@@ -1,5 +1,5 @@
-import { createProducer } from "@rbxts/reflex";
 import React from "@rbxts/react";
+import { createProducer } from "@rbxts/reflex";
 
 interface OverlayEntry {
 	Key: string;
@@ -26,7 +26,12 @@ const initialState: OverlayState = {
 export const selectPopup = (state: RootState) => state.overlay.popup;
 
 export const OverlayProducer = createProducer(initialState, {
-	setPopup: (state, key: string, element: React.Element, identifier?: unknown) => {
+	setPopup: (
+		state,
+		key: string,
+		element: React.Element,
+		identifier?: unknown,
+	) => {
 		return {
 			...state,
 			popup: {

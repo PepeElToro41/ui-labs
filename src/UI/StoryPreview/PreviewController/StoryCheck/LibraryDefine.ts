@@ -1,14 +1,14 @@
+import Sift from "@rbxts/sift";
 import { t } from "@rbxts/t";
 import { StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
-import { ReactChecker, ReactKeys } from "./LIbraries/ReactCheck";
 import { Cast } from "Utils/MiscUtils";
+import { FusionChecker, FusionKeys } from "./Libraries/FusionCheck";
+import { GenericChecker, GenericKeys } from "./Libraries/GenericCheck";
+import { IrisChecker, IrisKeys } from "./Libraries/IrisCheck";
+import { ReactChecker, ReactKeys } from "./Libraries/ReactCheck";
+import { RoactChecker, RoactKeys } from "./Libraries/RoactCheck";
+import { VideChecker, VideKeys } from "./Libraries/VideCheck";
 import { StoryCheck, StoryError } from "./StoryCheck";
-import { RoactChecker, RoactKeys } from "./LIbraries/RoactCheck";
-import { FusionChecker, FusionKeys } from "./LIbraries/FusionCheck";
-import { GenericChecker, GenericKeys } from "./LIbraries/GenericCheck";
-import Sift from "@rbxts/sift";
-import { IrisChecker, IrisKeys } from "./LIbraries/IrisCheck";
-import { VideChecker, VideKeys } from "./LIbraries/VideCheck";
 
 //TODO: Add control type
 const CONTROL_TYPE = t.intersection(t.keys(t.string), t.values(t.any));
@@ -17,13 +17,14 @@ type StoryTypeCheck<T> = Required<{
 	[K in keyof T]: t.check<T[K]>;
 }>;
 
-const STORY_TYPE: StoryTypeCheck<StoryBase & { use?: string; controls?: {} }> = {
-	use: t.optional(t.string),
-	controls: t.optional(CONTROL_TYPE),
-	name: t.optional(t.string),
-	summary: t.optional(t.string),
-	cleanup: t.optional(t.function),
-};
+const STORY_TYPE: StoryTypeCheck<StoryBase & { use?: string; controls?: {} }> =
+	{
+		use: t.optional(t.string),
+		controls: t.optional(CONTROL_TYPE),
+		name: t.optional(t.string),
+		summary: t.optional(t.string),
+		cleanup: t.optional(t.function)
+	};
 
 type LibraryType = keyof Omit<MountResults, "Functional">;
 
@@ -36,7 +37,7 @@ const LibraryNames: Record<LibraryType, string> = {
 	FusionLib: "Fusion",
 	IrisLib: "Iris",
 	VideLib: "Vide",
-	Generic: "Generic",
+	Generic: "Generic"
 };
 
 const Checkers: Record<LibraryType, LibraryChecker> = {
@@ -45,7 +46,7 @@ const Checkers: Record<LibraryType, LibraryChecker> = {
 	FusionLib: FusionChecker,
 	IrisLib: IrisChecker,
 	VideLib: VideChecker,
-	Generic: GenericChecker,
+	Generic: GenericChecker
 };
 const LibraryKeys: Record<LibraryType, string[]> = {
 	RoactLib: RoactKeys,
@@ -53,12 +54,19 @@ const LibraryKeys: Record<LibraryType, string[]> = {
 	FusionLib: FusionKeys,
 	IrisLib: IrisKeys,
 	VideLib: VideKeys,
-	Generic: GenericKeys,
+	Generic: GenericKeys
 };
-const AllKeys = Sift.Dictionary.values(LibraryKeys).reduce<string[]>((a, b) => [...a, ...b], []);
+const AllKeys = Sift.Dictionary.values(LibraryKeys).reduce<string[]>(
+	(a, b) => [...a, ...b],
+	[]
+);
 
 type ErrorFormat = (key: string) => string;
-function CheckExtraKeys(storyReturn: Record<string, unknown>, keys: string[], err: ErrorFormat): "valid" | StoryError {
+function CheckExtraKeys(
+	storyReturn: Record<string, unknown>,
+	keys: string[],
+	err: ErrorFormat
+): "valid" | StoryError {
 	for (const [key, check] of pairs(storyReturn)) {
 		if (check === undefined) continue;
 		if (key in STORY_TYPE) continue;
@@ -70,7 +78,9 @@ function CheckExtraKeys(storyReturn: Record<string, unknown>, keys: string[], er
 	return "valid";
 }
 
-export function DefineStoryLibrary(storyReturn: Record<string, unknown>): StoryCheck {
+export function DefineStoryLibrary(
+	storyReturn: Record<string, unknown>
+): StoryCheck {
 	// step one: check the base indexes
 	for (const [key, check] of pairs(STORY_TYPE)) {
 		const value = storyReturn[key];
@@ -89,24 +99,42 @@ export function DefineStoryLibrary(storyReturn: Record<string, unknown>): StoryC
 		const result = checker(storyReturn);
 		if (result === "valid") {
 			// step four: check for extra keys for the specific library
-			const result = CheckExtraKeys(storyReturn, LibraryKeys[libraryType], (key) => {
-				return `Unknown key "${key}" for ${LibraryNames[libraryType]}`;
-			});
+			const result = CheckExtraKeys(
+				storyReturn,
+				LibraryKeys[libraryType],
+				(key) => {
+					return `Unknown key "${key}" for ${LibraryNames[libraryType]}`;
+				}
+			);
 			if (result !== "valid") return result;
 
 			// step five: check for story function
 			if (libraryType !== "Generic") {
 				if (!("story" in storyReturn)) {
-					return { Sucess: false, Error: `Key "story" is not present for ${LibraryNames[libraryType]}` };
+					return {
+						Sucess: false,
+						Error: `Key "story" is not present for ${LibraryNames[libraryType]}`
+					};
 				}
 				if (!typeIs(storyReturn["story"], "function")) {
-					return { Sucess: false, Error: `Key "story" must be a function for ${LibraryNames[libraryType]}` };
+					return {
+						Sucess: false,
+						Error: `Key "story" must be a function for ${LibraryNames[libraryType]}`
+					};
 				}
 
-				return { Sucess: true, Type: libraryType, Result: Cast<MountResults[MountType]>(storyReturn) };
+				return {
+					Sucess: true,
+					Type: libraryType,
+					Result: Cast<MountResults[MountType]>(storyReturn)
+				};
 			}
 
-			return { Sucess: true, Type: libraryType, Result: Cast<MountResults[MountType]>(storyReturn) };
+			return {
+				Sucess: true,
+				Type: libraryType,
+				Result: Cast<MountResults[MountType]>(storyReturn)
+			};
 		} else if (result === "pass") {
 			continue;
 		}

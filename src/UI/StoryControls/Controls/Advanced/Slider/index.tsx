@@ -65,6 +65,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 		}
 		return allMarks;
 	}, [control.Min, control.Max, control.Step, markVisible, theme]);
+
 	useEffect(() => {
 		const connection = RunService.PreRender.Connect(() => {
 			const slider = sliderRef.current;

@@ -1,5 +1,5 @@
-import { HotReloader } from "@rbxts/hmr";
 import { Signal } from "@rbxts/lemon-signal";
+import { HotReloader } from "Utils/HotReloader/HotReloader";
 
 export class StorybookLoader {
 	private StorybookResult?: unknown = undefined;

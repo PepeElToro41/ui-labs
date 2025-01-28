@@ -37,7 +37,7 @@ function Generic(props: MounterProps<"Generic">) {
 	const [oldControlValues, setOldControlValues] =
 		useState<ParametrizedControls>(controlValues);
 	const listeners = useRef<SubscribeListener<ReturnControls>[]>([]);
-	const GetProps = useStoryPassedProps();
+	const GetProps = useStoryPassedProps(props);
 
 	const RemoveListener = useCallback(
 		(listener: SubscribeListener<ReturnControls>) => {
@@ -91,7 +91,6 @@ function Generic(props: MounterProps<"Generic">) {
 		const storyProps: InferGenericProps<ConvertedControls> = GetProps({
 			controls: controlValues as InferControls<ConvertedControls>,
 			converted: controls,
-			target: props.MountFrame,
 			subscribe: AddListener
 		});
 		const value = YCall(result.render, storyProps, (didYield, err) => {

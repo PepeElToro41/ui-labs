@@ -1,8 +1,17 @@
 import Immut from "@rbxts/immut";
-import React, { Dispatch, SetStateAction, useCallback, useMemo } from "@rbxts/react";
+import React, {
+	Dispatch,
+	SetStateAction,
+	useCallback,
+	useMemo
+} from "@rbxts/react";
 import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
 import { ControlGroup } from "@rbxts/ui-labs";
-import { ConvertedControlList, ConvertedControls, ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import {
+	ConvertedControlList,
+	ConvertedControls,
+	ObjectControl
+} from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { selectPreview } from "Reflex/StoryPreview";
 import ControlGroupRender from "UI/StoryControls/ControlGroupRender";
 import ControlHolder from "UI/StoryControls/ControlHolder";
@@ -17,8 +26,14 @@ import Divisor from "UI/Utils/Divisor";
 import ImageButton from "UI/Utils/ImageButton";
 import { ParametrizeControls } from "../PreviewController/Mounters/Utils";
 
-function CreateControlRender<T extends ObjectControl>(control: T, current: T["ControlValue"], apply: (val: T["ControlValue"]) => void) {
-	const FactoryElement = AllControlMap[control.Type] as unknown as ControlFactory<T>;
+function CreateControlRender<T extends ObjectControl>(
+	control: T,
+	current: T["ControlValue"],
+	apply: (val: T["ControlValue"]) => void
+) {
+	const FactoryElement = AllControlMap[
+		control.Type
+	] as unknown as ControlFactory<T>;
 	return <FactoryElement Control={control} Current={current} Apply={apply} />;
 }
 
@@ -26,20 +41,25 @@ function RenderControlGroup(
 	name: string,
 	controlGroup: ControlGroup<ConvertedControlList>,
 	groupValues: ParametrizedControls,
-	update: (value: ParametrizedControls) => void,
+	update: (value: ParametrizedControls) => void
 ) {
 	const controls: ReactChildren = new Map();
 
 	for (const [name, control] of pairs(controlGroup.Controls)) {
 		const controlValue = groupValues[name] as ControlValue;
 
-		const renderedControl = RenderControl(name, control, controlValue, (value) => {
-			update(
-				Immut.produce(groupValues, (draft) => {
-					draft[name] = value;
-				}),
-			);
-		});
+		const renderedControl = RenderControl(
+			name,
+			control,
+			controlValue,
+			(value) => {
+				update(
+					Immut.produce(groupValues, (draft) => {
+						draft[name] = value;
+					})
+				);
+			}
+		);
 		controls.set(name, renderedControl);
 	}
 	return (
@@ -49,7 +69,12 @@ function RenderControlGroup(
 	);
 }
 
-function RenderControl(name: string, control: ObjectControl, value: ControlValue, update: (value: ControlValue) => void) {
+function RenderControl(
+	name: string,
+	control: ObjectControl,
+	value: ControlValue,
+	update: (value: ControlValue) => void
+) {
 	const subcomponent: ReactChildren = new Map();
 	const controlRender = CreateControlRender(control, value, update);
 	subcomponent.set("ControlRender", controlRender);
@@ -92,7 +117,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 				});
 			});
 		},
-		[props.SetControlValues],
+		[props.SetControlValues]
 	);
 
 	const OnRecoverControls = useCallback(() => {
@@ -105,7 +130,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	const OnResetControls = useCallback(() => {
 		const newControls = ParametrizeControls(props.Controls);
 		props.SetControlValues(newControls as T);
-	}, []);
+	}, [props.Controls]);
 
 	const controlComponents = useMemo(() => {
 		const components: ReactChildren = new Map();
@@ -113,9 +138,14 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 		for (const [name, control] of pairs(props.Controls)) {
 			if (control.EntryType === "ControlGroup") {
 				const groupValues = props.ControlValues[name] as ParametrizedControls;
-				const render = RenderControlGroup(name, control, groupValues, (values) => {
-					SetControlByIndex(name, values as T[keyof T]);
-				});
+				const render = RenderControlGroup(
+					name,
+					control,
+					groupValues,
+					(values) => {
+						SetControlByIndex(name, values as T[keyof T]);
+					}
+				);
 				components.set(name, render);
 				continue;
 			}
@@ -165,7 +195,11 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 						key={"BookmarkIcon"}
 						ButtonName="KeepControlsButton"
 						Description={"Keep Controls"}
-						Icon={recoverControls ? "rbxassetid://126982529248827" : "rbxassetid://114811815528934"}
+						Icon={
+							recoverControls
+								? "rbxassetid://126982529248827"
+								: "rbxassetid://114811815528934"
+						}
 						IconTransparency={0.3}
 						Size={UDim2.fromOffset(22, 22)}
 						IconScale={0.75}
@@ -174,7 +208,11 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 				</Div>
 				<Divisor Direction="X" Anchor={0} Position={UDim2.fromScale(0, 1)} />
 			</Div>
-			<frame Position={new UDim2(1, -10, 0.5, 0)} AnchorPoint={new Vector2(1, 0.5)} Size={new UDim2(0, 0, 1, -2)}>
+			<frame
+				Position={new UDim2(1, -10, 0.5, 0)}
+				AnchorPoint={new Vector2(1, 0.5)}
+				Size={new UDim2(0, 0, 1, -2)}
+			>
 				<Corner Radius={6} />
 			</frame>
 			<scrollingframe

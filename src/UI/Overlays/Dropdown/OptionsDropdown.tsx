@@ -2,7 +2,7 @@ import React from "@rbxts/react";
 import Dropdown from ".";
 import DropdownEntry from "./DropdownEntry";
 import Divisor from "UI/Utils/Divisor";
-import { selectClearOutputOnReload, selectShortcutsEnabled, selectKeepViewOnViewport } from "Reflex/PluginSettings";
+import { selectClearOutputOnReload, selectShortcutsEnabled, selectKeepViewOnViewport, selectStudioMode } from "Reflex/PluginSettings";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useOverlayAction } from "../Utils";
 import { selectStoryPreviews } from "Reflex/StoryPreview";
@@ -18,10 +18,17 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
 	const keepViewOnViewport = useSelector(selectKeepViewOnViewport);
 	const clearOutputOnReload = useSelector(selectClearOutputOnReload);
+	const studioMode = useSelector(selectStudioMode);
 	const previews = useSelector(selectStoryPreviews);
 
-	const { toggleShortcutsEnabled, toggleKeepViewOnViewport, toggleClearOutputOnReload, recomputeStorybooks, setThemeIndex } =
-		useProducer<RootProducer>();
+	const {
+		toggleShortcutsEnabled,
+		toggleKeepViewOnViewport,
+		toggleClearOutputOnReload,
+		toggleStudioMode,
+		recomputeStorybooks,
+		setThemeIndex,
+	} = useProducer<RootProducer>();
 
 	const RegenerateExplorer = useOverlayAction(() => {
 		recomputeStorybooks();
@@ -36,6 +43,7 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 	const OnSetShortcutsEnabled = useOverlayAction(toggleShortcutsEnabled, []);
 	const OnSetKeepViewOnViewport = useOverlayAction(toggleKeepViewOnViewport, []);
 	const OnSetClearOutputOnReload = useOverlayAction(toggleClearOutputOnReload, []);
+	const OnSetStudioMode = useOverlayAction(toggleStudioMode, []);
 
 	const SetDarkTheme = useOverlayAction(() => setThemeIndex("Dark"), []);
 	const SetCatppuchineMacchiatoTheme = useOverlayAction(() => setThemeIndex("CatppuchineMacchiato"), []);
@@ -50,6 +58,7 @@ function OptionsDropdown(props: OptionsDropdownProps) {
 			<DropdownEntry Text="Keep: View In Viewport" Active={keepViewOnViewport} OnClick={OnSetKeepViewOnViewport} />
 			<DropdownEntry Text="Shortcuts Enabled" Active={shortcutsEnabled} OnClick={OnSetShortcutsEnabled} />
 			<DropdownEntry Text="Clear Output On Reload" Active={clearOutputOnReload} OnClick={OnSetClearOutputOnReload} />
+			<DropdownEntry Text="Studio Mode" Active={studioMode} OnClick={OnSetStudioMode} />
 			<Divisor Direction="X" />
 			<DropdownEntry Text="Theme: Dark" Active={themeName === "Dark"} OnClick={SetDarkTheme} />
 			<DropdownEntry Text="Theme: Macchiato" Active={themeName === "CatppuchineMacchiato"} OnClick={SetCatppuchineMacchiatoTheme} />

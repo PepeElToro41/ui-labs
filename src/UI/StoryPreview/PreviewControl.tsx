@@ -1,12 +1,10 @@
 import React, { useMemo } from "@rbxts/react";
 
-import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
+import { useSelector } from "@rbxts/react-reflex";
 import { useActionsData, useCanvasHeight } from "Context/StoryPanelContext";
+import { selectStoryPreviews } from "Reflex/StoryPreview";
 
 import { selectStoryLock } from "Reflex/Interface";
-import { selectPreview, selectStoryPreviews } from "Reflex/StoryPreview";
-import { selectStorySelected } from "Reflex/StorySelection";
-
 import { Div } from "UI/Styles/Div";
 import PreviewController from "./PreviewController";
 
@@ -14,8 +12,6 @@ interface PreviewControlProps {}
 
 function PreviewControl(props: PreviewControlProps) {
 	const previews = useSelector(selectStoryPreviews);
-	const selectedEntry = useSelector(selectStorySelected);
-	const previewEntry = useSelectorCreator(selectPreview, selectedEntry);
 	const storyLockers = useSelector(selectStoryLock);
 
 	const [pinned, height] = useActionsData();
@@ -42,7 +38,7 @@ function PreviewControl(props: PreviewControlProps) {
 			}
 			LayoutOrder={2}
 			Change={{
-				AbsoluteSize: (rbx) => setCanvasHeight(rbx.AbsoluteSize.Y - 10),
+				AbsoluteSize: (rbx) => setCanvasHeight(rbx.AbsoluteSize.Y - 10)
 			}}
 		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />

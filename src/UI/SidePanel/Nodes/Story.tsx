@@ -151,7 +151,7 @@ function Story(setprops: StoryProps) {
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
 					MouseButton1Click: OnStorySelected,
-					MouseButton2Click: OnStoryDropdown,
+					MouseButton2Up: OnStoryDropdown,
 				}}
 			/>
 		</Div>

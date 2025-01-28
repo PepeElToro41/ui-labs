@@ -1,6 +1,7 @@
-import { useMountEffect, useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import React, { useRef } from "@rbxts/react";
+import { useMountEffect } from "@rbxts/pretty-react-hooks";
+import React, { useEffect, useRef } from "@rbxts/react";
 import { createPortal } from "@rbxts/react-roblox";
+import { useWidgetStateContext } from "Context/WidgetStateContext";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import Configs from "Plugin/Configs";
 import { useDeferLifetime } from "UI/Holders/LifetimeChildren/LifetimeController";
@@ -8,7 +9,11 @@ import { Div } from "UI/Styles/Div";
 
 function Viewport(props: StoryHolderProps) {
 	const mountRef = useRef<Frame>();
-	const storyName = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
+	const widgetState = useWidgetStateContext();
+	const storyName = RemoveExtension(
+		props.PreviewEntry.Module.Name,
+		Configs.Extensions.Story
+	);
 
 	useDeferLifetime(props, 2);
 
@@ -18,11 +23,15 @@ function Viewport(props: StoryHolderProps) {
 		props.MountFrame.Parent = holder;
 	});
 
+	useEffect(() => {
+		props.SetCanReload(widgetState.ViewportFocused);
+	}, [widgetState.ViewportFocused, props.SetCanReload]);
+
 	return createPortal(
 		<screengui key={storyName} ZIndexBehavior={Enum.ZIndexBehavior.Sibling}>
 			<Div key={"Holder"} Reference={mountRef}></Div>
 		</screengui>,
-		game.GetService("CoreGui"),
+		game.GetService("CoreGui")
 	);
 }
 

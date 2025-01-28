@@ -101,12 +101,12 @@ export function useInputSignals() {
 	useEventListener(UserInputService.InputChanged, (input, processed) => onInputChanged.Fire(input, processed));
 
 	const signals = useMemo(() => {
-		const value: InputSignals = {
+		const value = {
 			InputBegan: onInputBegan,
 			InputEnded: onInputEnded,
 			InputChanged: onInputChanged,
 			MouseMoved: onMouseMoved,
-		};
+		} as InputSignals;
 		return value;
 	}, []);
 

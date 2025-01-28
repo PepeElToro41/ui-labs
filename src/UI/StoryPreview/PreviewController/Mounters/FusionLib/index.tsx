@@ -1,21 +1,37 @@
-import React, { useMemo } from "@rbxts/react";
-import { MounterProps } from "..";
-import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { CreateFusion3Values, CreateFusionValues, GetFusionVersion, GetScopedFusion, UpdateFusionValues } from "./Utils";
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useStoryUnmount } from "../../Utils";
+import React, { useMemo } from "@rbxts/react";
 import { InferFusionProps } from "@rbxts/ui-labs";
-import { Cast, FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
-import { useStoryPassedProps } from "../Utils";
-import { useControls, useParametrizedControls, useStoryActionComponents } from "../Hooks";
+import {
+	ConvertedControls,
+	ReturnControls
+} from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { Cast, FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import { MounterProps } from "..";
+import { useStoryUnmount } from "../../Utils";
+import {
+	useControls,
+	useParametrizedControls,
+	useStoryActionComponents,
+	useStoryPassedProps
+} from "../Hooks";
+import {
+	CreateFusion3Values,
+	CreateFusionValues,
+	GetFusionVersion,
+	GetScopedFusion,
+	UpdateFusionValues
+} from "./Utils";
 
 const FUSION_ERR = WARNING_STORY_TYPES.Fusion;
 
 function FusionLib(props: MounterProps<"FusionLib">) {
 	const result = props.Result;
 	const version = GetFusionVersion(result.fusion);
-	const fusion = version === "Fusion2" ? result.fusion : GetScopedFusion(Cast<Fusion3>(result.fusion), result.scoped ?? []);
+	const fusion =
+		version === "Fusion2"
+			? result.fusion
+			: GetScopedFusion(Cast<Fusion3>(result.fusion), result.scoped ?? []);
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
@@ -23,15 +39,19 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		props.Entry.Key,
 		controls,
 		props.RecoverControlsData,
-		props.SetRecoverControlsData,
+		props.SetRecoverControlsData
 	);
-	const GetProps = useStoryPassedProps();
+	const GetProps = useStoryPassedProps(props);
 
 	const fusionValues = useMemo(() => {
 		if (version === "Fusion2") {
 			return CreateFusionValues(fusion, controls, controlValues);
 		} else {
-			return CreateFusion3Values(Cast<Fusion3>(fusion), controls, controlValues);
+			return CreateFusion3Values(
+				Cast<Fusion3>(fusion),
+				controls,
+				controlValues
+			);
 		}
 	}, []);
 
@@ -42,14 +62,15 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 	const cleanup = useMemo(() => {
 		if (props.Result.scoped !== undefined) {
 			if (version === "Fusion2") {
-				warn("UI Labs: scoped key provided for Fusion 0.2, this will be ignored");
+				warn(
+					"UI Labs: scoped key provided for Fusion 0.2, this will be ignored"
+				);
 			}
 		}
 
 		const fusionProps: InferFusionProps<ConvertedControls> = GetProps({
 			controls: fusionValues,
-			target: props.MountFrame,
-			scope: Cast<Fusion3>(fusion),
+			scope: Cast<Fusion3>(fusion)
 		});
 
 		const value = YCall(result.story, fusionProps, (didYield, err) => {
@@ -59,7 +80,22 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 				UILabsWarn(WARNINGS.StoryError.format(FUSION_ERR), err);
 			}
 		});
-		return value ? (typeIs(value, "Instance") ? () => value.Destroy() : value) : undefined;
+		if (value) {
+			if (typeIs(value, "Instance")) {
+				if (version === "Fusion3") {
+					const scope = Cast<Fusion3>(fusion);
+					scope.Hydrate(props.MountFrame)({
+						[fusion.Children]: value
+					});
+				} else {
+					return () => value.Destroy();
+				}
+			} else {
+				return value;
+			}
+		} else {
+			return undefined;
+		}
 	}, []);
 
 	useStoryUnmount(result, props.UnmountSignal, () => {
@@ -72,7 +108,9 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			});
 		} else {
 			if (version === "Fusion2") {
-				warn("UI Labs: No cleanup function was returned for Fusion 0.2, there's no way to cleanup the story.");
+				warn(
+					"UI Labs: No cleanup function was returned for Fusion 0.2, there's no way to cleanup the story."
+				);
 			}
 		}
 		if (version === "Fusion3") {
@@ -80,7 +118,14 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		}
 	});
 
-	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
+	useStoryActionComponents(
+		props.Entry.Key,
+		props.Result,
+		returnControls,
+		controls,
+		controlValues,
+		setControlValues
+	);
 
 	return <></>;
 }

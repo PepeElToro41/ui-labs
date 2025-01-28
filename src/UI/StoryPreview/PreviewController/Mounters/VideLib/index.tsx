@@ -31,7 +31,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 		props.RecoverControlsData,
 		props.SetRecoverControlsData
 	);
-	const GetProps = useStoryPassedProps();
+	const GetProps = useStoryPassedProps(props);
 
 	const [sources, sourcesCleanup] = useMemo(() => {
 		let gotSources: InferVideControls<ConvertedControls> = {};
@@ -47,7 +47,6 @@ function VideLib(props: MounterProps<"VideLib">) {
 
 	const cleanup = useMemo(() => {
 		const videProps: InferVideProps<ConvertedControls> = GetProps({
-			target: props.MountFrame,
 			controls: sources
 		});
 		const unmount = vide.mount(() => {

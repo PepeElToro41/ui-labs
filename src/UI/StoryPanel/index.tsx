@@ -1,15 +1,15 @@
 import React from "@rbxts/react";
-import BackgroundPattern from "./BackgroundPattern";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import StoryTitle from "./StoryTitle";
-import { Div } from "UI/Styles/Div";
 import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
+import { StoryPanelProvider } from "Context/StoryPanelContext";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { selectPreview } from "Reflex/StoryPreview";
 import { selectStorySelected } from "Reflex/StorySelection";
-import { StoryPanelProvider } from "Context/StoryPanelContext";
-import PanelRender from "./PanelRender";
-import TopList from "UI/Styles/List/TopList";
 import { selectIsLightBackground } from "Reflex/Theme";
+import { Div } from "UI/Styles/Div";
+import TopList from "UI/Styles/List/TopList";
+import BackgroundPattern from "./BackgroundPattern";
+import PanelRender from "./PanelRender";
+import StoryTitle from "./StoryTitle";
 
 interface StoryContentsProps {}
 
@@ -27,7 +27,9 @@ function StoryContents(props: StoryContentsProps) {
 		<Div
 			key="StoryContents"
 			BackgroundTransparency={0}
-			BackgroundColor3={theme.StoryPanel[isLightColor ? "LightColor" : "DarkColor"]}
+			BackgroundColor3={
+				theme.StoryPanel[isLightColor ? "LightColor" : "DarkColor"]
+			}
 			LayoutOrder={1}
 		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />

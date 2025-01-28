@@ -82,28 +82,29 @@ export function ResolveStringPath(root: Instance, path: string) {
 	const parts = path.split("/");
 	let current: Instance = root;
 
-	if (parts.size() === 0) throw `Invalid relative path: ${path}`;
+	if (parts.size() === 0) error(`Invalid relative path: ${path}`, 2);
 	if (parts[0] !== "." && parts[0] !== "..") {
-		throw `Invalid path start: "${parts[0]}" in ${path}`;
+		error(`Invalid path start: "${parts[0]}" in ${path}`, 2);
 	}
 
 	for (let i = 0; i < parts.size(); i++) {
 		const part = parts[i];
 		if (part === "") {
-			throw `Double slashes are not allowed in path: ${path}`;
+			error(`Double slashes are not allowed in path: ${path}`, 2);
 		}
 
 		if (part === "..") {
 			let parent = current.Parent?.Parent;
-			if (parent === undefined) throw `No parent found in: ${current}`;
+			if (parent === undefined) error(`No parent found in: ${current}`, 2);
 			current = parent;
 		} else if (part === ".") {
 			const parent = current.Parent;
-			if (parent === undefined) throw `No parent found in: ${current}`;
+			if (parent === undefined) error(`No parent found in: ${current}`, 2);
 			current = parent;
 		} else {
 			const child = current.FindFirstChild(part);
-			if (child === undefined) throw `Unknown script ${part} in: ${current}`;
+			if (child === undefined)
+				error(`Unknown script ${part} in: ${current}`, 2);
 			current = child;
 		}
 	}

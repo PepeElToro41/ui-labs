@@ -1,6 +1,7 @@
 import { useProducer } from "@rbxts/react-reflex";
 import React, { useEffect } from "@rbxts/react";
 import App from "./App";
+import { WidgetStateProvider } from "Context/WidgetStateContext";
 
 interface PluginProps {
 	Plugin: Plugin;
@@ -12,11 +13,14 @@ function Plugin(props: PluginProps) {
 
 	useEffect(() => {
 		setPlugin(props.Plugin);
-
 		setWidget(props.DockWidget);
 	}, [props.Plugin, props.DockWidget]);
 
-	return <App></App>;
+	return (
+		<WidgetStateProvider DockWidget={props.DockWidget}>
+			<App />
+		</WidgetStateProvider>
+	);
 }
 
 export default Plugin;

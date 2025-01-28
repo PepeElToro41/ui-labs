@@ -1,7 +1,7 @@
 import { t } from "@rbxts/t";
 import { LibCheckReturn } from "../LibraryDefine";
 
-export const FusionKeys: string[] = ["fusion"];
+export const FusionKeys: string[] = ["fusion", "scoped"];
 
 export function FusionChecker(value: Record<string, unknown>): LibCheckReturn {
 	if (value["fusion"] === undefined) return "pass";

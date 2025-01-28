@@ -33,9 +33,6 @@ export class Environment {
 		this.EnableGlobalInjection();
 		this._GlobalInjection![key] = value;
 	}
-	GetInjectedGlobal(key: keyof any) {
-		return this._GlobalInjection![key];
-	}
 	GetGlobalInjection() {
 		return this._GlobalInjection;
 	}
