@@ -80,7 +80,7 @@ export async function LoadVirtualModule(
 
 export function ResolveStringPath(root: Instance, path: string) {
 	const parts = path.split("/");
-	let current: Instance = root;
+	let current: Instance = root.Parent;
 
 	if (parts.size() === 0) error(`Invalid relative path: ${path}`, 2);
 	if (parts[0] !== "." && parts[0] !== "..") {
@@ -94,13 +94,11 @@ export function ResolveStringPath(root: Instance, path: string) {
 		}
 
 		if (part === "..") {
-			let parent = current.Parent?.Parent;
+			let parent = current.Parent;
 			if (parent === undefined) error(`No parent found in: ${current}`, 2);
 			current = parent;
 		} else if (part === ".") {
-			const parent = current.Parent;
-			if (parent === undefined) error(`No parent found in: ${current}`, 2);
-			current = parent;
+			// do nothing
 		} else {
 			const child = current.FindFirstChild(part);
 			if (child === undefined)
