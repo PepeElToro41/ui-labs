@@ -106,5 +106,10 @@ export function ResolveStringPath(root: Instance, path: string) {
 			current = child;
 		}
 	}
+
+	if (current.IsA("ModuleScript") === false) {
+		current = current.FindFirstChild("init") ?? current.FindFirstChild("Init")
+	}
+
 	return current;
 }
