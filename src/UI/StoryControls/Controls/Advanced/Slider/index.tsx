@@ -1,22 +1,34 @@
-import React, { useBinding, useCallback, useEffect, useMemo, useRef, useState } from "@rbxts/react";
+import {
+	Instant,
+	Spring,
+	useMotor,
+	useUpdateEffect
+} from "@rbxts/pretty-react-hooks";
+import React, {
+	useBinding,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from "@rbxts/react";
+import { RunService } from "@rbxts/services";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useTween } from "Hooks/Utils/Tween";
 import FrameFill from "UI/Holders/FrameFill";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
+import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
 import InputEntry from "UI/Utils/InputEntry";
 import { Decoders } from "UI/Utils/InputEntry/Decoders";
 import { Filters } from "UI/Utils/InputEntry/Filters";
-import Mark from "./Mark";
-import Rounder from "UI/Styles/Rounder";
-import { Instant, Spring, useMotor, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useTween } from "Hooks/Utils/Tween";
-import { RunService } from "@rbxts/services";
 import { Parsers } from "UI/Utils/InputEntry/Parsers";
+import Mark from "./Mark";
 
 const MIN_MARK_SEPARATION = 15;
 
@@ -32,7 +44,11 @@ function GetPercent(control: AdvancedTypes.Slider, current: number) {
 	return (current - control.Min) / gap;
 }
 
-const ACTIVE_INFO = new TweenInfo(0.08, Enum.EasingStyle.Linear, Enum.EasingDirection.Out);
+const ACTIVE_INFO = new TweenInfo(
+	0.08,
+	Enum.EasingStyle.Linear,
+	Enum.EasingDirection.Out
+);
 
 function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const theme = useTheme();
@@ -42,7 +58,10 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const [percent, setPercent] = useMotor(GetPercent(control, props.Current));
 	const [amount, setAmount] = useState(props.Current);
 	const [markVisible, setMarkVisible] = useState(false);
-	const [sliderState, setSliderState] = useState({ Hovering: false, Dragging: false });
+	const [sliderState, setSliderState] = useState({
+		Hovering: false,
+		Dragging: false
+	});
 	const [handleSize, tweenHandleSize] = useTween(ACTIVE_INFO, 0);
 	const sliderRef = useRef<Frame>();
 
@@ -60,7 +79,9 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 
 		const markAmount = CalculateMarks(control);
 		for (let i = 0; i < markAmount - 1; i++) {
-			const newMark = <Mark Amount={markAmount} Position={i + 1} Percent={percent} />;
+			const newMark = (
+				<Mark Amount={markAmount} Position={i + 1} Percent={percent} />
+			);
 			allMarks.push(newMark);
 		}
 		return allMarks;
@@ -117,35 +138,45 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 				props.Apply(finalAmount);
 			}
 		},
-		[control.Min, control.Max, control.Step, props.Apply, amount],
+		[control.Min, control.Max, control.Step, props.Apply, amount]
 	);
 	const SetPercent = useCallback(
 		(percent: number) => {
 			const amount = percent * (control.Max - control.Min) + control.Min;
 			ApplyAmount(amount);
 		},
-		[ApplyAmount],
+		[ApplyAmount]
 	);
-	const OnStateUpdated = useCallback((state: { hovering: boolean; dragging: boolean }) => {
-		setSliderState({ Hovering: state.hovering, Dragging: state.dragging });
-	}, []);
+	const OnStateUpdated = useCallback(
+		(state: { hovering: boolean; dragging: boolean }) => {
+			setSliderState({ Hovering: state.hovering, Dragging: state.dragging });
+		},
+		[]
+	);
 	const OnInputAbsoluteSizeChanged = useCallback(
 		(entry: Frame) => {
 			if (sliderState.Dragging) return;
 			setInputSize(entry.AbsoluteSize.X);
 		},
-		[sliderState.Dragging],
+		[sliderState.Dragging]
 	);
 
 	return (
 		<Div>
 			<Padding PaddingY={4} />
-			<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 7)} />
+			<LeftList
+				VerticalAlignment={Enum.VerticalAlignment.Center}
+				Padding={new UDim(0, 7)}
+			/>
 			<Div
 				AutomaticSize={sliderState.Dragging ? undefined : Enum.AutomaticSize.X}
-				Size={sliderState.Dragging ? inputSize.map((offset) => new UDim2(0, offset, 1, 0)) : UDim2.fromScale(0, 1)}
+				Size={
+					sliderState.Dragging
+						? inputSize.map((offset) => new UDim2(0, offset, 1, 0))
+						: UDim2.fromScale(0, 1)
+				}
 				Change={{
-					AbsoluteSize: OnInputAbsoluteSizeChanged,
+					AbsoluteSize: OnInputAbsoluteSizeChanged
 				}}
 			>
 				<InputEntry
@@ -156,17 +187,28 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 					Filters={[Filters.NumberOnly]}
 					TextboxProps={{
 						TextSize: 12,
-						Size: sliderState.Dragging ? UDim2.fromScale(1, 1) : UDim2.fromScale(0, 1),
-						AutomaticSize: sliderState.Dragging ? undefined : Enum.AutomaticSize.X,
-						TextXAlignment: Enum.TextXAlignment.Center,
+						Size: sliderState.Dragging
+							? UDim2.fromScale(1, 1)
+							: UDim2.fromScale(0, 1),
+						AutomaticSize: sliderState.Dragging
+							? undefined
+							: Enum.AutomaticSize.X,
+						TextXAlignment: Enum.TextXAlignment.Center
 					}}
 					HolderProps={{
 						LayoutOrder: 1,
-						Size: sliderState.Dragging ? UDim2.fromScale(1, 1) : UDim2.fromScale(0, 1),
-						AutomaticSize: sliderState.Dragging ? undefined : Enum.AutomaticSize.X,
+						Size: sliderState.Dragging
+							? UDim2.fromScale(1, 1)
+							: UDim2.fromScale(0, 1),
+						AutomaticSize: sliderState.Dragging
+							? undefined
+							: Enum.AutomaticSize.X
 					}}
 				>
-					<uisizeconstraint MaxSize={new Vector2(120, math.huge)} MinSize={new Vector2(35, 0)} />
+					<uisizeconstraint
+						MaxSize={new Vector2(120, math.huge)}
+						MinSize={new Vector2(35, 0)}
+					/>
 				</InputEntry>
 			</Div>
 			<FrameFill FillDir="X" FrameProps={{ LayoutOrder: 2 }}>
@@ -179,7 +221,11 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 					TextXAlignment={Enum.TextXAlignment.Right}
 					Position={UDim2.fromScale(0, 0.5)}
 				/>
-				<Div AnchorPoint={new Vector2(0.5, 0.5)} Position={UDim2.fromScale(0.5, 0.5)} Size={new UDim2(1, -75, 1, 0)}>
+				<Div
+					AnchorPoint={new Vector2(0.5, 0.5)}
+					Position={UDim2.fromScale(0.5, 0.5)}
+					Size={new UDim2(1, -75, 1, 0)}
+				>
 					<frame
 						key="Slide"
 						AnchorPoint={new Vector2(0.5, 0.5)}
@@ -197,7 +243,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 								BackgroundTransparency: 1,
 								Position: UDim2.fromScale(0.5, 0.5),
 								Size: new UDim2(1, 0, 0, 15),
-								ZIndex: 3,
+								ZIndex: 3
 							}}
 							SlideDir="X"
 							PercentApply={SetPercent}
@@ -216,7 +262,9 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 								BackgroundColor3={theme.StorySelected.Color}
 								BorderSizePixel={0}
 								Position={new UDim2(1, 0, 0.5, 0)}
-								Size={handleSize.map((a) => UDim2.fromOffset(10 + a * 3, 10 + a * 3))}
+								Size={handleSize.map((a) =>
+									UDim2.fromOffset(10 + a * 3, 10 + a * 3)
+								)}
 							>
 								<Rounder />
 							</frame>
