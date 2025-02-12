@@ -80,7 +80,7 @@ export async function LoadVirtualModule(
 
 export function ResolveStringPath(root: Instance, path: string) {
 	const parts = path.split("/");
-	let current: Instance = root.Parent;
+	let current: Instance = root.Parent!;
 
 	if (parts.size() === 0) error(`Invalid relative path: ${path}`, 2);
 	if (parts[0] !== "." && parts[0] !== "..") {
@@ -108,7 +108,12 @@ export function ResolveStringPath(root: Instance, path: string) {
 	}
 
 	if (current.IsA("ModuleScript") === false) {
-		current = current.FindFirstChild("init") ?? current.FindFirstChild("Init")
+		const initFile =
+			current.FindFirstChild("init") ?? current.FindFirstChild("Init");
+		if (initFile === undefined) {
+			error(`No init file found in: ${current}`, 2);
+		}
+		current = initFile;
 	}
 
 	return current;
