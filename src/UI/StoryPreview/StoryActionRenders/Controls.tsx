@@ -224,7 +224,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 				CanvasSize={UDim2.fromScale(0, 0)}
 				Position={UDim2.fromOffset(0, 28)}
 			>
-				<TopList Padding={new UDim(0, 3)} />
+				<TopList Padding={new UDim(0, 3)} SortOrder={Enum.SortOrder.Name} />
 				{controlComponents}
 			</scrollingframe>
 		</Div>
