@@ -25,9 +25,8 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 	const [expanded, expandedApi] = useToggler(false);
 	const theme = useTheme();
 
-	const orderKey = `${string.format("%03d", props.Order ?? 0)}-${props.GroupName}`;
 	return (
-		<Div Name={orderKey} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y}>
+		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y}>
 			<frame
 				key={"HoverOverlay"}
 				BackgroundColor3={new Color3(0, 0, 0)}
@@ -74,7 +73,7 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 				<Div key={"Controls"} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} Visible={expanded} LayoutOrder={2}>
 					<Padding Left={25} Bottom={1} />
 					<Div key={"ControlContents"}>
-						<TopList Padding={new UDim(0, 3)} SortOrder={Enum.SortOrder.Name} />
+						<TopList Padding={new UDim(0, 3)} />
 						{props["children"] ?? []}
 					</Div>
 					<Divisor Direction="Y" Position={UDim2.fromScale(0, 0.5)} Anchor={0.5} />

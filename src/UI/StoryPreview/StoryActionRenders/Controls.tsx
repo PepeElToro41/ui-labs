@@ -26,6 +26,23 @@ import Divisor from "UI/Utils/Divisor";
 import ImageButton from "UI/Utils/ImageButton";
 import { ParametrizeControls } from "../PreviewController/Mounters/Utils";
 
+function useSortedControls(controls: ConvertedControls) {
+	return useMemo(() => {
+		const sortedControls: { name: string; control: ConvertedControls[string] }[] = [];
+		for (const [name, control] of pairs(controls)) {
+			sortedControls.push({ name, control });
+		}
+
+		table.sort(sortedControls, (a, b) => {
+			if (a.control.Order !== undefined && b.control.Order !== undefined && a.control.Order !== b.control.Order)
+				return a.control.Order < b.control.Order;
+			if (a.name !== b.name) return a.name < b.name;
+			return false;
+		});
+		return sortedControls;
+	}, [controls]);
+}
+
 function CreateControlRender<T extends ObjectControl>(
 	control: T,
 	current: T["ControlValue"],
@@ -43,9 +60,10 @@ function RenderControlGroup(
 	groupValues: ParametrizedControls,
 	update: (value: ParametrizedControls) => void
 ) {
-	const controls: ReactChildren = new Map();
+	const sortedControls = useSortedControls(controlGroup.Controls);
+	const controlComponents: ReactChildren = [];
 
-	for (const [name, control] of pairs(controlGroup.Controls)) {
+	for (const { name, control } of sortedControls) {
 		const controlValue = groupValues[name] as ControlValue;
 
 		const renderedControl = RenderControl(
@@ -60,11 +78,11 @@ function RenderControlGroup(
 				);
 			}
 		);
-		controls.set(name, renderedControl);
+		controlComponents.push(renderedControl);
 	}
 	return (
 		<ControlGroupRender GroupName={name} Order={controlGroup.Order}>
-			{controls}
+			{controlComponents}
 		</ControlGroupRender>
 	);
 }
@@ -132,10 +150,12 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 		props.SetControlValues(newControls as T);
 	}, [props.Controls]);
 
-	const controlComponents = useMemo(() => {
-		const components: ReactChildren = new Map();
+	const sortedControls = useSortedControls(props.Controls);
 
-		for (const [name, control] of pairs(props.Controls)) {
+	const controlComponents = useMemo(() => {
+		const components: ReactChildren = [];
+
+		for (const { name, control } of sortedControls) {
 			if (control.EntryType === "ControlGroup") {
 				const groupValues = props.ControlValues[name] as ParametrizedControls;
 				const render = RenderControlGroup(
@@ -146,7 +166,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 						SetControlByIndex(name, values as T[keyof T]);
 					}
 				);
-				components.set(name, render);
+				components.push(render);
 				continue;
 			}
 
@@ -154,11 +174,11 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 			const render = RenderControl(name, control, controlValue, (value) => {
 				SetControlByIndex(name, value as T[keyof T]);
 			});
-			components.set(name, render);
+			components.push(render);
 		}
 
 		return components;
-	}, [props.Controls, props.ControlValues, SetControlByIndex]);
+	}, [sortedControls, props.ControlValues, SetControlByIndex]);
 
 	return (
 		<Div key={"ControlsAction"}>
