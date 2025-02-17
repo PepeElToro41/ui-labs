@@ -32,8 +32,9 @@ function ControlHolder(setprops: ControlHolderProps) {
 		);
 	}, [props.ControlReset]);
 
+	const orderKey = `${string.format("%03d", props.Order ?? 1)}-${props.GroupName}`
 	return (
-		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={props.Order ?? 1}>
+		<Div Name={orderKey} Size={new UDim2(1, 0, 0, 35)}>
 			<frame
 				BackgroundColor3={new Color3(0, 0, 0)}
 				Size={UDim2.fromScale(1, 1)}
