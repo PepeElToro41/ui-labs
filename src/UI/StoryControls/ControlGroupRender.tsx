@@ -73,7 +73,7 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 				<Div key={"Controls"} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} Visible={expanded} LayoutOrder={2}>
 					<Padding Left={25} Bottom={1} />
 					<Div key={"ControlContents"}>
-						<TopList Padding={new UDim(0, 3)} SortOrder={Enum.SortOrder.Name} />
+						<TopList Padding={new UDim(0, 3)} />
 						{props["children"] ?? []}
 					</Div>
 					<Divisor Direction="Y" Position={UDim2.fromScale(0, 0.5)} Anchor={0.5} />
