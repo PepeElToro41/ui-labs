@@ -25,7 +25,7 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 	const [expanded, expandedApi] = useToggler(false);
 	const theme = useTheme();
 
-	const orderKey = `${string.format("%03d", props.Order ?? 0)}-${props.GroupName}`
+	const orderKey = `${string.format("%03d", props.Order ?? 0)}-${props.GroupName}`;
 	return (
 		<Div Name={orderKey} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y}>
 			<frame
