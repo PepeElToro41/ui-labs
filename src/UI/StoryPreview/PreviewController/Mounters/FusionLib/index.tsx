@@ -81,17 +81,19 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			}
 		});
 		if (value) {
-			if (typeIs(value, "Instance")) {
+			if (typeIs(value, "function")) {
+				return value;
+			} else {
 				if (version === "Fusion3") {
 					const scope = Cast<Fusion3>(fusion);
 					scope.Hydrate(props.MountFrame)({
 						[fusion.Children]: value
 					});
 				} else {
-					return () => value.Destroy();
+					fusion.Hydrate(props.MountFrame)({
+						[fusion.Children]: value
+					});
 				}
-			} else {
-				return value;
 			}
 		} else {
 			return undefined;

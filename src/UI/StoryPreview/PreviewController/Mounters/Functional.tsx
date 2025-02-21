@@ -1,8 +1,7 @@
-import React, { useRef } from "@rbxts/react";
-import { useEffect } from "@rbxts/react";
-import { MounterProps } from ".";
-import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import React, { useEffect, useRef } from "@rbxts/react";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
+import { MounterProps } from ".";
 
 const FUNCTIONAL_ERR = WARNING_STORY_TYPES.Functional;
 
@@ -10,14 +9,18 @@ function Functional(props: MounterProps<"Functional">) {
 	const unmounter = useRef<() => void>();
 
 	useEffect(() => {
-		unmounter.current = YCall(props.Result, props.MountFrame, (didYield, err) => {
-			print("ERR", err);
-			if (didYield) {
-				UILabsWarn(WARNINGS.Yielding.format(FUNCTIONAL_ERR));
-			} else {
-				UILabsWarn(WARNINGS.StoryError.format(FUNCTIONAL_ERR), err);
+		unmounter.current = YCall(
+			props.Result,
+			props.MountFrame,
+			(didYield, err) => {
+				print("ERR", err);
+				if (didYield) {
+					UILabsWarn(WARNINGS.Yielding.format(FUNCTIONAL_ERR));
+				} else {
+					UILabsWarn(WARNINGS.StoryError.format(FUNCTIONAL_ERR), err);
+				}
 			}
-		});
+		);
 	}, []);
 
 	props.UnmountSignal.Connect(() => {
