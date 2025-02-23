@@ -49,6 +49,9 @@ const initialState: StoryPreviewState = {
 	latestViewOnViewport: false
 };
 
+const MIN_ZOOM = 5;
+const MAX_ZOOM = 26000;
+
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
 export const selectStoryPreviews = (state: RootState) =>
 	selectStoryPreview(state).mountPreviews;
@@ -292,16 +295,33 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			draft.mountPreviews.set(current.Key, updatedData);
 		});
 	},
-	addZoom: (state, key: string, zoomDelta: number) => {
+	/**
+	 * Zooms by adding a delta.
+	 * A positive delta zooms in. (100 applies a +100% zoom)
+	 * Optionally, providing an offset of the cursor relative to the holder offset will ensure that the content at that location keeps its location on the screen.
+	 */
+	addZoom: (state, key: string, zoomDelta: number, cursorOffset?: Vector2) => {
 		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
-		const newZoom = current.Zoom + zoomDelta;
-		if (newZoom < 5) return state;
+		const newZoom = math.clamp(current.Zoom + zoomDelta, MIN_ZOOM, MAX_ZOOM);
+
+		if (newZoom === current.Zoom) return state;
+
+		let newOffset: Vector2;
+		if (cursorOffset) {
+			const scalingFactor = newZoom / current.Zoom;
+			const offsetAdjustment = cursorOffset.mul(1 - scalingFactor);
+			newOffset = current.Offset.add(offsetAdjustment);
+		} else {
+			newOffset = current.Offset;
+		}
+
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
 				...current,
-				Zoom: newZoom
+				Zoom: newZoom,
+				Offset: newOffset
 			});
 		});
 	},
@@ -309,7 +329,8 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
-		if (zoom < 5) return state;
+		const newZoom = math.clamp(zoom, MIN_ZOOM, MAX_ZOOM);
+		if (newZoom === current.Zoom) return state;
 		return Immut.produce(state, (draft) => {
 			draft.mountPreviews.set(key, {
 				...current,
