@@ -298,7 +298,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	/**
 	 * Zooms by adding a delta.
 	 * A positive delta zooms in. (100 applies a +100% zoom)
-	 * Optionally, providing an offset of the cursor relative to the holder offset will ensure that the content at that location keeps its location on the screen.
+	 * Optionally, providing an offset of the cursor relative to the holder's anchor will ensure that the content at that location stays in place.
 	 */
 	addZoom: (state, key: string, zoomDelta: number, cursorOffset?: Vector2) => {
 		const current = GetEntryByKey(state.mountPreviews, key);
