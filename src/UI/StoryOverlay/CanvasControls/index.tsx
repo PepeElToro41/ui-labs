@@ -50,7 +50,7 @@ function CanvasControls(props: CanvasControlsProps) {
 					}
 					addZoom(
 						props.PreviewEntry.Key,
-						input.Position.Z * 5,
+						input.Position.Z * 20,
 						cursorRelativeToAnchor
 					);
 				}
