@@ -49,7 +49,7 @@ const initialState: StoryPreviewState = {
 	latestViewOnViewport: false
 };
 
-const MIN_ZOOM = 5;
+const MIN_ZOOM = 10;
 const MAX_ZOOM = 26000;
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
