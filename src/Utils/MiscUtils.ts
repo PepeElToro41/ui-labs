@@ -33,9 +33,12 @@ export function YCall<T, U>(
 		return debug.traceback(tostring(err), 3);
 	};
 	const [resume_ok, run_ok, result] = coroutine.resume(thread, fn, efn, arg);
-	if (!resume_ok || !run_ok) return err(false, result as never) as undefined;
 
-	if (coroutine.status(thread) !== "dead") return err(true, "") as undefined;
+	if (coroutine.status(thread) !== "dead") {
+		return err(true, "") as undefined;
+	}
+
+	if (!resume_ok || !run_ok) return err(false, result as never) as undefined;
 
 	return result as U;
 }
