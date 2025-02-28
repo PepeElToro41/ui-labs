@@ -20,6 +20,7 @@ function ZoomOut(props: ToolButtonProps) {
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
 			Shortcut={Enum.KeyCode.Minus}
+			ShortcutModifier={Enum.ModifierKey.Ctrl}
 		/>
 	);
 }

@@ -22,14 +22,14 @@ function ToastInfo(setprops: ToastInfoProps) {
 	useDebounceEffect(() => setToastRender(undefined), [toastRender], { wait: 0.6 });
 	useUpdateEffect(() => {
 		const renderMap: ReactChildren = new Map();
-		renderMap.set("ZoomDisplay", <ToastInfoRender InfoText={`Zoom: ${entry.Zoom}%`} />);
-		setToastRender(renderMap);
-	}, [entry.Zoom]);
-	useUpdateEffect(() => {
-		const renderMap: ReactChildren = new Map();
-		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${entry.Offset}]`} />);
+		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${math.round(entry.Offset.X)}, ${math.round(entry.Offset.Y)}]`} />);
 		setToastRender(renderMap);
 	}, [entry.Offset]);
+	useUpdateEffect(() => {
+		const renderMap: ReactChildren = new Map();
+		renderMap.set("ZoomDisplay", <ToastInfoRender InfoText={`Zoom: ${math.round(entry.Zoom)}%`} />);
+		setToastRender(renderMap);
+	}, [entry.Zoom]);
 	useUpdateEffect(() => {
 		const renderMap: ReactChildren = new Map();
 		renderMap.set("FullscreenMode", <ToastInfoRender InfoText={`Fullscreen Mode: ${fullscreen ? "On" : "Off"}`} />);
