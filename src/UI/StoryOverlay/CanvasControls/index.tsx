@@ -1,14 +1,13 @@
 import Immut from "@rbxts/immut";
 import { useEventListener } from "@rbxts/pretty-react-hooks";
-import React, {
-	useBinding,
-	useCallback,
-	useEffect,
-	useState
-} from "@rbxts/react";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { RunService } from "@rbxts/services";
-import { useInputBegan, useInputEnded } from "Hooks/Context/UserInput";
+import {
+	useInputBegan,
+	useInputEnded,
+	useMousePos
+} from "Hooks/Context/UserInput";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { Div } from "UI/Styles/Div";
 
@@ -17,7 +16,7 @@ interface CanvasControlsProps {
 }
 
 function CanvasControls(props: CanvasControlsProps) {
-	const [mousePos, setMousePos] = useBinding<Vector2>(new Vector2());
+	const mousePos = useMousePos();
 	const [inside, insideApi] = useToggler(false);
 	const [middleClicked, setMiddleClicked] = useState(false);
 	const [leftClicked, setLeftClicked] = useState(false);
@@ -31,9 +30,7 @@ function CanvasControls(props: CanvasControlsProps) {
 
 	const OnInputChanged = useCallback(
 		(_: Frame, input: InputObject) => {
-			if (input.UserInputType === Enum.UserInputType.MouseMovement) {
-				setMousePos(new Vector2(input.Position.X, input.Position.Y));
-			} else if (input.UserInputType === Enum.UserInputType.MouseWheel) {
+			if (input.UserInputType === Enum.UserInputType.MouseWheel) {
 				if (ctrlClicked || shiftClicked) {
 					let cursorRelativeToAnchor: Vector2 | undefined;
 					// Ctrl-Zoom zooms towards the cursor
