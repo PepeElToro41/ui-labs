@@ -1,17 +1,22 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
-import { CreateReactStory, EnumList, InferControls, Number, Ordered } from "@rbxts/ui-labs";
+import {
+	CreateReactStory,
+	EnumList,
+	InferControls,
+	Number
+} from "@rbxts/ui-labs";
 import { Counter } from "Utils/NumberUtils";
 
 const count = Counter(0);
 
 const controls = {
-	test1: Ordered(true, count()),
-	test2: Ordered(false, count()),
-	test3: Ordered(10, count()),
-	test4: Ordered(Number(10), count()),
-	test5: Ordered("Hello", count()),
-	test6: Ordered(new Color3(1, 0, 0), count()),
+	test1: true,
+	test2: false,
+	test3: 10,
+	test4: Number(10),
+	test5: "Hello",
+	test6: new Color3(1, 0, 0),
 	enumList: EnumList(
 		{
 			Enum1: 2,
@@ -28,10 +33,10 @@ const controls = {
 			Enum12: 10,
 			Enum13: 11,
 			Enum14: 12,
-			Enum15: 13,
+			Enum15: 13
 		},
-		"Enum1",
-	),
+		"Enum1"
+	)
 };
 
 function StoryCreate(props: { Controls: InferControls<typeof controls> }) {
@@ -43,11 +48,11 @@ const returnStory = CreateReactStory(
 		summary: "",
 		react: React,
 		reactRoblox: ReactRoblox,
-		controls: controls,
+		controls: controls
 	},
 	(props) => {
 		return <StoryCreate Controls={props.controls} />;
-	},
+	}
 );
 
 export = returnStory;
