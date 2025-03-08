@@ -81,17 +81,19 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 			}
 		});
 		if (value) {
-			if (typeIs(value, "Instance")) {
+			if (typeIs(value, "function")) {
+				return value;
+			} else {
 				if (version === "Fusion3") {
 					const scope = Cast<Fusion3>(fusion);
 					scope.Hydrate(props.MountFrame)({
 						[fusion.Children]: value
 					});
 				} else {
-					return () => value.Destroy();
+					fusion.Hydrate(props.MountFrame)({
+						[fusion.Children]: value
+					});
 				}
-			} else {
-				return value;
 			}
 		} else {
 			return undefined;
@@ -106,12 +108,6 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 					UILabsWarn(WARNINGS.CleanupError, err);
 				}
 			});
-		} else {
-			if (version === "Fusion2") {
-				warn(
-					"UI Labs: No cleanup function was returned for Fusion 0.2, there's no way to cleanup the story."
-				);
-			}
 		}
 		if (version === "Fusion3") {
 			Cast<Fusion3>(fusion).doCleanup(fusion);

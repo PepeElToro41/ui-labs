@@ -21,6 +21,7 @@ function ZoomIn(props: ToolButtonProps) {
 			OnRightClick={props.OnRightClick}
 			Order={props.Order}
 			Shortcut={Enum.KeyCode.Equals}
+			ShortcutModifier={Enum.ModifierKey.Ctrl}
 		/>
 	);
 }
