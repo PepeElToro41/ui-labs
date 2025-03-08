@@ -5,13 +5,18 @@ import React, {
 	useCallback,
 	useMemo
 } from "@rbxts/react";
-import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
+import {
+	useProducer,
+	useSelector,
+	useSelectorCreator
+} from "@rbxts/react-reflex";
 import { ControlGroup } from "@rbxts/ui-labs";
 import {
 	ConvertedControlList,
 	ConvertedControls,
 	ObjectControl
 } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { selectSortMode, SortMode } from "Reflex/PluginSettings";
 import { selectPreview } from "Reflex/StoryPreview";
 import ControlGroupRender from "UI/StoryControls/ControlGroupRender";
 import ControlHolder from "UI/StoryControls/ControlHolder";
@@ -24,23 +29,81 @@ import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 import Divisor from "UI/Utils/Divisor";
 import ImageButton from "UI/Utils/ImageButton";
+import { Counter } from "Utils/NumberUtils";
 import { ParametrizeControls } from "../PreviewController/Mounters/Utils";
 
+interface SortEntry {
+	name: string;
+	control: ObjectControl | ControlGroup<ConvertedControlList>;
+}
+type SortFunction = (a: SortEntry, b: SortEntry) => boolean;
+
+function OrderSort(a: SortEntry, b: SortEntry) {
+	return (a.control.Order ?? 0) < (b.control.Order ?? 0);
+}
+
+function NameSort(a: SortEntry, b: SortEntry) {
+	if (
+		a.control.Order !== undefined &&
+		b.control.Order !== undefined &&
+		a.control.Order !== b.control.Order
+	)
+		return OrderSort(a, b);
+	if (a.name !== b.name) return a.name < b.name;
+	return false;
+}
+
+const count = Counter();
+const CONTROL_TYPE_ORDERS: Record<
+	ObjectControl["Type"] | "ControlGroup",
+	number
+> = {
+	Color3: count(),
+	String: count(),
+	Number: count(),
+	Boolean: count(),
+	Choose: count(),
+	EnumList: count(),
+	RGBA: count(),
+	Slider: count(),
+	Object: count(),
+	ControlGroup: count()
+};
+
+function ControlTypeSort(a: SortEntry, b: SortEntry) {
+	const typeA =
+		a.control.EntryType === "Control" ? a.control.Type : a.control.EntryType;
+	const typeB =
+		b.control.EntryType === "Control" ? b.control.Type : b.control.EntryType;
+
+	const orderA = CONTROL_TYPE_ORDERS[typeA] ?? math.huge;
+	const orderB = CONTROL_TYPE_ORDERS[typeB] ?? math.huge;
+
+	if (orderA === orderB) return OrderSort(a, b);
+	return orderA < orderB;
+}
+
+const CONTROL_SORTERS: Record<SortMode, SortFunction> = {
+	Order: OrderSort,
+	Name: NameSort,
+	ControlType: ControlTypeSort
+};
+
 function useSortedControls(controls: ConvertedControls) {
+	const sortMode = useSelector(selectSortMode);
+
 	return useMemo(() => {
-		const sortedControls: { name: string; control: ConvertedControls[string] }[] = [];
+		const sortedControls: {
+			name: string;
+			control: ObjectControl | ControlGroup<ConvertedControlList>;
+		}[] = [];
 		for (const [name, control] of pairs(controls)) {
 			sortedControls.push({ name, control });
 		}
 
-		table.sort(sortedControls, (a, b) => {
-			if (a.control.Order !== undefined && b.control.Order !== undefined && a.control.Order !== b.control.Order)
-				return a.control.Order < b.control.Order;
-			if (a.name !== b.name) return a.name < b.name;
-			return false;
-		});
+		table.sort(sortedControls, CONTROL_SORTERS[sortMode]);
 		return sortedControls;
-	}, [controls]);
+	}, [controls, sortMode]);
 }
 
 function CreateControlRender<T extends ObjectControl>(
@@ -61,14 +124,14 @@ function RenderControlGroup(
 	update: (value: ParametrizedControls) => void
 ) {
 	const sortedControls = useSortedControls(controlGroup.Controls);
-	const controlComponents: ReactChildren = [];
+	const controlComponents: React.Element[] = [];
 
 	for (const { name, control } of sortedControls) {
 		const controlValue = groupValues[name] as ControlValue;
 
 		const renderedControl = RenderControl(
 			name,
-			control,
+			control as ObjectControl,
 			controlValue,
 			(value) => {
 				update(
@@ -153,7 +216,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 	const sortedControls = useSortedControls(props.Controls);
 
 	const controlComponents = useMemo(() => {
-		const components: ReactChildren = [];
+		const components: React.Element[] = [];
 
 		for (const { name, control } of sortedControls) {
 			if (control.EntryType === "ControlGroup") {

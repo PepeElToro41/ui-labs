@@ -1,10 +1,13 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { PluginSettingsState, selectPluginSettings } from "Reflex/PluginSettings";
-import { usePlugin } from "../Use/Plugin";
 import { useMemo } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import Configs from "Plugin/Configs";
+import {
+	PluginSettingsState,
+	selectPluginSettings
+} from "Reflex/PluginSettings";
 import { selectTheme } from "Reflex/Theme";
+import { usePlugin } from "../Use/Plugin";
 
 export function controlPluginSettings() {
 	const plugin = usePlugin();
@@ -14,7 +17,10 @@ export function controlPluginSettings() {
 
 	useMemo(() => {
 		if (plugin === undefined) return;
-		const settings = plugin.GetSetting(Configs.PluginSettingsKey) as PluginSettingsState;
+		const settings = plugin.GetSetting(
+			Configs.PluginSettingsKey
+		) as PluginSettingsState;
+
 		if (settings === undefined) return;
 
 		setPluginSettings(settings);
