@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useCallback } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { useMouseOffset } from "Hooks/Context/UserInput";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import ControlDropdown from "UI/Overlays/Dropdown/ControlDropdown";
 import { Detector } from "UI/Styles/Detector";
@@ -10,16 +11,12 @@ import Text from "UI/Styles/Text";
 
 interface ControlHolderProps extends PropsWithChildren {
 	ControlName: string;
+	LayoutOrder?: number;
 	ControlReset: () => void;
-	Order?: number;
 }
 
-function setProps(props: ControlHolderProps) {
-	return props as Required<ControlHolderProps>;
-}
-
-function ControlHolder(setprops: ControlHolderProps) {
-	const props = setProps(setprops);
+function ControlHolder(props: ControlHolderProps) {
+	const theme = useTheme();
 	const [hovered, hoverApi] = useToggler(false);
 	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
@@ -33,11 +30,12 @@ function ControlHolder(setprops: ControlHolderProps) {
 	}, [props.ControlReset]);
 
 	return (
-		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={props.Order ?? 1}>
+		<Div Size={new UDim2(1, 0, 0, 35)} LayoutOrder={props.LayoutOrder}>
 			<frame
-				BackgroundColor3={new Color3(0, 0, 0)}
+				BackgroundColor3={theme.StoryPanel.DarkColor}
 				Size={UDim2.fromScale(1, 1)}
-				BackgroundTransparency={0.9}
+				BackgroundTransparency={0.6}
+				BorderSizePixel={0}
 				Visible={hovered}
 			/>
 			<Div key={"ControlContents"}>

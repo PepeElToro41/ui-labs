@@ -1,6 +1,7 @@
 import { createProducer } from "@rbxts/reflex";
 
-type ToolbarPosition = "Floating" | "Anchored";
+export type ToolbarPosition = "Floating" | "Anchored";
+export type SortMode = "Order" | "Name" | "ControlType";
 
 export interface PluginSettingsState {
 	toolbarPosition: "Floating" | "Anchored";
@@ -9,6 +10,7 @@ export interface PluginSettingsState {
 	keepViewOnViewport: boolean;
 	actionsPinned: boolean;
 	studioMode: boolean;
+	sortMode: SortMode;
 	theme: ThemeName;
 }
 
@@ -19,16 +21,32 @@ const initialState: PluginSettingsState = {
 	keepViewOnViewport: true,
 	actionsPinned: true,
 	studioMode: false,
-	theme: "Dark",
+	sortMode: "Order",
+	theme: "Dark"
 };
 
 export const selectPluginSettings = (state: RootState) => state.pluginSettings;
-export const selectToolbarPosition = (state: RootState) => selectPluginSettings(state).toolbarPosition;
-export const selectClearOutputOnReload = (state: RootState) => selectPluginSettings(state).clearOutputOnReload;
-export const selectShortcutsEnabled = (state: RootState) => selectPluginSettings(state).shortcutsEnabled;
-export const selectKeepViewOnViewport = (state: RootState) => selectPluginSettings(state).keepViewOnViewport;
-export const selectActionsPinned = (state: RootState) => selectPluginSettings(state).actionsPinned;
-export const selectStudioMode = (state: RootState) => selectPluginSettings(state).studioMode;
+
+export const selectToolbarPosition = (state: RootState) =>
+	selectPluginSettings(state).toolbarPosition;
+
+export const selectClearOutputOnReload = (state: RootState) =>
+	selectPluginSettings(state).clearOutputOnReload;
+
+export const selectShortcutsEnabled = (state: RootState) =>
+	selectPluginSettings(state).shortcutsEnabled;
+
+export const selectKeepViewOnViewport = (state: RootState) =>
+	selectPluginSettings(state).keepViewOnViewport;
+
+export const selectActionsPinned = (state: RootState) =>
+	selectPluginSettings(state).actionsPinned;
+
+export const selectStudioMode = (state: RootState) =>
+	selectPluginSettings(state).studioMode;
+
+export const selectSortMode = (state: RootState) =>
+	selectPluginSettings(state).sortMode;
 
 export const PluginSettingsProducer = createProducer(initialState, {
 	setPluginSettings: (state, newSettings: Partial<PluginSettingsState>) => {
@@ -38,37 +56,43 @@ export const PluginSettingsProducer = createProducer(initialState, {
 	setToolbarPosition: (state, position: ToolbarPosition) => {
 		return {
 			...state,
-			toolbarPosition: position,
+			toolbarPosition: position
 		};
 	},
 	toggleClearOutputOnReload: (state) => {
 		return {
 			...state,
-			clearOutputOnReload: !state.clearOutputOnReload,
+			clearOutputOnReload: !state.clearOutputOnReload
 		};
 	},
 	toggleShortcutsEnabled: (state) => {
 		return {
 			...state,
-			shortcutsEnabled: !state.shortcutsEnabled,
+			shortcutsEnabled: !state.shortcutsEnabled
 		};
 	},
 	toggleKeepViewOnViewport: (state) => {
 		return {
 			...state,
-			keepViewOnViewport: !state.keepViewOnViewport,
+			keepViewOnViewport: !state.keepViewOnViewport
 		};
 	},
 	toggleStudioMode: (state) => {
 		return {
 			...state,
-			studioMode: !state.studioMode,
+			studioMode: !state.studioMode
 		};
 	},
 	setActionsPinned: (state, pinned: boolean) => {
 		return {
 			...state,
-			actionsPinned: pinned,
+			actionsPinned: pinned
 		};
 	},
+	setSortMode: (state, sortMode: SortMode) => {
+		return {
+			...state,
+			sortMode: sortMode
+		};
+	}
 });

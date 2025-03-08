@@ -1,24 +1,28 @@
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
-import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { useTween } from "Hooks/Utils/Tween";
-import { Detector } from "UI/Styles/Detector";
-import { Div } from "UI/Styles/Div";
-import Text from "UI/Styles/Text";
-import { useToggler } from "Hooks/Utils/Toggler";
-import StoryDropdown from "UI/Overlays/Dropdown/StoryDropdown";
+import {
+	useProducer,
+	useSelector,
+	useSelectorCreator
+} from "@rbxts/react-reflex";
+import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
-import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useToggler } from "Hooks/Utils/Toggler";
+import { useTween } from "Hooks/Utils/Tween";
 import Configs from "Plugin/Configs";
-import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import { useDescriptionDisplay } from "Context/DescriptionContext";
-import { CreateInstancePath, EncodeInstancePath } from "Utils/InstanceUtils";
 import { selectKeepViewOnViewport } from "Reflex/PluginSettings";
-import Padding from "UI/Styles/Padding";
+import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
+import StoryDropdown from "UI/Overlays/Dropdown/StoryDropdown";
 import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
+import Padding from "UI/Styles/Padding";
+import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
+import { CreateInstancePath, EncodeInstancePath } from "Utils/InstanceUtils";
 
 interface StoryProps {
 	Node: StoryNode;
@@ -27,7 +31,11 @@ interface StoryProps {
 	Visible?: boolean;
 }
 
-const TRANSPARENCY_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
+const TRANSPARENCY_INFO = new TweenInfo(
+	0.3,
+	Enum.EasingStyle.Quad,
+	Enum.EasingDirection.Out
+);
 
 function setProps(props: StoryProps) {
 	props.Visible = props.Visible ?? true;
@@ -37,10 +45,16 @@ function setProps(props: StoryProps) {
 function Story(setprops: StoryProps) {
 	const props = setProps(setprops);
 	const [hovered, hoverApi] = useToggler(false);
-	const [transparency, tweenTransparency, setTransparency] = useTween(TRANSPARENCY_INFO, 1);
-	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.Node.Module);
+	const [transparency, tweenTransparency, setTransparency] = useTween(
+		TRANSPARENCY_INFO,
+		1
+	);
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(
+		props.Node.Module
+	);
 
-	const { toggleMount, setPopup, resetIdentifiedOverlay } = useProducer<RootProducer>();
+	const { toggleMount, setPopup, resetIdentifiedOverlay } =
+		useProducer<RootProducer>();
 	const keepViewOnViewport = useSelector(selectKeepViewOnViewport);
 	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
 	const mountAmount = useSelectorCreator(selectMountAmount, props.Node.Module);
@@ -73,10 +87,17 @@ function Story(setprops: StoryProps) {
 		setTransparency(hovered ? 0.6 : 1);
 	}, [hovered, selected]);
 
-	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module, keepViewOnViewport), [props.Node, keepViewOnViewport]);
+	const OnStorySelected = useCallback(
+		() => toggleMount(props.Node.Module, keepViewOnViewport),
+		[props.Node, keepViewOnViewport]
+	);
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setPopup("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);
+		setPopup(
+			"StoryDropdown",
+			<StoryDropdown Position={offset} Node={props.Node} />,
+			props.Node.Module
+		);
 	}, [mouseOffset, props.Node]);
 
 	const textColor = selected ? theme.Text.Inverted : theme.Text.Color;
@@ -86,7 +107,11 @@ function Story(setprops: StoryProps) {
 	});
 
 	return (
-		<Div key={props.Node.Name} LayoutOrder={props.Order} Size={new UDim2(1, 0, 0, 25)}>
+		<Div
+			key={props.Node.Name}
+			LayoutOrder={props.Order}
+			Size={new UDim2(1, 0, 0, 25)}
+		>
 			<Div key={"Display"}>
 				<Padding Left={14} Right={5} />
 				<frame
@@ -96,13 +121,17 @@ function Story(setprops: StoryProps) {
 				>
 					<Padding PaddingX={6} />
 					<Corner Radius={6} />
-					<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 6)} />
+					<LeftList
+						VerticalAlignment={Enum.VerticalAlignment.Center}
+						Padding={new UDim(0, 6)}
+					/>
 					<Sprite
 						key="Icon"
 						Sprite={"StoryIcon"}
 						ImageProps={{
-							ImageColor3: theme[selected ? "StorySelected" : "Normal"].StoryIcon,
-							Size: new UDim2(0, 16, 0, 18),
+							ImageColor3:
+								theme[selected ? "StorySelected" : "Normal"].StoryIcon,
+							Size: new UDim2(0, 16, 0, 18)
 						}}
 					/>
 					<Text
@@ -151,7 +180,7 @@ function Story(setprops: StoryProps) {
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
 					MouseButton1Click: OnStorySelected,
-					MouseButton2Up: OnStoryDropdown,
+					MouseButton2Up: OnStoryDropdown
 				}}
 			/>
 		</Div>

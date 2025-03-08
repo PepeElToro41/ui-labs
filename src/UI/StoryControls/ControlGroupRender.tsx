@@ -12,21 +12,20 @@ import Sprite from "UI/Utils/Sprite";
 
 interface ControlGroupRenderProps extends PropsWithChildren {
 	GroupName: string;
-	Order?: number;
+	LayoutOrder?: number;
 }
 
-function setProps(props: ControlGroupRenderProps) {
-	return props as Required<ControlGroupRenderProps>;
-}
-
-function ControlGroupRender(setprops: ControlGroupRenderProps) {
-	const props = setProps(setprops);
+function ControlGroupRender(props: ControlGroupRenderProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [expanded, expandedApi] = useToggler(false);
 	const theme = useTheme();
 
 	return (
-		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={props.Order ?? 0}>
+		<Div
+			Size={UDim2.fromScale(1, 0)}
+			LayoutOrder={props.LayoutOrder}
+			AutomaticSize={Enum.AutomaticSize.Y}
+		>
 			<frame
 				key={"HoverOverlay"}
 				BackgroundColor3={new Color3(0, 0, 0)}
@@ -40,13 +39,16 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 					<Div key={"GroupContents"}>
 						<Padding PaddingX={8} />
 						<Div key={"TitleLabel"}>
-							<LeftList Padding={new UDim(0, 5)} VerticalAlignment={Enum.VerticalAlignment.Center} />
+							<LeftList
+								Padding={new UDim(0, 5)}
+								VerticalAlignment={Enum.VerticalAlignment.Center}
+							/>
 							<Sprite
 								key="ExpandIcon"
 								Sprite={expanded ? "Collapse" : "Expand"}
 								ImageProps={{
 									ImageColor3: theme.Icon.Color,
-									Size: new UDim2(0, 16, 0, 16),
+									Size: new UDim2(0, 16, 0, 16)
 								}}
 							/>
 							<Text
@@ -66,17 +68,27 @@ function ControlGroupRender(setprops: ControlGroupRenderProps) {
 						Event={{
 							MouseEnter: hoverApi.enable,
 							MouseLeave: hoverApi.disable,
-							MouseButton1Click: expandedApi.toggle,
+							MouseButton1Click: expandedApi.toggle
 						}}
 					/>
 				</Div>
-				<Div key={"Controls"} Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} Visible={expanded} LayoutOrder={2}>
+				<Div
+					key={"Controls"}
+					Size={UDim2.fromScale(1, 0)}
+					AutomaticSize={Enum.AutomaticSize.Y}
+					Visible={expanded}
+					LayoutOrder={2}
+				>
 					<Padding Left={25} Bottom={1} />
 					<Div key={"ControlContents"}>
 						<TopList Padding={new UDim(0, 3)} />
 						{props["children"] ?? []}
 					</Div>
-					<Divisor Direction="Y" Position={UDim2.fromScale(0, 0.5)} Anchor={0.5} />
+					<Divisor
+						Direction="Y"
+						Position={UDim2.fromScale(0, 0.5)}
+						Anchor={0.5}
+					/>
 				</Div>
 			</Div>
 		</Div>
