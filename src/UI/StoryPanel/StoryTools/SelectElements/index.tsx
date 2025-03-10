@@ -6,7 +6,7 @@ import { useToolbarHovered } from "Context/StoryPanelContext";
 import {
 	useInputBegan,
 	useInputEnded,
-	useMousePos,
+	useMousePos
 } from "Hooks/Context/UserInput";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { Div } from "UI/Styles/Div";
@@ -29,7 +29,7 @@ function GetSelectedGuis(root?: Frame) {
 
 		return selections.filter(
 			(selection) =>
-				selection.IsA("GuiObject") && selection.IsDescendantOf(root),
+				selection.IsA("GuiObject") && selection.IsDescendantOf(root)
 		);
 	};
 }
@@ -41,7 +41,7 @@ function SelectElements(props: SelectElementsProps) {
 		useProducer<RootProducer>();
 	const holder = props.PreviewEntry.Holder;
 	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(
-		GetSelectedGuis(holder),
+		GetSelectedGuis(holder)
 	);
 	const [passThrough, setPassThrough] = useState(false);
 	const inputBegan = useInputBegan();
