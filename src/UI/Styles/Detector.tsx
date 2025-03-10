@@ -1,8 +1,8 @@
-import React from "@rbxts/react";
+import React, { forwardRef } from "@rbxts/react";
 
 interface DetectorProps extends React.InstanceProps<TextButton> {}
 
-export function Detector(props: DetectorProps) {
+export const Detector = forwardRef<TextButton, DetectorProps>((props, ref) => {
 	return (
 		<textbutton
 			BackgroundTransparency={1}
@@ -10,7 +10,8 @@ export function Detector(props: DetectorProps) {
 			Text={""}
 			Size={new UDim2(1, 0, 1, 0)}
 			AutoButtonColor={false}
+			ref={ref}
 			{...props}
 		></textbutton>
 	);
-}
+});

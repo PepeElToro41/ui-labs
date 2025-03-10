@@ -22,7 +22,6 @@ function PanelRender(props: PanelRenderProps) {
 
 	const actionTabs = useMemo(() => {
 		const tabs = new Map<string, ActionTabEntry>();
-
 		if (entry) {
 			entry.ActionComponents.forEach((v, i) => tabs.set(i, v));
 		}
@@ -31,38 +30,31 @@ function PanelRender(props: PanelRenderProps) {
 	}, [entry]);
 
 	return (
-		<Div key={"StoryPanel"}>
+		<Div key={"StoryPanel"} LayoutOrder={2}>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
-
 			<Div key={"StoryContents"} LayoutOrder={1}>
 				<LeftList />
-
 				<Div LayoutOrder={2}>
 					<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
-
 					<PreviewControl />
-
 					<StoryOverlay
 						key={"StoryOverlay"}
 						PreviewEntry={props.PreviewEntry}
 					/>
-
 					{entry && !(entry.OnViewport || entry.OnWidget) ? (
 						<StoryTools PreviewEntry={entry} />
 					) : undefined}
 				</Div>
-
 				{toolsContext.ToolbarPosition === "Anchored" && entry ? (
 					<AnchoredToolbar PreviewEntry={entry} />
 				) : undefined}
 			</Div>
-
 			<Div
 				key={"ActionsPanelContainer"}
 				Change={{
 					AbsoluteSize: (rbx) => {
 						setActionsPanelHeight(rbx.AbsoluteSize.Y);
-					},
+					}
 				}}
 			>
 				{entry !== undefined ? (

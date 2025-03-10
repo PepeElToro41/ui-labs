@@ -1,13 +1,13 @@
 import React from "@rbxts/react";
+import { useActionsData } from "Context/StoryPanelContext";
+import { useToolsContext } from "Context/ToolsContext";
 import { Div } from "UI/Styles/Div";
 import Text from "UI/Styles/Text";
 import CanvasControls from "./CanvasControls";
-import ToastInfo from "./ToastInfo";
-import OnWidgetInfo from "./OnWidgetInfo";
-import OnViewportInfo from "./OnViewportInfo";
 import LeftToolbar from "./IconToolbar/LeftToolbar";
-import { useToolsContext } from "Context/ToolsContext";
-import { useActionsData } from "Context/StoryPanelContext";
+import OnViewportInfo from "./OnViewportInfo";
+import OnWidgetInfo from "./OnWidgetInfo";
+import ToastInfo from "./ToastInfo";
 
 interface StoryOverlayProps {
 	PreviewEntry: PreviewEntry | undefined;
@@ -20,9 +20,18 @@ function StoryOverlay(props: StoryOverlayProps) {
 	const [pinned, height] = useActionsData();
 
 	return entry ? (
-		<Div ZIndex={3} Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}>
+		<Div
+			ZIndex={3}
+			Size={
+				pinned
+					? height.map((h) => new UDim2(1, 0, 1, -h))
+					: UDim2.fromScale(1, 1)
+			}
+		>
 			<ToastInfo key={entry.UID} PreviewEntry={entry} />
-			{toolsContext === "Floating" ? <LeftToolbar PreviewEntry={entry} /> : undefined}
+			{toolsContext === "Floating" ? (
+				<LeftToolbar PreviewEntry={entry} />
+			) : undefined}
 			{!entry.Visible ? undefined : entry.OnWidget ? (
 				<OnWidgetInfo />
 			) : entry.OnViewport ? (
@@ -32,9 +41,24 @@ function StoryOverlay(props: StoryOverlayProps) {
 			)}
 		</Div>
 	) : (
-		<Div Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}>
-			<frame BackgroundColor3={new Color3(0, 0, 0)} BackgroundTransparency={0.6} Size={UDim2.fromScale(1, 1)}>
-				<Text Text={"Select A Story"} TextSize={20} AnchorPoint={new Vector2(0.5, 0.5)} Position={UDim2.fromScale(0.5, 0.5)} />
+		<Div
+			Size={
+				pinned
+					? height.map((h) => new UDim2(1, 0, 1, -h))
+					: UDim2.fromScale(1, 1)
+			}
+		>
+			<frame
+				BackgroundColor3={new Color3(0, 0, 0)}
+				BackgroundTransparency={0.6}
+				Size={UDim2.fromScale(1, 1)}
+			>
+				<Text
+					Text={"Select A Story"}
+					TextSize={20}
+					AnchorPoint={new Vector2(0.5, 0.5)}
+					Position={UDim2.fromScale(0.5, 0.5)}
+				/>
 			</frame>
 		</Div>
 	);

@@ -1,9 +1,4 @@
-import {
-	Instant,
-	Spring,
-	useMotor,
-	useUpdateEffect
-} from "@rbxts/pretty-react-hooks";
+import { useMotion, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, {
 	useBinding,
 	useCallback,
@@ -55,7 +50,7 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	const control = props.Control;
 	const [inputSize, setInputSize] = useBinding(0);
 
-	const [percent, setPercent] = useMotor(GetPercent(control, props.Current));
+	const [percent, motion] = useMotion(GetPercent(control, props.Current));
 	const [amount, setAmount] = useState(props.Current);
 	const [markVisible, setMarkVisible] = useState(false);
 	const [sliderState, setSliderState] = useState({
@@ -113,9 +108,9 @@ function SliderControl(props: ControlElementProps<AdvancedTypes.Slider>) {
 	useUpdateEffect(() => {
 		const percent = GetPercent(control, props.Current);
 		if (markVisible) {
-			setPercent(new Spring(percent));
+			motion.spring(percent);
 		} else {
-			setPercent(new Instant(percent));
+			motion.set(percent);
 		}
 	}, [props.Current]);
 	useUpdateEffect(() => {

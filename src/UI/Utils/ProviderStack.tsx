@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactComponentElement, ReactElement, forwardRef } from "@rbxts/react";
+import React, { PropsWithChildren, ReactElement } from "@rbxts/react";
 import Sift from "@rbxts/sift";
 
 type ContextProvider = (props: React.PropsWithChildren<{}>) => React.Element;
@@ -17,4 +17,3 @@ function ProviderStack(props: ProviderStackProps) {
 }
 
 export default ProviderStack;
-React.Component;

@@ -40,10 +40,11 @@ type ModifierKeyMaps = Partial<Record<ValidModifierKeys["Name"], string>>;
 const KeycodeMaps: KeycodeMaps = {};
 
 const IS_MAC = GuiService.IsWindows === false;
+
 const ModifierKeyMaps: ModifierKeyMaps = {
 	[Enum.ModifierKey.Alt.Name]: IS_MAC ? "OPT" : "ALT",
 	[Enum.ModifierKey.Ctrl.Name]: IS_MAC ? "CMD" : "CTRL",
-	[Enum.ModifierKey.Shift.Name]: "SHIFT",
+	[Enum.ModifierKey.Shift.Name]: "SHIFT"
 };
 
 function SpriteButton(props: SpriteButtonProps) {
@@ -51,7 +52,7 @@ function SpriteButton(props: SpriteButtonProps) {
 	const theme = useTheme();
 
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(
-		props.ButtonName,
+		props.ButtonName
 	);
 
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
@@ -92,7 +93,7 @@ function SpriteButton(props: SpriteButtonProps) {
 		shortcut,
 		hovered,
 		DisplayDescription,
-		RemoveDescription,
+		RemoveDescription
 	]);
 
 	useEffect(() => {
@@ -141,7 +142,7 @@ function SpriteButton(props: SpriteButtonProps) {
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
 					MouseButton1Click: props.OnClick,
-					MouseButton2Click: props.OnRightClick,
+					MouseButton2Click: props.OnRightClick
 				}}
 			/>
 			<Sprite
@@ -151,7 +152,7 @@ function SpriteButton(props: SpriteButtonProps) {
 					AnchorPoint: new Vector2(0.5, 0.5),
 					Size: UDim2.fromOffset(27, 27),
 					ImageTransparency: props.Transparency ?? 0,
-					ImageColor3: active ? theme.Icon.Active : theme.Icon.Color,
+					ImageColor3: active ? theme.Icon.Active : theme.Icon.Color
 				}}
 			/>
 		</frame>

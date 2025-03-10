@@ -1,12 +1,16 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
+import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import {
 	useProducer,
 	useSelector,
 	useSelectorCreator
 } from "@rbxts/react-reflex";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
-import { useMouseOffset } from "Hooks/Context/UserInput";
+import {
+	useInputBegan,
+	useInputEnded,
+	useMouseOffset
+} from "Hooks/Context/UserInput";
 import { useIsOverlayBlocked } from "Hooks/Reflex/Use/OverlayBlock";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -49,11 +53,15 @@ function Story(setprops: StoryProps) {
 		TRANSPARENCY_INFO,
 		1
 	);
+	const inputBegan = useInputBegan();
+	const inputEnded = useInputEnded();
+
 	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(
 		props.Node.Module
 	);
+	const [ctrlDown, setCtrlDown] = useState(false);
 
-	const { toggleMount, setPopup, resetIdentifiedOverlay } =
+	const { mountOnTop, toggleMount, setPopup, resetIdentifiedOverlay } =
 		useProducer<RootProducer>();
 	const keepViewOnViewport = useSelector(selectKeepViewOnViewport);
 	const rootStory = useSelectorCreator(selectPreview, Configs.RootPreviewKey);
@@ -80,6 +88,24 @@ function Story(setprops: StoryProps) {
 	}, [referencePath, hovered]);
 
 	useEffect(() => {
+		const connection1 = inputBegan.Connect((input) => {
+			if (input.KeyCode === Enum.KeyCode.LeftControl) {
+				setCtrlDown(true);
+			}
+		});
+		const connection2 = inputEnded.Connect((input) => {
+			if (input.KeyCode === Enum.KeyCode.LeftControl) {
+				setCtrlDown(false);
+			}
+		});
+
+		return () => {
+			connection1.Disconnect();
+			connection2.Disconnect();
+		};
+	}, []);
+
+	useEffect(() => {
 		if (selected) {
 			tweenTransparency(0);
 			return;
@@ -87,10 +113,14 @@ function Story(setprops: StoryProps) {
 		setTransparency(hovered ? 0.6 : 1);
 	}, [hovered, selected]);
 
-	const OnStorySelected = useCallback(
-		() => toggleMount(props.Node.Module, keepViewOnViewport),
-		[props.Node, keepViewOnViewport]
-	);
+	const OnStorySelected = useCallback(() => {
+		if (ctrlDown) {
+			mountOnTop(props.Node.Module);
+		} else {
+			toggleMount(props.Node.Module, keepViewOnViewport);
+		}
+	}, [props.Node, keepViewOnViewport, ctrlDown]);
+
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
 		setPopup(

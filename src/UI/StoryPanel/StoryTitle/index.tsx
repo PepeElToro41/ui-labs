@@ -1,34 +1,21 @@
-import React, { useMemo } from "@rbxts/react";
-import { useSelector } from "@rbxts/react-reflex";
-import { selectStoryPreviews } from "Reflex/StoryPreview";
+import React, { useState } from "@rbxts/react";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import MountEntry from "./MountEntry";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
 import Divisor from "UI/Utils/Divisor";
-import { selectFullscreen } from "Reflex/Interface";
+import { useRenderedMountEntries } from "../Utils";
 
 interface StoryTitleProps {}
 
 function StoryTitle(props: StoryTitleProps) {
 	const theme = useTheme();
-	const mounts = useSelector(selectStoryPreviews);
-	const fullscreen = useSelector(selectFullscreen);
-
-	const entries = useMemo(() => {
-		const elements: ReactChildren = new Map();
-
-		mounts.forEach((entry, key) => {
-			elements.set(key, <MountEntry PreviewEntry={entry} />);
-		});
-		return elements;
-	}, [mounts]);
+	const [scroller, setScroller] = useState<ScrollingFrame>();
+	const entries = useRenderedMountEntries(scroller);
 
 	return (
 		<frame
 			key={"Title"}
 			Size={new UDim2(1, 0, 0, 32)}
-			Visible={!fullscreen}
 			ZIndex={3}
 			BackgroundColor3={theme.StoryPreview.Background}
 			BorderSizePixel={0}
@@ -51,8 +38,12 @@ function StoryTitle(props: StoryTitleProps) {
 				BorderSizePixel={0}
 				ScrollBarThickness={1}
 				ScrollBarImageTransparency={0.5}
+				ref={setScroller}
 			>
-				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
+				<LeftList
+					VerticalAlignment={Enum.VerticalAlignment.Center}
+					Padding={new UDim(0, 5)}
+				/>
 				<Padding PaddingX={6} Top={3} Bottom={4} />
 				{entries}
 			</scrollingframe>

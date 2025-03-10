@@ -1,5 +1,5 @@
 import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
-import React, { useCallback, useEffect } from "@rbxts/react";
+import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useMouseOffset } from "Hooks/Context/UserInput";
@@ -21,12 +21,14 @@ import DescriptiveImage from "./DescriptiveImage";
 
 interface MountEntryProps {
 	PreviewEntry: PreviewEntry;
+	Scroller?: ScrollingFrame;
 }
 
 function MountEntry(props: MountEntryProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const [closeHovered, closeHoverApi] = useToggler(false);
 	const count = Counter();
+	const [mountEntry, setMountEntry] = useState<TextButton>();
 
 	const entry = props.PreviewEntry;
 	const { DisplayDescription, RemoveDescription } =
@@ -56,7 +58,7 @@ function MountEntry(props: MountEntryProps) {
 		setPopup(
 			"PreviewDropdown",
 			<PreviewDropdown Position={offset} PreviewEntry={entry} />,
-			entry.UID,
+			entry.UID
 		);
 	}, [mouseOffset, entry]);
 
@@ -67,6 +69,28 @@ function MountEntry(props: MountEntryProps) {
 			RemoveDescription();
 		}
 	}, [closeHovered]);
+
+	useEffect(() => {
+		const scroller = props.Scroller;
+		if (!selected) return;
+		if (!scroller) return;
+		if (!mountEntry) return;
+
+		const start = scroller.AbsolutePosition.X;
+		const final = start + scroller.AbsoluteSize.X;
+		const entryStart = mountEntry.AbsolutePosition.X;
+		const entryFinal = entryStart + mountEntry.AbsoluteSize.X;
+
+		if (entryStart < start) {
+			scroller.CanvasPosition = scroller.CanvasPosition.sub(
+				new Vector2(start - entryStart, 0)
+			);
+		} else if (entryFinal > final) {
+			scroller.CanvasPosition = scroller.CanvasPosition.add(
+				new Vector2(entryFinal - final, 0)
+			);
+		}
+	}, [selected]);
 
 	useUnmountEffect(() => {
 		resetIdentifiedOverlay(entry.UID);
@@ -83,6 +107,7 @@ function MountEntry(props: MountEntryProps) {
 			LayoutOrder={entry.Order}
 			BorderSizePixel={0}
 			Size={UDim2.fromScale(0, 1)}
+			ref={setMountEntry}
 			Event={{
 				MouseEnter: hoverApi.enable,
 				MouseLeave: hoverApi.disable,
@@ -92,7 +117,7 @@ function MountEntry(props: MountEntryProps) {
 					if (input.UserInputType === Enum.UserInputType.MouseButton3) {
 						OnEntryClosed();
 					}
-				},
+				}
 			}}
 		>
 			<Corner Radius={8} />
@@ -195,14 +220,14 @@ function MountEntry(props: MountEntryProps) {
 							ScaleType: Enum.ScaleType.Fit,
 							Position: UDim2.fromScale(0.5, 0.5),
 							AnchorPoint: new Vector2(0.5, 0.5),
-							Size: UDim2.fromOffset(13, 13),
+							Size: UDim2.fromOffset(13, 13)
 						}}
 					/>
 					<Detector
 						Event={{
 							MouseEnter: closeHoverApi.enable,
 							MouseLeave: closeHoverApi.disable,
-							MouseButton1Click: OnEntryClosed,
+							MouseButton1Click: OnEntryClosed
 						}}
 					/>
 				</frame>

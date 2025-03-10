@@ -1,9 +1,9 @@
+import { useDebounceEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useState } from "@rbxts/react";
+import { useSelector } from "@rbxts/react-reflex";
+import { selectFullscreen } from "Reflex/Interface";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
 import ToastInfoRender from "./ToastInfoRender";
-import { useDebounceEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { selectFullscreen } from "Reflex/Interface";
-import { useSelector } from "@rbxts/react-reflex";
 
 interface ToastInfoProps {
 	PreviewEntry: PreviewEntry;
@@ -19,20 +19,35 @@ function ToastInfo(setprops: ToastInfoProps) {
 	const entry = props.PreviewEntry;
 	const fullscreen = useSelector(selectFullscreen);
 
-	useDebounceEffect(() => setToastRender(undefined), [toastRender], { wait: 0.6 });
+	useDebounceEffect(() => setToastRender(undefined), [toastRender], {
+		wait: 0.6
+	});
 	useUpdateEffect(() => {
 		const renderMap: ReactChildren = new Map();
-		renderMap.set("OffsetDisplay", <ToastInfoRender InfoText={`Offset: [${math.round(entry.Offset.X)}, ${math.round(entry.Offset.Y)}]`} />);
+		renderMap.set(
+			"OffsetDisplay",
+			<ToastInfoRender
+				InfoText={`Offset: [${math.round(entry.Offset.X)}, ${math.round(entry.Offset.Y)}]`}
+			/>
+		);
 		setToastRender(renderMap);
 	}, [entry.Offset]);
 	useUpdateEffect(() => {
 		const renderMap: ReactChildren = new Map();
-		renderMap.set("ZoomDisplay", <ToastInfoRender InfoText={`Zoom: ${math.round(entry.Zoom)}%`} />);
+		renderMap.set(
+			"ZoomDisplay",
+			<ToastInfoRender InfoText={`Zoom: ${math.round(entry.Zoom)}%`} />
+		);
 		setToastRender(renderMap);
 	}, [entry.Zoom]);
 	useUpdateEffect(() => {
 		const renderMap: ReactChildren = new Map();
-		renderMap.set("FullscreenMode", <ToastInfoRender InfoText={`Fullscreen Mode: ${fullscreen ? "On" : "Off"}`} />);
+		renderMap.set(
+			"FullscreenMode",
+			<ToastInfoRender
+				InfoText={`Fullscreen Mode: ${fullscreen ? "On" : "Off"}`}
+			/>
+		);
 		setToastRender(renderMap);
 	}, [fullscreen]);
 
