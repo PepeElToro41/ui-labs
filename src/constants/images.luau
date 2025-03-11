@@ -14,6 +14,7 @@ local IMAGES = {
 	ToolbarLayout = "rbxassetid://121773742274698",
 	Close = "rbxassetid://121502092628708",
 	Corner = "rbxassetid://86339120976263",
+	RightArrow = "rbxassetid://98515959792894",
 
 	Dot = "rbxassetid://90763872297559",
 	DotOptions = "rbxassetid://18977916731",

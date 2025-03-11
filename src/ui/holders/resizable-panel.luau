@@ -10,7 +10,6 @@ local DragDetector = require "@styles/drag-detector"
 
 type Source<T> = Vide.Source<T>
 
-local connect = Vide.connect
 local source = Vide.source
 local untrack = Vide.untrack
 local effect = Vide.effect
@@ -39,8 +38,9 @@ type ResizablePanelProps = {
 function ResizablePanel(props: ResizablePanelProps)
 	local dragging = source(false)
 	local hovered = source(false)
-	local collapsed = props.Collapsed or source(false)
+	local collapsed: Source<boolean> = props.Collapsed or source(false)
 	local panelSize = initSource(props.PanelSize) :: Source<number>
+
 	local detector = source() :: Source<UIDragDetector>
 
 	local handleAnchor = props.HandleAxis or "Right"
@@ -74,10 +74,10 @@ function ResizablePanel(props: ResizablePanelProps)
 		local start = UDimOffset(detector.DragUDim2)
 		local base = untrack(panelSize)
 
-		connect(detector.DragContinue, function()
+		cleanup(detector.DragContinue:Connect(function()
 			local delta = (UDimOffset(detector.DragUDim2) - start) * multiplier
 			panelSize(math.clamp(base + delta, 0, props.MaximumSize or math.huge))
-		end)
+		end))
 	end)
 
 	effect(function()
@@ -104,6 +104,7 @@ function ResizablePanel(props: ResizablePanelProps)
 			AnchorPoint = Vector2.new(1 - math.floor(handleX), 1 - math.floor(handleY)),
 			props.PanelNative,
 			{ Size = computedSize },
+
 			Frame {
 				Name = "DragAdornee",
 				BackgroundColor3 = Color3.fromRGB(56, 165, 255),

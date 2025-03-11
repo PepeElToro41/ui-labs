@@ -5,8 +5,8 @@
       "ServerScriptService": {
          "ui-labs": {
             "$path": "src/",
-            "Packages": {
-               "$path": "Packages/"
+            "packages": {
+               "$path": "roblox_packages/"
             }
          }
       }

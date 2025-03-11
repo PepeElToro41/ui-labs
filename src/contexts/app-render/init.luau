@@ -1,15 +1,14 @@
 local Vide = require "@pkg/vide"
-local AppOverlaysProvider = require("@contexts/app-render/overlays").AppOverlaysProvider
+local OverlayHolderProvider = require("@contexts/app-render/overlay-holder").OverlayHolderProvider
 local UserInputProvider = require("@contexts/app-render/user-input").UserInputProvider
 
-type Source<T> = Vide.Source<T>
 type Context<T> = Vide.Context<T>
 
 local ProviderStack = require("@utils/vide/contexts").ProviderStack
 
 function AppRenderProvider(props: ProviderChildren)
 	return ProviderStack {
-		providers = { UserInputProvider, AppOverlaysProvider },
+		providers = { UserInputProvider, OverlayHolderProvider },
 		children = props.children,
 	}
 end

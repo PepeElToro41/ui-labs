@@ -1,4 +1,5 @@
 local Vide = require "@pkg/vide"
+local UILabs = require "@pkg/ui-labs"
 
 local Derivers = require "@utils/vide/derivers"
 local useTheme = require("@contexts/theme").useTheme

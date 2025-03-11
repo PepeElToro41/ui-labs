@@ -20,9 +20,9 @@ local source = Vide.source
 local action = Vide.action
 local derive = Vide.derive
 local effect = Vide.effect
-local connect = Vide.connect
+local cleanup = Vide.cleanup
 
-local UserInputContext: Context<UserInputContext> = Vide.create_context()
+local UserInputContext: Context<UserInputContext> = Vide.context()
 
 function UserInputProvider(props: ProviderChildren)
 	local mousePosition = source(Vector2.zero)
@@ -51,22 +51,22 @@ function UserInputProvider(props: ProviderChildren)
 		local listener = listener()
 		if not listener then return end
 
-		connect(listener.InputBegan, function(inputObject: InputObject)
+		cleanup(listener.InputBegan:Connect(function(inputObject: InputObject)
 			inputBegan:Fire(inputObject)
-		end)
-		connect(listener.InputChanged, function(inputObject: InputObject)
+		end))
+		cleanup(listener.InputChanged:Connect(function(inputObject: InputObject)
 			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 				mousePosition(Vector2.new(inputObject.Position.X, inputObject.Position.Y))
 			end
 
 			inputChanged:Fire(inputObject)
-		end)
-		connect(listener.InputEnded, function(inputObject: InputObject)
+		end))
+		cleanup(listener.InputEnded:Connect(function(inputObject: InputObject)
 			inputEnded:Fire(inputObject)
-		end)
+		end))
 	end)
 
-	return UserInputContext.provide(context, function()
+	return UserInputContext(context, function()
 		return Div {
 			Name = "App",
 
@@ -82,12 +82,12 @@ function UserInputProvider(props: ProviderChildren)
 end
 
 function useInputListener()
-	local context = UserInputContext.consume()
+	local context = UserInputContext()
 	return context.Listener
 end
 
 function useMousePosition(absolute: boolean?)
-	local context = UserInputContext.consume()
+	local context = UserInputContext()
 
 	if absolute then
 		return context.MouseAsbolutePosition
@@ -97,22 +97,22 @@ function useMousePosition(absolute: boolean?)
 end
 
 function useInputBegan()
-	local context = UserInputContext.consume()
+	local context = UserInputContext()
 	return context.InputBegan
 end
 
 function useInputChanged()
-	local context = UserInputContext.consume()
+	local context = UserInputContext()
 	return context.InputChanged
 end
 
 function useInputEnded()
-	local context = UserInputContext.consume()
+	local context = UserInputContext()
 	return context.InputEnded
 end
 
 function useInputContext()
-	return UserInputContext.consume()
+	return UserInputContext()
 end
 
 return table.freeze {

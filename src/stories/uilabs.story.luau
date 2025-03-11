@@ -5,5 +5,5 @@ local App = require "@ui/app"
 Vide.strict = false
 
 return UILabs.CreateVideStory({ vide = Vide }, function()
-	return App {}
+	return App()
 end)

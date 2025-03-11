@@ -7,6 +7,9 @@ type Promise<T = any> = Promise.TypedPromise<T>
 function SetEnvironment(virtual: () -> any, module: ModuleScript, environment: Environment)
 	local globals = {
 		require = function(module)
+			if typeof(module) ~= "Instance" then error("require must be called with a ModuleScript", 2) end
+			if not module:IsA("ModuleScript") then error("require must be called with a ModuleScript", 2) end
+
 			return environment:LoadDependency(module):expect()
 		end,
 		script = module,
@@ -24,7 +27,6 @@ end
 function VirtualRequire(module: ModuleScript, environment: Environment): Promise
 	return Promise.try(function()
 		local virtual, err = loadstring(module.Source, module:GetFullName())
-
 		if not virtual then error(err) end
 
 		SetEnvironment(virtual, module, environment)

@@ -8,6 +8,9 @@ globalTypes.d.lua
 /serve
 /include
 *.tsbuildinfo
+lune_packages
+luau_packages
+roblox_packages
 
 **/sourcemap.json
 **/darklua-sourcemap.json

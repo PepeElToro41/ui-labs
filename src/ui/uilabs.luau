@@ -12,10 +12,10 @@ function UILabs()
 		ResizablePanel {
 			Name = "SidePanel",
 			PanelSize = 250,
-			MinimumSize = 120,
+			MinimumSize = 90,
 			MaximumSize = 600,
-			CollapseThreshold = 50,
-			UncollapseThreshold = 60,
+			CollapseThreshold = 40,
+			UncollapseThreshold = 50,
 			PanelNative = { ZIndex = 2 },
 
 			children = SidePanel(),

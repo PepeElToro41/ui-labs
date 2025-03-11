@@ -1,6 +1,6 @@
 local Vide = require "@pkg/vide"
 
-function Div(props: Vide.vFrame?)
+function Div(props: Vide.vFrame)
 	return Vide.create "Frame" {
 		BackgroundTransparency = 1,
 		BackgroundColor3 = Color3.new(1, 1, 1),

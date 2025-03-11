@@ -1,7 +1,8 @@
-local CoreGui = game:GetService("CoreGui")
+local CoreGui = game:GetService "CoreGui"
+
 local Vide = require "@pkg/vide"
-local StoryPreviews = require("@store/story-previews")
-local Div = require("@styles/div")
+local StoryPreviews = require "@store/story-previews"
+local Div = require "@styles/div"
 
 type StoryPreview = StoryPreviews.StoryPreview
 
@@ -26,9 +27,7 @@ function ViewportHolder(preview: Reactive<StoryPreview>)
 		end)
 	end)
 
-	return function(holder: Frame)
-		viewport.Parent = mountHolder
-	end
+	return mountHolder
 end
 
 return ViewportHolder

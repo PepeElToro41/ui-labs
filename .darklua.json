@@ -5,7 +5,7 @@
          "current": {
             "name": "path",
             "sources": {
-               "@pkg": "Packages/",
+               "@pkg": "roblox_packages/",
                "@system": "src/system",
                "@store": "src/store",
                "@constants": "src/constants",

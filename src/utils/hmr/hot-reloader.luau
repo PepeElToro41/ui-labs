@@ -1,10 +1,10 @@
-local RunService = game:GetService("RunService")
+local RunService = game:GetService "RunService"
 local Promise = require "@pkg/promise"
 local Signal = require "@pkg/signal"
 
 type Promise<T = any> = Promise.TypedPromise<T>
 type Signal<T...> = Signal.Signal<T...>
-type Connection = Signal.Connection
+type Connection = Signal.Connection<any>
 
 local Environment = require "./environment"
 local Common = require "./common"

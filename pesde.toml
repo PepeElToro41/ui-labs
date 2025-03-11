@@ -1,0 +1,37 @@
+name = "pepeeltoro41/ui_labs_plugin"
+version = "0.1.0"
+description = "Storybook plugin for roblox"
+authors = ["pepeeltoro41"]
+repository = "https://github.com/PepeElToro41/ui-labs"
+license = "GPL"
+private = true
+
+[target]
+environment = "roblox"
+
+[indices]
+default = "https://github.com/pesde-pkg/index"
+
+[wally_indices]
+default = "https://github.com/UpliftGames/wally-index"
+
+[scripts]
+roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
+sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
+
+[dev_dependencies]
+scripts = { name = "pesde/scripts_rojo", version = "^0.1.0", target = "lune" }
+rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
+
+[dependencies]
+immut = { wally = "solarhorizon/immut", version = "^0.4.4" }
+ripple = { wally = "littensy/ripple", version = "^0.9.1" }
+collections = { wally = "jsdotlua/collections", version = "^1.2.7" }
+promise = { wally = "howmanysmall/typed-promise", version = "^4.0.3" }
+signal = { wally = "data-oriented-house/lemonsignal", version = "^1.10.0" }
+t = { wally = "osyrisrblx/t", version = "^3.1.1" }
+sift = { wally = "csqrl/sift", version = "^0.0.11" }
+vide = { wally = "alicesaidhi/vide", version = "^0.3.1-lite.656" }
+janitor = { wally = "howmanysmall/janitor", version = "^1.18.0" }
+charm = { wally = "littensy/charm", version = "^0.10.0" }
+ui-labs = { name = "pepeeltoro41/ui_labs", version = "^2.3.8" }

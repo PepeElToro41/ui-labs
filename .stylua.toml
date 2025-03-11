@@ -1,2 +1,2 @@
-call_parentheses = "Input"
+call_parentheses = "None"
 collapse_simple_statement = "ConditionalOnly"

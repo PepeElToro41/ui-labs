@@ -7,11 +7,12 @@ local Padding = require "@styles/padding"
 local Background = require "@ui/main-panel/background"
 local HiddenCollapseToolbar = require "@ui/main-panel/toolbar/hidden-collapse"
 
+Vide.strict = true
+
 local story = UILabs.CreateVideStory({ vide = Vide }, function()
 	return Div {
-		Background {
-			HiddenCollapseToolbar(),
-		},
+		Background(),
+		HiddenCollapseToolbar(),
 	}
 end)
 

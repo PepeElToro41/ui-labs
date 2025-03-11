@@ -5,16 +5,15 @@ local Padding = require "@styles/padding"
 local TextInput = require "@styles/text-input"
 local Frame = require "@styles/frame"
 local Image = require "@styles/image"
-local Rounder = require "@styles/rounder"
+local Corner = require "@styles/corner"
 local LeftList = require "@styles/list/left"
+local InputGlow = require "@ui/elements/input-glow"
 
 local IMAGES = require "@constants/images"
 local useTheme = require("@contexts/theme").useTheme
-local Lerp = require("@utils/number").Lerp
 local Changed = require("@actions").Changed
 
 local source = Vide.source
-local spring = Vide.spring
 local create = Vide.create
 
 type StorySearchProps = {
@@ -24,10 +23,7 @@ type StorySearchProps = {
 function StorySearch(props: StorySearchProps)
 	local theme = useTheme()
 	local focused = source(false)
-	local focusAlpha = spring(function()
-		local asd = if focused() then 1 else 0
-		return asd
-	end, 0.4)
+	local focusAlpha = InputGlow.useFocusAlpha(focused)
 
 	return Div {
 		Name = "StorySearch",
@@ -39,7 +35,7 @@ function StorySearch(props: StorySearchProps)
 			ZIndex = 2,
 
 			Padding { PaddingX = 6 },
-			Rounder(),
+			Corner { Radius = 8 },
 			LeftList { VerticalAlignment = Enum.VerticalAlignment.Center, Gap = 4 },
 			create "UIStroke" {
 				Thickness = 1,
@@ -48,7 +44,6 @@ function StorySearch(props: StorySearchProps)
 				end,
 				Transparency = 0.5,
 			},
-
 			Image {
 				Image = IMAGES.Search,
 				Size = UDim2.fromOffset(14, 14),
@@ -67,24 +62,11 @@ function StorySearch(props: StorySearchProps)
 
 				GetFocused = focused,
 				Changed("Text", props.OnFilterChange),
-
 				create "UIFlexItem" { FlexMode = Enum.UIFlexMode.Fill },
 			},
 		},
-		Image {
-			Name = "Aura",
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			Size = UDim2.new(1, 12, 1, 12),
-
-			Image = "rbxassetid://12052609860",
-			ImageColor3 = theme "Emphasis",
-			ImageTransparency = function()
-				return Lerp(1, 0.5, focusAlpha())
-			end,
-
-			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(300, 300, 300, 300),
+		InputGlow.InputGlow {
+			Focused = focused,
 		},
 	}
 end

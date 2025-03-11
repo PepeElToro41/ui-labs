@@ -4,13 +4,13 @@ local Utils = require "./utils"
 local CONFIGS = require "@constants/configs"
 
 type ModuleSearchContext = {
-	Stories: Vide.Source<{ ModuleScript }>,
-	Storybooks: Vide.Source<{ ModuleScript }>,
+	Stories: Source<{ ModuleScript }>,
+	Storybooks: Source<{ ModuleScript }>,
 }
 
-local ModuleSearchContext: Vide.Context<ModuleSearchContext> = Vide.create_context()
+local ModuleSearchContext: Vide.Context<ModuleSearchContext> = Vide.context()
 
--- This provider searches for modulescripts in the hierarchy and provides them in a list
+--- Searches for modulescripts in the game hierarchy and provides them in a list
 function ModuleSearchProvider(props: ProviderChildren)
 	local stories = useInstanceSearch("ModuleScript", Utils.ExtensionPredicator(CONFIGS.Extensions.Story))
 	local storybooks = useInstanceSearch("ModuleScript", Utils.ExtensionPredicator(CONFIGS.Extensions.Storybook))
@@ -20,19 +20,19 @@ function ModuleSearchProvider(props: ProviderChildren)
 		Storybooks = storybooks,
 	}
 
-	return ModuleSearchContext.provide(context, props.children)
+	return ModuleSearchContext(context :: any, props.children)
 end
 
 function useModuleList()
-	return ModuleSearchContext.consume()
+	return ModuleSearchContext()
 end
 
 function useStoryModules()
-	return ModuleSearchContext.consume().Stories
+	return ModuleSearchContext().Stories
 end
 
 function useStorybookModules()
-	return ModuleSearchContext.consume().Storybooks
+	return ModuleSearchContext().Storybooks
 end
 
 return table.freeze {

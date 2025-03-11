@@ -1,7 +1,9 @@
 local Vide = require "@pkg/vide"
-local StoryPreviews = require("@store/story-previews")
-local HotReloader = require("@utils/hmr/hot-reloader")
-local Promise = require("@pkg/promise")
+local StoryPreviews = require "@store/story-previews"
+local HotReloader = require "@utils/hmr/hot-reloader"
+local Promise = require "@pkg/promise"
+local WARNINGS = require "@constants/warnings"
+local UILabsWarn = require("@utils/misc").UILabsWarn
 
 local single = require("@utils/vide").single
 local useAsync = require("@hooks").useAsync
@@ -9,7 +11,6 @@ local useAsync = require("@hooks").useAsync
 local cleanup = Vide.cleanup
 local source = Vide.source
 local effect = Vide.effect
-local connect = Vide.connect
 local derive = Vide.derive
 
 type StoryPreview = StoryPreviews.StoryPreview
@@ -27,6 +28,7 @@ function useStoryRequire(entry: Reactive<StoryPreview>)
 		cleanup(reloader)
 		return reloader
 	end)
+
 	local reloadAsync: Source<Promise> = source()
 
 	effect(function()
@@ -41,15 +43,16 @@ function useStoryRequire(entry: Reactive<StoryPreview>)
 		end)
 	end)
 
-	local result: Reactive<unknown> = useAsync(function()
+	local result: Reactive<unknown>, status = useAsync(function()
 		local reloadAsync = reloadAsync()
 		if not reloadAsync then return Promise.resolve(nil) end
 		return reloadAsync:catch(function(err)
-			-- TODO: Warn error
+			UILabsWarn(WARNINGS.RequireError, err)
+			error(err)
 		end)
 	end)
 
-	return result, reloader
+	return result, reloader, status
 end
 
 return useStoryRequire

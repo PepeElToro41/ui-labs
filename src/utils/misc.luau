@@ -1,9 +1,13 @@
+local Promise = require "@pkg/promise"
+
 -- From vide :)
-function ycall<T, U>(fn: (T) -> U, arg: T, err: (yield: boolean, err: string) -> ()): U?
+function YCall<T, U>(fn: (T) -> U, arg: T, err: (yield: boolean, err: string) -> ()): U?
 	local thread = coroutine.create(xpcall)
+
 	local function efn(err: string)
-		return debug.traceback(err, 3)
+		return debug.traceback(tostring(err), 3)
 	end
+
 	local resume_ok, run_ok: boolean, result: U? = coroutine.resume(thread, fn, efn, arg)
 
 	if not resume_ok or not run_ok then return err(false, result :: any) end
@@ -21,18 +25,18 @@ function FastSpawn<A>(fn: (...A) -> (), ...: A)
 	coroutine.resume(thread)
 end
 
-function UILabsWarn(reason: string, err: string?)
-	print("WARNING", reason, err)
-
+function UILabsWarn(reason: string, err: any?)
 	if err then
-		warn("[UI Labs] " .. reason .. "\n\n" .. err)
+		if Promise.Error.is(err) then err = (err :: Promise.Error).error end
+
+		warn("[UI Labs]: " .. reason .. "\n\n" .. tostring(err))
 	else
-		warn("[UI Labs] " .. reason)
+		warn("[UI Labs]: " .. reason)
 	end
 end
 
 return table.freeze {
-	ycall = ycall,
+	YCall = YCall,
 	FastSpawn = FastSpawn,
 	UILabsWarn = UILabsWarn,
 }

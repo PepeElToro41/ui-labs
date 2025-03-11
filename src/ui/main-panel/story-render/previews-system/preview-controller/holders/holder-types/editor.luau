@@ -1,9 +1,11 @@
 local Vide = require "@pkg/vide"
-local CONFIGS = require("@constants/configs")
+local CONFIGS = require "@constants/configs"
 local RemoveExtension = require("@contexts/module-search/utils").RemoveExtension
 
-local StoryPreviews = require("@store/story-previews")
-local Div = require("@styles/div")
+local StoryPreviews = require "@store/story-previews"
+local Div = require "@styles/div"
+local Padding = require "@styles/padding"
+local Shadow = require "@ui/elements/shadow"
 
 type StoryPreview = StoryPreviews.StoryPreview
 
@@ -20,12 +22,17 @@ function EditorHolder(preview: Reactive<StoryPreview>)
 		return UDim2.fromOffset(offset.X, offset.Y)
 	end
 
-	local mountHolder = Div { Name = "Story" }
+	local mountHolder = Div {
+		Name = "Story",
+	}
 
 	local editor = Div {
 		Name = RemoveExtension(module.Name, CONFIGS.Extensions.Story),
 		Position = position,
+
 		create "UIScale" { Scale = scale },
+		Padding { Padding = 2 },
+
 		mountHolder,
 	}
 
@@ -35,9 +42,7 @@ function EditorHolder(preview: Reactive<StoryPreview>)
 		end)
 	end)
 
-	return function(holder: Frame)
-		holder.Parent = mountHolder
-	end
+	return editor
 end
 
 return EditorHolder

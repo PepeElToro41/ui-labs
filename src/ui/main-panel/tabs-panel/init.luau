@@ -18,7 +18,7 @@ type TabsPanelProps = {
 
 function TabsPanel(props: TabsPanelProps)
 	-- TODO: Plugin Saveable
-	local layout: Source<"Bottom" | "Right"> = source("Bottom")
+	local layout: Source<"Bottom" | "Right"> = source("Bottom" :: any)
 	local panelCollapsed = source(false)
 
 	local CommonProps = {
@@ -81,7 +81,7 @@ function TabsPanel(props: TabsPanelProps)
 				},
 			}, CommonProps))
 		end,
-	}
+	} :: Reactive<Frame>
 end
 
 return TabsPanel

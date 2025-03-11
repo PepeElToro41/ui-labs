@@ -1,7 +1,6 @@
 local Vide = require "@pkg/vide"
 local Div = require "@styles/div"
 
-type Source<T> = Vide.Source<T>
 type Context<T> = Vide.Context<T>
 
 local source = Vide.source
@@ -12,9 +11,9 @@ type AppRenderContext = {
 	Contents: Source<Frame>,
 }
 
-local AppRenderContext: Context<AppRenderContext> = Vide.create_context()
+local AppRenderContext: Context<AppRenderContext> = Vide.context()
 
-function AppOverlaysProvider(props: ProviderChildren)
+function OverlayHolderProvider(props: ProviderChildren)
 	local overlay: Source<Frame> = source()
 	local contents: Source<Frame> = source()
 
@@ -23,7 +22,7 @@ function AppOverlaysProvider(props: ProviderChildren)
 		Contents = contents,
 	}
 
-	return AppRenderContext.provide(context, function()
+	return AppRenderContext(context, function()
 		return Div {
 			Name = "AppHolder",
 
@@ -38,18 +37,18 @@ function AppOverlaysProvider(props: ProviderChildren)
 	end)
 end
 
-function useAppOverlay()
-	local context = AppRenderContext.consume()
+function useOverlayHolder()
+	local context = AppRenderContext()
 	return context.Overlay
 end
 
 function useAppContents()
-	local context = AppRenderContext.consume()
+	local context = AppRenderContext()
 	return context.Contents
 end
 
 return table.freeze {
-	AppOverlaysProvider = AppOverlaysProvider,
-	useAppOverlay = useAppOverlay,
+	OverlayHolderProvider = OverlayHolderProvider,
+	useOverlayHolder = useOverlayHolder,
 	useAppContents = useAppContents,
 }

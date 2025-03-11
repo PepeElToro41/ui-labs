@@ -1,3 +1,4 @@
+--!nonstrict
 local Vide = require "@pkg/vide"
 
 local cleanup = Vide.cleanup
@@ -6,7 +7,7 @@ local action = Vide.action
 type Source<T> = Vide.Source<T>
 
 function Hovered(output: Source<boolean>)
-	return action(function(instance)
+	return action(function(instance: TextButton)
 		local enter = instance.MouseEnter:Connect(function()
 			output(true)
 		end)

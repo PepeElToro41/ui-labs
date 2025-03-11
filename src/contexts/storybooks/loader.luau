@@ -4,7 +4,7 @@ local HotReloader = require "@utils/hmr/hot-reloader"
 
 type HotReloader = HotReloader.HotReloader
 type Signal = Signal.Signal<any>
-type Connection = Signal.Connection
+type Connection = Signal.Connection<any>
 type Promise = Promise.TypedPromise<any>
 
 export type StorybookLoader = Class & Private

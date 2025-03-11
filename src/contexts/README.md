@@ -14,6 +14,4 @@ Deciding between a context or a store depends on this:
 
 - The state needs to be persistent/saved in plugin settings.
 
-- The state needs to be easily editable. This is combined with `dispatch` predefined functions will give you a way to manipulate the state in a predictable way. Trying to modify a context state is unreliable due to the lack of these dispatchers.
-
-
+- The state is complex to edit by hand. Using the `dispatch` predefined functions will give you a way to manipulate the state in a predictable way. Trying to modify a context state is unreliable due to the lack of these dispatchers.

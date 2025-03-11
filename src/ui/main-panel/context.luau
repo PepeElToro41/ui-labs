@@ -7,10 +7,10 @@ type MainPanelContext = {
 	PanelExtends: Source<Vector2>,
 }
 
-local MainPanelContext: Context<MainPanelContext> = Vide.create_context()
+local MainPanelContext = Vide.context({} :: MainPanelContext)
 
 function usePanelExtends()
-	local context = MainPanelContext.consume()
+	local context = MainPanelContext()
 	return context.PanelExtends
 end
 

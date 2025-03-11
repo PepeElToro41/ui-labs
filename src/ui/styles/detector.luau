@@ -5,7 +5,7 @@ local Hovered = require("@actions").Hovered
 local create = Vide.create
 
 type DetectorProps = Vide.vTextButton & {
-	Hovered: Vide.Source<boolean>,
+	Hovered: Vide.Source<boolean>?,
 }
 
 function Detector(props: DetectorProps)

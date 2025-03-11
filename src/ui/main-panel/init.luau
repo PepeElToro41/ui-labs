@@ -39,7 +39,7 @@ function MainPanel()
 			Div {
 				Name = "StoryRender",
 
-				PreviewsSystem(),
+				PreviewsSystem() :: any,
 				HiddenCollapseToolbar(),
 			},
 		},

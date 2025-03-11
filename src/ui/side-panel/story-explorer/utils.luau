@@ -3,10 +3,10 @@ local GetNodeIdentifierKey = require("@contexts/story-nodes/utils").GetNodeIdent
 
 type Source<T> = Vide.Source<T>
 
-local connect = Vide.connect
 local source = Vide.source
 local effect = Vide.effect
 local read = Vide.read
+local cleanup = Vide.cleanup
 
 function NodeIdentifierKey(node: Node)
 	return GetNodeIdentifierKey(node)
@@ -36,9 +36,9 @@ function useNodeName(node: Derivable<Node>)
 		end
 
 		name(getter.Name)
-		connect(getter:GetPropertyChangedSignal "Name", function()
+		cleanup(getter:GetPropertyChangedSignal("Name"):Connect(function()
 			name(getter.Name)
-		end)
+		end))
 	end)
 
 	return name

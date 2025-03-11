@@ -93,11 +93,20 @@ function DefineStoryType(story: Map<string, unknown>): StoryCheck
 
 			-- step 5: check the story function
 			if libraryType ~= "Generic" then
+				if not story["story"] then
+					return { Success = false, Error = `Key "story" was not provided for {LIB_NAMES[libraryType]}` }
+				end
+				if not t.callback(story["story"]) then
+					return {
+						Success = false,
+						Error = `Key "story" must be a function for {LIB_NAMES[libraryType]}`,
+					}
+				end
 			end
 
 			-- step 6: no more steps, we are done :D
 			return { Success = true, Type = libraryType :: StoryType }
-		elseif result == "pass" then
+		elseif result == "skip" then
 			continue -- skip, this is not the library we are looking for
 		end
 

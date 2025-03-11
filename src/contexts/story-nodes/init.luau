@@ -3,8 +3,6 @@ local useStoryModules = require("@contexts/module-search").useStoryModules
 local useStorybooks = require("@contexts/storybooks").useStorybooks
 local GenerateNodes = require("./utils").GenerateNodes
 
-type Soruce<T> = Vide.Source<T>
-
 local derive = Vide.derive
 
 type StoryNodesContext = Reactive<{
@@ -12,9 +10,9 @@ type StoryNodesContext = Reactive<{
 	Lookup: ModuleLookup,
 }>
 
-local StoryNodesContext: Vide.Context<StoryNodesContext> = Vide.create_context(nil)
+local StoryNodesContext: Vide.Context<StoryNodesContext> = Vide.context()
 
--- This provider generates the story nodes from the story modules and storybooks
+--- This provider generates the story nodes from `module-search` and `storybooks`
 function StoryNodesProvider(props: ProviderChildren)
 	local storyModules = useStoryModules()
 	local storybooks = useStorybooks()
@@ -23,17 +21,17 @@ function StoryNodesProvider(props: ProviderChildren)
 		return GenerateNodes(storyModules(), storybooks())
 	end)
 
-	return StoryNodesContext.provide(context, props.children)
+	return StoryNodesContext(context, props.children)
 end
 
 function useStoryNodes()
-	local context = StoryNodesContext.consume()
+	local context = StoryNodesContext()
 	return function()
 		return context().Nodes
 	end
 end
 function useStoryLookup()
-	local context = StoryNodesContext.consume()
+	local context = StoryNodesContext()
 	return function()
 		return context().Lookup
 	end

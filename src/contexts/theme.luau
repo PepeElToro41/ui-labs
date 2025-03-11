@@ -5,23 +5,25 @@ type Source<T> = Vide.Source<T>
 
 local Themes = require "@themes"
 
-local ThemeContext = Vide.create_context(constant(Themes.Default))
+local ThemeContext = Vide.context(constant(Themes.Default))
 
 function ThemeProvider(props: ProviderChildren)
 	local theme = Vide.source(Themes.Default)
 
-	return ThemeContext.provide(theme, props.children)
+	return ThemeContext(theme, props.children)
 end
 
 type ThemeHandle = ((entry: string) -> Color3) & (() -> Themes.Theme)
 
 function useTheme(): ThemeHandle
-	local theme = ThemeContext.consume()
+	local theme = ThemeContext()
 
 	local themeHandle: ThemeHandle = function(entry: string?)
-		if entry then return function()
-			return theme()[entry]
-		end end
+		if entry then
+			return function()
+				return theme()[entry]
+			end
+		end
 
 		return theme() :: any
 	end :: any
@@ -30,7 +32,7 @@ function useTheme(): ThemeHandle
 end
 
 function useThemeContext()
-	return ThemeContext.consume()
+	return ThemeContext()
 end
 
 return table.freeze {

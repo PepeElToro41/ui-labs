@@ -7,7 +7,6 @@ local untrack = Vide.untrack
 local effect = Vide.effect
 
 type Promise<T = any> = Promise.TypedPromise<T>
-type Source<T> = Vide.Source<T>
 type AsyncState<T> = {
 	status: Promise.Status,
 	message: unknown?,
@@ -38,7 +37,7 @@ function useAsyncCallback<T, A...>(callback: (A...) -> Promise<T>): (Reactive<As
 		if currentPromise then currentPromise:cancel() end
 	end)
 
-	return Vide.lock(state), caller
+	return state, caller
 end
 
 function useAsync<T>(callback: (...any) -> Promise<T>)

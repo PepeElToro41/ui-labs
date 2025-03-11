@@ -7,11 +7,9 @@ local StoryNodesProvider = require("@contexts/story-nodes").StoryNodesProvider
 local ThemeProvider = require("@contexts/theme").ThemeProvider
 local AppRenderProvider = require("@contexts/app-render").AppRenderProvider
 
-type AppProps = {
-	children: (() -> any)?,
-}
+local OverlaysRenderer = require "@ui/overlays/renderer"
 
-function App(props: AppProps)
+function App()
 	return ProviderStack {
 		providers = {
 			ModuleSearchProvider,
@@ -20,8 +18,11 @@ function App(props: AppProps)
 			ThemeProvider,
 			AppRenderProvider,
 		},
-
-		children = props.children or UILabs,
+		children = function()
+			return OverlaysRenderer {
+				children = UILabs,
+			}
+		end,
 	}
 end
 

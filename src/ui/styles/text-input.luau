@@ -2,7 +2,7 @@ local Vide = require "@pkg/vide"
 local Extract = require("@utils/vide/props").Extract
 local Padding = require "./padding"
 
-local connect = Vide.connect
+local cleanup = Vide.cleanup
 
 type TextInputProps = Vide.vTextBox & {
 	Weight: Enum.FontWeight?,
@@ -31,12 +31,12 @@ function TextInput(props: TextInputProps)
 	}
 
 	if getFocused then
-		connect(textbox.Focused, function()
+		cleanup(textbox.Focused:Connect(function()
 			getFocused(true)
-		end)
-		connect(textbox.FocusLost, function()
+		end))
+		cleanup(textbox.FocusLost:Connect(function()
 			getFocused(false)
-		end)
+		end))
 	end
 
 	return textbox

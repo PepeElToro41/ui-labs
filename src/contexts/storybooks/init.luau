@@ -1,12 +1,11 @@
 local Vide = require "@pkg/vide"
 local Signal = require "@pkg/signal"
 
-type Connection = Signal.Connection
+type Connection = Signal.Connection<any>
 
 local StorybookLoader = require "./loader"
 local useStorybookModules = require("@contexts/module-search").useStorybookModules
 
-local connect = Vide.connect
 local source = Vide.source
 local values = Vide.values
 local cleanup = Vide.cleanup
@@ -15,10 +14,10 @@ local untrack = Vide.untrack
 
 export type Storybooks = { [ModuleScript]: any }
 
-type StorybooksContext = Vide.Source<Storybooks>
-local StorybooksContext: Vide.Context<StorybooksContext> = Vide.create_context()
+type StorybooksContext = Source<Storybooks>
+local StorybooksContext: Vide.Context<StorybooksContext> = Vide.context()
 
--- This provider hot reloads storybooks and provides the results in a list
+--- Hot reloads storybooks from `module-search` and provides the results in a list
 function StorybooksProvider(props: ProviderChildren)
 	local storybooks: StorybooksContext = source {}
 	local storybookModules = useStorybookModules()
@@ -47,19 +46,19 @@ function StorybooksProvider(props: ProviderChildren)
 
 	effect(function()
 		for _, loader in ipairs(loaders()) do
-			connect(loader.OnStorybookUpdated, function()
+			Vide.cleanup(loader.OnStorybookUpdated:Connect(function()
 				untrack(CollapseStorybookResults)
-			end)
+			end))
 		end
 
 		untrack(CollapseStorybookResults)
 	end)
 
-	return StorybooksContext.provide(storybooks, props.children)
+	return StorybooksContext(storybooks, props.children)
 end
 
 function useStorybooks()
-	return StorybooksContext.consume()
+	return StorybooksContext()
 end
 
 return table.freeze {

@@ -45,10 +45,10 @@ end
 
 --[[ ---------------------------- CONTEXT PROVIDING --------------------------- ]]
 
-local FilterContext: Vide.Context<Reactive<string?>> = Vide.create_context()
+local FilterContext: Vide.Context<Reactive<string?>> = Vide.context()
 
 function useFilter()
-	return FilterContext.consume()
+	return FilterContext()
 end
 
 return table.freeze {

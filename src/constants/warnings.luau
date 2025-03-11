@@ -15,6 +15,7 @@ end
 
 local WARNINGS = {
 	NoStory = "Story module didn't return anything",
+	RequireError = "Story module errored when required",
 
 	FunctionalYield = Compose(Functional, Yielding),
 	FunctionalError = Compose(Functional, Errored),

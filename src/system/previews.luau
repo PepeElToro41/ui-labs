@@ -1,10 +1,10 @@
-local Charm = require("@pkg/charm")
+local Charm = require "@pkg/charm"
 
-local CONFIGS = require("@constants/configs")
+local CONFIGS = require "@constants/configs"
 
-local StoryPreviews = require("@store/story-previews")
-local PreviewDispatchers = require("@store/story-previews/dispatch")
-local PreviewConsumers = require("@store/story-previews/consume")
+local StoryPreviews = require "@store/story-previews"
+local PreviewDispatchers = require "@store/story-previews/dispatch"
+local PreviewConsumers = require "@store/story-previews/consume"
 
 function MountRootStory(module: ModuleScript)
 	local root = PreviewConsumers.RootPreview()
@@ -43,7 +43,7 @@ end
 function UnmountAll(module: ModuleScript?)
 	local previews = StoryPreviews()
 
-	if not module then StoryPreviews({}) end
+	if not module then StoryPreviews {} end
 	Charm.batch(function()
 		for _, preview in pairs(previews) do
 			if preview.Module == module then PreviewDispatchers.RemoveStoryPreview(preview.Key) end

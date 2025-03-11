@@ -1,7 +1,7 @@
 local Dark = {
 	Background1 = Color3.fromRGB(18, 20, 24),
 	Background2 = Color3.fromRGB(28, 30, 32),
-	Background3 = Color3.fromRGB(36, 39, 48),
+	Background3 = Color3.fromRGB(32, 35, 43),
 	Background4 = Color3.fromRGB(45, 49, 58),
 
 	Text1 = Color3.fromRGB(255, 255, 255),

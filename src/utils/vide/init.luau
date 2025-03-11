@@ -1,5 +1,5 @@
 local Vide = require "@pkg/vide"
-local Collections = require("@pkg/collections")
+local Collections = require "@pkg/collections"
 local Object = Collections.Object
 local Array = Collections.Array
 
@@ -71,7 +71,7 @@ end
    Because if the map changeds immediately when mounting it will cause an infinite loop.
 ]]
 function memo_indexes<K, VI, VO>(input: () -> Map<K, VI>, transform: (() -> VI, K) -> VO): (() -> { VO }) | nil
-	local memoizedKeys = source(Object.keys(input())) :: Source<{ K }>
+	local memoizedKeys = source(Object.keys(input()) :: any) :: Source<{ K }>
 
 	effect(function()
 		local oldKeys = untrack(memoizedKeys)
@@ -100,7 +100,7 @@ function memo_indexes<K, VI, VO>(input: () -> Map<K, VI>, transform: (() -> VI, 
 end
 
 function initSource<T>(init: (T | Source<T>)?, def: T?): Source<T>
-	if not init then return source(def) end
+	if not init then return source(def :: T) end
 
 	if type(init) == "function" then return init end
 

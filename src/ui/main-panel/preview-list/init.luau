@@ -23,28 +23,14 @@ function PreviewList()
 
 	return Div {
 		Size = UDim2.new(1, 0, 0, 32),
-		Padding { Top = 2, Bottom = 1, PaddingX = 6 },
-		Frame {
-			BackgroundColor3 = theme "Background1",
-
-			create "UIStroke" {
-				Thickness = 1,
-				Color = theme "Border",
-				Transparency = 0.75,
-			},
+		Padding { Top = 2, Bottom = 1, PaddingX = 4 },
+		Div {
 			Corner { Radius = 10 },
 			Padding { Padding = 2 },
 			LeftList { Gap = 2 },
 			indexes(previews, function(preview, uid)
 				return PreviewEntry { Preview = preview }
 			end),
-		},
-		Shadow {
-			Blur = 0.8,
-			Position = Vector2.zero,
-			ZIndex = -1,
-			Transparency = 0.3,
-			Extends = Vector2.new(16, 16),
 		},
 	}
 end

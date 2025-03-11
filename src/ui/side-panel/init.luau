@@ -24,9 +24,9 @@ function SidePanel()
 		end
 	end
 
-	return FilterContext.provide(filter, function()
+	return FilterContext(filter, function()
 		return Frame {
-			Name = "SidePanel",
+			Name = "SidePanelRender",
 			BackgroundColor3 = theme "Background2",
 			ClipsDescendants = true,
 

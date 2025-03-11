@@ -1,6 +1,6 @@
 local Vide = require "@pkg/vide"
 
-function Scroller(props: Vide.vScrollingFrame?)
+function Scroller(props: Vide.vScrollingFrame)
 	return Vide.create "ScrollingFrame" {
 		Name = "Scroller",
 		BackgroundTransparency = 1,
