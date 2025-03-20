@@ -38,7 +38,7 @@
 		"@rbxts/iris": "^2.3.1-ts.0",
 		"@rbxts/janitor": "^1.15.7-ts.0",
 		"@rbxts/lemon-signal": "^1.2.0",
-		"@rbxts/pretty-react-hooks": "^0.5.2",
+		"@rbxts/pretty-react-hooks": "^0.6.2",
 		"@rbxts/react": "^0.4.0",
 		"@rbxts/react-reflex": "^0.3.4",
 		"@rbxts/react-roblox": "^0.4.0",
@@ -48,7 +48,7 @@
 		"@rbxts/set-timeout": "^1.1.2",
 		"@rbxts/sift": "^0.0.6",
 		"@rbxts/t": "^3.1.1",
-		"@rbxts/ui-labs": "^2.3.0",
+		"@rbxts/ui-labs": "^2.3.8",
 		"@rbxts/vide": "^0.4.5"
 	}
 }

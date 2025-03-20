@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useMemo } from "@rbxts/react";
 import { useSelectorCreator } from "@rbxts/react-reflex";
 import { InferControls } from "@rbxts/ui-labs";
 import { ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
+import { WARNING_STORY_TYPES } from "Plugin/Warnings";
 import { selectPreview } from "Reflex/StoryPreview";
-import { UILabsWarn, YCall } from "Utils/MiscUtils";
+import { UILabsWarn } from "Utils/MiscUtils";
 import type { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
 import {
@@ -40,13 +40,14 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			});
 			//const runtime = InjectStoryRuntime(injection, "React", storyProps);
 
-			return YCall(result.story, storyProps, (didYield, err) => {
+			/*return YCall(result.story, storyProps, (didYield, err) => {
 				if (didYield) {
-					UILabsWarn(WARNINGS.Yielding.format(REACT_ERR));
+                    UILabsWarn(WARNINGS.Yielding.format(REACT_ERR));
 				} else {
-					UILabsWarn(WARNINGS.StoryError.format(REACT_ERR), err);
+                    UILabsWarn(WARNINGS.StoryError.format(REACT_ERR), err);
 				}
-			});
+			});*/
+			return result.react.createElement(result.story, storyProps);
 		} else {
 			return result.story;
 		}
