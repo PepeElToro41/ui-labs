@@ -1,3 +1,5 @@
+import Configs from "Plugin/Configs";
+
 export function FixColor3(color: Color3) {
 	const fixedColor = new Color3(
 		math.clamp(color.R, 0, 1),
@@ -53,9 +55,14 @@ export function UILabsWarn(reason: string, err?: unknown) {
 	}
 }
 
-export function IsLocalPlugin(gotPlugin: Plugin) {
+export function IsLocalPlugin(gotPlugin?: Plugin) {
 	if (gotPlugin === undefined) return true;
 	return gotPlugin.Name.find(".rbxm")[0] !== undefined;
+}
+
+export function IsCanaryPlugin(gotPlugin?: Plugin) {
+	if (gotPlugin === undefined) return false;
+	return gotPlugin.Name.find(tostring(Configs.CanaryPluginId))[0] !== undefined;
 }
 
 export function CreateTuple<T extends any[]>(...args: T) {

@@ -3,6 +3,7 @@ import { FromServiceNames } from "Utils/InstanceUtils";
 
 const Configs = {
 	PluginName: "UI Labs",
+	CanaryPluginName: "UI Labs (Canary)",
 	SpriteIcon: "rbxassetid://110765369713957",
 	RootPreviewKey: "RootStory",
 	PluginSettingsKey: "UILabsSettingsV1",
@@ -16,12 +17,15 @@ const Configs = {
 		"StarterGui",
 		"StarterPlayer"
 	]),
+
+	CanaryPluginId: 71531839034332,
 	GlobalInjectionKey: Environment.EnvGlobalInjectionKey, //the longer the better
 
 	Version: {
 		Mayor: 1,
 		Minor: 4,
-		Fix: 0
+		Fix: 0,
+		CanaryCommit: "8010068"
 	},
 
 	Extensions: {

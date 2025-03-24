@@ -1,25 +1,29 @@
 import React, { useCallback } from "@rbxts/react";
-import LeftList from "UI/Styles/List/LeftList";
-import Logo from "./Logo";
-import Text from "UI/Styles/Text";
-import Corner from "UI/Styles/Corner";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { Div } from "UI/Styles/Div";
-import Configs from "Plugin/Configs";
-import { Detector } from "UI/Styles/Detector";
-import { useToggler } from "Hooks/Utils/Toggler";
-import Padding from "UI/Styles/Padding";
 import { useProducer } from "@rbxts/react-reflex";
-import OptionsDropdown from "UI/Overlays/Dropdown/OptionsDropdown";
 import { useMouseOffset } from "Hooks/Context/UserInput";
+import { usePlugin } from "Hooks/Reflex/Use/Plugin";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useToggler } from "Hooks/Utils/Toggler";
+import Configs from "Plugin/Configs";
+import OptionsDropdown from "UI/Overlays/Dropdown/OptionsDropdown";
+import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
+import LeftList from "UI/Styles/List/LeftList";
+import Padding from "UI/Styles/Padding";
+import Text from "UI/Styles/Text";
+import { IsCanaryPlugin } from "Utils/MiscUtils";
+import Logo from "./Logo";
 
 interface BrandingProps {}
 
 function Branding(props: BrandingProps) {
 	const theme = useTheme();
+	const plugin = usePlugin();
 	const [hovered, hoverApi] = useToggler(false);
 	const { setPopup } = useProducer<RootProducer>();
 	const mouseOffset = useMouseOffset();
+	const isCanary = IsCanaryPlugin(plugin);
 
 	const OnMoreOptions = useCallback(() => {
 		const offset = mouseOffset.getValue();
@@ -29,9 +33,16 @@ function Branding(props: BrandingProps) {
 	}, []);
 
 	return (
-		<Div key={"Branding"} Size={new UDim2(1, 0, 0, 34)}>
-			<Div key={"PluginName"} Size={new UDim2(1, -25, 1, 0)} ClipsDescendants={true}>
-				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 8)} />
+		<Div key={"Branding"} Size={new UDim2(1, 0, 0, 35)}>
+			<Div
+				key={"PluginName"}
+				Size={new UDim2(1, -26, 1, 0)}
+				ClipsDescendants={true}
+			>
+				<LeftList
+					VerticalAlignment={Enum.VerticalAlignment.Center}
+					Padding={new UDim(0, 8)}
+				/>
 				<Logo />
 				<Text
 					key={"PluginName"}
@@ -41,16 +52,35 @@ function Branding(props: BrandingProps) {
 					TextSize={18}
 					AutomaticSize={Enum.AutomaticSize.X}
 				/>
+				<textbox
+					TextEditable={false}
+					ClearTextOnFocus={false}
+					key={"Version"}
+					TextColor3={theme.Text.Disabled}
+					BackgroundTransparency={1}
+					FontFace={Font.fromName("GothamSSm", Enum.FontWeight.Medium)}
+					Text={Configs.Version.CanaryCommit}
+					TextSize={11}
+					Size={UDim2.fromScale(0, 0.4)}
+					AutomaticSize={Enum.AutomaticSize.X}
+					TextYAlignment={Enum.TextYAlignment.Bottom}
+					Visible={isCanary}
+				/>
 				<Text
 					key={"Version"}
 					TextColor3={theme.Text.Disabled}
 					Text={`v${Configs.Version.Mayor}.${Configs.Version.Minor}.${Configs.Version.Fix}`}
-					Weight="Light"
 					TextSize={10}
 					AutomaticSize={Enum.AutomaticSize.X}
+					Visible={!isCanary}
 				/>
 			</Div>
-			<Div key={"Options"} Position={UDim2.fromScale(1, 0.5)} Size={UDim2.fromOffset(20, 20)} AnchorPoint={new Vector2(1, 0.5)}>
+			<Div
+				key={"Options"}
+				Position={UDim2.fromScale(1, 0.5)}
+				Size={UDim2.fromOffset(20, 20)}
+				AnchorPoint={new Vector2(1, 0.5)}
+			>
 				<Div ZIndex={-1}>
 					<Padding Padding={1} />
 					<frame
@@ -62,7 +92,11 @@ function Branding(props: BrandingProps) {
 						<Corner Radius={4} />
 					</frame>
 				</Div>
-				<uistroke Thickness={1} Color={theme.Divisor.Color} Transparency={theme.Divisor.Transparency} />
+				<uistroke
+					Thickness={1}
+					Color={theme.Divisor.Color}
+					Transparency={theme.Divisor.Transparency}
+				/>
 				<Corner Radius={4} />
 				<imagelabel
 					Image={"rbxassetid://18977916731"}
@@ -76,7 +110,7 @@ function Branding(props: BrandingProps) {
 					Event={{
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
-						MouseButton1Click: OnMoreOptions,
+						MouseButton1Click: OnMoreOptions
 					}}
 				/>
 			</Div>

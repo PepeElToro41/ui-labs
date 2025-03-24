@@ -1,28 +1,42 @@
 _G.__ROACT_17_MOCK_SCHEDULER__ = undefined;
 
-import { RunService } from "@rbxts/services";
 import React from "@rbxts/react";
-import Plugin from "UI/Plugin";
-import { Root, createLegacyRoot, createPortal } from "@rbxts/react-roblox";
 import { ReflexProvider } from "@rbxts/react-reflex";
+import { Root, createLegacyRoot, createPortal } from "@rbxts/react-roblox";
+import { RunService } from "@rbxts/services";
 import { RootProducer } from "Reflex";
-import { IsLocalPlugin } from "Utils/MiscUtils";
+import Plugin from "UI/Plugin";
 import { Div } from "UI/Styles/Div";
+import { IsCanaryPlugin, IsLocalPlugin } from "Utils/MiscUtils";
 
 /* eslint-disable roblox-ts/lua-truthiness */
 
 if (!RunService.IsRunning() || RunService.IsEdit()) {
 	const isLocal = IsLocalPlugin(plugin);
+	const isCanary = IsCanaryPlugin(plugin);
+
 	const toolbar = plugin.CreateToolbar(isLocal ? "UI Labs (DEV)" : "UI Labs");
-	const pluginButton = toolbar.CreateButton("UI Labs", "Open UI Labs", isLocal ? "rbxassetid://16652065460" : "rbxassetid://13858107432");
-	const stopButton = toolbar.CreateButton("Stop", "Stop UI Labs", "rbxassetid://13960086023");
+	const pluginButton = toolbar.CreateButton(
+		"UI Labs",
+		"Open UI Labs",
+		isLocal
+			? "rbxassetid://16652065460"
+			: isCanary
+				? "rbxassetid://88856573487980"
+				: "rbxassetid://13858107432"
+	);
+	const stopButton = toolbar.CreateButton(
+		"Stop",
+		"Stop UI Labs",
+		"rbxassetid://13960086023"
+	);
 
 	pluginButton.ClickableWhenViewportHidden = true;
 	stopButton.ClickableWhenViewportHidden = true;
 
 	const dockWidget = plugin.CreateDockWidgetPluginGui(
 		isLocal ? "UILabs_DEV" : "UILabs",
-		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Float, false, false, 0, 0),
+		new DockWidgetPluginGuiInfo(Enum.InitialDockState.Float, false, false, 0, 0)
 	);
 
 	dockWidget.Title = "UI Labs - Storybook";
@@ -66,7 +80,9 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 		dockWidget.Enabled = false;
 	});
 
-	const dockEnableConnection = dockWidget.GetPropertyChangedSignal("Enabled").Connect(onDockWidgetToggled);
+	const dockEnableConnection = dockWidget
+		.GetPropertyChangedSignal("Enabled")
+		.Connect(onDockWidgetToggled);
 	onDockWidgetToggled();
 
 	plugin.Unloading.Connect(() => {
