@@ -1,7 +1,8 @@
 import { useEventListener, useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { Binding, useEffect, useMemo, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { RunService, Selection } from "@rbxts/services";
+import { Selection } from "@rbxts/services";
+import { setInterval } from "@rbxts/set-timeout";
 import { useToolbarHovered } from "Context/StoryPanelContext";
 import {
 	useInputBegan,
@@ -109,13 +110,24 @@ function SelectElements(props: SelectElementsProps) {
 		if (toolbarHovered) return;
 		if (!holder) return;
 
-		const connection = RunService.Heartbeat.Connect(() => {
+		const stop = setInterval(() => {
 			const inside = GetGuisAtPosition(holder, mousePos.getValue());
 			setHovered(inside);
-		});
+		}, 0.1);
 
-		return () => connection.Disconnect();
+		return stop;
 	}, [props.Inside, toolbarHovered, widget, holder]);
+
+	useEffect(() => {
+		if (!holder) return;
+		// testing purposes
+		const connection = inputBegan.Connect((input) => {
+			if (input.KeyCode !== Enum.KeyCode.J) return;
+			//const inside = GetGuisAtPosition(holder, mousePos.getValue());
+			//setHovered(inside);
+		});
+		return () => connection.Disconnect();
+	}, [inputBegan, holder]);
 
 	useEffect(() => {
 		if (!props.Inside || toolbarHovered) {
