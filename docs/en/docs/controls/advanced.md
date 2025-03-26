@@ -34,7 +34,7 @@ Slider control allows you to add a number between a range, it gets displayed as 
 
 ## RGBA Control
 
-This control is similar to the Color3 primitive, but this one allows you to modify the alpha value of the color.<br/>
+RGBA control is similar to the Color3 primitive, but this one allows you to modify the alpha value of the color.<br/>
 The alpha value gets converted to transparency when used in your story.
 
 The control type will be: <span class="type-declaration"> {
@@ -160,3 +160,29 @@ return story
 ```
 
 :::
+
+
+## Object Control
+
+Object control will let you select a roblox Instance in the explorer, you can constraint what instance can be selected.
+
+The type for this control can be nil as the instance can be destroyed at any time. It's recommended that your code can handle nil values.
+
+
+<img class="image-label" src="/docs/controls/advanced/enumlist.png" alt="enumlist" />
+
+---
+
+
+<span class="type-declaration"><span class="type-function-name">Object</span>(<span class="type-name-opt">className</span>?,
+<span class="type-name-opt">def</span>? ,
+<span class="type-name-opt">predicator</span>? )</span>
+
+<span class="item-description">Arguments</span>
+
+-   <span class="argument-name"> className </span><span class="type-highlight">string</span><span class="props-table-optional">Optional</span>
+    <span class="arguments-body"> The required classname of the Instance to be selected, this is compared with `Instance:IsA`, so superclasses are also accepted </span> <span class="tiphelp">&nbsp;&nbsp; Default: "Instance"</span>
+-   <span class="argument-name"> def </span><span class="type-highlight">Instance</span><span class="props-table-optional">Optional</span>
+    <span class="arguments-body"> Default instance </span> <span class="tiphelp">&nbsp;&nbsp; Default: nil</span>
+-   <span class="argument-name"> predicator </span><span class="type-highlight">function</span><span class="props-table-optional">Optional</span>
+    <span class="arguments-body"> A function that receives the selected instance and returns a boolean, if the function returns false, the instance will not be assigned </span> <span class="tiphelp">&nbsp;&nbsp; Default: nil</span>
