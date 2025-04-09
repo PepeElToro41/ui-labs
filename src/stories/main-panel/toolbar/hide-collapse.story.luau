@@ -1,9 +1,9 @@
 local Vide = require "@pkg/vide"
 local UILabs = require "@pkg/ui-labs"
 
-local Frame = require "@styles/frame"
-local Div = require "@styles/div"
-local Padding = require "@styles/padding"
+local Frame = require "@base/frame"
+local Div = require "@base/div"
+local Padding = require "@base/padding"
 local Background = require "@ui/main-panel/background"
 local HiddenCollapseToolbar = require "@ui/main-panel/toolbar/hidden-collapse"
 

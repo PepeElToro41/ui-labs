@@ -2,14 +2,15 @@ local Vide = require "@pkg/vide"
 local PRESETS = require "@constants/ui-presets"
 local useTheme = require("@contexts/theme").useTheme
 local boolean = require("@utils/vide/derivers").boolean
+local actions = require "@actions"
 
 local source = Vide.source
 local read = Vide.read
 
-local Frame = require "@styles/frame"
-local Rounder = require "@styles/rounder"
-local Image = require "@styles/image"
-local Detector = require "@styles/detector"
+local Frame = require "@base/frame"
+local Rounder = require "@base/rounder"
+local Image = require "@base/image"
+local Detector = require "@base/detector"
 
 type PanelButtonProps = {
 	ButtonIcon: Derivable<string>,
@@ -42,7 +43,10 @@ function PanelButton(props: PanelButtonProps)
 			Size = UDim2.fromOffset(props.ButtonSize or 18, props.ButtonSize or 18),
 			PRESETS.Centered,
 		},
-		Detector { Hovered = hovered, MouseButton1Click = props.OnClick },
+		Detector {
+			actions.Hovered(hovered),
+			MouseButton1Click = props.OnClick,
+		},
 	}
 end
 

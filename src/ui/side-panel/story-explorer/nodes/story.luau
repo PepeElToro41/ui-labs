@@ -1,21 +1,22 @@
 local Vide = require "@pkg/vide"
 local useAtom = require("@utils/charm").useAtom
-local PreviewsSystem = require("@system/previews")
-local PreviewsConsumers = require("@store/story-previews/consume")
+local PreviewsSystem = require "@system/previews"
+local PreviewsConsumers = require "@store/story-previews/consume"
 
 local IMAGES = require "@constants/images"
 local useNodeName = require("../utils").useNodeName
 local useTheme = require("@contexts/theme").useTheme
 local Divisor = require "@ui/elements/divisor"
+local actions = require "@actions"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local Padding = require "@styles/padding"
-local LeftList = require "@styles/list/left"
-local Text = require "@styles/text"
-local Image = require "@styles/image"
-local Corner = require "@styles/corner"
-local Detector = require "@styles/detector"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local Padding = require "@base/padding"
+local LeftList = require "@base/list/left"
+local Text = require "@base/text"
+local Image = require "@base/image"
+local Corner = require "@base/corner"
+local Detector = require "@base/detector"
 
 local source = Vide.source
 local derive = Vide.derive
@@ -123,7 +124,7 @@ function Story(props: StoryProps)
 			ImageTransparency = 0.8,
 		},
 		Detector {
-			Hovered = hovered,
+			actions.Hovered(hovered),
 			MouseButton1Click = OnStoryClicked,
 		},
 	}

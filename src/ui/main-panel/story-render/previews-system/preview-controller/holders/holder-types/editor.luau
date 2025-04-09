@@ -3,8 +3,8 @@ local CONFIGS = require "@constants/configs"
 local RemoveExtension = require("@contexts/module-search/utils").RemoveExtension
 
 local StoryPreviews = require "@store/story-previews"
-local Div = require "@styles/div"
-local Padding = require "@styles/padding"
+local Div = require "@base/div"
+local Padding = require "@base/padding"
 local Shadow = require "@ui/elements/shadow"
 
 type StoryPreview = StoryPreviews.StoryPreview

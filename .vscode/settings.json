@@ -13,6 +13,7 @@
       "types/services.d.luau",
       "types/vide.d.luau",
       "types/nodes.d.luau",
+      "types/controls.d.luau"
    ],
    "[luau]": {
       "editor.defaultFormatter": "JohnnyMorganz.stylua"
@@ -20,4 +21,5 @@
    "[lua]": {
       "editor.defaultFormatter": "JohnnyMorganz.stylua"
    },
+   "luau-lsp.sourcemap.generatorCommand": "rojo sourcemap --watch",
 }

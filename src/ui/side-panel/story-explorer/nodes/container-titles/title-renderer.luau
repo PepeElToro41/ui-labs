@@ -1,11 +1,11 @@
 local IMAGES = require "@constants/images"
 local useTheme = require("@contexts/theme").useTheme
 
-local Div = require "@styles/div"
-local Padding = require "@styles/padding"
-local LeftList = require "@styles/list/left"
-local Image = require "@styles/image"
-local Text = require "@styles/text"
+local Div = require "@base/div"
+local Padding = require "@base/padding"
+local LeftList = require "@base/list/left"
+local Image = require "@base/image"
+local Text = require "@base/text"
 
 type TitleRendererProps = {
 	Name: Reactive<string>,

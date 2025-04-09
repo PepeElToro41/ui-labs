@@ -9,13 +9,14 @@ local array_keys = require("@utils/vide").array_keys
 local Story = require "./story"
 local useFilter = require("@ui/side-panel/filtering").useFilter
 local useNodeName = require("../utils").useNodeName
+local actions = require "@actions"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local TopList = require "@styles/list/top"
-local Corner = require "@styles/corner"
-local Detector = require "@styles/detector"
-local Padding = require "@styles/padding"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local TopList = require "@base/list/top"
+local Corner = require "@base/corner"
+local Detector = require "@base/detector"
+local Padding = require "@base/padding"
 
 type Source<T> = Vide.Source<T>
 
@@ -100,10 +101,10 @@ function NodeContainer(props: NodeContainerProps)
 				Direction = "X",
 			},
 			Detector {
-				Hovered = hovered,
 				MouseButton1Click = function()
 					expanded(not expanded())
 				end,
+				actions.Hovered(hovered),
 			},
 		},
 		Div {

@@ -2,7 +2,7 @@ local Vide = require "@pkg/vide"
 
 local IMAGES = require "@constants/images"
 
-local Image = require "@styles/image"
+local Image = require "@base/image"
 
 export type GlowProps = {
 	Name: string?,

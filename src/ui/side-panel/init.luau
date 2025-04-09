@@ -2,9 +2,9 @@ local Vide = require "@pkg/vide"
 local useTheme = require("@contexts/theme").useTheme
 local FilterContext = require("@ui/side-panel/filtering").FilterContext
 
-local Frame = require "@styles/frame"
-local TopList = require "@styles/list/top"
-local Padding = require "@styles/padding"
+local Frame = require "@base/frame"
+local TopList = require "@base/list/top"
+local Padding = require "@base/padding"
 
 local Branding = require "./branding"
 local StorySearch = require "./story-search"

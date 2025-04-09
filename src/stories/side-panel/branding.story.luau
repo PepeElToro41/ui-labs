@@ -3,8 +3,8 @@ local UILabs = require "@pkg/ui-labs"
 local useTheme = require("@contexts/theme").useTheme
 local Branding = require "@ui/side-panel/branding"
 
-local Frame = require "@styles/frame"
-local Padding = require "@styles/padding"
+local Frame = require "@base/frame"
+local Padding = require "@base/padding"
 
 local story = UILabs.CreateVideStory({ vide = Vide }, function()
 	local theme = useTheme()
@@ -16,7 +16,7 @@ local story = UILabs.CreateVideStory({ vide = Vide }, function()
 		Padding { PaddingX = 10, PaddingY = 6 },
 
 		Branding(),
-	}
+	} :: any
 end)
 
 return story

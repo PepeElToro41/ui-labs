@@ -1,8 +1,8 @@
 local Common = require "../common"
 local NumberInput = require "../common/number-input"
 
-local Div = require "@styles/div"
-local LeftList = require "@styles/list/left"
+local Div = require "@base/div"
+local LeftList = require "@base/list/left"
 
 type NumberControl = {
 	Min: number?,

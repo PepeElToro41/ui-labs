@@ -4,15 +4,15 @@ local useTheme = require("@contexts/theme").useTheme
 local create = Vide.create
 local source = Vide.source
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local TopList = require "@styles/list/top"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local TopList = require "@base/list/top"
 
 local Background = require "./background"
 local HiddenCollapseToolbar = require "./toolbar/hidden-collapse"
 local PreviewsSystem = require "./story-render/previews-system"
-local TabsPanel = require("./tabs-panel")
-local PreviewList = require("./preview-list")
+local TabsPanel = require "./tabs-panel"
+local PreviewList = require "./preview-list"
 
 function MainPanel()
 	local theme = useTheme()

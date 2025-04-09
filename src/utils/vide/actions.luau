@@ -34,7 +34,7 @@ function Changed(property: string, output: (value: any) -> ())
 	end)
 end
 
-function ListenDragging(output: Source<boolean>)
+function Dragging(output: Source<boolean>)
 	return action(function(drag: UIDragDetector)
 		local dragStart = drag.DragStart:Connect(function()
 			output(true)
@@ -52,6 +52,6 @@ end
 
 return table.freeze {
 	Hovered = Hovered,
-	ListenDragging = ListenDragging,
+	Dragging = Dragging,
 	Changed = Changed,
 }

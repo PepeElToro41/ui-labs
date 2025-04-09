@@ -4,10 +4,9 @@ local Vide = require "@pkg/vide"
 local create = Vide.create
 
 local useTheme = require("@contexts/theme").useTheme
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local LeftList = require "@styles/list/left"
-local Text = require "@styles/text"
+local Div = require "@base/div"
+local LeftList = require "@base/list/left"
+local Text = require "@base/text"
 
 type ControlHolderProps = {
 	ControlName: Derivable<string>,

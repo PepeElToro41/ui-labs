@@ -1,5 +1,5 @@
 local Vide = require "@pkg/vide"
-local Div = require "@styles/div"
+local Div = require "@base/div"
 
 type Context<T> = Vide.Context<T>
 

@@ -9,16 +9,16 @@ local constant = require("@utils/vide").constant
 local StoryPreviews = require "@store/story-previews"
 local useTheme = require("@contexts/theme").useTheme
 local RemoveExtension = require("@contexts/module-search/utils").RemoveExtension
-local CONFIGS = require("@constants/configs")
+local CONFIGS = require "@constants/configs"
 local IMAGES = require "@constants/images"
 
-local Frame = require "@styles/frame"
-local Div = require "@styles/div"
-local Image = require "@styles/image"
-local Padding = require "@styles/padding"
-local LeftList = require "@styles/list/left"
-local Corner = require "@styles/corner"
-local Text = require "@styles/text"
+local Frame = require "@base/frame"
+local Div = require "@base/div"
+local Image = require "@base/image"
+local Padding = require "@base/padding"
+local LeftList = require "@base/list/left"
+local Corner = require "@base/corner"
+local Text = require "@base/text"
 
 local Shadow = require "@ui/elements/shadow"
 

@@ -2,20 +2,20 @@ local Vide = require "@pkg/vide"
 local useTheme = require("@contexts/theme").useTheme
 local IMAGES = require "@constants/images"
 local InputGlow = require "@ui/elements/input-glow"
+local actions = require "@actions"
 
 local create = Vide.create
 local source = Vide.source
 local action = Vide.action
 
-local Frame = require "@styles/frame"
-local Div = require "@styles/div"
-local Image = require "@styles/image"
-local RightList = require "@styles/list/right"
-local Corner = require "@styles/corner"
-local Padding = require "@styles/padding"
-local Text = require "@styles/text"
-local TextInput = require "@styles/text-input"
-local Detector = require "@styles/detector"
+local Frame = require "@base/frame"
+local Image = require "@base/image"
+local RightList = require "@base/list/right"
+local Corner = require "@base/corner"
+local Padding = require "@base/padding"
+local Text = require "@base/text"
+local TextInput = require "@base/text-input"
+local Detector = require "@base/detector"
 
 type NumberEntryProps = {
 	Value: Reactive<number>,
@@ -104,7 +104,7 @@ function NumberEntry(props: NumberEntryProps)
 				TextColor3 = theme "Text3",
 				TextSize = 13,
 				FontFace = Font.fromName("Jura", Enum.FontWeight.Medium),
-			} or nil,
+			},
 			props.Dragger and DraggerHandles {} or nil,
 		},
 	}

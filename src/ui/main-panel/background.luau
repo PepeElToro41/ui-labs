@@ -1,7 +1,7 @@
 local Vide = require "@pkg/vide"
 local useTheme = require("@contexts/theme").useTheme
-local Frame = require "@styles/frame"
-local Image = require "@styles/image"
+local Frame = require "@base/frame"
+local Image = require "@base/image"
 
 local IMAGES = require "@constants/images"
 

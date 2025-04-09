@@ -1,0 +1,16 @@
+diff --git a/src/roblox_types.luau b/src/roblox_types.luau
+index 40ac68d..d9870b8 100644
+--- a/src/roblox_types.luau
++++ b/src/roblox_types.luau
+@@ -2,9 +2,9 @@ type p<T> = T? | () -> T
+ type e<T = () -> ()> = T?
+ type a = { priority: number, callback: (Instance) -> () }
+ type recursive<T> = T | { recursive<T> } | () -> recursive<T>
+-type c<T> = a | T | recursive<T> | Instance? | () -> Instance?
++type c<T> = a | T | recursive<T> | recursive<Instance?>
+ 
+-type Dictionary = { [string]: any } 
++type Dictionary = { [string]: any }
+ type Array = { any }
+ 
+ export type vCanvasGroup = {

@@ -10,12 +10,12 @@ local Lerp = require("@utils/number").Lerp
 local Shadow = require "@ui/elements/shadow"
 local Glow = require "@ui/elements/glow"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local Padding = require "@styles/padding"
-local Rounder = require "@styles/rounder"
-local Corner = require "@styles/corner"
-local Image = require "@styles/image"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local Padding = require "@base/padding"
+local Rounder = require "@base/rounder"
+local Corner = require "@base/corner"
+local Image = require "@base/image"
 local ToolbarRender = require "@ui/main-panel/toolbar/toolbar-render"
 
 type Source<T> = Vide.Source<T>

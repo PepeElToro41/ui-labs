@@ -12,11 +12,11 @@ type Source<T> = Vide.Source<T>
 local PanelButton = require "./panel-button"
 local Divisor = require "@ui/elements/divisor"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local LeftList = require "@styles/list/left"
-local Padding = require "@styles/padding"
-local Corner = require "@styles/corner"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local LeftList = require "@base/list/left"
+local Padding = require "@base/padding"
+local Corner = require "@base/corner"
 
 type PanelRender = {
 	PanelAnchored: Source<boolean>,
@@ -77,9 +77,9 @@ function PanelRender(props: PanelRender)
 						ButtonSize = 16,
 						OnClick = function()
 							if props.PanelLayout() == "Bottom" then
-								props.PanelLayout("Right")
+								props.PanelLayout "Right"
 							elseif props.PanelLayout() == "Right" then
-								props.PanelLayout("Bottom")
+								props.PanelLayout "Bottom"
 							end
 						end,
 					},

@@ -1,8 +1,8 @@
 local useTheme = require("@contexts/theme").useTheme
 local ControlHolder = require "@ui/main-panel/controls/control-holder"
 
-local Frame = require "@styles/frame"
-local Padding = require "@styles/padding"
+local Frame = require "@base/frame"
+local Padding = require "@base/padding"
 
 type StoryControlProps = {
 	ControlName: Derivable<string>,

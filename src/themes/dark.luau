@@ -1,8 +1,12 @@
 local Dark = {
 	Background1 = Color3.fromRGB(18, 20, 24),
 	Background2 = Color3.fromRGB(28, 30, 32),
-	Background3 = Color3.fromRGB(32, 35, 43),
+	Background3 = Color3.fromRGB(34, 37, 44),
 	Background4 = Color3.fromRGB(45, 49, 58),
+	Background5 = Color3.fromRGB(91, 100, 99),
+
+	PureColor = Color3.fromRGB(0, 0, 0),
+	PureInverted = Color3.fromRGB(255, 255, 255),
 
 	Text1 = Color3.fromRGB(255, 255, 255),
 	Text2 = Color3.fromRGB(196, 196, 196),
@@ -16,6 +20,7 @@ local Dark = {
 	TextActive3 = Color3.fromRGB(59, 36, 65),
 
 	Emphasis = Color3.fromRGB(180, 133, 255),
+	Emphasis2 = Color3.fromRGB(148, 99, 226),
 
 	Border = Color3.fromHSV(0, 0, 0.5),
 

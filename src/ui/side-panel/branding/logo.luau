@@ -1,8 +1,8 @@
 local UI_PRESETS = require "@constants/ui-presets"
 local IMAGES = require "@constants/images"
 
-local Div = require "@styles/div"
-local Image = require "@styles/image"
+local Div = require "@base/div"
+local Image = require "@base/image"
 
 function Logo()
 	return Div {

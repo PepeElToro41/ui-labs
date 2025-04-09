@@ -1,7 +1,7 @@
 local TitleRenderer = require "./title-renderer"
 local IMAGES = require "@constants/images"
 
-local Image = require "@styles/image"
+local Image = require "@base/image"
 local useTheme = require("@contexts/theme").useTheme
 
 type RendererProps = {

@@ -57,6 +57,13 @@ function constant<T>(val: T): Reactive<T>
 	end
 end
 
+function inner_effect(callback: () -> ())
+	return untrack(function()
+		effect(callback)
+		return nil
+	end)
+end
+
 function single<T, R>(source: Source<T>, transform: (value: T) -> R): Source<R>
 	return derive(function()
 		local value = source()
@@ -99,7 +106,7 @@ function memo_indexes<K, VI, VO>(input: () -> Map<K, VI>, transform: (() -> VI, 
 	end)
 end
 
-function initSource<T>(init: (T | Source<T>)?, def: T?): Source<T>
+function init_source<T>(init: (T | Source<T>)?, def: T?): Source<T>
 	if not init then return source(def :: T) end
 
 	if type(init) == "function" then return init end
@@ -109,7 +116,8 @@ end
 
 return table.freeze {
 	constant = constant,
-	initSource = initSource,
+	inner_effect = inner_effect,
+	init_source = init_source,
 	array_keys = array_keys,
 	memo_indexes = memo_indexes,
 	single = single,

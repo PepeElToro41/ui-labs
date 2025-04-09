@@ -12,7 +12,7 @@
                "@contexts": "src/contexts",
                "@hooks": "src/hooks",
                "@utils": "src/utils",
-               "@styles": "src/ui/styles",
+               "@base": "src/ui/base",
                "@actions": "src/utils/vide/actions",
                "@ui": "src/ui",
                "@themes": "src/themes"

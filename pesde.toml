@@ -24,6 +24,7 @@ scripts = { name = "pesde/scripts_rojo", version = "^0.1.0", target = "lune" }
 rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
 
 [dependencies]
+rsml = { wally = "cameronpcampbell/rsml", version = "^1.0.10" }
 immut = { wally = "solarhorizon/immut", version = "^0.4.4" }
 ripple = { wally = "littensy/ripple", version = "^0.9.1" }
 collections = { wally = "jsdotlua/collections", version = "^1.2.7" }
@@ -33,5 +34,8 @@ t = { wally = "osyrisrblx/t", version = "^3.1.1" }
 sift = { wally = "csqrl/sift", version = "^0.0.11" }
 vide = { wally = "alicesaidhi/vide", version = "^0.3.1-lite.656" }
 janitor = { wally = "howmanysmall/janitor", version = "^1.18.0" }
-charm = { wally = "littensy/charm", version = "^0.10.0" }
+charm = { wally = "pepeeltoro41/charm-with-dispatchers", version = "^0.0.3" }
 ui-labs = { name = "pepeeltoro41/ui_labs", version = "^2.3.8" }
+
+[patches]
+"wally#alicesaidhi/vide" = { "0.3.1-lite.656 roblox" = "patches/wally#alicesaidhi+vide-0.3.1-lite.656+roblox.patch" }

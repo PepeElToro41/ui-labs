@@ -131,7 +131,6 @@ export type Services = {
 	ServiceVisibilityService: ServiceVisibilityService,
 	SessionService: SessionService,
 	SharedTableRegistry: SharedTableRegistry,
-	ShorelineUpgraderService: ShorelineUpgraderService,
 	SmoothVoxelsUpgraderService: SmoothVoxelsUpgraderService,
 	SnippetService: SnippetService,
 	SocialService: SocialService,
@@ -181,7 +180,7 @@ export type Services = {
 }
 
 export type ServiceName = (
-	| "AccountService"
+			| "AccountService"
 	| "AchievementService"
 	| "AnalyticsService"
 	| "AnimationClipProvider"
@@ -360,4 +359,4 @@ export type ServiceName = (
 	| "VRService"
 	| "VRStatusService"
 	| "Workspace"
-);
+)

@@ -2,7 +2,7 @@ local CoreGui = game:GetService "CoreGui"
 
 local Vide = require "@pkg/vide"
 local StoryPreviews = require "@store/story-previews"
-local Div = require "@styles/div"
+local Div = require "@base/div"
 
 type StoryPreview = StoryPreviews.StoryPreview
 

@@ -7,11 +7,11 @@ local useTheme = require("@contexts/theme").useTheme
 local Divisor = require "@ui/elements/divisor"
 local StorybookNodes = require "./storybook-nodes"
 
-local Div = require "@styles/div"
-local TopList = require "@styles/list/top"
-local Text = require "@styles/text"
-local Scroller = require "@styles/scroller"
-local Padding = require "@styles/padding"
+local Div = require "@base/div"
+local TopList = require "@base/list/top"
+local Text = require "@base/text"
+local Scroller = require "@base/scroller"
+local Padding = require "@base/padding"
 
 local create = Vide.create
 local derive = Vide.derive

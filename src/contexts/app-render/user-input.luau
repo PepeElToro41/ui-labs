@@ -1,7 +1,7 @@
 local Vide = require "@pkg/vide"
 local Signal = require "@pkg/signal"
 
-local Div = require "@styles/div"
+local Div = require "@base/div"
 
 type Source<T> = Vide.Source<T>
 type Context<T> = Vide.Context<T>

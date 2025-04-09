@@ -5,14 +5,19 @@ roblox.yml
 roblox.toml
 
 globalTypes.d.lua
-/serve
-/include
+serve
+include
 *.tsbuildinfo
 lune_packages
 luau_packages
 roblox_packages
+node_modules
 
 **/sourcemap.json
 **/darklua-sourcemap.json
 
 Packages
+
+# Added by cargo
+
+/target

@@ -1,28 +1,25 @@
 local Vide = require "@pkg/vide"
 local UILabs = require "@pkg/ui-labs"
+local Utils = require "../utils"
+local Boolean = require "@ui/main-panel/controls/primitives/boolean"
 
 local source = Vide.source
 
-local Slider = require "@ui/main-panel/controls/advanced/slider"
-local Utils = require "../utils"
-
-Vide.strict = false
-
 local story = UILabs.CreateVideStory({ vide = Vide }, function()
-	local control = UILabs.Slider(60, 0, 100, 10)
+	local control = UILabs.Boolean(false)
 	local value = source(control.ControlValue)
 
 	return Utils.StoryControl {
-		ControlName = "Slider Control",
+		ControlName = "Boolean Control",
 		ResetControl = function()
 			value(control.ControlValue)
 		end,
-		ControlRender = Slider {
+		ControlRender = Boolean {
 			Control = control :: any,
 			Value = value,
 			Apply = value,
 		},
-	} :: any
+	}
 end)
 
 return story

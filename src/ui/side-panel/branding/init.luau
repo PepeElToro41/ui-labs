@@ -6,12 +6,12 @@ local useTheme = require("@contexts/theme").useTheme
 
 local Logo = require "./logo"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local LeftList = require "@styles/list/left"
-local Text = require "@styles/text"
-local Corner = require "@styles/corner"
-local Image = require "@styles/image"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local LeftList = require "@base/list/left"
+local Text = require "@base/text"
+local Corner = require "@base/corner"
+local Image = require "@base/image"
 
 local create = Vide.create
 

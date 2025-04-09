@@ -4,11 +4,11 @@ local Vide = require "@pkg/vide"
 local indexes = Vide.indexes
 local create = Vide.create
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local LeftList = require "@styles/list/left"
-local Padding = require "@styles/padding"
-local Corner = require "@styles/corner"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local LeftList = require "@base/list/left"
+local Padding = require "@base/padding"
+local Corner = require "@base/corner"
 
 local Shadow = require "@ui/elements/shadow"
 local PreviewEntry = require "./preview-entry"

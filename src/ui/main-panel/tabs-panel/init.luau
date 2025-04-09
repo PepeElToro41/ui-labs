@@ -6,7 +6,7 @@ local switch = Vide.switch
 
 type Source<T> = Vide.Source<T>
 
-local Div = require "@styles/div"
+local Div = require "@base/div"
 local ResizablePanel = require "@ui/holders/resizable-panel"
 local PanelRender = require "./panel-render"
 

@@ -2,8 +2,8 @@ local ResizablePanel = require "@ui/holders/resizable-panel"
 local MainPanel = require "@ui/main-panel"
 local SidePanel = require "@ui/side-panel"
 
-local Div = require "@styles/div"
-local LeftList = require "@styles/list/left"
+local Div = require "@base/div"
+local LeftList = require "@base/list/left"
 
 function UILabs()
 	return Div {

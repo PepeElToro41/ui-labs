@@ -2,7 +2,7 @@ local Vide = require "@pkg/vide"
 local cleanup = Vide.cleanup
 
 local Extract = require("@utils/vide/props").Extract
-local ListenDragging = require("@actions").ListenDragging
+local actions = require "@actions"
 
 type Source<T> = Vide.Source<T>
 
@@ -17,9 +17,9 @@ function DragDetector(props: DragDetectorProps)
 
 	local dragger = Vide.create "UIDragDetector"(props)
 
-	if dragging then ListenDragging(dragging).callback(dragger) end
+	if dragging then actions.Dragging(dragging).callback(dragger) end
 
-	if dragChanged then cleanup(dragger.DragContinue:Connect(function()
+	if dragChanged then cleanup(dragger.DragContinue:Connect(function(asd)
 		dragChanged(dragger.DragUDim2)
 	end)) end
 

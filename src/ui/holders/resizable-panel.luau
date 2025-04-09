@@ -1,12 +1,13 @@
 local Vide = require "@pkg/vide"
-local initSource = require("@utils/vide").initSource
+local init_source = require("@utils/vide").init_source
 
 local UDimOffset = require("@utils/number").UDimOffset
+local actions = require "@actions"
 
-local Div = require "@styles/div"
-local Frame = require "@styles/frame"
-local Detector = require "@styles/detector"
-local DragDetector = require "@styles/drag-detector"
+local Div = require "@base/div"
+local Frame = require "@base/frame"
+local Detector = require "@base/detector"
+local DragDetector = require "@base/drag-detector"
 
 type Source<T> = Vide.Source<T>
 
@@ -39,7 +40,7 @@ function ResizablePanel(props: ResizablePanelProps)
 	local dragging = source(false)
 	local hovered = source(false)
 	local collapsed: Source<boolean> = props.Collapsed or source(false)
-	local panelSize = initSource(props.PanelSize) :: Source<number>
+	local panelSize = init_source(props.PanelSize) :: Source<number>
 
 	local detector = source() :: Source<UIDragDetector>
 
@@ -123,8 +124,8 @@ function ResizablePanel(props: ResizablePanelProps)
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				Size = OffsetUDim2(usesWith, props.HandleThickness or 10, UDim2.fromScale(1, 1)),
 				ZIndex = 2,
-				Hovered = hovered,
 
+				actions.Hovered(hovered),
 				DragDetector {
 					DragRelativity = Enum.UIDragDetectorDragRelativity.Relative,
 					ResponseStyle = Enum.UIDragDetectorResponseStyle.CustomOffset,

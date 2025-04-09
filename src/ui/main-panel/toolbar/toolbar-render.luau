@@ -3,9 +3,9 @@ local IMAGES = require "@constants/images"
 local Divisor = require "@ui/elements/divisor"
 local ToolbarButton = require "./toolbar-button"
 
-local Div = require "@styles/div"
-local Padding = require "@styles/padding"
-local TopList = require "@styles/list/top"
+local Div = require "@base/div"
+local Padding = require "@base/padding"
+local TopList = require "@base/list/top"
 
 type Source<T> = Vide.Source<T>
 

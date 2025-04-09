@@ -5,7 +5,6 @@
 
 [tools]
 darklua = "seaofvoices/darklua@0.16.0"
-rojo = "rojo-rbx/rojo@7.4.4"
 selene = "kampfkarren/selene@0.28.0"
-luau-lsp = "johnnymorganz/luau-lsp@1.40.0"
+luau-lsp = "johnnymorganz/luau-lsp@1.42.1"
 lune = "lune-org/lune@0.8.9"

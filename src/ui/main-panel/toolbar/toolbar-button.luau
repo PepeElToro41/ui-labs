@@ -1,12 +1,13 @@
 local Vide = require "@pkg/vide"
 local useTheme = require("@contexts/theme").useTheme
 local IMAGES = require "@constants/images"
+local actions = require "@actions"
 
-local Image = require "@styles/image"
-local Frame = require "@styles/frame"
-local Corner = require "@styles/corner"
-local Detector = require "@styles/detector"
-local Div = require "@styles/div"
+local Image = require "@base/image"
+local Frame = require "@base/frame"
+local Corner = require "@base/corner"
+local Detector = require "@base/detector"
+local Div = require "@base/div"
 
 local boolean = require("@utils/vide/derivers").boolean
 
@@ -61,7 +62,7 @@ function ToolbarButton(props: ToolbarButtonProps)
 				},
 			}
 		end),
-		Detector { Hovered = hovered },
+		Detector { actions.Hovered(hovered) },
 	}
 end
 
