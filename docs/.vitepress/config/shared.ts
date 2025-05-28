@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 export const shared = defineConfig({
 	title: "UI Labs",
 	titleTemplate: ":title - UI Labs",
-	base: "/ui-labs/",
+	base: "/",
 	cleanUrls: true,
 
 	rewrites: {
@@ -16,7 +16,7 @@ export const shared = defineConfig({
 			{
 				rel: "icon",
 				type: "image/x-icon",
-				href: "/ui-labs/home/pluginicon.ico"
+				href: "/home/pluginicon.ico"
 			}
 		],
 		[
