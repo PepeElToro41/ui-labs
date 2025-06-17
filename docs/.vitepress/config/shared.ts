@@ -30,6 +30,6 @@ export const shared = defineConfig({
 
 	themeConfig: {
 		logo: "/home/pluginicon.ico",
-		socialLinks: [{ icon: "github", link: "https://ui-labs.luau.page" }]
+		socialLinks: [{ icon: "github", link: "https://github.com/PepeElToro41/ui-labs" }]
 	}
 });
