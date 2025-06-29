@@ -8,6 +8,7 @@ declare global {
 	interface StoryHolderProps {
 		PreviewEntry: PreviewEntry;
 		MountFrame: Frame;
+		ListenerFrame: Frame;
 		MountType?: MountType;
 		SetCanReload: (canReload: boolean) => void;
 	}
@@ -27,6 +28,7 @@ export function CreateHolder(
 	entry: PreviewEntry,
 	mountType: MountType | undefined,
 	mountFrame: Frame,
+	listenerFrame: Frame,
 	setCanReload: (canReload: boolean) => void
 ) {
 	const HolderFactory = StoryHoldersMap[holderType];
@@ -36,6 +38,7 @@ export function CreateHolder(
 			PreviewEntry={entry}
 			MountType={mountType}
 			MountFrame={mountFrame}
+			ListenerFrame={listenerFrame}
 			SetCanReload={setCanReload}
 		/>
 	);

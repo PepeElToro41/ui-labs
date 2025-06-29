@@ -1,10 +1,7 @@
-import { useMountEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect, useRef } from "@rbxts/react";
 import { PrimitiveControl } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
-import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
-import DropShadow from "UI/Utils/DropShadow";
 import InputBase from "UI/Utils/InputBase";
 import { ApplyFilters } from "Utils/StringUtils";
 
@@ -23,7 +20,7 @@ function StringControl(props: ControlElementProps<PrimitiveControl<"String">>) {
 			const text = ApplyFilters(textbox.Text, props.Control.Filters ?? []);
 			textbox.Text = text;
 		},
-		[props.Control],
+		[props.Control]
 	);
 	const OnFocusLost = useCallback(
 		(textbox: TextBox) => {
@@ -32,7 +29,7 @@ function StringControl(props: ControlElementProps<PrimitiveControl<"String">>) {
 			if (text === props.Current) return;
 			props.Apply(text);
 		},
-		[props.Control, props.Apply, props.Current],
+		[props.Control, props.Apply, props.Current]
 	);
 
 	return (
@@ -42,7 +39,7 @@ function StringControl(props: ControlElementProps<PrimitiveControl<"String">>) {
 				TextboxProps={{
 					PlaceholderText: "Edit string...",
 					TextSize: 13,
-					ClearTextOnFocus: false,
+					ClearTextOnFocus: false
 				}}
 				OnTextChanged={OnTextChanged}
 				OnFocusLost={OnFocusLost}

@@ -24,6 +24,7 @@ function Editor(props: StoryHolderProps) {
 		if (!holder) return;
 		if (onViewport) return;
 		props.MountFrame.Parent = holder;
+		props.ListenerFrame.Parent = holder;
 	}, [mountRef, onViewport]);
 
 	useEffect(() => {
@@ -38,7 +39,7 @@ function Editor(props: StoryHolderProps) {
 			ZIndex={props.PreviewEntry.Order}
 		>
 			<uiscale Scale={scale / 100} />
-			<Div key={"Story"} Reference={mountRef} />
+			<Div key={"Story"} ref={mountRef} />
 		</Div>
 	);
 }

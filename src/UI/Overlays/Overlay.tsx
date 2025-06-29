@@ -23,7 +23,7 @@ function Overlay(props: OverlayProps) {
 			if (!isMouse1 && !isMouse2) return;
 			if (!inside) OnClickClose();
 		},
-		[inside, OnClickClose],
+		[inside, OnClickClose]
 	);
 
 	return (
@@ -34,7 +34,7 @@ function Overlay(props: OverlayProps) {
 			{...Dictionary.removeKey(props, "OnClickClose")}
 			Event={{
 				MouseEnter: insideApi.enable,
-				MouseLeave: insideApi.disable,
+				MouseLeave: insideApi.disable
 			}}
 		>
 			{props["children"]}

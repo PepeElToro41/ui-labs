@@ -13,7 +13,7 @@ const count = Counter(0);
 const controls = {
 	test1: true,
 	test2: false,
-	test3: 10,
+	test3: 100,
 	test4: Number(10),
 	test5: "Hello",
 	test6: new Color3(1, 0, 0),
@@ -51,6 +51,7 @@ const returnStory = CreateReactStory(
 		controls: controls
 	},
 	(props) => {
+		print("Count: 4");
 		return <StoryCreate Controls={props.controls} />;
 	}
 );

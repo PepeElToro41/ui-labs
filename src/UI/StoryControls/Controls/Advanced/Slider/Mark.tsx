@@ -11,6 +11,7 @@ interface MarkProps {
 function Mark(props: MarkProps) {
 	const theme = useTheme();
 	const size = (1 / props.Amount) * props.Position;
+
 	return (
 		<frame
 			key={"Mark" + props.Position}

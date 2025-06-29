@@ -13,6 +13,7 @@ declare global {
 
 		HotReloader?: HotReloader; // Assigned on Runtime (UI/StoryPreview/PreviewController/index)
 		Holder?: Frame; // Assigned on Runtime (UI/StoryPreview/PreviewController/index)
+		ListenerFrame?: Frame; // Assigned on Runtime (UI/StoryPreview/PreviewController/index)
 		OverrideHolder?: Instance; // Assigned with the Enviroment
 
 		OnWidget: boolean;

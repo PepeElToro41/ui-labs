@@ -13,7 +13,6 @@ function Functional(props: MounterProps<"Functional">) {
 			props.Result,
 			props.MountFrame,
 			(didYield, err) => {
-				print("ERR", err);
 				if (didYield) {
 					UILabsWarn(WARNINGS.Yielding.format(FUNCTIONAL_ERR));
 				} else {

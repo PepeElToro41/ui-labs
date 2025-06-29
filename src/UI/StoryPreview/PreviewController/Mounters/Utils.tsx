@@ -1,4 +1,3 @@
-import { t } from "@rbxts/t";
 import { ControlGroup, ConvertControl, InferControlType } from "@rbxts/ui-labs";
 import {
 	ConvertedControlList,
@@ -125,8 +124,6 @@ export function ParametrizeControls(
 }
 
 type ControlsReconciler = Record<string, any> | (() => Record<string, any>);
-
-const ControlType = t.table;
 
 export function InjectStoryRuntime(
 	injection: Record<string, unknown>,

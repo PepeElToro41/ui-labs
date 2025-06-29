@@ -21,6 +21,7 @@ function Viewport(props: StoryHolderProps) {
 		const holder = mountRef.current;
 		if (!holder) return;
 		props.MountFrame.Parent = holder;
+		props.ListenerFrame.Parent = holder;
 	});
 
 	useEffect(() => {
@@ -29,7 +30,7 @@ function Viewport(props: StoryHolderProps) {
 
 	return createPortal(
 		<screengui key={storyName} ZIndexBehavior={Enum.ZIndexBehavior.Sibling}>
-			<Div key={"Holder"} Reference={mountRef}></Div>
+			<Div key={"Holder"} ref={mountRef}></Div>
 		</screengui>,
 		game.GetService("CoreGui")
 	);

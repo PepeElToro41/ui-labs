@@ -30,7 +30,7 @@ export default class UserInputMock {
 				if (input.UserInputType !== Enum.UserInputType.Keyboard) {
 					this.KeyDowns.add(input.UserInputType);
 				}
-				this.InputBegan.Fire(input, processed);
+				this.InputBegan.Fire(input, true);
 			}),
 			this.InputSignals.InputChanged.Connect((...args) => {
 				this.InputChanged.Fire(...args);
@@ -43,9 +43,11 @@ export default class UserInputMock {
 					this.KeyDowns.delete(input.UserInputType);
 				}
 
-				this.InputEnded.Fire(input, processed);
+				this.InputEnded.Fire(input, true);
 			}),
-			this.InputSignals.MouseMoved.Connect((...args) => this.MouseMoved.Fire(...args)),
+			this.InputSignals.MouseMoved.Connect((...args) =>
+				this.MouseMoved.Fire(...args)
+			)
 		);
 	}
 
@@ -56,7 +58,7 @@ export default class UserInputMock {
 		return this.KeyDowns.has(button);
 	}
 	GetMouseLocation() {
-		return this.Mouse.getValue();
+		return this.InputSignals.GetMouseLocation();
 	}
 
 	Destroy() {

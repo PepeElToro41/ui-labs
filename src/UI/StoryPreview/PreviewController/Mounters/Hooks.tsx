@@ -6,7 +6,10 @@ import {
 	ReturnControls
 } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
-import { useInputSignals } from "Context/UserInputContext";
+import {
+	useGetInputSignalsFromFrame,
+	useInputSignals
+} from "Context/UserInputContext";
 import Configs from "Plugin/Configs";
 import { selectPreview } from "Reflex/StoryPreview";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
@@ -113,7 +116,8 @@ export function useStoryActionComponents(
 type Props = Record<string, any>;
 
 export function useStoryPassedProps(mounter: MounterProps<MountType>) {
-	const inputSignals = useInputSignals();
+	const inputs = useGetInputSignalsFromFrame(mounter.Entry.ListenerFrame);
+	const inputSignals = useInputSignals(inputs);
 
 	const GetStoryProps = useCallback(
 		<T extends Props>(setProps: T) => {

@@ -28,7 +28,6 @@ function FloatingStoryTitle(props: FloatingStoryTitleProps) {
 	useDebounceEffect(
 		() => {
 			if (!shouldRender[0]) return;
-			print("should render", shouldRender[0]);
 			setShouldRender([false]);
 		},
 		[shouldRender],

@@ -1,7 +1,7 @@
 import { Signal } from "@rbxts/lemon-signal";
 import React, { useEffect, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { LogService } from "@rbxts/services";
+import { HttpService, LogService } from "@rbxts/services";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import { useInstance } from "Hooks/Utils/Instance";
@@ -43,6 +43,8 @@ interface MountInfo {
 	Result: MountResults[MountType];
 }
 
+const LISTENER_ZINDEX = 50;
+
 function PreviewController(props: PreviewControllerProps) {
 	const clearOutputOnReload = useSelector(selectClearOutputOnReload);
 	const selectedPreview = useSelector(selectStorySelected);
@@ -72,14 +74,20 @@ function PreviewController(props: PreviewControllerProps) {
 		Size: UDim2.fromScale(1, 1),
 		BackgroundTransparency: 1
 	});
+	const listenerFrame = useInstance("Frame", undefined, {
+		Name: "UILabsInputListener",
+		Size: UDim2.fromScale(1, 1),
+		BackgroundTransparency: 1,
+		ZIndex: LISTENER_ZINDEX
+	});
 
 	useEffect(() => {
 		//Updating the reloader
 		setMountData(key, { HotReloader: reloader });
 	}, [reloader, key]);
 	useEffect(() => {
-		setMountData(key, { Holder: mountFrame });
-	}, [mountFrame, key]);
+		setMountData(key, { Holder: mountFrame, ListenerFrame: listenerFrame });
+	}, [mountFrame, listenerFrame, key]);
 	useEffect(() => {
 		mountFrame.Visible = entry.Visible;
 	}, [entry.Visible]);
@@ -90,6 +98,7 @@ function PreviewController(props: PreviewControllerProps) {
 	// Creating story
 	useEffect(() => {
 		if (result === undefined) return;
+		if (reloader === undefined) return;
 		const check = CheckStory(result);
 		if (!check.Sucess) return UILabsWarn(WARNINGS.StoryTypeError, check.Error);
 
@@ -114,23 +123,28 @@ function PreviewController(props: PreviewControllerProps) {
 			props.PreviewEntry,
 			check.Result,
 			mountFrame,
+			listenerFrame,
 			unmountSignal,
 			recoverControlsData,
 			setRecoverControlsData
 		);
 		setRenderer({
-			Key: tostring(newproxy()),
+			Key: HttpService.GenerateGUID(false),
 			MountType: check.Type,
 			Renderer: gotRenderer
 		});
 
-		return () => {
-			unmountSignal.Fire();
-			unmountSignal.Destroy();
+		const environment = reloader.GetEnvironment();
 
-			mountFrame.ClearAllChildren();
-		};
-	}, [result]);
+		if (environment) {
+			environment.HookOnDestroyed(() => {
+				unmountSignal.Fire();
+				unmountSignal.Destroy();
+
+				mountFrame.ClearAllChildren();
+			});
+		}
+	}, [result, reloader]);
 
 	const renderMap: ReactChildren = new Map();
 	if (renderer) renderMap.set(renderer.Key, renderer.Renderer);
@@ -139,6 +153,7 @@ function PreviewController(props: PreviewControllerProps) {
 		<React.Fragment>
 			<HolderParenter
 				MountFrame={mountFrame}
+				ListenerFrame={listenerFrame}
 				MountType={renderer?.MountType}
 				Entry={entry}
 				SetCanReload={setCanReload}

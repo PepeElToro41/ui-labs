@@ -26,7 +26,7 @@ const IRIS_ERR = WARNING_STORY_TYPES.Iris;
 
 function IrisLib(props: MounterProps<"IrisLib">) {
 	const result = props.Result;
-	const uisMock = useUserInputServiceMock();
+	const uisMock = useUserInputServiceMock(props.ListenerFrame);
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});

@@ -2,8 +2,10 @@ import { Janitor } from "@rbxts/janitor";
 import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import { useInputSignals } from "Context/UserInputContext";
-import { useWidgetStateContext } from "Context/WidgetStateContext";
+import {
+	useGetInputSignalsFromFrame,
+	useInputSignals
+} from "Context/UserInputContext";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import Configs from "Plugin/Configs";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
@@ -19,20 +21,17 @@ export function useStoryRequire(
 	canReload: boolean
 ) {
 	const plugin = usePlugin();
-	const widgetState = useWidgetStateContext();
-
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const [reloader, setReloader] = useState<HotReloader>();
 	const [reloadQuery, setReloadQuery] = useState(false);
 	const [resultPromise, setResultPromise] = useState<Promise<unknown>>();
 	const { unmountByUID, updateMountData } = useProducer<RootProducer>();
 	const widget = useSelector(selectPluginWidget);
-	const inputSignals = useInputSignals();
+	const inputs = useGetInputSignalsFromFrame(entry.ListenerFrame);
+	const inputSignals = useInputSignals(inputs);
 
 	const latestInput = useLatest(inputSignals);
 	const latestEntry = useLatest(entry);
-	const latestWidgetState = useLatest(widgetState);
-
 	const InjectGlobalControls = useCallback(
 		(environment: Environment) => {
 			const pluginInjection: Record<string, unknown> = {};
@@ -76,10 +75,11 @@ export function useStoryRequire(
 			pluginInjection["EnvironmentUID"] = environment.EnvironmentUID;
 			pluginInjection["Plugin"] = plugin;
 
-			environment.HookOnDestroyed(() => {
-				janitor.Destroy();
-			});
 			environment.InjectGlobal(Configs.GlobalInjectionKey, pluginInjection);
+
+			return () => {
+				janitor.Destroy();
+			};
 		},
 		[entry.UID, widget]
 	);
@@ -89,7 +89,12 @@ export function useStoryRequire(
 		if (!node) return;
 
 		const reloader = new HotReloader(node.Module);
-		reloader.BeforeReload(InjectGlobalControls);
+		reloader.HookOnReload((environment) => {
+			const cleanup = InjectGlobalControls(environment);
+			environment.HookOnDestroyed(() => {
+				cleanup();
+			}, 2);
+		}, 2);
 
 		setResultPromise(reloader.Reload());
 		setReloader(reloader);
@@ -103,12 +108,12 @@ export function useStoryRequire(
 	useEffect(() => {
 		if (!node) return;
 		if (!reloader) return;
-		reloader.AutoReload = !studioMode;
+		reloader.AutoReload = !studioMode && entry.AutoReload;
 
 		const changed = reloader.OnReloadStarted.Connect((promise) => {
 			setResultPromise(promise);
 		});
-		if (studioMode) {
+		if (studioMode && entry.AutoReload) {
 			const onReloadQuery = reloader.OnDependencyChanged.Connect(() => {
 				setReloadQuery(true);
 			});
@@ -120,7 +125,7 @@ export function useStoryRequire(
 			setReloadQuery(false);
 		}
 		return () => changed.Disconnect();
-	}, [reloader, studioMode]);
+	}, [reloader, studioMode, entry.AutoReload]);
 
 	// Flushing queried reloads (studio mode)
 	useEffect(() => {

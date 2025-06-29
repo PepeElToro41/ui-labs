@@ -18,7 +18,10 @@ export class Environment {
 
 	readonly Shared: {} = {};
 	OnDependencyChanged = new Signal<[module: ModuleScript]>();
-	private _DestroyedHooked?: () => void;
+	private _DestroyHooks: {
+		Order: number;
+		Callback: () => void;
+	}[] = [];
 
 	constructor() {
 		const uid = HttpService.GenerateGUID(false);
@@ -81,13 +84,14 @@ export class Environment {
 		return promise as Promise<T>;
 	}
 
-	HookOnDestroyed(callback: () => void) {
-		this._DestroyedHooked = callback;
+	HookOnDestroyed(callback: () => void, order: number = 0) {
+		this._DestroyHooks.push({ Order: order, Callback: callback });
+		this._DestroyHooks.sort((a, b) => a.Order < b.Order);
 	}
 
 	Destroy() {
-		if (this._DestroyedHooked) {
-			this._DestroyedHooked();
+		for (const hook of this._DestroyHooks) {
+			hook.Callback();
 		}
 
 		this._ActiveConnections = false;

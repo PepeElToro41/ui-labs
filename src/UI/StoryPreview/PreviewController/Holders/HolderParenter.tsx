@@ -5,6 +5,7 @@ import { CreateHolder } from ".";
 interface HolderParenterProps {
 	MountFrame: Frame;
 	Entry: PreviewEntry;
+	ListenerFrame: Frame;
 	MountType?: MountType;
 	SetCanReload: (canReload: boolean) => void;
 }
@@ -25,6 +26,7 @@ function HolderParenter(props: HolderParenterProps) {
 				entry,
 				props.MountType,
 				props.MountFrame,
+				props.ListenerFrame,
 				props.SetCanReload
 			)
 		);
@@ -37,6 +39,7 @@ function HolderParenter(props: HolderParenterProps) {
 					entry,
 					props.MountType,
 					props.MountFrame,
+					props.ListenerFrame,
 					props.SetCanReload
 				)
 			);

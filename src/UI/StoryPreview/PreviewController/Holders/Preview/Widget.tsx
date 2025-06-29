@@ -77,6 +77,7 @@ function Widget(props: StoryHolderProps) {
 		if (onViewport) return;
 
 		props.MountFrame.Parent = holder;
+		props.ListenerFrame.Parent = holder;
 	}, [mountRef, onViewport]);
 
 	useUnmountEffect(() => {
@@ -88,10 +89,10 @@ function Widget(props: StoryHolderProps) {
 
 	return dockWidget === undefined ? (
 		<Div key={storyName}>
-			<Div key={"Story"} Reference={mountRef} />
+			<Div key={"Story"} ref={mountRef} />
 		</Div>
 	) : (
-		createPortal(<Div key={"Story"} Reference={mountRef} />, dockWidget)
+		createPortal(<Div key={"Story"} ref={mountRef} />, dockWidget)
 	);
 }
 

@@ -18,7 +18,10 @@ export class HotReloader<T = unknown> {
 	readonly OnDependencyChanged: Signal<
 		[module: ModuleScript, environment: Environment]
 	>;
-	private _ReloadBinded?: (environment: Environment) => void;
+	private _ReloadHooks: {
+		Order: number;
+		Callback: (environment: Environment) => void;
+	}[] = [];
 
 	AutoReload: boolean = true;
 
@@ -43,13 +46,14 @@ export class HotReloader<T = unknown> {
 			this._Environment = undefined;
 		}
 	}
-	BeforeReload(bind: (environment: Environment) => void) {
-		this._ReloadBinded = bind;
+	HookOnReload(bind: (environment: Environment) => void, order: number = 0) {
+		this._ReloadHooks.push({ Order: order, Callback: bind });
+		this._ReloadHooks.sort((a, b) => a.Order < b.Order);
 	}
 
-	private _RunBinded(environment: Environment) {
-		if (this._ReloadBinded) {
-			this._ReloadBinded(environment);
+	private _RunHooks(environment: Environment) {
+		for (const hook of this._ReloadHooks) {
+			hook.Callback(environment);
 		}
 	}
 	GetEnvironment(): Environment | undefined {
@@ -68,12 +72,11 @@ export class HotReloader<T = unknown> {
 		const environment = new Environment();
 		this._Environment = environment;
 
-		this._RunBinded(environment);
+		this._RunHooks(environment);
 
-		const listener = environment.OnDependencyChanged.Once((module) => {
+		const listener = environment.OnDependencyChanged.Connect((module) => {
 			this.OnDependencyChanged.Fire(module, environment);
 			if (!this.AutoReload) return;
-
 			this.ScheduleReload();
 		});
 		this._EnvironmentListener = listener;
