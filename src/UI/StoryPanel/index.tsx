@@ -1,7 +1,5 @@
-import Immut from "@rbxts/immut";
-import React, { useEffect } from "@rbxts/react";
+import React, { useCallback, useEffect } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import Sift from "@rbxts/sift";
 import { StoryPanelProvider } from "Context/StoryPanelContext";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -50,35 +48,19 @@ function StoryContents(props: StoryContentsProps) {
 	const fullscreen = useSelector(selectFullscreen);
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
 
-	const MoveNextPreview = (delta: number) => {
-		if (!entry) return;
-		print("ORDER", entry.Order);
-		print(
-			"PREVIEWS",
-			maxOrder,
-			Immut.produce(previews, (draft) => {
-				previews.forEach((_, key) => {
-					draft.get(key)!.HotReloader = undefined;
-				});
-			})
-		);
-		const newOrder = math.clamp(entry.Order + delta, 0, maxOrder);
-		if (newOrder === entry.Order) return;
+	const MoveNextPreview = useCallback(
+		(delta: number) => {
+			if (!entry) return;
+			const newOrder = math.clamp(entry.Order + delta, 0, maxOrder);
+			if (newOrder === entry.Order) return;
 
-		const newPreview = selectStoryByOrder(previews, newOrder);
+			const newPreview = selectStoryByOrder(previews, newOrder);
 
-		if (!newPreview) return;
-		print(
-			"NEW PREVIEW",
-			newOrder,
-			Sift.Dictionary.removeKey(newPreview!, "HotReloader")
-		);
-		selectStory(newPreview.Key);
-	};
-
-	useEffect(() => {
-		print("MOUNTING STORY CONTENTS");
-	}, []);
+			if (!newPreview) return;
+			selectStory(newPreview.Key);
+		},
+		[previews, entry, maxOrder]
+	);
 
 	useEffect(() => {
 		if (!shortcutsEnabled) return;
@@ -95,7 +77,7 @@ function StoryContents(props: StoryContentsProps) {
 		return () => {
 			connection.Disconnect();
 		};
-	}, [MoveNextPreview, shortcutsEnabled]);
+	}, [MoveNextPreview, shortcutsEnabled, previews]);
 
 	return (
 		<Div
