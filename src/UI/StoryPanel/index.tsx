@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect } from "@rbxts/react";
-import {
-	useProducer,
-	useSelector,
-	useSelectorCreator
-} from "@rbxts/react-reflex";
+import Immut from "@rbxts/immut";
+import React, { useEffect } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
+import Sift from "@rbxts/sift";
 import { StoryPanelProvider } from "Context/StoryPanelContext";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
@@ -20,10 +18,6 @@ import PanelRender from "./PanelRender";
 import StoryTitle from "./StoryTitle";
 
 interface StoryContentsProps {}
-
-function setProps(props: StoryContentsProps) {
-	return props as Required<StoryContentsProps>;
-}
 
 function selectMaxOrder(state: RootState) {
 	let max: number = -1;
@@ -49,25 +43,42 @@ function StoryContents(props: StoryContentsProps) {
 	const { selectStory, unmountByUID } = useProducer<RootProducer>();
 	const previews = useSelector(selectStoryPreviews);
 	const selectedEntry = useSelector(selectStorySelected);
-	const entry = useSelectorCreator(selectPreview, selectedEntry);
+	const entry = useSelector((state) => selectPreview(selectedEntry)(state));
 	const maxOrder = useSelector(selectMaxOrder);
 	const isLightColor = useSelector(selectIsLightBackground);
 	const inputBegan = useInputBegan();
 	const fullscreen = useSelector(selectFullscreen);
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
 
-	const MoveNextPreview = useCallback(
-		(delta: number) => {
-			if (!entry) return;
-			const newOrder = math.clamp(entry.Order + delta, 0, maxOrder);
-			if (newOrder === entry.Order) return;
+	const MoveNextPreview = (delta: number) => {
+		if (!entry) return;
+		print("ORDER", entry.Order);
+		print(
+			"PREVIEWS",
+			maxOrder,
+			Immut.produce(previews, (draft) => {
+				previews.forEach((_, key) => {
+					draft.get(key)!.HotReloader = undefined;
+				});
+			})
+		);
+		const newOrder = math.clamp(entry.Order + delta, 0, maxOrder);
+		if (newOrder === entry.Order) return;
 
-			const newPreview = selectStoryByOrder(previews, newOrder);
-			if (!newPreview) return;
-			selectStory(newPreview.UID);
-		},
-		[previews, entry]
-	);
+		const newPreview = selectStoryByOrder(previews, newOrder);
+
+		if (!newPreview) return;
+		print(
+			"NEW PREVIEW",
+			newOrder,
+			Sift.Dictionary.removeKey(newPreview!, "HotReloader")
+		);
+		selectStory(newPreview.Key);
+	};
+
+	useEffect(() => {
+		print("MOUNTING STORY CONTENTS");
+	}, []);
 
 	useEffect(() => {
 		if (!shortcutsEnabled) return;
@@ -84,7 +95,7 @@ function StoryContents(props: StoryContentsProps) {
 		return () => {
 			connection.Disconnect();
 		};
-	}, [MoveNextPreview, entry, shortcutsEnabled]);
+	}, [MoveNextPreview, shortcutsEnabled]);
 
 	return (
 		<Div

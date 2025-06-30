@@ -95,7 +95,7 @@ export function GetEntryByUID(
 	previews: Map<string, PreviewEntry>,
 	uid: string
 ) {
-	for (const [key, entry] of previews) {
+	for (const [_, entry] of previews) {
 		if (entry.UID === uid) {
 			return entry;
 		}
@@ -114,7 +114,7 @@ function MountStory(
 	keepViewOnViewport: boolean
 ) {
 	const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
-	const listSize = rootStory ? rootStory.Order : state.mountPreviews.size() + 1;
+	const listSize = rootStory ? rootStory.Order : state.mountPreviews.size();
 
 	//For all stories, Key is equal to UID, but for the root story, key is always Configs.RootPreviewKey ("RootStory")
 	const entry = CreateNewEntry(module, listSize);
