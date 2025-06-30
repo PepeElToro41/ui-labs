@@ -39,12 +39,12 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 		<canvasgroup
 			key={"ButtonsContainerCanvas"}
 			Size={UDim2.fromScale(1, 1)}
-			BackgroundTransparency={0.2}
+			BackgroundTransparency={props.IsAnchored ? 1 : 0.2}
 			BackgroundColor3={theme.Toolbar}
 			Position={props.HoverAlpha}
 			Event={{
 				MouseEnter: () => setToolbarHovered(true),
-				MouseLeave: () => setToolbarHovered(false),
+				MouseLeave: () => setToolbarHovered(false)
 			}}
 		>
 			{!props.IsAnchored && <Corner Radius={6} />}
@@ -66,7 +66,7 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 					Padding={new UDim(0, 2)}
 					Change={{
 						AbsoluteContentSize: (rbx) =>
-							setContentHeight(rbx.AbsoluteContentSize.Y + 4),
+							setContentHeight(rbx.AbsoluteContentSize.Y + 4)
 					}}
 				/>
 
