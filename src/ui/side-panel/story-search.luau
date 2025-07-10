@@ -11,10 +11,10 @@ local InputGlow = require "@ui/elements/input-glow"
 
 local IMAGES = require "@constants/images"
 local useTheme = require("@contexts/theme").useTheme
-local Changed = require("@actions").Changed
 
 local source = Vide.source
 local create = Vide.create
+local changed = Vide.changed
 
 type StorySearchProps = {
 	OnFilterChange: (filter: string) -> (),
@@ -61,8 +61,8 @@ function StorySearch(props: StorySearchProps)
 				PlaceholderColor3 = theme "Text2",
 
 				GetFocused = focused,
-				Changed("Text", props.OnFilterChange),
-				create "UIFlexItem" { FlexMode = Enum.UIFlexMode.Fill },
+				changed("Text", props.OnFilterChange),
+				create "UIFlexItem" { FlexMode = Enum.UIFlexMode.Fill } :: any,
 			},
 		},
 		InputGlow.InputGlow {

@@ -1,12 +1,10 @@
 local useTheme = require("@contexts/theme").useTheme
-local ControlHolder = require "@ui/main-panel/controls/control-holder"
 
 local Frame = require "@base/frame"
 local Padding = require "@base/padding"
+local TopList = require "@base/list/top"
 
 type StoryControlProps = {
-	ControlName: Derivable<string>,
-	ResetControl: () -> ()?,
 	ControlRender: any,
 }
 
@@ -20,11 +18,9 @@ function StoryControl(props: StoryControlProps)
 		Position = UDim2.new(0, 0, 1, 0),
 
 		Padding { PaddingX = 12, PaddingY = 8 },
-		ControlHolder {
-			ControlName = props.ControlName,
-			ResetControl = props.ResetControl or function() end,
-			ControlRender = props.ControlRender,
-		},
+		TopList { Gap = 8 },
+
+		props.ControlRender,
 	} :: any
 end
 

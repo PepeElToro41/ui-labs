@@ -180,7 +180,7 @@ export type Services = {
 }
 
 export type ServiceName = (
-			| "AccountService"
+	| "AccountService"
 	| "AchievementService"
 	| "AnalyticsService"
 	| "AnimationClipProvider"

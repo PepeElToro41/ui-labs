@@ -28,9 +28,9 @@ function PreviewList()
 			Corner { Radius = 10 },
 			Padding { Padding = 2 },
 			LeftList { Gap = 2 },
-			indexes(previews, function(preview, uid)
+			indexes(previews, function(preview: any, uid: any)
 				return PreviewEntry { Preview = preview }
-			end),
+			end) :: any,
 		},
 	}
 end

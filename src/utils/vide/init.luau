@@ -21,7 +21,7 @@ type Connection = {
 type Event<T...> = {
 	Connect: (self: any, callback: (T...) -> ()) -> Connection,
 	[string]: any,
-}
+} | RBXScriptSignal<T...>
 
 -- This takes an array of objects, and passes them to indexes with the identifier key
 function array_keys<T, R>(
@@ -114,6 +114,13 @@ function init_source<T>(init: (T | Source<T>)?, def: T?): Source<T>
 	return source(init)
 end
 
+function connect<T...>(event: Event<T...>, callback: (T...) -> ())
+	local connection = (event :: any):Connect(callback)
+	cleanup(function()
+		connection:Disconnect()
+	end)
+end
+
 return table.freeze {
 	constant = constant,
 	inner_effect = inner_effect,
@@ -121,4 +128,5 @@ return table.freeze {
 	array_keys = array_keys,
 	memo_indexes = memo_indexes,
 	single = single,
+	connect = connect,
 }

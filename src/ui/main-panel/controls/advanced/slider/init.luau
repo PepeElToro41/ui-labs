@@ -28,6 +28,7 @@ local LeftList = require "@base/list/left"
 local Text = require "@base/text"
 local Rounder = require "@base/rounder"
 local Padding = require "@base/padding"
+local ControlHolder = require "@ui/main-panel/controls/control-holder"
 
 local NumberInput = require "../../common/number-input"
 
@@ -162,102 +163,107 @@ function Slider(props: Common.ControlProps<SliderControl, number>)
 		value(newFinal)
 	end
 
-	return Div {
-		LeftList { Gap = 10, VerticalAlignment = Enum.VerticalAlignment.Center },
-		Div {
-			Size = UDim2.fromScale(0, 1),
-			AutomaticSize = Enum.AutomaticSize.X,
+	return ControlHolder {
+		Control = props,
+		ControlRender = Div {
+			Size = UDim2.new(1, 0, 0, 32),
 
-			LeftList { VerticalAlignment = Enum.VerticalAlignment.Center },
-			Padding { Right = 10 },
-			NumberInput {
-				Value = props.Value,
-				Apply = props.Apply,
-				Dragger = false,
+			LeftList { Gap = 10, VerticalAlignment = Enum.VerticalAlignment.Center },
+			Div {
+				Size = UDim2.fromScale(0, 1),
+				AutomaticSize = Enum.AutomaticSize.X,
+
+				LeftList { VerticalAlignment = Enum.VerticalAlignment.Center },
+				Padding { Right = 10 },
+				NumberInput {
+					Value = props.Value,
+					Apply = props.Apply,
+					Dragger = false,
+				},
 			},
-		},
-		Text {
-			Name = "SliderMin",
-			Text = tostring(props.Control.Min),
-			TextSize = 13,
-			TextColor3 = theme "Text2",
-			Size = UDim2.fromScale(0, 1),
-			AutomaticSize = Enum.AutomaticSize.X,
-		},
-		-- SLIDER
-		Detector {
-			Name = "SliderHolder",
-
-			create "UIFlexItem" { FlexMode = Enum.UIFlexMode.Fill },
-			changed("AbsoluteSize", absoluteSize),
-			changed("AbsolutePosition", absolutePosition),
-			actions.Hovered(hovered),
-
-			DragDetector {
-				Dragging = dragging,
-				DragStart = DragUpdate,
-				DragContinue = DragUpdate,
+			Text {
+				Name = "SliderMin",
+				Text = tostring(props.Control.Min),
+				TextSize = 13,
+				TextColor3 = theme "Text2",
+				Size = UDim2.fromScale(0, 1),
+				AutomaticSize = Enum.AutomaticSize.X,
 			},
-			Frame {
-				Name = "Slider",
-				Size = UDim2.new(1, 0, 0, 4),
-				BackgroundColor3 = theme "Background4",
-				PRESETS.LeftCenter,
+			-- SLIDER
+			Detector {
+				Name = "SliderHolder",
 
-				Rounder(),
-				show(marksVisible, function()
-					return SliderMarks {
-						Amount = marks,
-						Percent = function()
-							return springActive() and spring() or percent()
-						end,
-					}
-				end),
+				create "UIFlexItem" { FlexMode = Enum.UIFlexMode.Fill },
+				changed("AbsoluteSize", absoluteSize),
+				changed("AbsolutePosition", absolutePosition),
+				actions.Hovered(hovered),
+
+				DragDetector {
+					Dragging = dragging,
+					DragStart = DragUpdate,
+					DragContinue = DragUpdate,
+				},
 				Frame {
-					Name = "SliderProgress",
-					ZIndex = 2,
-					Size = function()
-						if springActive() then
-							return UDim2.fromScale(spring(), 1)
-						else
-							return UDim2.fromScale(percent(), 1)
-						end
-					end,
-					BackgroundColor3 = theme "Emphasis",
+					Name = "Slider",
+					Size = UDim2.new(1, 0, 0, 4),
+					BackgroundColor3 = theme "Background4",
+					PRESETS.LeftCenter,
 
 					Rounder(),
-					Div {
-						Name = "SliderHandle",
-						Size = derivers.offset(handleSize, nil, true),
-						AnchorPoint = Vector2.new(0.5, 0.5),
-						Position = UDim2.fromScale(1, 0.5),
+					show(marksVisible, function()
+						return SliderMarks {
+							Amount = marks,
+							Percent = function()
+								return springActive() and spring() or percent()
+							end,
+						}
+					end),
+					Frame {
+						Name = "SliderProgress",
+						ZIndex = 2,
+						Size = function()
+							if springActive() then
+								return UDim2.fromScale(spring(), 1)
+							else
+								return UDim2.fromScale(percent(), 1)
+							end
+						end,
+						BackgroundColor3 = theme "Emphasis",
 
-						Frame {
-							Name = "HandleRender",
-							BackgroundColor3 = theme "Emphasis",
-							Size = UDim2.fromScale(1, 1),
-							Rounder(),
-						},
-						Frame {
-							Name = "HandleHover",
-							Size = derivers.offset(hoverSize, nil, true),
-							BackgroundColor3 = theme "Border",
-							BackgroundTransparency = 0.85,
-							PRESETS.Centered,
-							Rounder(),
+						Rounder(),
+						Div {
+							Name = "SliderHandle",
+							Size = derivers.offset(handleSize, nil, true),
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							Position = UDim2.fromScale(1, 0.5),
+
+							Frame {
+								Name = "HandleRender",
+								BackgroundColor3 = theme "Emphasis",
+								Size = UDim2.fromScale(1, 1),
+								Rounder(),
+							},
+							Frame {
+								Name = "HandleHover",
+								Size = derivers.offset(hoverSize, nil, true),
+								BackgroundColor3 = theme "Border",
+								BackgroundTransparency = 0.85,
+								PRESETS.Centered,
+								Rounder(),
+							},
 						},
 					},
 				},
 			},
-		},
-		--------------------------------------------------------------------------------
-		Text {
-			Name = "SliderMax",
-			Text = tostring(props.Control.Max),
-			TextColor3 = theme "Text2",
-			TextSize = 13,
-			Size = UDim2.fromScale(0, 1),
-			AutomaticSize = Enum.AutomaticSize.X,
+			--------------------------------------------------------------------------------
+			Text {
+				Name = "SliderMax",
+				Text = tostring(props.Control.Max),
+				TextColor3 = theme "Text2",
+				TextSize = 13,
+				Size = UDim2.fromScale(0, 1),
+				AutomaticSize = Enum.AutomaticSize.X,
+			},
 		},
 	}
 end

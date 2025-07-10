@@ -18,8 +18,11 @@
    "[luau]": {
       "editor.defaultFormatter": "JohnnyMorganz.stylua"
    },
+   "luau-lsp.platform.type": "roblox",
    "[lua]": {
       "editor.defaultFormatter": "JohnnyMorganz.stylua"
    },
    "luau-lsp.sourcemap.generatorCommand": "rojo sourcemap --watch",
+   "luau-lsp.sourcemap.enabled": true,
+   "luau-lsp.sourcemap.autogenerate": false,
 }

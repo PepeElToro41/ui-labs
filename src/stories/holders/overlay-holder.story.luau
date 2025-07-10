@@ -1,6 +1,7 @@
 local Vide = require "@pkg/vide"
 local UILabs = require "@pkg/ui-labs"
 local AppRender = require "@contexts/app-render"
+local useTheme = require("@contexts/theme").useTheme
 
 local cleanup = Vide.cleanup
 local show = Vide.show
@@ -10,6 +11,7 @@ local OverlayHolder = require "@ui/overlays/overlay-holder"
 
 local story = UILabs.CreateVideStory({ vide = Vide }, function(props)
 	local position = Vide.source((nil :: any) :: Vector2)
+	local theme = useTheme()
 
 	cleanup(UILabs.Environment.InputListener.InputBegan:Connect(function(input: InputObject)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -35,17 +37,19 @@ local story = UILabs.CreateVideStory({ vide = Vide }, function(props)
 					},
 					OverlayHolder {
 						HolderNative = {
-							Size = UDim2.fromOffset(100, 100),
+							Size = UDim2.fromOffset(200, 200),
+							BackgroundColor3 = theme "Background3",
+							BackgroundTransparency = 0,
 						},
 						DominantAxis = Enum.DominantAxis.Height,
+						Scrollable = true,
 						AnchorPosition = anchor,
 						AnchorSize = anchor,
-						Padding = 5,
+						Padding = 4,
+						InnerPadding = 8,
+						CanvasPadding = 4,
 						Wrappeable = {
 							Vector2.new(0, 2),
-							Vector2.new(0, -1),
-							Vector2.new(2, 0.5),
-							Vector2.new(-1, 0.5),
 						},
 						Children = function(wrap: Vector2)
 							return nil

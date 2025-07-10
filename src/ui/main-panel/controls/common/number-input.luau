@@ -1,13 +1,16 @@
 local Vide = require "@pkg/vide"
 local useTheme = require("@contexts/theme").useTheme
 local IMAGES = require "@constants/images"
+local PRESETS = require "@constants/ui-presets"
 local InputGlow = require "@ui/elements/input-glow"
+local InteractionHover = require "@ui/elements/interaction-hover"
 local actions = require "@actions"
 
 local create = Vide.create
 local source = Vide.source
 local action = Vide.action
 
+local Div = require "@base/div"
 local Frame = require "@base/frame"
 local Image = require "@base/image"
 local RightList = require "@base/list/right"
@@ -28,12 +31,41 @@ type NumberEntryProps = {
 }
 
 function DraggerHandles(props: {})
+	local theme = useTheme()
+	local hovered = source(false)
+	local clicked = source(false)
+
 	return Detector {
-		Size = UDim2.new(0, 18, 1, 0),
+		Size = UDim2.new(0, 20, 0, 20),
+		actions.Hovered(hovered),
+		actions.Clicked(clicked),
+
+		Div {
+			Size = UDim2.fromOffset(0, 0),
+			PRESETS.Centered,
+			ZIndex = -1,
+
+			InteractionHover {
+				Hovered = hovered,
+				Clicked = clicked,
+				ClickedAnimPeriod = 0.2,
+				Extends = 20,
+				ExtendsClicked = 20,
+				IgnoreUnactive = true,
+				Corner = UDim.new(0.5, 0),
+			},
+		},
 
 		Image {
 			AnchorPoint = Vector2.new(0, 0.5),
 			Image = IMAGES.RightArrow,
+			ImageColor3 = function()
+				if clicked() then
+					return theme().Text1
+				else
+					return theme().Text2
+				end
+			end,
 			Position = UDim2.new(0.5, -3, 0.5, 0),
 			Size = UDim2.fromOffset(14, 14),
 		},
@@ -41,6 +73,13 @@ function DraggerHandles(props: {})
 		Image {
 			AnchorPoint = Vector2.new(1, 0.5),
 			Image = IMAGES.RightArrow,
+			ImageColor3 = function()
+				if clicked() then
+					return theme().Text1
+				else
+					return theme().Text2
+				end
+			end,
 			Position = UDim2.new(0.5, 3, 0.5, 0),
 			Rotation = 180,
 			Size = UDim2.fromOffset(14, 14),
@@ -84,7 +123,7 @@ function NumberEntry(props: NumberEntryProps)
 			},
 			create "UISizeConstraint" { MinSize = Vector2.new(MIN_SIZE, 0) },
 			Padding { Left = 4, Right = props.Dragger and 6 or 8 },
-			RightList { Gap = 4 },
+			RightList { Gap = 4, VerticalAlignment = Enum.VerticalAlignment.Center },
 			Corner { Radius = 6 },
 
 			TextInput {
@@ -94,7 +133,7 @@ function NumberEntry(props: NumberEntryProps)
 				AutomaticSize = Enum.AutomaticSize.X,
 				GetFocused = focused,
 
-				Padding { Left = 4, Right = -2 },
+				Padding { Left = 4, Right = props.Prefix and -2 or 0 },
 				create "UISizeConstraint" { MinSize = Vector2.new(1, 0) } :: any,
 				action(input) :: any,
 			},

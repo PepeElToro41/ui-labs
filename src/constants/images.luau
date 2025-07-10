@@ -15,13 +15,14 @@ local IMAGES = {
 	Close = "rbxassetid://121502092628708",
 	Corner = "rbxassetid://86339120976263",
 	RightArrow = "rbxassetid://98515959792894",
+	Anchor = "rbxassetid://124902076781627",
 
 	Dot = "rbxassetid://90763872297559",
 	DotOptions = "rbxassetid://18977916731",
 
 	-- Tabs Panel
-	AnchorOn = "rbxassetid://81592042672386",
-	AnchorOff = "rbxassetid://106299441873088",
+	PinOn = "rbxassetid://81592042672386",
+	PinOff = "rbxassetid://106299441873088",
 	PanelBottom = "rbxassetid://115599519069654",
 	PanelRight = "rbxassetid://102977980943227",
 	FollowOverlayOn = "rbxassetid://94809684153731",

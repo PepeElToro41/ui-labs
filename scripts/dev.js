@@ -13,7 +13,7 @@ const DARKLUA_CONFIG = ".darklua.json"
 const SOURCEMAP = "darklua-sourcemap.json"
 const PACKAGES = "roblox_packages"
 
-install()
+await install()
 
 
 await fs.rm(SOURCEMAP, { force: true })
@@ -26,15 +26,16 @@ await fs.copyFile("serve.project.json", SERVE_DIR + "/serve.project.json")
 await fs.cp("src", SERVE_DIR + "/src", { recursive: true });
 await fs.cp(PACKAGES, SERVE_DIR + "/" + PACKAGES, { recursive: true });
 
-exec("rojo sourcemap serve.project.json -o " + SOURCEMAP)
+await spawn("rojo sourcemap serve.project.json -o " + SOURCEMAP)
 
 console.log("RUNNING ROJO SOURCEMAP")
 spawn("rojo sourcemap --watch serve.project.json -o " + SOURCEMAP).catch(console.warn)
 
-console.log("RUNNING DARK LUA")
-console.log("darklua process -w --config " + DARKLUA_CONFIG + " src " + SERVE_DIR + "/src")
+console.log("RUNNING DARK LUA 2.0")
 
-spawn("darklua process -w --config " + DARKLUA_CONFIG + " src " + SERVE_DIR + "/src")
+console.log("darklua process" + "src " + SERVE_DIR + "/src " + "-w --config " + DARKLUA_CONFIG)
+
+spawn("darklua process -w " + "src " + SERVE_DIR + "/src " + "--config " + DARKLUA_CONFIG).catch(console.warn)
 
 console.log("SERVER RUNNING")
 

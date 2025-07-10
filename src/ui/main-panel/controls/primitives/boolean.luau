@@ -17,6 +17,7 @@ local Corner = require "@base/corner"
 local Rounder = require "@base/rounder"
 local Detector = require "@base/detector"
 local InteractionHover = require "@ui/elements/interaction-hover"
+local ControlHolder = require "../control-holder"
 
 local Common = require "../common"
 
@@ -26,58 +27,57 @@ function Boolean(props: Common.ControlProps<{}, boolean>)
 	local clicked = source(false)
 
 	local position = spring(derivers.boolean(props.Value, 0, 1), 0.15, 1)
-	local hoverSize = spring(derivers.boolean(hovered, 10, -1), 0.15, 1)
 	local clickSize = spring(derivers.boolean(clicked, 4, 0), 0.2, 1)
 
-	return Div {
-		LeftList { VerticalAlignment = Enum.VerticalAlignment.Center },
-		Div {
-			Size = UDim2.fromOffset(50, 26),
+	return ControlHolder {
+		Control = props,
+		ControlRender = Div {
+			Size = UDim2.new(1, 0, 0, 32),
 
-			InteractionHover {
-				Hovered = hovered,
-				Extends = 10,
-				Corner = UDim.new(0.5, 0),
-			},
-			Frame {
-				Name = "Switch",
-				Size = UDim2.fromScale(1, 1),
-				BackgroundColor3 = function()
-					return theme().Background1:Lerp(theme().Emphasis, position())
-				end,
+			LeftList { VerticalAlignment = Enum.VerticalAlignment.Center },
+			Div {
+				Size = UDim2.fromOffset(50, 26),
 
-				Rounder(),
-				Padding { Padding = 4 },
-				Div {
-					SizeConstraint = Enum.SizeConstraint.RelativeYY,
-					AnchorPoint = function()
-						return Vector2.new(position(), 0)
+				InteractionHover {
+					Hovered = hovered,
+					Extends = 10,
+					Corner = UDim.new(0.5, 0),
+				},
+				Frame {
+					Name = "Switch",
+					Size = UDim2.fromScale(1, 1),
+					BackgroundColor3 = function()
+						return theme().Background1:Lerp(theme().Emphasis, position())
 					end,
-					Position = derivers.scale(position, "X"),
 
-					Frame {
-						Name = "Handle",
-						Size = derivers.offset(clickSize, nil, true, 1),
-						BackgroundColor3 = function()
-							return theme().Background5:Lerp(theme().Background2, position())
+					Rounder(),
+					Padding { Padding = 4 },
+					Div {
+						SizeConstraint = Enum.SizeConstraint.RelativeYY,
+						AnchorPoint = function()
+							return Vector2.new(position(), 0)
 						end,
-						PRESETS.Centered,
+						Position = derivers.scale(position, "X"),
 
-						Rounder(),
+						Frame {
+							Name = "Handle",
+							Size = derivers.offset(clickSize, nil, true, 1),
+							BackgroundColor3 = function()
+								return theme().Background5:Lerp(theme().Background2, position())
+							end,
+							PRESETS.Centered,
+
+							Rounder(),
+						},
 					},
 				},
-			},
-			Detector {
-				actions.Hovered(hovered),
-				Activated = function()
-					props.Apply(not props.Value())
-				end,
-				MouseButton1Down = function()
-					clicked(true)
-				end,
-				MouseButton1Up = function()
-					clicked(false)
-				end,
+				Detector {
+					actions.Hovered(hovered),
+					actions.Clicked(clicked),
+					Activated = function()
+						props.Apply(not props.Value())
+					end,
+				},
 			},
 		},
 	}

@@ -84,7 +84,7 @@ function PanelRender(props: PanelRender)
 						end,
 					},
 					PanelButton {
-						ButtonIcon = boolean(props.PanelAnchored, IMAGES.AnchorOn, IMAGES.AnchorOff),
+						ButtonIcon = boolean(props.PanelAnchored, IMAGES.PinOn, IMAGES.PinOff),
 						Active = props.PanelAnchored,
 						OnClick = function()
 							props.PanelAnchored(not props.PanelAnchored())

@@ -10,11 +10,12 @@ local story = UILabs.CreateVideStory({ vide = Vide }, function()
 	local value = source(control.ControlValue)
 
 	return Utils.StoryControl {
-		ControlName = "Number Control",
-		ResetControl = function()
-			value(control.ControlValue)
-		end,
 		ControlRender = Number {
+			ControlName = "Number Control",
+			ResetControl = function()
+				value(control.ControlValue)
+			end,
+
 			Control = control :: any,
 			Value = value,
 			Apply = value,

@@ -19,6 +19,9 @@ type InteractionHoverProps = {
 	Clicked: Derivable<boolean>?,
 	Extends: Derivable<number>,
 	ExtendsClicked: Derivable<number>?,
+	IgnoreUnactive: boolean?,
+	ClickedAnimPeriod: number?,
+	ClickedColor: Color3?,
 	ZIndex: number?,
 	Corner: UDim,
 	[number]: any,
@@ -39,11 +42,22 @@ function InteractionHover(props: InteractionHoverProps)
 	end
 
 	local extendsSize = spring(extends, 0.15, 1)
-	local clickedExtendsSize = spring(derivers.boolean(clicked, 1, 0), 0.4, 1)
+	local clickedExtendsSize = spring(derivers.boolean(clicked, 1, 0), props.ClickedAnimPeriod or 0.4, 1)
 
 	return Div {
 		Name = "InteractionHover",
 		ZIndex = props.ZIndex,
+		Visible = function()
+			if props.IgnoreUnactive then
+				if extendsSize() <= 0 then
+					return false
+				else
+					return true
+				end
+			else
+				return true
+			end
+		end,
 
 		Frame {
 			Name = "HoverEffect",
@@ -59,7 +73,7 @@ function InteractionHover(props: InteractionHoverProps)
 		Frame {
 			Name = "ClickedEffect",
 			BackgroundTransparency = derivers.lerp(clickedExtendsSize, 1, 0.7),
-			BackgroundColor3 = theme "Border",
+			BackgroundColor3 = props.ClickedColor or theme "Border",
 			Size = function()
 				local extends = math.round(
 					Lerp(-1, read(props.ExtendsClicked or props.Extends), clickedExtendsSize()) / 2
