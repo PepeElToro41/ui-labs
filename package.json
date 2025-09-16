@@ -9,6 +9,7 @@
 		"watch": "rbxtsc -w",
 		"postinstall": "patch-package",
 		"build:local": "npm run build && rojo build default.project.json --plugin ui-labs.rbxm",
+		"build:rbxm": "npm run build && rojo build default.project.json --output ui-labs.rbxm",
 		"format": "prettier --write ."
 	},
 	"keywords": [],
