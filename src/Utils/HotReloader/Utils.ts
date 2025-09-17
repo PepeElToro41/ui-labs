@@ -1,3 +1,4 @@
+import { ScriptEditorService } from "@rbxts/services";
 import type { Environment } from "./Environment";
 
 /**
@@ -62,7 +63,10 @@ export async function LoadVirtualModule(
 	module: ModuleScript,
 	environment: Environment
 ) {
-	const [virtualModule, err] = loadstring(module.Source, module.GetFullName());
+	const [virtualModule, err] = loadstring(
+		ScriptEditorService.GetEditorSource(module),
+		module.GetFullName()
+	);
 
 	if (virtualModule === undefined) {
 		throw err;
