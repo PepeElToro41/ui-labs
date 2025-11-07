@@ -80,7 +80,7 @@ Let's suppose we have this folder structure:
 <p style="line-height: 15px;"></p>
 
 <div class="hierarchy-holder">
-   <span class="hierarchy-tip">Icons: <a href="https://elttob.itch.io/vanilla-3-for-roblox-studio" target="_blank">Vainilla 3</a></span>
+   <span class="hierarchy-tip">Icons: <a href="https://elttob.itch.io/vanilla-3-for-roblox-studio" target="_blank">Vanilla 3</a></span>
 
    <div class="hierarchy-item">
       <div class="custom-instance-serverscript"/>
