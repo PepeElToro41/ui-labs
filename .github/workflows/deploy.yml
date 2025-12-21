@@ -38,10 +38,11 @@ jobs:
             # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
             - name: pnpm-setup
               uses: pnpm/action-setup@v2
+              with:
+                  version: latest
+                  run_install: true
             - name: Setup Pages
               uses: actions/configure-pages@v4
-            - name: Install dependencies
-              run: pnpm install # or pnpm install / yarn install / bun install
             - name: Build Docs
               run: pnpm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
             - name: Upload artifact
