@@ -7,7 +7,6 @@
 	"scripts": {
 		"build": "rbxtsc",
 		"watch": "rbxtsc -w",
-		"postinstall": "patch-package",
 		"build:local": "npm run build && rojo build default.project.json --plugin ui-labs.rbxm",
 		"build:rbxm": "npm run build && rojo build default.project.json --output ui-labs.rbxm",
 		"format": "prettier --write ."
@@ -26,8 +25,6 @@
 		"eslint-config-prettier": "^8.10.0",
 		"eslint-plugin-prettier": "^5.0.0",
 		"eslint-plugin-roblox-ts": "^0.0.35",
-		"patch-package": "^8.0.0",
-		"postinstall-postinstall": "^2.1.0",
 		"prettier": "^3.7.4",
 		"roblox-ts": "^3.0.0",
 		"typescript": "5.5.3"
@@ -52,5 +49,11 @@
 		"@rbxts/t": "^3.1.1",
 		"@rbxts/ui-labs": "^2.4.0",
 		"@rbxts/vide": "^0.4.5"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"@rbxts/roact": "patches/@rbxts__roact.patch",
+			"@rbxts/vide": "patches/@rbxts__vide.patch"
+		}
 	}
 }
