@@ -28,6 +28,7 @@
 		"eslint-plugin-roblox-ts": "^0.0.35",
 		"patch-package": "^8.0.0",
 		"postinstall-postinstall": "^2.1.0",
+		"prettier": "^3.7.4",
 		"roblox-ts": "^3.0.0",
 		"typescript": "5.5.3"
 	},
