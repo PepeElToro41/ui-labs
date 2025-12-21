@@ -28,22 +28,13 @@ function OnViewportInfo(props: OnViewportInfoProps) {
 	}, [props.PreviewEntry]);
 
 	return (
-		<Detector
-			BackgroundColor3={new Color3(0, 0, 0)}
-			BackgroundTransparency={0.4}
-			Size={UDim2.fromScale(1, 1)}
-		>
+		<Detector BackgroundColor3={new Color3(0, 0, 0)} BackgroundTransparency={0.4} Size={UDim2.fromScale(1, 1)}>
 			<TopList
 				VerticalAlignment={Enum.VerticalAlignment.Center}
 				HorizontalAlignment={Enum.HorizontalAlignment.Center}
 				Padding={new UDim(0, 10)}
 			/>
-			<Text
-				Text={"On Viewport"}
-				TextSize={20}
-				Weight="Bold"
-				Size={new UDim2(1, 0, 0, 25)}
-			/>
+			<Text Text={"On Viewport"} TextSize={20} Weight="Bold" Size={new UDim2(1, 0, 0, 25)} />
 			<Sprite
 				Sprite="ViewOnViewport"
 				ImageProps={{
@@ -53,9 +44,7 @@ function OnViewportInfo(props: OnViewportInfoProps) {
 			/>
 			<frame
 				key={"BringBackButton"}
-				BackgroundColor3={
-					hovered ? theme.StoryPreview.Selected : theme.StoryPreview.Color
-				}
+				BackgroundColor3={hovered ? theme.StoryPreview.Selected : theme.StoryPreview.Color}
 				Size={UDim2.fromOffset(0, 30)}
 				AutomaticSize={Enum.AutomaticSize.X}
 			>
@@ -67,9 +56,7 @@ function OnViewportInfo(props: OnViewportInfoProps) {
 					Size={UDim2.fromScale(0, 1)}
 					AutomaticSize={Enum.AutomaticSize.X}
 					TextSize={16}
-					TextColor3={
-						hovered ? theme.StoryPreview.TextSelected : theme.Text.Color
-					}
+					TextColor3={hovered ? theme.StoryPreview.TextSelected : theme.Text.Color}
 				/>
 				<Detector
 					Event={{

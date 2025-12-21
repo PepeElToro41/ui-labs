@@ -8,8 +8,7 @@ const initialState: StorySelectionState = {
 	selected: undefined
 };
 
-export const selectStorySelected = (state: RootState) =>
-	state.storySelection.selected;
+export const selectStorySelected = (state: RootState) => state.storySelection.selected;
 
 export const StorySelectionProducer = createProducer(initialState, {
 	selectStory: (state, uid: string) => {

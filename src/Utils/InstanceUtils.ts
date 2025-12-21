@@ -9,7 +9,10 @@ export function ArrayDescendants(instanceArray: Instance[]) {
 	return descendants;
 }
 
-export function FromServiceNames<T extends (keyof Services)[]>(serviceTable: T, iterator?: (service: Instance) => void) {
+export function FromServiceNames<T extends (keyof Services)[]>(
+	serviceTable: T,
+	iterator?: (service: Instance) => void
+) {
 	const servicesFound: Services[T[number]][] = [];
 
 	serviceTable.forEach((serviceName) => {
@@ -47,7 +50,7 @@ export function CreateInstancePath(instance: Instance): ReferencePath | undefine
 	return {
 		Service: currentParent.Name as keyof Services,
 		Instance: instance,
-		Path: path,
+		Path: path
 	};
 }
 

@@ -1,20 +1,12 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useMemo } from "@rbxts/react";
 import { InferFusionProps } from "@rbxts/ui-labs";
-import {
-	ConvertedControls,
-	ReturnControls
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
 import { Cast, FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
 import { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import {
 	CreateFusion3Values,
 	CreateFusionValues,
@@ -29,9 +21,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 	const result = props.Result;
 	const version = GetFusionVersion(result.fusion);
 	const fusion =
-		version === "Fusion2"
-			? result.fusion
-			: GetScopedFusion(Cast<Fusion3>(result.fusion), result.scoped ?? []);
+		version === "Fusion2" ? result.fusion : GetScopedFusion(Cast<Fusion3>(result.fusion), result.scoped ?? []);
 
 	const returnControls = result.controls as ReturnControls;
 	const controls = useControls(returnControls ?? {});
@@ -47,11 +37,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		if (version === "Fusion2") {
 			return CreateFusionValues(fusion, controls, controlValues);
 		} else {
-			return CreateFusion3Values(
-				Cast<Fusion3>(fusion),
-				controls,
-				controlValues
-			);
+			return CreateFusion3Values(Cast<Fusion3>(fusion), controls, controlValues);
 		}
 	}, []);
 
@@ -62,9 +48,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 	const cleanup = useMemo(() => {
 		if (props.Result.scoped !== undefined) {
 			if (version === "Fusion2") {
-				warn(
-					"UI Labs: scoped key provided for Fusion 0.2, this will be ignored"
-				);
+				warn("UI Labs: scoped key provided for Fusion 0.2, this will be ignored");
 			}
 		}
 
@@ -114,14 +98,7 @@ function FusionLib(props: MounterProps<"FusionLib">) {
 		}
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <></>;
 }

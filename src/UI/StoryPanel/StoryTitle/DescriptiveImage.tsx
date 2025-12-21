@@ -33,7 +33,7 @@ function DescriptiveImage(props: DescriptiveImageProps) {
 			{...setprops}
 			Event={{
 				MouseEnter: hoverApi.enable,
-				MouseLeave: hoverApi.disable,
+				MouseLeave: hoverApi.disable
 			}}
 		></imagelabel>
 	);

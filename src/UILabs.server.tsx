@@ -19,17 +19,9 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 	const pluginButton = toolbar.CreateButton(
 		"UI Labs",
 		"Open UI Labs",
-		isLocal
-			? "rbxassetid://16652065460"
-			: isCanary
-				? "rbxassetid://88856573487980"
-				: "rbxassetid://13858107432"
+		isLocal ? "rbxassetid://16652065460" : isCanary ? "rbxassetid://88856573487980" : "rbxassetid://13858107432"
 	);
-	const stopButton = toolbar.CreateButton(
-		"Stop",
-		"Stop UI Labs",
-		"rbxassetid://13960086023"
-	);
+	const stopButton = toolbar.CreateButton("Stop", "Stop UI Labs", "rbxassetid://13960086023");
 
 	pluginButton.ClickableWhenViewportHidden = true;
 	stopButton.ClickableWhenViewportHidden = true;
@@ -80,9 +72,7 @@ if (!RunService.IsRunning() || RunService.IsEdit()) {
 		dockWidget.Enabled = false;
 	});
 
-	const dockEnableConnection = dockWidget
-		.GetPropertyChangedSignal("Enabled")
-		.Connect(onDockWidgetToggled);
+	const dockEnableConnection = dockWidget.GetPropertyChangedSignal("Enabled").Connect(onDockWidgetToggled);
 	onDockWidgetToggled();
 
 	plugin.Unloading.Connect(() => {

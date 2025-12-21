@@ -14,9 +14,13 @@ export function useButtonDropdown() {
 	const ShowDropdown = useCallback(
 		(buttonType: ToolButtonType) => {
 			const offset = mouseOffset.getValue();
-			setPopup(buttonType + "Dropdown", <ToolbarButtonDropdown Position={offset} ButtonName={buttonType} />, "ButtonDropdown");
+			setPopup(
+				buttonType + "Dropdown",
+				<ToolbarButtonDropdown Position={offset} ButtonName={buttonType} />,
+				"ButtonDropdown"
+			);
 		},
-		[mouseOffset],
+		[mouseOffset]
 	);
 
 	return ShowDropdown;

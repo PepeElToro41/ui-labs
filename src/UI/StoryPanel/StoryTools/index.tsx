@@ -2,12 +2,7 @@ import React, { useBinding } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { useToolbarHovered } from "Context/StoryPanelContext";
 import { useToggler } from "Hooks/Utils/Toggler";
-import {
-	selectMeasureTool,
-	selectMouseRules,
-	selectSelectTool,
-	selectShowOutlines,
-} from "Reflex/Interface";
+import { selectMeasureTool, selectMouseRules, selectSelectTool, selectShowOutlines } from "Reflex/Interface";
 import { Div } from "UI/Styles/Div";
 import MeasureTool from "./MeasureTool";
 import MouseRules from "./MouseRules";
@@ -22,8 +17,7 @@ function StoryTools(props: StoryToolsProps) {
 	const [inside, insideApi] = useToggler(false);
 	const [anchor, setAnchor] = useBinding<Vector2>(Vector2.zero);
 
-	const isInside =
-		inside && !props.PreviewEntry.OnViewport && !props.PreviewEntry.OnWidget;
+	const isInside = inside && !props.PreviewEntry.OnViewport && !props.PreviewEntry.OnWidget;
 	const [toolbarHovered] = useToolbarHovered();
 
 	const measureTool = useSelector(selectMeasureTool);
@@ -35,33 +29,17 @@ function StoryTools(props: StoryToolsProps) {
 		<Div
 			Event={{
 				MouseEnter: insideApi.enable,
-				MouseLeave: insideApi.disable,
+				MouseLeave: insideApi.disable
 			}}
 			Change={{
-				AbsolutePosition: (frame) => setAnchor(frame.AbsolutePosition),
+				AbsolutePosition: (frame) => setAnchor(frame.AbsolutePosition)
 			}}
 			ZIndex={2}
 		>
-			{measureTool ? (
-				<MeasureTool Inside={isInside} Anchor={anchor} />
-			) : undefined}
-			{selectTool ? (
-				<SelectElements
-					Inside={isInside}
-					Anchor={anchor}
-					PreviewEntry={props.PreviewEntry}
-				/>
-			) : undefined}
-			{showOutlines ? (
-				<ShowOutlines Anchor={anchor} PreviewEntry={props.PreviewEntry} />
-			) : undefined}
-			{mouseRules ? (
-				<MouseRules
-					Inside={isInside}
-					Anchor={anchor}
-					PreviewEntry={props.PreviewEntry}
-				/>
-			) : undefined}
+			{measureTool ? <MeasureTool Inside={isInside} Anchor={anchor} /> : undefined}
+			{selectTool ? <SelectElements Inside={isInside} Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
+			{showOutlines ? <ShowOutlines Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
+			{mouseRules ? <MouseRules Inside={isInside} Anchor={anchor} PreviewEntry={props.PreviewEntry} /> : undefined}
 		</Div>
 	);
 }

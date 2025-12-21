@@ -22,7 +22,7 @@ function OffsetDrag<T extends keyof SlideReturn>(props: OffsetDragProps<T>) {
 					break;
 			}
 		},
-		[props.DeltaApply],
+		[props.DeltaApply]
 	);
 	return <DragBase {...props} MapCallback={ApplyMap}></DragBase>;
 }

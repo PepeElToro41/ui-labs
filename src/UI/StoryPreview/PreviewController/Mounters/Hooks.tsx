@@ -1,15 +1,9 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { useProducer, useSelectorCreator } from "@rbxts/react-reflex";
-import {
-	ConvertedControls,
-	ReturnControls
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { IntrinsicProps, StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
-import {
-	useGetInputSignalsFromFrame,
-	useInputSignals
-} from "Context/UserInputContext";
+import { useGetInputSignalsFromFrame, useInputSignals } from "Context/UserInputContext";
 import Configs from "Plugin/Configs";
 import { selectPreview } from "Reflex/StoryPreview";
 import Controls from "UI/StoryPreview/StoryActionRenders/Controls";
@@ -17,11 +11,7 @@ import Summary from "UI/StoryPreview/StoryActionRenders/Summary";
 import { CreateTuple } from "Utils/MiscUtils";
 import { MounterProps } from ".";
 import { RecoverControlsData } from "..";
-import {
-	ConvertLiterals,
-	CreateRecoverControlsData,
-	ParametrizeControls
-} from "./Utils";
+import { ConvertLiterals, CreateRecoverControlsData, ParametrizeControls } from "./Utils";
 
 export function useParametrizedControls(
 	previewKey: string,
@@ -31,14 +21,7 @@ export function useParametrizedControls(
 ) {
 	const entry = useSelectorCreator(selectPreview, previewKey);
 	const [values, setValues] = useState(
-		ParametrizeControls(
-			controls,
-			entry
-				? entry.RecoverControls
-					? recoverControlsData
-					: undefined
-				: undefined
-		)
+		ParametrizeControls(controls, entry ? (entry.RecoverControls ? recoverControlsData : undefined) : undefined)
 	);
 
 	useUpdateEffect(() => {

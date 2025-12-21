@@ -45,7 +45,7 @@ function GetHSVValues(color: Color3): HSV {
 	return {
 		H: h === 1 ? 0 : h,
 		S: s,
-		V: v,
+		V: v
 	};
 }
 
@@ -92,7 +92,7 @@ function ColorPicker(props: ColorPickerProps) {
 				resetPopup();
 			}
 		},
-		[inside],
+		[inside]
 	);
 
 	useUnmountEffect(() => {
@@ -114,7 +114,7 @@ function ColorPicker(props: ColorPickerProps) {
 			Position={props.Position ?? UDim2.fromScale(0, 0)}
 			AnchorPoint={new Vector2(0, wrapped ? 0 : 1)}
 			Change={{
-				AbsoluteSize: OnAbsoluteSizeChanged,
+				AbsoluteSize: OnAbsoluteSizeChanged
 			}}
 		>
 			<TopList />
@@ -126,7 +126,7 @@ function ColorPicker(props: ColorPickerProps) {
 				LayoutOrder={1}
 				Event={{
 					MouseEnter: insideApi.enable,
-					MouseLeave: insideApi.disable,
+					MouseLeave: insideApi.disable
 				}}
 			>
 				<uistroke Color={Color3.fromRGB(150, 150, 150)} Transparency={0.8} />

@@ -1,16 +1,6 @@
 import { Signal } from "@rbxts/lemon-signal";
-import {
-	useBindingListener,
-	useEventListener
-} from "@rbxts/pretty-react-hooks";
-import React, {
-	PropsWithChildren,
-	useBinding,
-	useCallback,
-	useEffect,
-	useMemo,
-	useState
-} from "@rbxts/react";
+import { useBindingListener, useEventListener } from "@rbxts/pretty-react-hooks";
+import React, { PropsWithChildren, useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/react";
 import { InputSignals } from "@rbxts/ui-labs";
 import { useSignal } from "Hooks/Utils/Signal";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -61,9 +51,7 @@ export function useGetInputSignalsFromFrame(frame?: Frame) {
 			if (!hovered) return;
 			inputBegan.Fire(input, false);
 		});
-		const ended = frame.InputEnded.Connect((input) =>
-			inputEnded.Fire(input, false)
-		);
+		const ended = frame.InputEnded.Connect((input) => inputEnded.Fire(input, false));
 
 		const onHover = frame.MouseEnter.Connect(hoverApi.enable);
 		const onUnhovered = frame.MouseLeave.Connect(hoverApi.disable);
@@ -104,12 +92,8 @@ export function useInputSignals(inputs: UserInputContext) {
 	useEventListener(inputs.InputBegan, (input, processed) => {
 		onInputBegan.Fire(input, processed);
 	});
-	useEventListener(inputs.InputEnded, (input, processed) =>
-		onInputEnded.Fire(input, processed)
-	);
-	useEventListener(inputs.InputChanged, (input, processed) =>
-		onInputChanged.Fire(input, processed)
-	);
+	useEventListener(inputs.InputEnded, (input, processed) => onInputEnded.Fire(input, processed));
+	useEventListener(inputs.InputChanged, (input, processed) => onInputChanged.Fire(input, processed));
 
 	const GetMouseLocation = useCallback(() => {
 		return inputs.MousePosition.getValue();

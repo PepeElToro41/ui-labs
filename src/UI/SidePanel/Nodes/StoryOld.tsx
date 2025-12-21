@@ -74,7 +74,10 @@ function Story(setprops: StoryProps) {
 		setTransparency(hovered ? 0.6 : 1);
 	}, [hovered, selected]);
 
-	const OnStorySelected = useCallback(() => toggleMount(props.Node.Module, keepViewOnViewport), [props.Node, keepViewOnViewport]);
+	const OnStorySelected = useCallback(
+		() => toggleMount(props.Node.Module, keepViewOnViewport),
+		[props.Node, keepViewOnViewport]
+	);
 	const OnStoryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
 		setPopup("StoryDropdown", <StoryDropdown Position={offset} Node={props.Node} />, props.Node.Module);
@@ -101,7 +104,7 @@ function Story(setprops: StoryProps) {
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
 					MouseButton1Click: OnStorySelected,
-					MouseButton2Click: OnStoryDropdown,
+					MouseButton2Click: OnStoryDropdown
 				}}
 			/>
 			{mountAmount > 0 && (
@@ -129,7 +132,7 @@ function Story(setprops: StoryProps) {
 						Position: new UDim2(1, 0, 0.5, 0),
 						Size: new UDim2(1, 0, 1.1, 0),
 						LayoutOrder: 1,
-						SizeConstraint: Enum.SizeConstraint.RelativeYY,
+						SizeConstraint: Enum.SizeConstraint.RelativeYY
 					}}
 				/>
 				<Text

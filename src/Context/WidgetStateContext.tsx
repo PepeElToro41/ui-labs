@@ -32,23 +32,19 @@ export function WidgetStateProvider(props: WidgetStateProviderProps) {
 			focusedSignal.Fire(true);
 			setWidgetFocused(true);
 		});
-		const widgetFocusReleased = props.DockWidget.WindowFocusReleased.Connect(
-			() => {
-				focusedSignal.Fire(false);
-				setWidgetFocused(false);
-			}
-		);
+		const widgetFocusReleased = props.DockWidget.WindowFocusReleased.Connect(() => {
+			focusedSignal.Fire(false);
+			setWidgetFocused(false);
+		});
 
 		const viewportFocused = UserInputService.WindowFocused.Connect(() => {
 			viewportFocusedSignal.Fire(true);
 			setViewportFocused(true);
 		});
-		const viewportFocusReleased = UserInputService.WindowFocusReleased.Connect(
-			() => {
-				viewportFocusedSignal.Fire(false);
-				setViewportFocused(false);
-			}
-		);
+		const viewportFocusReleased = UserInputService.WindowFocusReleased.Connect(() => {
+			viewportFocusedSignal.Fire(false);
+			setViewportFocused(false);
+		});
 
 		return () => {
 			widgetFocused.Disconnect();
@@ -68,11 +64,7 @@ export function WidgetStateProvider(props: WidgetStateProviderProps) {
 		};
 	}, [widgetFocused, viewportFocused]);
 
-	return (
-		<WidgetStateContext.Provider value={context}>
-			{props.children}
-		</WidgetStateContext.Provider>
-	);
+	return <WidgetStateContext.Provider value={context}>{props.children}</WidgetStateContext.Provider>;
 }
 
 export function useWidgetStateContext() {

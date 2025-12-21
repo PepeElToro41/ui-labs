@@ -10,5 +10,5 @@ export const Decoders = {
 				return parsed;
 			} else return;
 		};
-	},
+	}
 };

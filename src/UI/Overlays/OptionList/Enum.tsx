@@ -33,7 +33,7 @@ function EnumListOverlay(props: EnumListOverlayProps) {
 			if (!isOptionAvailable) return;
 			props.ChooseOption(index);
 		},
-		[props.ChooseOption, props.Options],
+		[props.ChooseOption, props.Options]
 	);
 	useUnmountEffect(() => {
 		if (props.OnClose) props.OnClose();

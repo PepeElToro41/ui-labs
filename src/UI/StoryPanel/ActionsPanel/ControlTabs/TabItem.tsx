@@ -47,7 +47,7 @@ function TabItem(setprops: TabItemProps) {
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton1Click: props.OnClicked,
+					MouseButton1Click: props.OnClicked
 				}}
 			/>
 			<frame

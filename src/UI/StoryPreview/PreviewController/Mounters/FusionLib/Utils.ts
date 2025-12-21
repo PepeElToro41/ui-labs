@@ -1,9 +1,5 @@
 import Fusion from "@rbxts/fusion";
-import {
-	CreateControlStates,
-	InferFusionControls,
-	UpdateControlStates
-} from "@rbxts/ui-labs";
+import { CreateControlStates, InferFusionControls, UpdateControlStates } from "@rbxts/ui-labs";
 import { ConvertedControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { Cast } from "Utils/MiscUtils";
 
@@ -29,11 +25,7 @@ export function CreateFusionValues(
 	}) as InferFusionControls<ConvertedControls>;
 }
 
-export function CreateFusion3Values(
-	fusion: Fusion3,
-	controls: ConvertedControls,
-	controlValues: ParametrizedControls
-) {
+export function CreateFusion3Values(fusion: Fusion3, controls: ConvertedControls, controlValues: ParametrizedControls) {
 	return CreateControlStates(controls, controlValues, (value) => {
 		return fusion.Value(value);
 	}) as InferFusionControls<ConvertedControls>;
@@ -44,12 +36,7 @@ export function UpdateFusionValues(
 	controls: ConvertedControls,
 	controlValues: ParametrizedControls
 ) {
-	UpdateControlStates(
-		values,
-		controls,
-		controlValues,
-		(value: Fusion.Value<any>, update) => {
-			return value.set(update);
-		}
-	);
+	UpdateControlStates(values, controls, controlValues, (value: Fusion.Value<any>, update) => {
+		return value.set(update);
+	});
 }

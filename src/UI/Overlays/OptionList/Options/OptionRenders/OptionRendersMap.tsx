@@ -25,7 +25,7 @@ export const OptionsRendersMap: OptionsRendersMap = {
 		return <TextRenderer Text={props.Value ? "true" : "false"} IsDescription={props.IsDescription} />;
 	},
 	function: FunctionRenderer,
-	Color3: Color3Renderer,
+	Color3: Color3Renderer
 };
 
 export const DefaultOptionRenderer: OptionRendererFactory = (props) => {

@@ -37,7 +37,7 @@ function EnumOption(setprops: EnumOptionProps) {
 			Event={{
 				MouseEnter: hoverApi.enable,
 				MouseLeave: hoverApi.disable,
-				MouseButton1Click: props.OnOptionClicked,
+				MouseButton1Click: props.OnOptionClicked
 			}}
 		>
 			<Corner Radius={6} />

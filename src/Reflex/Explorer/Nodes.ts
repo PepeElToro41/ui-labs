@@ -9,7 +9,7 @@ interface NodesState {
 
 const initialState: NodesState = {
 	nodes: { storybooks: [], unknown: [] },
-	nodemap: new Map(),
+	nodemap: new Map()
 };
 
 export const selectNodes = (state: RootState) => state.explorer.nodes;
@@ -27,5 +27,5 @@ export const NodesProducer = createProducer(initialState, {
 	},
 	setNodes: (state, nodes: RootNodes, nodemap: NodeMap) => {
 		return { ...state, nodes, nodemap };
-	},
+	}
 });

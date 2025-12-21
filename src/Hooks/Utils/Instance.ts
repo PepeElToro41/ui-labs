@@ -13,7 +13,7 @@ function PrepareInstance<T extends Instance>(instance: T, props?: PropertiesTabl
 export function useInstance<T extends keyof CreatableInstances>(
 	className: T,
 	parent?: Instance,
-	props?: PropertiesTable<CreatableInstances[T]>,
+	props?: PropertiesTable<CreatableInstances[T]>
 ) {
 	const instance = useMemo<CreatableInstances[T]>(() => {
 		const newInstance = new Instance(className);

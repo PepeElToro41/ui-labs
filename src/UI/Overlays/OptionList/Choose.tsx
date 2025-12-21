@@ -34,7 +34,7 @@ function ChooseListOverlay(props: ChooseListOverlayProps) {
 			const isOptionAvailable = props.Options[index] !== undefined;
 			if (!isOptionAvailable) return;
 		},
-		[props.ChooseOption, props.Options],
+		[props.ChooseOption, props.Options]
 	);
 	useUnmountEffect(() => {
 		if (props.OnClose) props.OnClose();

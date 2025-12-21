@@ -24,5 +24,5 @@ export const ComponentHighlightRenderes: ComponentRenderes = {
 	TextButton: TextButtonHighlight,
 	TextBox: TextBoxHighlight,
 	ImageLabel: ImageLabelHighlight,
-	ImageButton: ImageButtonHighlight,
+	ImageButton: ImageButtonHighlight
 };

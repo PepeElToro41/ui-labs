@@ -34,11 +34,7 @@ function EnvironmentScheduler(props: EnvironmentSchedulerProps) {
 		props.Environments.forEach((uid) => {
 			renders.set(
 				uid,
-				<StoryPreview
-					PreviewUID={uid}
-					EnvironmentHolder={schedulerHolder}
-					EnvironmentTarget={props.RootEnvironment}
-				/>
+				<StoryPreview PreviewUID={uid} EnvironmentHolder={schedulerHolder} EnvironmentTarget={props.RootEnvironment} />
 			);
 		});
 

@@ -28,7 +28,7 @@ function ListHolder(props: ListHolderProps) {
 			AutomaticSize={Enum.AutomaticSize.X}
 			ZIndex={2}
 			Change={{
-				AbsoluteSize: props.OnAbsoluteSizeChanged,
+				AbsoluteSize: props.OnAbsoluteSizeChanged
 			}}
 		>
 			<Corner Radius={6} />
@@ -42,7 +42,7 @@ function ListHolder(props: ListHolderProps) {
 					AutomaticCanvasSize={Enum.AutomaticSize.Y}
 					CanvasSize={UDim2.fromScale(0, 0)}
 					Change={{
-						AbsoluteCanvasSize: OnAbsoluteCanvasSizeChanged,
+						AbsoluteCanvasSize: OnAbsoluteCanvasSizeChanged
 					}}
 				>
 					<TopList Padding={new UDim(0, 1)} />

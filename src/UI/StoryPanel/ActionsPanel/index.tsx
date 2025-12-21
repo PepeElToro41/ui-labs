@@ -27,11 +27,7 @@ interface ActionsPanelProps {
 	MaxHeight?: number;
 }
 
-const APPEAR_INFO = new TweenInfo(
-	0.3,
-	Enum.EasingStyle.Quint,
-	Enum.EasingDirection.Out,
-);
+const APPEAR_INFO = new TweenInfo(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out);
 
 function setProps(props: ActionsPanelProps) {
 	props.Active = props.Active ?? true;
@@ -48,8 +44,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 	const [, setHeight] = useActionsHeight();
 
 	const active = props.Active && props.Tabs.size() > 0;
-	const selectedRender =
-		selected !== undefined ? props.Tabs.get(selected)?.Render : undefined;
+	const selectedRender = selected !== undefined ? props.Tabs.get(selected)?.Render : undefined;
 
 	const tabEntries = useMemo(() => {
 		const entries = new Map<string, TabEntry>();
@@ -57,7 +52,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 		props.Tabs.forEach((tab, index) => {
 			entries.set(index, {
 				DisplayName: tab.DisplayName,
-				Order: tab.Order,
+				Order: tab.Order
 			});
 		});
 
@@ -72,7 +67,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 		(holder: Frame) => {
 			setHeight(holder.AbsoluteSize.Y);
 		},
-		[active, setHeight],
+		[active, setHeight]
 	);
 
 	useEffect(() => {
@@ -125,10 +120,10 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 				AnchorPoint: new Vector2(0, 1),
 				Position: UDim2.fromScale(0, 1),
 				ZIndex: 4,
-				Visible: active,
+				Visible: active
 			}}
 			FrameProps={{
-				BackgroundTransparency: 1,
+				BackgroundTransparency: 1
 			}}
 		>
 			<Div
@@ -136,7 +131,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 				Size={UDim2.fromScale(1, 1)}
 				Position={anchor.map((anchor) => UDim2.fromScale(0, anchor))}
 				Change={{
-					AbsoluteSize: onSetHeight,
+					AbsoluteSize: onSetHeight
 				}}
 			>
 				<DropShadow Elevation={new Vector2(-1, -2)} Transparency={0.9} />
@@ -159,11 +154,7 @@ function ActionsPanel(setprops: ActionsPanelProps) {
 									ButtonName="AnchorActionsWindow"
 									Description={pinned ? "Floating Window" : "Anchored Window"}
 									key={"PinIcon"}
-									Icon={
-										pinned
-											? "rbxassetid://15825809564"
-											: "rbxassetid://15825810568"
-									}
+									Icon={pinned ? "rbxassetid://15825809564" : "rbxassetid://15825810568"}
 									IconTransparency={0.3}
 									Size={UDim2.fromOffset(21, 21)}
 									IconScale={0.8}

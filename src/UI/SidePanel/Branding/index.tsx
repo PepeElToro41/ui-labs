@@ -34,15 +34,8 @@ function Branding(props: BrandingProps) {
 
 	return (
 		<Div key={"Branding"} Size={new UDim2(1, 0, 0, 35)}>
-			<Div
-				key={"PluginName"}
-				Size={new UDim2(1, -26, 1, 0)}
-				ClipsDescendants={true}
-			>
-				<LeftList
-					VerticalAlignment={Enum.VerticalAlignment.Center}
-					Padding={new UDim(0, 8)}
-				/>
+			<Div key={"PluginName"} Size={new UDim2(1, -26, 1, 0)} ClipsDescendants={true}>
+				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 8)} />
 				<Logo />
 				<Text
 					key={"PluginName"}
@@ -92,11 +85,7 @@ function Branding(props: BrandingProps) {
 						<Corner Radius={4} />
 					</frame>
 				</Div>
-				<uistroke
-					Thickness={1}
-					Color={theme.Divisor.Color}
-					Transparency={theme.Divisor.Transparency}
-				/>
+				<uistroke Thickness={1} Color={theme.Divisor.Color} Transparency={theme.Divisor.Transparency} />
 				<Corner Radius={4} />
 				<imagelabel
 					Image={"rbxassetid://18977916731"}

@@ -19,11 +19,7 @@ interface LeftToolbarProps {
 	PreviewEntry: PreviewEntry;
 }
 
-const HOVER_INFO = new TweenInfo(
-	0.15,
-	Enum.EasingStyle.Cubic,
-	Enum.EasingDirection.Out,
-);
+const HOVER_INFO = new TweenInfo(0.15, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out);
 
 function LeftToolbar(props: LeftToolbarProps) {
 	const { setPopup } = useProducer<RootProducer>();
@@ -45,11 +41,7 @@ function LeftToolbar(props: LeftToolbarProps) {
 
 	const OnToolbarLeftClick = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setPopup(
-			"BackButtonDropdown",
-			<ToolbarDropdown Position={offset} />,
-			"ButtonDropdown",
-		);
+		setPopup("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
 	}, []);
 
 	return (
@@ -61,17 +53,14 @@ function LeftToolbar(props: LeftToolbarProps) {
 			ZIndex={2}
 			ClipsDescendants={true}
 		>
-			<uisizeconstraint
-				key={"MaxSize"}
-				MaxSize={new Vector2(math.huge, canvasHeight)}
-			/>
+			<uisizeconstraint key={"MaxSize"} MaxSize={new Vector2(math.huge, canvasHeight)} />
 
 			<Detector
 				Size={UDim2.fromScale(1, 1)}
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton2Click: OnToolbarLeftClick,
+					MouseButton2Click: OnToolbarLeftClick
 				}}
 			/>
 

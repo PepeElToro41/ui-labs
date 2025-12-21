@@ -94,13 +94,10 @@ function CatppuchineTheme(palette: CatppuchinePalette) {
 	return theme;
 }
 
-export const CatppuchineLatte = Immut.produce(
-	CatppuchineTheme(Latte),
-	(draft) => {
-		draft.StoryPanel.PatternDarkTransparency = 0.85;
-		draft.StoryPanel.PatternLightTransparency = 0.95;
-	}
-);
+export const CatppuchineLatte = Immut.produce(CatppuchineTheme(Latte), (draft) => {
+	draft.StoryPanel.PatternDarkTransparency = 0.85;
+	draft.StoryPanel.PatternLightTransparency = 0.95;
+});
 export const CatppuchineFrappe = CatppuchineTheme(Frappe);
 export const CatppuchineMacchiato = CatppuchineTheme(Macchiato);
 export const CatppuchineMocha = CatppuchineTheme(Mocha);

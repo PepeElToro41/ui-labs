@@ -5,7 +5,10 @@ import { useProducer } from "@rbxts/react-reflex";
 import { useEffect } from "@rbxts/react";
 
 export function controlStorybookList() {
-	const [storybookList, recompute] = useInstanceSearch("ModuleScript", ExtensionPredicator(Configs.Extensions.Storybook));
+	const [storybookList, recompute] = useInstanceSearch(
+		"ModuleScript",
+		ExtensionPredicator(Configs.Extensions.Storybook)
+	);
 
 	const { setStorybookList } = useProducer<RootProducer>();
 

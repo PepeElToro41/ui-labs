@@ -44,7 +44,7 @@ function InputEntry<T>(props: InputEntryProps<T>) {
 				props.Apply(value);
 			}
 		},
-		[props.OnFocusLost, props.Value, props.Apply, decoder],
+		[props.OnFocusLost, props.Value, props.Apply, decoder]
 	);
 	const OnFocused = useCallback(
 		(textbox: TextBox) => {
@@ -55,7 +55,7 @@ function InputEntry<T>(props: InputEntryProps<T>) {
 			}
 			if (props.OnFocused) props.OnFocused(textbox);
 		},
-		[props.OnFocused, props.MaintainValue],
+		[props.OnFocused, props.MaintainValue]
 	);
 
 	const OnTextChanged = useCallback(
@@ -65,7 +65,7 @@ function InputEntry<T>(props: InputEntryProps<T>) {
 			const filtered = ApplyFilters(textbox.Text, filters);
 			textbox.Text = filtered;
 		},
-		[props.OnTextChanged, props.Filters],
+		[props.OnTextChanged, props.Filters]
 	);
 
 	return (
@@ -79,7 +79,7 @@ function InputEntry<T>(props: InputEntryProps<T>) {
 			TextboxProps={{
 				TextTruncate: Enum.TextTruncate.AtEnd,
 				...props.TextboxProps,
-				PlaceholderText: parser(props.Value),
+				PlaceholderText: parser(props.Value)
 			}}
 		>
 			{props["children"]}

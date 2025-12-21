@@ -84,7 +84,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 					Event={{
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
-						MouseButton1Click: OnExpand,
+						MouseButton1Click: OnExpand
 					}}
 				/>
 				<Div key={"Title"}>
@@ -96,7 +96,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						ImageProps={{
 							LayoutOrder: 1,
 							ImageColor3: props.SpriteColor,
-							Size: new UDim2(0, 16, 0, 16),
+							Size: new UDim2(0, 16, 0, 16)
 						}}
 					/>
 					<Text
@@ -114,7 +114,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						ImageProps={{
 							LayoutOrder: 3,
 							ImageColor3: theme.Icon.Color,
-							Size: new UDim2(0, 16, 0, 16),
+							Size: new UDim2(0, 16, 0, 16)
 						}}
 					/>
 				</Div>
@@ -126,7 +126,13 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 				AutomaticSize={Enum.AutomaticSize.Y}
 				Size={UDim2.fromScale(1, 0)}
 			>
-				<Divisor key="ChildrenDivisor" Anchor={0} Direction="Y" Position={new UDim2(0, 8, 0, 0)} Size={new UDim(1, -9)} />
+				<Divisor
+					key="ChildrenDivisor"
+					Anchor={0}
+					Direction="Y"
+					Position={new UDim2(0, 8, 0, 0)}
+					Size={new UDim(1, -9)}
+				/>
 				<Div key="Children" AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={2} Size={new UDim2(1, 0, 0, 0)}>
 					<TopList Padding={new UDim(0, 1)} />
 					<uipadding PaddingLeft={new UDim(0, 13)} />

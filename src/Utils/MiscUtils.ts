@@ -1,11 +1,7 @@
 import Configs from "Plugin/Configs";
 
 export function FixColor3(color: Color3) {
-	const fixedColor = new Color3(
-		math.clamp(color.R, 0, 1),
-		math.clamp(color.G, 0, 1),
-		math.clamp(color.B, 0, 1)
-	);
+	const fixedColor = new Color3(math.clamp(color.R, 0, 1), math.clamp(color.G, 0, 1), math.clamp(color.B, 0, 1));
 	return fixedColor;
 }
 
@@ -15,21 +11,14 @@ export function GetColorHex(color: Color3) {
 	return hex;
 }
 
-export function FastSpawn<T extends (...args: defined[]) => unknown>(
-	callback: T,
-	...args: Parameters<T>
-) {
+export function FastSpawn<T extends (...args: defined[]) => unknown>(callback: T, ...args: Parameters<T>) {
 	const thread = coroutine.create(() => {
 		return callback(...args);
 	});
 	coroutine.resume(thread);
 }
 
-export function YCall<T, U>(
-	fn: (arg: T) => U,
-	arg: T,
-	err: (didYield: boolean, err: string) => void
-): U | undefined {
+export function YCall<T, U>(fn: (arg: T) => U, arg: T, err: (didYield: boolean, err: string) => void): U | undefined {
 	const thread = coroutine.create(xpcall);
 	const efn = (err: string) => {
 		return debug.traceback(tostring(err), 3);

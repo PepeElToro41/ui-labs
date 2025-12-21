@@ -61,7 +61,7 @@ export class LifetimeController {
 			Key: key,
 			Element: element,
 			UnactiveTick: 0,
-			UID: uid,
+			UID: uid
 		};
 		this.AllComponents.set(uid, newComponent);
 		this.RenderedUIDs.set(key, uid);
@@ -71,7 +71,7 @@ export class LifetimeController {
 		if (!component) return;
 		this.AllComponents.set(uid, {
 			...component,
-			Element: element,
+			Element: element
 		});
 	}
 	ProcessChildren(children: ReactChildren) {

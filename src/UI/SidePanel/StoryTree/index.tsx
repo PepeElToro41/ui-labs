@@ -33,7 +33,7 @@ function StoryTree(props: StoryTreeProps) {
 				elementsList.push(
 					<Div Size={new UDim2(1, 0, 0, 8)} LayoutOrder={booksSize}>
 						<Divisor Direction="X" Size={new UDim(1, -25)} Transparency={0.9} />
-					</Div>,
+					</Div>
 				);
 			}
 		}

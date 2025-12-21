@@ -12,7 +12,7 @@ const initialTheme: ThemeName = "Default";
 const initialState: ThemeState = {
 	theme: Themes[initialTheme],
 	themeIndex: initialTheme,
-	isLightBackground: false,
+	isLightBackground: false
 };
 
 export const selectTheme = (state: RootState) => state.theme;
@@ -28,5 +28,5 @@ export const ThemeProducer = createProducer(initialState, {
 	},
 	setIsLightBackground: (state, light: boolean) => {
 		return { ...state, isLightBackground: light };
-	},
+	}
 });

@@ -41,14 +41,14 @@ function ClearObject(props: ClearObjectProps) {
 					ScaleType: Enum.ScaleType.Fit,
 					Position: UDim2.fromScale(0.5, 0.5),
 					AnchorPoint: new Vector2(0.5, 0.5),
-					Size: UDim2.fromOffset(13, 13),
+					Size: UDim2.fromOffset(13, 13)
 				}}
 			/>
 			<Detector
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton1Click: props.OnClick,
+					MouseButton1Click: props.OnClick
 				}}
 			/>
 		</frame>

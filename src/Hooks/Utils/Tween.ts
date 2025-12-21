@@ -10,7 +10,7 @@ interface TweenOptions {
 	bind?: RunService["Heartbeat"] | RunService["Stepped"] | RunService["RenderStepped"];
 }
 const defaultTweenOptions: TweenOptions = {
-	bind: RunService.Heartbeat,
+	bind: RunService.Heartbeat
 };
 function LerpNumber(alpha: number, startV: number, endV: number) {
 	return startV + (endV - startV) * alpha;
@@ -31,10 +31,14 @@ const tweeners = {
 	Vector3: (alpha: number, startV: Vector3, endV: Vector3) => startV.Lerp(endV, alpha),
 	Rect: (alpha: number, startV: Rect, endV: Rect) => {
 		return new Rect(startV.Min.Lerp(endV.Min, alpha), startV.Max.Lerp(endV.Max, alpha));
-	},
+	}
 };
 
-export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Widen<T>, options: TweenOptions = defaultTweenOptions) {
+export function useTween<T extends Tweeneable>(
+	info: TweenInfo,
+	initialValue: Widen<T>,
+	options: TweenOptions = defaultTweenOptions
+) {
 	const [instance] = useState<NumberValue>(new Instance("NumberValue"));
 	useUnmountEffect(() => {
 		if (instance) {
@@ -62,12 +66,12 @@ export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Wi
 			setGoal([valueBind.getValue(), goal]);
 			instance.Value = 0;
 			const newTween = TweenService.Create(instance, animateInfo ?? info, {
-				Value: 1,
+				Value: 1
 			});
 			newTween.Play();
 			return newTween;
 		},
-		[instance, valueBind],
+		[instance, valueBind]
 	);
 	const set = useCallback(
 		(value: Widen<T>) => {
@@ -75,7 +79,7 @@ export function useTween<T extends Tweeneable>(info: TweenInfo, initialValue: Wi
 			instance.Value = 1;
 			setValueBind(value);
 		},
-		[instance, valueBind],
+		[instance, valueBind]
 	);
 
 	return $tuple(valueBind, tween, set);

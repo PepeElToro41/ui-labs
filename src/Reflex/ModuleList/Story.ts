@@ -5,7 +5,7 @@ interface StoryState {
 }
 
 const initialState: StoryState = {
-	list: [],
+	list: []
 };
 
 export const selectStory = (state: RootState) => state.moduleList.story;
@@ -14,5 +14,5 @@ export const selectStory = (state: RootState) => state.moduleList.story;
 export const StoryListProducer = createProducer(initialState, {
 	setStoryList: (_, list: ModuleScript[]) => {
 		return { list };
-	},
+	}
 });

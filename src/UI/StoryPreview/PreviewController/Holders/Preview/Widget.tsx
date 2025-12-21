@@ -17,10 +17,7 @@ function Widget(props: StoryHolderProps) {
 	const { unmountStory } = useProducer<RootProducer>();
 	const pluginWidget = useSelector(selectPluginWidget);
 	const preview = props.PreviewEntry;
-	const storyName = RemoveExtension(
-		preview.Module.Name,
-		Configs.Extensions.Story
-	);
+	const storyName = RemoveExtension(preview.Module.Name, Configs.Extensions.Story);
 	const onViewport = preview.OnViewport;
 
 	useDeferLifetime(props, 2);
@@ -33,10 +30,7 @@ function Widget(props: StoryHolderProps) {
 			pluginWidget?.AbsoluteSize.X,
 			pluginWidget?.AbsoluteSize.Y
 		);
-		const newWidget = plugin.CreateDockWidgetPluginGui(
-			HttpService.GenerateGUID(),
-			widgetSettings
-		);
+		const newWidget = plugin.CreateDockWidgetPluginGui(HttpService.GenerateGUID(), widgetSettings);
 		newWidget.Name = storyName;
 		newWidget.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
 		return newWidget;

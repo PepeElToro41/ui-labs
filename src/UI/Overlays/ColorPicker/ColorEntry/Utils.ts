@@ -24,7 +24,7 @@ export const ColorDecoders = {
 			const rgbValues = {
 				R: math.clamp(math.floor(tonumber(rgbStr[0])!), 0, 255),
 				G: math.clamp(math.floor(tonumber(rgbStr[1])!), 0, 255),
-				B: math.clamp(math.floor(tonumber(rgbStr[2])!), 0, 255),
+				B: math.clamp(math.floor(tonumber(rgbStr[2])!), 0, 255)
 			};
 			return Color3.fromRGB(rgbValues.R, rgbValues.G, rgbValues.B);
 		}
@@ -36,7 +36,7 @@ export const ColorDecoders = {
 			return math.clamp(alpha, 0, 1);
 		}
 		return undefined;
-	},
+	}
 };
 
 export const ColorParsers = {
@@ -48,5 +48,5 @@ export const ColorParsers = {
 	},
 	Alpha: (alpha: number) => {
 		return tostring(math.floor(alpha * 100) / 100);
-	},
+	}
 };

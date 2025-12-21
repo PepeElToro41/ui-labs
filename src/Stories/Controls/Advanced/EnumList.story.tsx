@@ -31,9 +31,9 @@ function Story(props: {}) {
 				Enum12: 10,
 				Enum13: 11,
 				Enum14: 12,
-				Enum15: 13,
+				Enum15: 13
 			},
-			"Enum1",
+			"Enum1"
 		);
 	}, []);
 

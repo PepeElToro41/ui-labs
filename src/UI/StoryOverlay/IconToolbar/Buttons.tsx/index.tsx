@@ -65,8 +65,7 @@ function RenderToolButtons(props: RenderToolButtonsProps) {
 					HorizontalAlignment={Enum.HorizontalAlignment.Center}
 					Padding={new UDim(0, 2)}
 					Change={{
-						AbsoluteContentSize: (rbx) =>
-							setContentHeight(rbx.AbsoluteContentSize.Y + 4)
+						AbsoluteContentSize: (rbx) => setContentHeight(rbx.AbsoluteContentSize.Y + 4)
 					}}
 				/>
 

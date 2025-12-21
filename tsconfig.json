@@ -1,33 +1,28 @@
 {
-   "compilerOptions": {
-      // required
-      "allowSyntheticDefaultImports": true,
-      "downlevelIteration": true,
-      "jsx": "react",
-      "jsxFactory": "React.createElement",
-      "jsxFragmentFactory": "React.Fragment",
-      "module": "commonjs", 
-      "moduleResolution": "Node",
-      "noLib": true,
-      "resolveJsonModule": true,
-      "experimentalDecorators": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleDetection": "force",
-      "strict": true,
-      "target": "ESNext",
-      "typeRoots": [
-         "node_modules/@rbxts",
-      ],
-      "types": [
-         "types/plugin",
-         "services/plugin"
-      ],
-      // configurable
-      "rootDir": "src",
-      "outDir": "out",
-      "baseUrl": "src",
-      "incremental": true,
-      "tsBuildInfoFile": "out/tsconfig.tsbuildinfo"
-   }
+	"compilerOptions": {
+		// required
+		"allowSyntheticDefaultImports": true,
+		"downlevelIteration": true,
+		"jsx": "react",
+		"jsxFactory": "React.createElement",
+		"jsxFragmentFactory": "React.Fragment",
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"noLib": true,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleDetection": "force",
+		"strict": true,
+		"target": "ESNext",
+		"typeRoots": ["node_modules/@rbxts"],
+		"types": ["types/plugin", "services/plugin"],
+		// configurable
+		"rootDir": "src",
+		"outDir": "out",
+		"baseUrl": "src",
+		"incremental": true,
+		"tsBuildInfoFile": "out/tsconfig.tsbuildinfo"
+	}
 }

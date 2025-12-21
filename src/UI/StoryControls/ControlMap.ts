@@ -1,13 +1,7 @@
 import React from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
-import {
-	DatatypeControl,
-	Datatypes
-} from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
-import {
-	PrimitiveControl,
-	Primitives
-} from "@rbxts/ui-labs/src/ControlTypings/Primitives";
+import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
+import { PrimitiveControl, Primitives } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import _ObjectControl from "./Controls/Advanced/Object";
 import ChooseControl from "./Controls/Advanced/OptionList/Choose";
@@ -25,9 +19,7 @@ declare global {
 		Current: T["ControlValue"];
 		Apply: (val: T["ControlValue"]) => void;
 	}
-	export type ControlFactory<T extends ObjectControl> = (
-		props: ControlElementProps<T>
-	) => React.Element;
+	export type ControlFactory<T extends ObjectControl> = (props: ControlElementProps<T>) => React.Element;
 }
 
 type PrimitiveControlMap = {
@@ -39,9 +31,7 @@ type DatatypeControlMap = {
 type AdvancedControlMap = {
 	[K in keyof AdvancedTypes.All]: ControlFactory<AdvancedTypes.All[K]>;
 };
-type AllControlMap = PrimitiveControlMap &
-	DatatypeControlMap &
-	AdvancedControlMap;
+type AllControlMap = PrimitiveControlMap & DatatypeControlMap & AdvancedControlMap;
 
 const PrimitiveControlMap: PrimitiveControlMap = {
 	String: StringControl,

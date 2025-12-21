@@ -17,7 +17,7 @@ interface StorybooksState {
 export const selectStorybooks = (state: RootState) => state.moduleRequire.storybooks;
 
 const initialState: StorybooksState = {
-	storybooks: new Map(),
+	storybooks: new Map()
 };
 
 /** This saves all the storybooks that are loaded(required) in the plugin (the results are here)
@@ -25,5 +25,5 @@ This does not save the list of storybook modules, those are saved in ModuleList/
 export const StorybooksProducer = createProducer(initialState, {
 	setStorybooks: (_, storybooks: Storybooks) => {
 		return { storybooks };
-	},
+	}
 });

@@ -6,7 +6,7 @@ import React, {
 	useBinding,
 	useContext,
 	useMemo,
-	useState,
+	useState
 } from "@rbxts/react";
 
 import { selectActionsPinned } from "Reflex/PluginSettings";
@@ -51,16 +51,12 @@ export function StoryPanelProvider(props: PropsWithChildren) {
 			SetToolbarHovered: setToolbarHovered,
 			SetCanvasHeight: (height: number) => {
 				setCanvasHeight(math.max(height, 0));
-			},
+			}
 		};
 		return context;
 	}, [actionsPinned, toolbarHovered, canvasHeight]);
 
-	return (
-		<StoryPanelContext.Provider value={contextValue}>
-			{props.children}
-		</StoryPanelContext.Provider>
-	);
+	return <StoryPanelContext.Provider value={contextValue}>{props.children}</StoryPanelContext.Provider>;
 }
 
 export function useActionsPinned() {

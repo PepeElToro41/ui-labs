@@ -69,7 +69,7 @@ function DragBase(props: DragBaseProps) {
 			Size={new UDim2(1, 0, 1, 0)}
 			Change={{
 				AbsoluteSize: (frame) => setRect(frame),
-				AbsolutePosition: (frame) => setRect(frame),
+				AbsolutePosition: (frame) => setRect(frame)
 			}}
 			Event={{
 				MouseEnter: () => {
@@ -92,7 +92,7 @@ function DragBase(props: DragBaseProps) {
 						setIsDragging(false);
 						//setSlideInput(undefined);
 					}
-				},
+				}
 			}}
 			ref={slideRef}
 			{...props.DetectProps}

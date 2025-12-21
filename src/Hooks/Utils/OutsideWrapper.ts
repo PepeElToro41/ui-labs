@@ -42,7 +42,7 @@ export function useOutsideCheck(position: VectorLike, size: VectorLike) {
 			}
 			return false;
 		},
-		[holder, position, size],
+		[holder, position, size]
 	);
 
 	return OutsideCheck;

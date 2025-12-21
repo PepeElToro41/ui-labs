@@ -34,7 +34,7 @@ function ColorEntry<T extends Color3 | number>(props: ColorEntryProps<T>) {
 				TextboxProps={{ TextSize: 12, TextXAlignment: Enum.TextXAlignment.Center }}
 				HolderProps={{
 					Position: UDim2.fromOffset(40, 0),
-					Size: new UDim2(1, -40, 1, 0),
+					Size: new UDim2(1, -40, 1, 0)
 				}}
 			/>
 		</Div>

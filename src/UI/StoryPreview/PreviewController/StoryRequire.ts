@@ -2,10 +2,7 @@ import { Janitor } from "@rbxts/janitor";
 import { useAsync, useLatest } from "@rbxts/pretty-react-hooks";
 import { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
-import {
-	useGetInputSignalsFromFrame,
-	useInputSignals
-} from "Context/UserInputContext";
+import { useGetInputSignalsFromFrame, useInputSignals } from "Context/UserInputContext";
 import { usePlugin } from "Hooks/Reflex/Use/Plugin";
 import Configs from "Plugin/Configs";
 import { selectNodeFromModule } from "Reflex/Explorer/Nodes";
@@ -15,11 +12,7 @@ import { HotReloader } from "Utils/HotReloader/HotReloader";
 import { CreateTuple } from "Utils/MiscUtils";
 import { CreateEntrySnapshot, ReloadEntry } from "../Utils";
 
-export function useStoryRequire(
-	entry: PreviewEntry,
-	studioMode: boolean,
-	canReload: boolean
-) {
+export function useStoryRequire(entry: PreviewEntry, studioMode: boolean, canReload: boolean) {
 	const plugin = usePlugin();
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const [reloader, setReloader] = useState<HotReloader>();

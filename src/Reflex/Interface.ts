@@ -26,7 +26,7 @@ const initialState: InterfaceState = {
 	selectTool: false,
 	showOutlines: false,
 	mouseRules: false,
-	storyLock: new Set(),
+	storyLock: new Set()
 };
 
 export const selectInterface = (state: RootState) => state.interface;
@@ -80,7 +80,7 @@ export const InterfaceProducer = createProducer(initialState, {
 	unlockStoryFrame: (state, locker: string) => {
 		return {
 			...state,
-			storyLock: Sift.Set.delete(state.storyLock, locker),
+			storyLock: Sift.Set.delete(state.storyLock, locker)
 		};
-	},
+	}
 });

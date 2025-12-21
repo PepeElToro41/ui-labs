@@ -4,7 +4,7 @@ import { GenericInfo, InferControlInfos } from "@rbxts/ui-labs/src/Typing/Generi
 export function CreateControlInfos(
 	controls: ConvertedControls,
 	controlValues: ParametrizedControls,
-	oldControlValues: ParametrizedControls,
+	oldControlValues: ParametrizedControls
 ) {
 	const values = {} as Record<string, unknown>;
 
@@ -18,7 +18,7 @@ export function CreateControlInfos(
 		}
 		const value: GenericInfo<any> = {
 			__new: controlValue,
-			__old: oldControlValue,
+			__old: oldControlValue
 		};
 		values[name] = value;
 	}

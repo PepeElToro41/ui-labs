@@ -61,7 +61,12 @@ function PreviewDropdown(props: PreviewDropdownProps) {
 			<DropdownEntry Text="Reset Zoom" OnClick={OnResetZoom} LayoutOrder={count()} />
 			<Divisor Order={count()} />
 			<DropdownEntry Text="Move Before" Disabled={entry.Order <= 0} OnClick={OnOrderBefore} LayoutOrder={count()} />
-			<DropdownEntry Text="Move After" Disabled={entry.Order >= previews.size() - 1} OnClick={OnOrderAfter} LayoutOrder={count()} />
+			<DropdownEntry
+				Text="Move After"
+				Disabled={entry.Order >= previews.size() - 1}
+				OnClick={OnOrderAfter}
+				LayoutOrder={count()}
+			/>
 		</Dropdown>
 	);
 }

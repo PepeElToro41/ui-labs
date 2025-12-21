@@ -23,7 +23,7 @@ function AlphaBar(setprops: AlphaBarProps) {
 		<Div key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
 			<SlideDrag
 				DetectProps={{
-					Size: new UDim2(1, 0, 1, 5),
+					Size: new UDim2(1, 0, 1, 5)
 				}}
 				SlideDir="X"
 				PercentApply={OnApplyAlpha}
@@ -47,7 +47,9 @@ function AlphaBar(setprops: AlphaBarProps) {
 				BackgroundColor3={props.Color}
 			>
 				<Rounder />
-				<uigradient Transparency={new NumberSequence([new NumberSequenceKeypoint(0, 1), new NumberSequenceKeypoint(1, 0)])} />
+				<uigradient
+					Transparency={new NumberSequence([new NumberSequenceKeypoint(0, 1), new NumberSequenceKeypoint(1, 0)])}
+				/>
 			</frame>
 			<frame
 				key="Handle"

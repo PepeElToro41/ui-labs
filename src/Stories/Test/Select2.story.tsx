@@ -6,11 +6,7 @@ import Padding from "UI/Styles/Padding";
 
 export = CreateReactStory({ react: React, reactRoblox: ReactRoblox }, () => {
 	return (
-		<frame
-			Position={UDim2.fromOffset(100, 50)}
-			Size={UDim2.fromOffset(300, 100)}
-			ClipsDescendants={true}
-		>
+		<frame Position={UDim2.fromOffset(100, 50)} Size={UDim2.fromOffset(300, 100)} ClipsDescendants={true}>
 			<LeftList Padding={new UDim(0, 6)} />
 			<Padding Padding={8} />
 			<frame

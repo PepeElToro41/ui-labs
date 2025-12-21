@@ -4,5 +4,5 @@ import { StorybookListProducer } from "./Storybook";
 
 export const ModuleListProducer = combineProducers({
 	story: StoryListProducer,
-	storybook: StorybookListProducer,
+	storybook: StorybookListProducer
 });

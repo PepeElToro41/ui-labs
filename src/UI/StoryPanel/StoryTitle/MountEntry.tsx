@@ -31,13 +31,11 @@ function MountEntry(props: MountEntryProps) {
 	const [mountEntry, setMountEntry] = useState<TextButton>();
 
 	const entry = props.PreviewEntry;
-	const { DisplayDescription, RemoveDescription } =
-		useDescriptionDisplay("MountCloseButton");
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay("MountCloseButton");
 
 	const node = useSelector(selectNodeFromModule(entry.Module));
 	const selectedEntry = useSelector(selectStorySelected);
-	const { selectStory, setPopup, resetIdentifiedOverlay, unmountStory } =
-		useProducer<RootProducer>();
+	const { selectStory, setPopup, resetIdentifiedOverlay, unmountStory } = useProducer<RootProducer>();
 
 	const theme = useTheme();
 	const mouseOffset = useMouseOffset();
@@ -55,11 +53,7 @@ function MountEntry(props: MountEntryProps) {
 
 	const OnEntryDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setPopup(
-			"PreviewDropdown",
-			<PreviewDropdown Position={offset} PreviewEntry={entry} />,
-			entry.UID
-		);
+		setPopup("PreviewDropdown", <PreviewDropdown Position={offset} PreviewEntry={entry} />, entry.UID);
 	}, [mouseOffset, entry]);
 
 	useEffect(() => {
@@ -82,13 +76,9 @@ function MountEntry(props: MountEntryProps) {
 		const entryFinal = entryStart + mountEntry.AbsoluteSize.X;
 
 		if (entryStart < start) {
-			scroller.CanvasPosition = scroller.CanvasPosition.sub(
-				new Vector2(start - entryStart, 0)
-			);
+			scroller.CanvasPosition = scroller.CanvasPosition.sub(new Vector2(start - entryStart, 0));
 		} else if (entryFinal > final) {
-			scroller.CanvasPosition = scroller.CanvasPosition.add(
-				new Vector2(entryFinal - final, 0)
-			);
+			scroller.CanvasPosition = scroller.CanvasPosition.add(new Vector2(entryFinal - final, 0));
 		}
 	}, [selected]);
 
@@ -100,9 +90,7 @@ function MountEntry(props: MountEntryProps) {
 		<Detector
 			key={"Entry"}
 			AutomaticSize={Enum.AutomaticSize.X}
-			BackgroundColor3={
-				selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color
-			}
+			BackgroundColor3={selected ? theme.StoryPreview.Selected : theme.StoryPreview.Color}
 			BackgroundTransparency={0}
 			LayoutOrder={entry.Order}
 			BorderSizePixel={0}
@@ -139,18 +127,13 @@ function MountEntry(props: MountEntryProps) {
 			</frame>
 			<Div key={"Holder"}>
 				<Padding PaddingX={8} />
-				<LeftList
-					VerticalAlignment={Enum.VerticalAlignment.Center}
-					Padding={new UDim(0, 5)}
-				/>
+				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 				<Text
 					key={"TextLabel"}
 					Text={(isMain ? "• " : "") + (node ? node.Name : "-----")}
 					TextSize={14}
 					LayoutOrder={count()}
-					TextColor3={
-						selected ? theme.StoryPreview.TextSelected : theme.Text.Color
-					}
+					TextColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
 					TextXAlignment={Enum.TextXAlignment.Left}
 					AutomaticSize={Enum.AutomaticSize.X}
 					Size={UDim2.fromScale(0, 1)}
@@ -158,18 +141,12 @@ function MountEntry(props: MountEntryProps) {
 					<Padding Right={3} />
 				</Text>
 				{entry.OnWidget && (
-					<Div
-						key={"OnWidget"}
-						Size={UDim2.fromOffset(12, 12)}
-						LayoutOrder={count()}
-					>
+					<Div key={"OnWidget"} Size={UDim2.fromOffset(12, 12)} LayoutOrder={count()}>
 						<DescriptiveImage
 							ImageName="WidgetIcon"
 							Description={"In Widget"}
 							Image={"rbxassetid://16442161953"}
-							ImageColor3={
-								selected ? theme.StoryPreview.TextSelected : theme.Text.Color
-							}
+							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
 							ScaleType={Enum.ScaleType.Fit}
 							BackgroundTransparency={1}
 							ImageTransparency={0.4}
@@ -180,18 +157,12 @@ function MountEntry(props: MountEntryProps) {
 					</Div>
 				)}
 				{!entry.Visible && (
-					<Div
-						key={"Hidden"}
-						Size={UDim2.fromOffset(14, 14)}
-						LayoutOrder={count()}
-					>
+					<Div key={"Hidden"} Size={UDim2.fromOffset(14, 14)} LayoutOrder={count()}>
 						<DescriptiveImage
 							ImageName="HiddenIcon"
 							Description={"Hidden"}
 							Image={"rbxassetid://16158493311"}
-							ImageColor3={
-								selected ? theme.StoryPreview.TextSelected : theme.Text.Color
-							}
+							ImageColor3={selected ? theme.StoryPreview.TextSelected : theme.Text.Color}
 							ScaleType={Enum.ScaleType.Fit}
 							BackgroundTransparency={1}
 							ImageTransparency={0.3}
@@ -214,9 +185,7 @@ function MountEntry(props: MountEntryProps) {
 						key={"CloseIcon"}
 						Sprite="Close"
 						ImageProps={{
-							ImageColor3: selected
-								? theme.StoryPreview.TextSelected
-								: theme.Text.Color,
+							ImageColor3: selected ? theme.StoryPreview.TextSelected : theme.Text.Color,
 							ScaleType: Enum.ScaleType.Fit,
 							Position: UDim2.fromScale(0.5, 0.5),
 							AnchorPoint: new Vector2(0.5, 0.5),

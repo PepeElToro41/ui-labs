@@ -1,20 +1,12 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useMemo } from "@rbxts/react";
 import { InferVideControls, InferVideProps } from "@rbxts/ui-labs";
-import {
-	ConvertedControls,
-	ReturnControls
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
 import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
 import { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { CreateVideScopes, UpdateVideScopes } from "./Utils";
 
 const VIDE_ERR = WARNING_STORY_TYPES.Vide;
@@ -72,14 +64,7 @@ function VideLib(props: MounterProps<"VideLib">) {
 		sourcesCleanup();
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <></>;
 }

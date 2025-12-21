@@ -7,11 +7,7 @@ import type { Environment } from "./Environment";
  * @param module module that was loaded with loadstring()
  * @param environment Environment handler object
  */
-export function SetEnvironment(
-	virtualModule: Callback,
-	module: ModuleScript,
-	environment: Environment
-) {
+export function SetEnvironment(virtualModule: Callback, module: ModuleScript, environment: Environment) {
 	const globals = {
 		require: (dependency: ModuleScript | string) => {
 			let resolved: ModuleScript | undefined = undefined;
@@ -59,14 +55,8 @@ export function SetEnvironment(
  * @param module the module to laod
  * @param environment Environment handler object
  */
-export async function LoadVirtualModule(
-	module: ModuleScript,
-	environment: Environment
-) {
-	const [virtualModule, err] = loadstring(
-		ScriptEditorService.GetEditorSource(module),
-		module.GetFullName()
-	);
+export async function LoadVirtualModule(module: ModuleScript, environment: Environment) {
+	const [virtualModule, err] = loadstring(ScriptEditorService.GetEditorSource(module), module.GetFullName());
 
 	if (virtualModule === undefined) {
 		throw err;
@@ -107,15 +97,13 @@ export function ResolveStringPath(root: Instance, path: string) {
 			current = root;
 		} else {
 			const child = current.FindFirstChild(part);
-			if (child === undefined)
-				error(`Unknown script ${part} in: ${current}`, 2);
+			if (child === undefined) error(`Unknown script ${part} in: ${current}`, 2);
 			current = child;
 		}
 	}
 
 	if (current.IsA("ModuleScript") === false) {
-		const initFile =
-			current.FindFirstChild("init") ?? current.FindFirstChild("Init");
+		const initFile = current.FindFirstChild("init") ?? current.FindFirstChild("Init");
 		if (initFile === undefined) {
 			error(`No init file found in: ${current}`, 2);
 		}

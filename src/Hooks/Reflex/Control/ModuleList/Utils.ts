@@ -8,7 +8,10 @@ export function RemoveExtension(instanceName: string, extension: string) {
 	return instanceName.gsub("%" + extension + "$", "")[0];
 }
 
-export function ClassPredicator<T extends keyof Instances>(className: T, filterPredicator: (checkInstance: Instances[T]) => boolean) {
+export function ClassPredicator<T extends keyof Instances>(
+	className: T,
+	filterPredicator: (checkInstance: Instances[T]) => boolean
+) {
 	return (instance: Instance): instance is Instances[T] => {
 		const [sucess] = pcall(() => {
 			return instance.Name;

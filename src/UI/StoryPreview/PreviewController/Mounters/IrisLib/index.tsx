@@ -1,26 +1,13 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useMemo } from "@rbxts/react";
 import { InferIrisProps } from "@rbxts/ui-labs";
-import {
-	ConvertedControls,
-	ReturnControls
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
 import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
 import { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
-import {
-	CreateIrisStates,
-	SetupIris,
-	UpdateIrisStates,
-	useUserInputServiceMock
-} from "./Utils";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
+import { CreateIrisStates, SetupIris, UpdateIrisStates, useUserInputServiceMock } from "./Utils";
 
 const IRIS_ERR = WARNING_STORY_TYPES.Iris;
 
@@ -76,14 +63,7 @@ function IrisLib(props: MounterProps<"IrisLib">) {
 		uisMock.Destroy();
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <></>;
 }

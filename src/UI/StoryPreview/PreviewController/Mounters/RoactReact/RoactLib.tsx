@@ -6,12 +6,7 @@ import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
 import { UILabsWarn, YCall } from "Utils/MiscUtils";
 import type { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 
 const ROACT_ERR = WARNING_STORY_TYPES.Roact;
 
@@ -67,14 +62,7 @@ function RoactLib(props: MounterProps<"RoactLib">) {
 		}
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

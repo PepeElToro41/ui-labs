@@ -59,7 +59,7 @@ function OptionListControl(props: OptionListControlProps) {
 				BackgroundColor3={theme.List[hovered ? "FrameHovered" : "Frame"]}
 				Change={{
 					AbsolutePosition: OnUDimApply,
-					AbsoluteSize: OnUDimApply,
+					AbsoluteSize: OnUDimApply
 				}}
 			>
 				<Detector
@@ -68,7 +68,7 @@ function OptionListControl(props: OptionListControlProps) {
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
 						MouseButton1Click: OnListDropdown,
-						MouseButton1Down: OnMouseDown,
+						MouseButton1Down: OnMouseDown
 					}}
 				/>
 				<Corner Radius={6} />
@@ -80,7 +80,7 @@ function OptionListControl(props: OptionListControlProps) {
 						key={"Drop"}
 						ImageProps={{
 							Size: UDim2.fromOffset(15, 15),
-							LayoutOrder: 5,
+							LayoutOrder: 5
 						}}
 						Sprite={"Collapse"}
 					></Sprite>

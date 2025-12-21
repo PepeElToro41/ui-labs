@@ -1,12 +1,6 @@
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
-import {
-	DatatypeControl,
-	Datatypes
-} from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
-import {
-	PrimitiveControl,
-	Primitives
-} from "@rbxts/ui-labs/src/ControlTypings/Primitives";
+import { DatatypeControl, Datatypes } from "@rbxts/ui-labs/src/ControlTypings/Datatypes";
+import { PrimitiveControl, Primitives } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
 import { ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 
 export type ControlUpdater<T extends ObjectControl> = (
@@ -27,6 +21,4 @@ type AdvancedRecovererMap = {
 	[K in keyof AdvancedTypes.All]: ControlUpdater<AdvancedTypes.All[K]>;
 };
 
-export type AllRecovererMap = PrimitiveRecovererMap &
-	DatatypeRecovererMap &
-	AdvancedRecovererMap;
+export type AllRecovererMap = PrimitiveRecovererMap & DatatypeRecovererMap & AdvancedRecovererMap;

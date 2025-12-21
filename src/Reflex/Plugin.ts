@@ -7,7 +7,7 @@ interface PluginState {
 
 const initialState: PluginState = {
 	plugin: undefined,
-	widget: undefined,
+	widget: undefined
 };
 
 export const selectPlugin = (state: RootState) => state.plugin.plugin;
@@ -17,13 +17,13 @@ export const PluginProducer = createProducer(initialState, {
 	setPlugin: (state, pluginObject: Plugin) => {
 		return {
 			...state,
-			plugin: pluginObject,
+			plugin: pluginObject
 		};
 	},
 	setWidget: (state, widgetObject: DockWidgetPluginGui) => {
 		return {
 			...state,
-			widget: widgetObject,
+			widget: widgetObject
 		};
-	},
+	}
 });

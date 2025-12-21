@@ -40,10 +40,7 @@ function StoryTitle(props: StoryTitleProps) {
 				ScrollBarImageTransparency={0.5}
 				ref={setScroller}
 			>
-				<LeftList
-					VerticalAlignment={Enum.VerticalAlignment.Center}
-					Padding={new UDim(0, 5)}
-				/>
+				<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 				<Padding PaddingX={6} Top={3} Bottom={4} />
 				{entries}
 			</scrollingframe>

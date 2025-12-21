@@ -1,13 +1,5 @@
 import { t } from "@rbxts/t";
-import {
-	FunctionStory,
-	FusionStory,
-	GenericStory,
-	IrisStory,
-	ReactStory,
-	RoactStory,
-	VideStory
-} from "@rbxts/ui-labs";
+import { FunctionStory, FusionStory, GenericStory, IrisStory, ReactStory, RoactStory, VideStory } from "@rbxts/ui-labs";
 import { StoryInfo } from "@rbxts/ui-labs/src/Typing/Typing";
 import { DefineStoryLibrary } from "./LibraryDefine";
 
@@ -34,9 +26,7 @@ type StorySucess<T extends MountType> = {
 	Result: MountResults[T];
 };
 
-export type StoryCheck<T extends MountType = MountType> =
-	| StorySucess<T>
-	| StoryError;
+export type StoryCheck<T extends MountType = MountType> = StorySucess<T> | StoryError;
 
 export function CheckStory(storyReturn: unknown): StoryCheck {
 	if (CheckFunctionStory(storyReturn)) {
@@ -54,8 +44,6 @@ export function CheckStory(storyReturn: unknown): StoryCheck {
 	};
 }
 const CheckFunctionStory = t.callback;
-function CheckObjectStory(
-	storyReturn: unknown
-): storyReturn is Record<string, unknown> {
+function CheckObjectStory(storyReturn: unknown): storyReturn is Record<string, unknown> {
 	return t.interface({})(storyReturn);
 }

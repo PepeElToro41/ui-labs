@@ -92,7 +92,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						Sprite={props.Sprite}
 						ImageProps={{
 							ImageColor3: props.SpriteColor,
-							Size: new UDim2(0, 16, 0, 16),
+							Size: new UDim2(0, 16, 0, 16)
 						}}
 					/>
 					<Text
@@ -117,7 +117,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 					Event={{
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
-						MouseButton1Click: OnExpand,
+						MouseButton1Click: OnExpand
 					}}
 				/>
 			</frame>

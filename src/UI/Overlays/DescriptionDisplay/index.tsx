@@ -43,7 +43,7 @@ function DescriptionDisplay(props: DescriptionDisplayProps) {
 			Size={new UDim2(0, 0, 0, 23)}
 			Visible={description !== undefined}
 			Change={{
-				AbsoluteSize: OnAbsoluteSizeChanged,
+				AbsoluteSize: OnAbsoluteSizeChanged
 			}}
 		>
 			<Text

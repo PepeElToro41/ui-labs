@@ -65,7 +65,7 @@ function FrameFill(setprops: FrameFillProps) {
 					const frameParent = frame.Parent;
 					if (!frameParent || !frameParent.IsA("GuiObject")) return;
 					setParent(frameParent);
-				},
+				}
 			}}
 		>
 			{props["children"] ?? {}}

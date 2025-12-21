@@ -22,7 +22,7 @@ function DeltaDrag<T extends keyof SlideReturn>(props: DeltaDragProps<T>) {
 					break;
 			}
 		},
-		[props.DeltaApply],
+		[props.DeltaApply]
 	);
 	return <DragBase {...props} MapCallback={ApplyMap}></DragBase>;
 }

@@ -29,9 +29,7 @@ function App(props: AppProps) {
 	const popup = useSelector(selectPopup);
 
 	return (
-		<ProviderStack
-			Providers={[UserInputProvider, DescriptionProvider, ToolsProvider]}
-		>
+		<ProviderStack Providers={[UserInputProvider, DescriptionProvider, ToolsProvider]}>
 			<AppHolder>
 				<Div key={"Plugin"} Interactable={popup === undefined}>
 					<LeftList />

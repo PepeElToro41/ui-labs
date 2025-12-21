@@ -19,7 +19,7 @@ export function useToggler(initial: boolean) {
 			enable: Enable,
 			disable: Disable,
 			toggle: Toggle,
-			set: setEnabled,
+			set: setEnabled
 		};
 	}, []);
 	return CreateTuple(enabled, api);

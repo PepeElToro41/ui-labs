@@ -12,7 +12,7 @@ function Viewport(props: ToolButtonProps) {
 		updateMountData(entry.Key, (old) =>
 			Immut.produce(old, (draft) => {
 				draft.OnViewport = !draft.OnViewport;
-			}),
+			})
 		);
 	}, [entry]);
 

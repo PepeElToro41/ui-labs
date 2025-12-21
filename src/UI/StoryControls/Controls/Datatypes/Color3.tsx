@@ -54,7 +54,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 					const centerPos = fixedPos.add(transform[1].div(2));
 					return UDim2.fromOffset(centerPos.X - 22, centerPos.Y);
 				})}
-			/>,
+			/>
 		);
 	}, [props.Current, props.Apply, OnPickerClose, getPosition]);
 	const OnUDimApply = useCallback((frame: Frame) => {
@@ -79,7 +79,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 				BorderSizePixel={0}
 				Change={{
 					AbsolutePosition: OnUDimApply,
-					AbsoluteSize: OnUDimApply,
+					AbsoluteSize: OnUDimApply
 				}}
 			>
 				<Rounder />
@@ -88,7 +88,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 					Event={{
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
-						MouseButton1Click: OnColorEdit,
+						MouseButton1Click: OnColorEdit
 					}}
 				/>
 				<Text
@@ -110,7 +110,7 @@ function Color3Control(props: ControlElementProps<DatatypeControl<"Color3">>) {
 						Position: UDim2.fromScale(0.5, 0.5),
 						ImageColor3: GetContrastColor(props.Current),
 						ImageTransparency: hoverAlpha,
-						Size: new UDim2(0, 20, 0, 20),
+						Size: new UDim2(0, 20, 0, 20)
 					}}
 				/>
 			</frame>

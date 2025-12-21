@@ -19,9 +19,7 @@ export interface MounterProps<T extends MountType> {
 	SetRecoverControlsData: (data?: RecoverControlsData) => void;
 }
 
-export type Mounter<T extends MountType> = React.FunctionComponent<
-	MounterProps<T>
->;
+export type Mounter<T extends MountType> = React.FunctionComponent<MounterProps<T>>;
 
 const MountingMap: { [K in MountType]: Mounter<K> } = {
 	Functional: Functional,

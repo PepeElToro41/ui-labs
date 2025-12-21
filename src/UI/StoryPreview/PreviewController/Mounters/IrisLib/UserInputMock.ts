@@ -45,9 +45,7 @@ export default class UserInputMock {
 
 				this.InputEnded.Fire(input, true);
 			}),
-			this.InputSignals.MouseMoved.Connect((...args) =>
-				this.MouseMoved.Fire(...args)
-			)
+			this.InputSignals.MouseMoved.Connect((...args) => this.MouseMoved.Fire(...args))
 		);
 	}
 

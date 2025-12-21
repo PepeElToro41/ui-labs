@@ -36,4 +36,6 @@ interface Instance {
 	UniqueId: string;
 }
 
-declare function pairs<T extends object>(object: T): IterableFunction<LuaTuple<[keyof T, Exclude<T[keyof T], undefined>]>>;
+declare function pairs<T extends object>(
+	object: T
+): IterableFunction<LuaTuple<[keyof T, Exclude<T[keyof T], undefined>]>>;

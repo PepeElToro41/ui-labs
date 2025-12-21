@@ -27,5 +27,5 @@ export const RootProducer = combineProducers({
 	moduleRequire: ModuleRequireProducer,
 
 	storyPreview: StoryPreviewProducer,
-	storySelection: StorySelectionProducer,
+	storySelection: StorySelectionProducer
 });

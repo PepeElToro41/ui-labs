@@ -16,15 +16,15 @@ For contributing in the plugin codebase, please follow these steps:
 
 ### Prerequisites
 
--   [Node.js](https://nodejs.org/en/) (v18.x or higher)
--   [Rojo](https://rojo.space/) (v7.x or higher)
--   [npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/en/) (v18.x or higher)
+- [Rojo](https://rojo.space/) (v7.x or higher)
+- [npm](https://www.npmjs.com/)
 
 ### Technical Requirements
 
--   Typescript Knowledge
--   React-luau Knowledge _(UI Labs is currently being ported to [Vide](https://centau.github.io/vide/))_
--   JSX Knowledge
+- Typescript Knowledge
+- React-luau Knowledge _(UI Labs is currently being ported to [Vide](https://centau.github.io/vide/))_
+- JSX Knowledge
 
 ### 1. Fork the repository to your GitHub account and clone it to your local machine.
 
@@ -78,20 +78,20 @@ This story will have have features that require plugin APIs disabled such as `Vi
 
 When you’re ready to submit your changes, please follow these steps:
 
--   Ensure your changes are tested and roblox-ts compiles correctly.
--   Conventional commit formats are preferred yet not required:
+- Ensure your changes are tested and roblox-ts compiles correctly.
+- Conventional commit formats are preferred yet not required:
 
 ```bash
 git commit -m "feat: describe your feature, fix: describe your fix, docs: describe your documentation"
 ```
 
--   Push your branch:
+- Push your branch:
 
 ```bash
 git push origin main
 ```
 
--   Open a Pull Request on GitHub.
+- Open a Pull Request on GitHub.
 
 ---
 
@@ -99,8 +99,8 @@ git push origin main
 
 If you encounter a bug, have a feature request or UX improvements, [create an issue](https://github.com/PepeElToro41/ui-labs/issues/new/choose) on GitHub.
 
--   For bugs, include screenshots, error logs, reproduction steps and your code snippets.
--   For feature requests, include a clear and concise description of the feature, why it would be useful, how it would be implemented and potential alternatives or workarounds.
+- For bugs, include screenshots, error logs, reproduction steps and your code snippets.
+- For feature requests, include a clear and concise description of the feature, why it would be useful, how it would be implemented and potential alternatives or workarounds.
 
 ---
 
@@ -152,11 +152,10 @@ npm run docs:preview
 
 If the build is successful, you can create a pull request to the main repository detailing the changes you made.
 
-
 # Contributing by Sponsoring
 
-UI Labs is *and always will be* a free and open-source project.
+UI Labs is _and always will be_ a free and open-source project.
 
-This project is always growing and improving, trying to be the best storybook plugin on roblox. 
+This project is always growing and improving, trying to be the best storybook plugin on roblox.
 
 Sponsoring is a great way to support the project and allow me to give more time to work on it.

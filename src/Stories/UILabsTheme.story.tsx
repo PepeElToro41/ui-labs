@@ -44,7 +44,7 @@ const returnStory = CreateReactStory(
 		summary: "",
 		react: React,
 		reactRoblox: ReactRoblox,
-		controls: GenerateControls(Themes.Dark),
+		controls: GenerateControls(Themes.Dark)
 	},
 	(props) => {
 		return (
@@ -52,7 +52,7 @@ const returnStory = CreateReactStory(
 				<StoryCreate Controls={props.controls} />
 			</ReflexProvider>
 		);
-	},
+	}
 );
 
 export = returnStory;

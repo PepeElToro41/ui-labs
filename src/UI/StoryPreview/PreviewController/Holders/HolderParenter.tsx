@@ -21,27 +21,13 @@ function HolderParenter(props: HolderParenterProps) {
 		const mainHolder: HolderType = entry.OnWidget ? "Widget" : "Editor";
 		holders.set(
 			mainHolder,
-			CreateHolder(
-				mainHolder,
-				entry,
-				props.MountType,
-				props.MountFrame,
-				props.ListenerFrame,
-				props.SetCanReload
-			)
+			CreateHolder(mainHolder, entry, props.MountType, props.MountFrame, props.ListenerFrame, props.SetCanReload)
 		);
 
 		if (entry.OnViewport) {
 			holders.set(
 				"Viewport",
-				CreateHolder(
-					"Viewport",
-					entry,
-					props.MountType,
-					props.MountFrame,
-					props.ListenerFrame,
-					props.SetCanReload
-				)
+				CreateHolder("Viewport", entry, props.MountType, props.MountFrame, props.ListenerFrame, props.SetCanReload)
 			);
 		}
 		return holders;

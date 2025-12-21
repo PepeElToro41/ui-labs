@@ -21,11 +21,7 @@ function ControlGroupRender(props: ControlGroupRenderProps) {
 	const theme = useTheme();
 
 	return (
-		<Div
-			Size={UDim2.fromScale(1, 0)}
-			LayoutOrder={props.LayoutOrder}
-			AutomaticSize={Enum.AutomaticSize.Y}
-		>
+		<Div Size={UDim2.fromScale(1, 0)} LayoutOrder={props.LayoutOrder} AutomaticSize={Enum.AutomaticSize.Y}>
 			<frame
 				key={"HoverOverlay"}
 				BackgroundColor3={new Color3(0, 0, 0)}
@@ -39,10 +35,7 @@ function ControlGroupRender(props: ControlGroupRenderProps) {
 					<Div key={"GroupContents"}>
 						<Padding PaddingX={8} />
 						<Div key={"TitleLabel"}>
-							<LeftList
-								Padding={new UDim(0, 5)}
-								VerticalAlignment={Enum.VerticalAlignment.Center}
-							/>
+							<LeftList Padding={new UDim(0, 5)} VerticalAlignment={Enum.VerticalAlignment.Center} />
 							<Sprite
 								key="ExpandIcon"
 								Sprite={expanded ? "Collapse" : "Expand"}
@@ -84,11 +77,7 @@ function ControlGroupRender(props: ControlGroupRenderProps) {
 						<TopList Padding={new UDim(0, 3)} />
 						{props["children"] ?? []}
 					</Div>
-					<Divisor
-						Direction="Y"
-						Position={UDim2.fromScale(0, 0.5)}
-						Anchor={0.5}
-					/>
+					<Divisor Direction="Y" Position={UDim2.fromScale(0, 0.5)} Anchor={0.5} />
 				</Div>
 			</Div>
 		</Div>

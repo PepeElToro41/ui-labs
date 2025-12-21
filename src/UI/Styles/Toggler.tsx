@@ -61,7 +61,7 @@ function Toggler(props: TogglerProps) {
 						setActive(true);
 						setInput(undefined);
 					}
-				},
+				}
 			}}
 		></textbutton>
 	);

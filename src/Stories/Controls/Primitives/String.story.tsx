@@ -20,18 +20,10 @@ function Story(props: {}) {
 	const [stringValue, setStringValue] = useState(control.ControlValue);
 
 	return (
-		<frame
-			Position={UDim2.fromOffset(0, 0)}
-			Size={new UDim2(1, -0, 1, 0)}
-			BackgroundColor3={theme.ActionsPanel.Color}
-		>
+		<frame Position={UDim2.fromOffset(0, 0)} Size={new UDim2(1, -0, 1, 0)} BackgroundColor3={theme.ActionsPanel.Color}>
 			<Corner Radius={4} />
 			<ControlHolder ControlName="String Control" ControlReset={() => {}}>
-				<StringControl
-					Control={control}
-					Current={stringValue}
-					Apply={setStringValue}
-				/>
+				<StringControl Control={control} Current={stringValue} Apply={setStringValue} />
 			</ControlHolder>
 		</frame>
 	);

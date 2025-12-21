@@ -42,7 +42,7 @@ function ShowOutlines(props: ShowOutlinesProps) {
 		for (const component of renderInfo[0]) {
 			components.set(
 				component.GetDebugId(),
-				<Outliner Component={component} Inset={props.Anchor} OnImportantChange={OnDeferRecompute} />,
+				<Outliner Component={component} Inset={props.Anchor} OnImportantChange={OnDeferRecompute} />
 			);
 		}
 		for (const component of renderInfo[1]) {

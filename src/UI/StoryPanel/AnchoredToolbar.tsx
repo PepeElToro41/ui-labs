@@ -27,11 +27,7 @@ function AnchoredToolbar(props: AnchoredToolbarProps) {
 	const onToolbarLeftClick = useCallback(() => {
 		const offset = mouseOffset.getValue();
 
-		setPopup(
-			"BackButtonDropdown",
-			<ToolbarDropdown Position={offset} />,
-			"ButtonDropdown"
-		);
+		setPopup("BackButtonDropdown", <ToolbarDropdown Position={offset} />, "ButtonDropdown");
 	}, []);
 
 	return (
@@ -39,11 +35,7 @@ function AnchoredToolbar(props: AnchoredToolbarProps) {
 			<uisizeconstraint MaxSize={new Vector2(math.huge, canvasHeight + 10)} />
 
 			<Padding Padding={1} />
-			<frame
-				BackgroundColor3={theme.Toolbar}
-				BorderSizePixel={0}
-				Size={UDim2.fromScale(1, 1)}
-			>
+			<frame BackgroundColor3={theme.Toolbar} BorderSizePixel={0} Size={UDim2.fromScale(1, 1)}>
 				<Corner Radius={6} />
 
 				<Detector
@@ -52,11 +44,7 @@ function AnchoredToolbar(props: AnchoredToolbarProps) {
 					}}
 				/>
 
-				<RenderToolButtons
-					PreviewEntry={props.PreviewEntry}
-					HoverAlpha={UDim2.fromScale(0, 0)}
-					IsAnchored
-				/>
+				<RenderToolButtons PreviewEntry={props.PreviewEntry} HoverAlpha={UDim2.fromScale(0, 0)} IsAnchored />
 			</frame>
 		</Div>
 	);

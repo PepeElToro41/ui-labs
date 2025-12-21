@@ -103,7 +103,7 @@ function ObjectHolder(props: ObjectHolderProps) {
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton1Click: OnInstanceSelect,
+					MouseButton1Click: OnInstanceSelect
 				}}
 			/>
 		</frame>

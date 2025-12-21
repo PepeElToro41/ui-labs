@@ -45,14 +45,14 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 
 			props.Apply(stepped);
 		},
-		[props.Control, props.Current, props.Apply],
+		[props.Control, props.Current, props.Apply]
 	);
 	const SetDelta = useCallback(
 		(delta: number) => {
 			const proxy = proxyCurrent.getValue();
 			setProxyCurrent(proxy + delta * sensibility * 0.04);
 		},
-		[ApplyAmount, props.Current],
+		[ApplyAmount, props.Current]
 	);
 	useEffect(() => {
 		if (dragging) return;
@@ -76,30 +76,35 @@ function NumberControl(props: ControlElementProps<PrimitiveControl<"Number">>) {
 					TextSize: 12,
 					Size: UDim2.fromScale(0, 1),
 					AutomaticSize: Enum.AutomaticSize.X,
-					TextXAlignment: Enum.TextXAlignment.Center,
+					TextXAlignment: Enum.TextXAlignment.Center
 				}}
 				HolderProps={{
 					LayoutOrder: 1,
 					Size: UDim2.fromScale(0, 1),
-					AutomaticSize: Enum.AutomaticSize.X,
+					AutomaticSize: Enum.AutomaticSize.X
 				}}
 			>
 				<uisizeconstraint MaxSize={new Vector2(220, math.huge)} MinSize={new Vector2(30, 0)} />
 			</InputEntry>
 			{control.Dragger && (
-				<Div key="Dragger" Size={UDim2.fromOffset(25, 25)} LayoutOrder={1} SizeConstraint={Enum.SizeConstraint.RelativeYY}>
+				<Div
+					key="Dragger"
+					Size={UDim2.fromOffset(25, 25)}
+					LayoutOrder={1}
+					SizeConstraint={Enum.SizeConstraint.RelativeYY}
+				>
 					<Sprite
 						key="DraggerImage"
 						ImageProps={{
 							Size: UDim2.fromScale(1, 1),
-							ImageColor3: dragActive ? theme.Icon.Color : theme.Icon.Disabled,
+							ImageColor3: dragActive ? theme.Icon.Color : theme.Icon.Disabled
 						}}
 						Sprite="Dragger"
 					></Sprite>
 					<DeltaDrag
 						key="DraggerDetector"
 						DetectProps={{
-							ZIndex: 2,
+							ZIndex: 2
 						}}
 						SlideDir={"X"}
 						StateUpdated={OnDragStateUpdated}

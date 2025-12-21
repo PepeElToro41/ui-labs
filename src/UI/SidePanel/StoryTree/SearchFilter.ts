@@ -6,7 +6,7 @@ export function FilterNodes(nodes: RootNodes, filter: string) {
 		if (filteredChildren.size() <= 0) return;
 		filteredNodes.storybooks.push({
 			...storybookNode,
-			Children: filteredChildren,
+			Children: filteredChildren
 		});
 	});
 	nodes.unknown.forEach((unknownNode) => {
@@ -14,7 +14,7 @@ export function FilterNodes(nodes: RootNodes, filter: string) {
 		if (filteredChildren.size() <= 0) return;
 		filteredNodes.unknown.push({
 			...unknownNode,
-			Children: filteredChildren as StoryNode[],
+			Children: filteredChildren as StoryNode[]
 		});
 	});
 
@@ -30,7 +30,7 @@ export function FilterChildren(children: ChildrenNode[], filter: string) {
 			if (filteredChildren.size() <= 0) return;
 			filtered.push({
 				...child,
-				Children: filteredChildren,
+				Children: filteredChildren
 			});
 		} else {
 			const match = child.Name.lower().match(filter.lower())[0];

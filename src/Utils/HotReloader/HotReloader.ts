@@ -15,9 +15,7 @@ export class HotReloader<T = unknown> {
 	private _ChangeDefer?: RBXScriptConnection;
 
 	readonly OnReloadStarted: Signal<[promise: Promise<T>]>;
-	readonly OnDependencyChanged: Signal<
-		[module: ModuleScript, environment: Environment]
-	>;
+	readonly OnDependencyChanged: Signal<[module: ModuleScript, environment: Environment]>;
 	private _ReloadHooks: {
 		Order: number;
 		Callback: (environment: Environment) => void;

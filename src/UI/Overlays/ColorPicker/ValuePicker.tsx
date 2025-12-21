@@ -35,17 +35,28 @@ function ValuePicker(props: ValuePickerProps) {
 				<Rounder />
 				<uistroke Color={Color3.fromRGB(255, 255, 255)} key={"2"} />
 			</Div>
-			<frame key={"BlackGrad"} BackgroundColor3={Color3.fromRGB(0, 0, 0)} BorderSizePixel={0} Size={UDim2.fromScale(1, 1)} ZIndex={2}>
+			<frame
+				key={"BlackGrad"}
+				BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+				BorderSizePixel={0}
+				Size={UDim2.fromScale(1, 1)}
+				ZIndex={2}
+			>
 				<Corner Radius={3} />
 				<uigradient Rotation={90} Transparency={GRADIENT_SEQUENCE} />
 			</frame>
-			<frame key={"WhiteGrad"} BackgroundColor3={Color3.fromRGB(255, 255, 255)} BorderSizePixel={0} Size={UDim2.fromScale(1, 1)}>
+			<frame
+				key={"WhiteGrad"}
+				BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+				BorderSizePixel={0}
+				Size={UDim2.fromScale(1, 1)}
+			>
 				<Corner Radius={4} />
 				<uigradient Transparency={GRADIENT_SEQUENCE} />
 			</frame>
 			<SlideDrag
 				DetectProps={{
-					Size: UDim2.fromScale(1, 1),
+					Size: UDim2.fromScale(1, 1)
 				}}
 				SlideDir="XY"
 				PercentApply={OnApplyHSV}

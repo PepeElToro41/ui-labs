@@ -11,7 +11,7 @@ export function CreateVideScopes(vide: typeof Vide, controls: ConvertedControls,
 export function UpdateVideScopes(
 	sources: InferVideControls<ConvertedControls>,
 	controls: ConvertedControls,
-	controlValues: ParametrizedControls,
+	controlValues: ParametrizedControls
 ) {
 	UpdateControlStates(sources, controls, controlValues, (source: Vide.Source<any>, update) => {
 		return source(update);

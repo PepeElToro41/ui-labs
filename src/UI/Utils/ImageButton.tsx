@@ -53,7 +53,7 @@ function ImageButton(props: ImageButtonProps) {
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton1Click: props.OnClick,
+					MouseButton1Click: props.OnClick
 				}}
 			/>
 			<imagelabel

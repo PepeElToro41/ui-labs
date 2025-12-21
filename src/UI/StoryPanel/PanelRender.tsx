@@ -37,17 +37,10 @@ function PanelRender(props: PanelRenderProps) {
 				<Div LayoutOrder={2}>
 					<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 					<PreviewControl />
-					<StoryOverlay
-						key={"StoryOverlay"}
-						PreviewEntry={props.PreviewEntry}
-					/>
-					{entry && !(entry.OnViewport || entry.OnWidget) ? (
-						<StoryTools PreviewEntry={entry} />
-					) : undefined}
+					<StoryOverlay key={"StoryOverlay"} PreviewEntry={props.PreviewEntry} />
+					{entry && !(entry.OnViewport || entry.OnWidget) ? <StoryTools PreviewEntry={entry} /> : undefined}
 				</Div>
-				{toolsContext.ToolbarPosition === "Anchored" && entry ? (
-					<AnchoredToolbar PreviewEntry={entry} />
-				) : undefined}
+				{toolsContext.ToolbarPosition === "Anchored" && entry ? <AnchoredToolbar PreviewEntry={entry} /> : undefined}
 			</Div>
 			<Div
 				key={"ActionsPanelContainer"}

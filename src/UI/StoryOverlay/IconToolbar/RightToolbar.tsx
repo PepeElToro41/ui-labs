@@ -51,10 +51,13 @@ function RightToolbar(props: RightToolbarProps) {
 				Event={{
 					MouseEnter: hoverApi.enable,
 					MouseLeave: hoverApi.disable,
-					MouseButton2Click: OnToolbarLeftClick,
+					MouseButton2Click: OnToolbarLeftClick
 				}}
 			/>
-			<RenderToolButtons PreviewEntry={props.PreviewEntry} HoverAlpha={hoverAlpha.map((a) => UDim2.fromScale(1 - a, 0))} />
+			<RenderToolButtons
+				PreviewEntry={props.PreviewEntry}
+				HoverAlpha={hoverAlpha.map((a) => UDim2.fromScale(1 - a, 0))}
+			/>
 			<frame
 				key={""}
 				Size={new UDim2(0, 3, 1, -8)}

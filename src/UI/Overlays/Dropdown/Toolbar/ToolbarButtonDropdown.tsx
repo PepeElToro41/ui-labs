@@ -24,7 +24,7 @@ function ToolbarButtonDropdown(props: ToolbarButtonDropdownProps) {
 	const OnToggleButton = useOverlayAction(() => {
 		context.SetToolButtonsActive({
 			...buttonsActive,
-			[props.ButtonName]: !thisButtonActive,
+			[props.ButtonName]: !thisButtonActive
 		});
 	}, [props.ButtonName, thisButtonActive, context]);
 

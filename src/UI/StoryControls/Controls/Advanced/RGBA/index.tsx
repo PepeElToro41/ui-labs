@@ -28,7 +28,10 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 	const OnPickerClose = useCallback(() => {
 		setPickerEnabled(false);
 	}, []);
-	const OnApply = useCallback((value: PickedValue) => props.Apply({ Color: value.Color, Transparency: 1 - value.Alpha }), [props.Apply]);
+	const OnApply = useCallback(
+		(value: PickedValue) => props.Apply({ Color: value.Color, Transparency: 1 - value.Alpha }),
+		[props.Apply]
+	);
 
 	const OnColorEdit = useCallback(() => {
 		setPickerEnabled(true);
@@ -44,7 +47,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 					const centerPos = fixedPos.add(transform[1].div(2));
 					return UDim2.fromOffset(centerPos.X - 22, centerPos.Y);
 				})}
-			/>,
+			/>
 		);
 	}, [props.Current, OnApply, OnPickerClose, getPosition]);
 	const OnUDimApply = useCallback((frame: Frame) => {
@@ -67,7 +70,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 				Size={hoverAlpha.map((a) => UDim2.fromOffset(lerp(25, 70, a), 25))}
 				Change={{
 					AbsolutePosition: OnUDimApply,
-					AbsoluteSize: OnUDimApply,
+					AbsoluteSize: OnUDimApply
 				}}
 			>
 				<imagelabel
@@ -93,7 +96,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 					Event={{
 						MouseEnter: hoverApi.enable,
 						MouseLeave: hoverApi.disable,
-						MouseButton1Click: OnColorEdit,
+						MouseButton1Click: OnColorEdit
 					}}
 				/>
 				<Text
@@ -115,7 +118,7 @@ function RGBAControl(props: ControlElementProps<AdvancedTypes.RGBA>) {
 						Position: UDim2.fromScale(0.5, 0.5),
 						ImageColor3: GetContrastColor(props.Current.Color),
 						ImageTransparency: hoverAlpha,
-						Size: new UDim2(0, 20, 0, 20),
+						Size: new UDim2(0, 20, 0, 20)
 					}}
 				/>
 			</Div>

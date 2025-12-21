@@ -34,7 +34,7 @@ function SlideDrag<T extends keyof SlideReturn>(props: SlideDragProps<T>) {
 					break;
 			}
 		},
-		[props.PercentApply],
+		[props.PercentApply]
 	);
 
 	return <DragBase {...props} MapCallback={ApplyMap}></DragBase>;

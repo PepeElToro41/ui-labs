@@ -5,7 +5,7 @@ interface StorybookListState {
 }
 
 const initialState: StorybookListState = {
-	list: [],
+	list: []
 };
 
 export const selectStorybookList = (state: RootState) => state.moduleList.storybook;
@@ -14,5 +14,5 @@ export const selectStorybookList = (state: RootState) => state.moduleList.storyb
 export const StorybookListProducer = createProducer(initialState, {
 	setStorybookList: (_, list: ModuleScript[]) => {
 		return { list };
-	},
+	}
 });

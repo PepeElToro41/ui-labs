@@ -1,11 +1,7 @@
 function IsNotTransparent(gui: GuiObject) {
 	if (gui.IsA("Frame")) {
 		return gui.BackgroundTransparency < 0.98;
-	} else if (
-		gui.IsA("TextLabel") ||
-		gui.IsA("TextButton") ||
-		gui.IsA("TextBox")
-	) {
+	} else if (gui.IsA("TextLabel") || gui.IsA("TextButton") || gui.IsA("TextBox")) {
 		return gui.BackgroundTransparency < 0.98 || gui.TextTransparency < 0.98;
 	} else if (gui.IsA("ImageLabel") || gui.IsA("ImageButton")) {
 		return gui.BackgroundTransparency < 0.98 || gui.ImageTransparency < 0.98;
@@ -65,14 +61,8 @@ export function GetGuisAtPosition(root: GuiObject, position: Vector2) {
 
 			const extend = clipped
 				? new Vector2(
-						math.min(
-							instance.AbsolutePosition.X + instance.AbsoluteSize.X,
-							clipped[1].X
-						),
-						math.min(
-							instance.AbsolutePosition.Y + instance.AbsoluteSize.Y,
-							clipped[1].Y
-						)
+						math.min(instance.AbsolutePosition.X + instance.AbsoluteSize.X, clipped[1].X),
+						math.min(instance.AbsolutePosition.Y + instance.AbsoluteSize.Y, clipped[1].Y)
 					)
 				: instance.AbsolutePosition.add(instance.AbsoluteSize);
 
@@ -83,11 +73,7 @@ export function GetGuisAtPosition(root: GuiObject, position: Vector2) {
 			const minY = math.min(start.Y, extend.Y);
 			const maxY = math.max(minY, extend.Y);
 
-			const isInside =
-				position.X >= minX &&
-				position.X <= maxX &&
-				position.Y >= minY &&
-				position.Y <= maxY;
+			const isInside = position.X >= minX && position.X <= maxX && position.Y >= minY && position.Y <= maxY;
 
 			return isInside;
 		}

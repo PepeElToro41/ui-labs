@@ -1,22 +1,8 @@
 import Immut from "@rbxts/immut";
-import React, {
-	Dispatch,
-	PropsWithChildren,
-	SetStateAction,
-	useCallback,
-	useMemo
-} from "@rbxts/react";
-import {
-	useProducer,
-	useSelector,
-	useSelectorCreator
-} from "@rbxts/react-reflex";
+import React, { Dispatch, PropsWithChildren, SetStateAction, useCallback, useMemo } from "@rbxts/react";
+import { useProducer, useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { ControlGroup } from "@rbxts/ui-labs";
-import {
-	ConvertedControlList,
-	ConvertedControls,
-	ObjectControl
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { ConvertedControlList, ConvertedControls, ObjectControl } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { selectSortMode, SortMode } from "Reflex/PluginSettings";
@@ -48,21 +34,14 @@ function OrderSort(a: SortEntry, b: SortEntry) {
 }
 
 function NameSort(a: SortEntry, b: SortEntry) {
-	if (
-		a.control.Order !== undefined &&
-		b.control.Order !== undefined &&
-		a.control.Order !== b.control.Order
-	)
+	if (a.control.Order !== undefined && b.control.Order !== undefined && a.control.Order !== b.control.Order)
 		return OrderSort(a, b);
 	if (a.name !== b.name) return a.name < b.name;
 	return false;
 }
 
 const count = Counter();
-const CONTROL_TYPE_ORDERS: Record<
-	ObjectControl["Type"] | "ControlGroup",
-	number
-> = {
+const CONTROL_TYPE_ORDERS: Record<ObjectControl["Type"] | "ControlGroup", number> = {
 	ControlGroup: count(),
 	String: count(),
 	Number: count(),
@@ -76,10 +55,8 @@ const CONTROL_TYPE_ORDERS: Record<
 };
 
 function ControlTypeSort(a: SortEntry, b: SortEntry) {
-	const typeA =
-		a.control.EntryType === "Control" ? a.control.Type : a.control.EntryType;
-	const typeB =
-		b.control.EntryType === "Control" ? b.control.Type : b.control.EntryType;
+	const typeA = a.control.EntryType === "Control" ? a.control.Type : a.control.EntryType;
+	const typeB = b.control.EntryType === "Control" ? b.control.Type : b.control.EntryType;
 
 	const orderA = CONTROL_TYPE_ORDERS[typeA] ?? math.huge;
 	const orderB = CONTROL_TYPE_ORDERS[typeB] ?? math.huge;
@@ -122,19 +99,13 @@ function RenderControlGroup(
 		const { name, control } = sortedControls[order];
 		const controlValue = groupValues[name] as ControlValue;
 
-		const renderedControl = RenderControl(
-			name,
-			order,
-			control as ObjectControl,
-			controlValue,
-			(value) => {
-				update(
-					Immut.produce(groupValues, (draft) => {
-						draft[name] = value;
-					})
-				);
-			}
-		);
+		const renderedControl = RenderControl(name, order, control as ObjectControl, controlValue, (value) => {
+			update(
+				Immut.produce(groupValues, (draft) => {
+					draft[name] = value;
+				})
+			);
+		});
 		controlComponents.push(renderedControl);
 	}
 
@@ -152,9 +123,7 @@ function RenderControl(
 	value: ControlValue,
 	update: (value: ControlValue) => void
 ) {
-	const FactoryElement = AllControlMap[
-		control.Type
-	] as unknown as ControlFactory<any>;
+	const FactoryElement = AllControlMap[control.Type] as unknown as ControlFactory<any>;
 
 	const render = (
 		<ControlHolder
@@ -213,10 +182,7 @@ function TitleSortEntry(props: TitleSortEntryProps) {
 			}}
 		>
 			<Padding PaddingX={8} />
-			<LeftList
-				VerticalAlignment={Enum.VerticalAlignment.Center}
-				Padding={new UDim(0, 5)}
-			/>
+			<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 			<imagelabel
 				Size={UDim2.fromOffset(8, 5)}
 				Image={"rbxassetid://14010784349"}
@@ -224,12 +190,7 @@ function TitleSortEntry(props: TitleSortEntryProps) {
 				BackgroundTransparency={1}
 				Visible={sortMode === props.SortMode}
 			/>
-			<Text
-				Text={props.Title}
-				Size={UDim2.fromScale(1, 1)}
-				TextSize={13}
-				TextXAlignment={Enum.TextXAlignment.Left}
-			/>
+			<Text Text={props.Title} Size={UDim2.fromScale(1, 1)} TextSize={13} TextXAlignment={Enum.TextXAlignment.Left} />
 			{props.children}
 		</Detector>
 	);
@@ -275,30 +236,17 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 
 			if (control.EntryType === "ControlGroup") {
 				const groupValues = props.ControlValues[name] as ParametrizedControls;
-				const render = RenderControlGroup(
-					name,
-					sortMode,
-					order,
-					control,
-					groupValues,
-					(values) => {
-						SetControlByIndex(name, values as T[keyof T]);
-					}
-				);
+				const render = RenderControlGroup(name, sortMode, order, control, groupValues, (values) => {
+					SetControlByIndex(name, values as T[keyof T]);
+				});
 				components.push(render);
 				continue;
 			}
 
 			const controlValue = props.ControlValues[name] as ControlValue;
-			const render = RenderControl(
-				name,
-				order,
-				control,
-				controlValue,
-				(value) => {
-					SetControlByIndex(name, value as T[keyof T]);
-				}
-			);
+			const render = RenderControl(name, order, control, controlValue, (value) => {
+				SetControlByIndex(name, value as T[keyof T]);
+			});
 			components.push(render);
 		}
 
@@ -309,27 +257,12 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 		<Div key={"ControlsAction"}>
 			<Div key={"TopTitle"} Size={new UDim2(1, 0, 0, 32)}>
 				<Div key={"TitleList"}>
-					<LeftList
-						Padding={new UDim(0, 2)}
-						VerticalAlignment={Enum.VerticalAlignment.Center}
-					/>
-					<TitleSortEntry
-						SortMode={"Name"}
-						Title={"Name"}
-						Size={new UDim2(0, TITLE_NAME_WIDTH, 1, 0)}
-					/>
-					<TitleSortEntry
-						SortMode={"ControlType"}
-						Title={"Control"}
-						Size={UDim2.fromScale(1, 1)}
-					>
+					<LeftList Padding={new UDim(0, 2)} VerticalAlignment={Enum.VerticalAlignment.Center} />
+					<TitleSortEntry SortMode={"Name"} Title={"Name"} Size={new UDim2(0, TITLE_NAME_WIDTH, 1, 0)} />
+					<TitleSortEntry SortMode={"ControlType"} Title={"Control"} Size={UDim2.fromScale(1, 1)}>
 						<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />
 					</TitleSortEntry>
-					<Div
-						key={"IconButtons"}
-						AutomaticSize={Enum.AutomaticSize.X}
-						Size={UDim2.fromScale(0, 1)}
-					>
+					<Div key={"IconButtons"} AutomaticSize={Enum.AutomaticSize.X} Size={UDim2.fromScale(0, 1)}>
 						<RightList VerticalAlignment={"Center"} Padding={new UDim(0, 2)} />
 						<Padding PaddingX={6} />
 						<ImageButton
@@ -346,11 +279,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 							key={"BookmarkIcon"}
 							ButtonName="KeepControlsButton"
 							Description={"Keep Controls"}
-							Icon={
-								recoverControls
-									? "rbxassetid://126982529248827"
-									: "rbxassetid://114811815528934"
-							}
+							Icon={recoverControls ? "rbxassetid://126982529248827" : "rbxassetid://114811815528934"}
 							IconTransparency={0.3}
 							Size={UDim2.fromOffset(22, 22)}
 							IconScale={0.75}
@@ -360,11 +289,7 @@ function Controls<T extends ParametrizedControls>(props: ControlsProps<T>) {
 				</Div>
 				<Divisor Direction="X" Anchor={0} Position={UDim2.fromScale(0, 1)} />
 			</Div>
-			<frame
-				Position={new UDim2(1, -10, 0.5, 0)}
-				AnchorPoint={new Vector2(1, 0.5)}
-				Size={new UDim2(0, 0, 1, -2)}
-			>
+			<frame Position={new UDim2(1, -10, 0.5, 0)} AnchorPoint={new Vector2(1, 0.5)} Size={new UDim2(0, 0, 1, -2)}>
 				<Corner Radius={6} />
 			</frame>
 			<scrollingframe

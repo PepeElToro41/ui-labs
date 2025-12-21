@@ -57,7 +57,7 @@ function AssignButton(props: AssignButtonProps) {
 				Event={{
 					MouseEnter: OnMouseEnter,
 					MouseLeave: OnMouseLeave,
-					MouseButton1Click: OnSelect,
+					MouseButton1Click: OnSelect
 				}}
 			/>
 		</frame>

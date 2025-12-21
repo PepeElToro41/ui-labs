@@ -74,7 +74,7 @@ function DropdownEntry(setprops: DropdownEntryProps) {
 				Event={{
 					MouseEnter: OnEnter,
 					MouseLeave: hoverApi.disable,
-					MouseButton1Click: OnClick,
+					MouseButton1Click: OnClick
 				}}
 			/>
 		</frame>

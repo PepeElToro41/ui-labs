@@ -10,10 +10,7 @@ export function useRenderedMountEntries(scroller?: ScrollingFrame) {
 		const elements: ReactChildren = new Map();
 
 		mounts.forEach((entry, key) => {
-			elements.set(
-				key,
-				<MountEntry PreviewEntry={entry} Scroller={scroller} />
-			);
+			elements.set(key, <MountEntry PreviewEntry={entry} Scroller={scroller} />);
 		});
 		return elements;
 	}, [mounts, scroller]);

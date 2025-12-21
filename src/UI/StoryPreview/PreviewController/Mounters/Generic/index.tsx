@@ -1,24 +1,13 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useMemo, useRef, useState } from "@rbxts/react";
 import { InferControls } from "@rbxts/ui-labs";
-import {
-	ConvertedControls,
-	ReturnControls
-} from "@rbxts/ui-labs/src/ControlTypings/Typing";
-import {
-	InferGenericProps,
-	SubscribeListener
-} from "@rbxts/ui-labs/src/Typing/Generic";
+import { ConvertedControls, ReturnControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
+import { InferGenericProps, SubscribeListener } from "@rbxts/ui-labs/src/Typing/Generic";
 import { WARNING_STORY_TYPES, WARNINGS } from "Plugin/Warnings";
 import { FastSpawn, UILabsWarn, YCall } from "Utils/MiscUtils";
 import { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 import { CreateControlInfos } from "./Utils";
 
 const GENERIC_ERR = WARNING_STORY_TYPES.Generic;
@@ -34,46 +23,29 @@ function Generic(props: MounterProps<"Generic">) {
 		props.RecoverControlsData,
 		props.SetRecoverControlsData
 	);
-	const [oldControlValues, setOldControlValues] =
-		useState<ParametrizedControls>(controlValues);
+	const [oldControlValues, setOldControlValues] = useState<ParametrizedControls>(controlValues);
 	const listeners = useRef<SubscribeListener<ReturnControls>[]>([]);
 	const GetProps = useStoryPassedProps(props);
 
-	const RemoveListener = useCallback(
-		(listener: SubscribeListener<ReturnControls>) => {
-			const oldListeners = listeners.current;
-			listeners.current = oldListeners.filter(
-				(oldListener) => oldListener !== listener
-			);
-		},
-		[]
-	);
-	const AddListener = useCallback(
-		(listener: SubscribeListener<ReturnControls>) => {
-			const oldListeners = listeners.current;
-			if (oldListeners.includes(listener)) {
-				return () => RemoveListener(listener);
-			}
-			listeners.current = [...oldListeners, listener];
-
+	const RemoveListener = useCallback((listener: SubscribeListener<ReturnControls>) => {
+		const oldListeners = listeners.current;
+		listeners.current = oldListeners.filter((oldListener) => oldListener !== listener);
+	}, []);
+	const AddListener = useCallback((listener: SubscribeListener<ReturnControls>) => {
+		const oldListeners = listeners.current;
+		if (oldListeners.includes(listener)) {
 			return () => RemoveListener(listener);
-		},
-		[]
-	);
+		}
+		listeners.current = [...oldListeners, listener];
+
+		return () => RemoveListener(listener);
+	}, []);
 
 	const RunListeners = useCallback(
 		(oldValues: ParametrizedControls) => {
-			const controlInfos = CreateControlInfos(
-				controls,
-				controlValues,
-				oldValues
-			);
+			const controlInfos = CreateControlInfos(controls, controlValues, oldValues);
 			for (const listener of listeners.current) {
-				const caller = () =>
-					listener(
-						controlValues as InferControls<ReturnControls>,
-						controlInfos
-					);
+				const caller = () => listener(controlValues as InferControls<ReturnControls>, controlInfos);
 
 				YCall(caller, undefined, (didYield, err) => {
 					if (didYield) {
@@ -122,14 +94,7 @@ function Generic(props: MounterProps<"Generic">) {
 		}
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

@@ -9,17 +9,13 @@ function Functional(props: MounterProps<"Functional">) {
 	const unmounter = useRef<() => void>();
 
 	useEffect(() => {
-		unmounter.current = YCall(
-			props.Result,
-			props.MountFrame,
-			(didYield, err) => {
-				if (didYield) {
-					UILabsWarn(WARNINGS.Yielding.format(FUNCTIONAL_ERR));
-				} else {
-					UILabsWarn(WARNINGS.StoryError.format(FUNCTIONAL_ERR), err);
-				}
+		unmounter.current = YCall(props.Result, props.MountFrame, (didYield, err) => {
+			if (didYield) {
+				UILabsWarn(WARNINGS.Yielding.format(FUNCTIONAL_ERR));
+			} else {
+				UILabsWarn(WARNINGS.StoryError.format(FUNCTIONAL_ERR), err);
 			}
-		);
+		});
 	}, []);
 
 	props.UnmountSignal.Connect(() => {

@@ -35,14 +35,14 @@ function Input(props: InputProps) {
 			setFocused(true);
 			if (props.OnFocused) props.OnFocused(textbox);
 		},
-		[props.OnFocused],
+		[props.OnFocused]
 	);
 	const OnFocusLost = useCallback(
 		(textbox: TextBox, enter: boolean) => {
 			setFocused(false);
 			if (props.OnFocusLost) props.OnFocusLost(textbox, enter);
 		},
-		[props.OnFocusLost],
+		[props.OnFocusLost]
 	);
 	const OnSizeChanged = useCallback((frame: Frame) => {
 		setFrameSize(frame.AbsoluteSize);
@@ -58,7 +58,7 @@ function Input(props: InputProps) {
 			{...props.HolderProps}
 			BackgroundColor3={theme.Search.Color}
 			Change={{
-				AbsoluteSize: OnSizeChanged,
+				AbsoluteSize: OnSizeChanged
 			}}
 		>
 			<StrokeEffect Active={focused} FrameSize={frameSize} CornerRadius={props.CornerRadius} />
@@ -71,7 +71,7 @@ function Input(props: InputProps) {
 						ImageColor3: theme.Icon.Disabled,
 						AnchorPoint: new Vector2(0, 0.5),
 						Position: new UDim2(0, 6, 0.5, 0),
-						Size: new UDim2(0, 19, 0, 19),
+						Size: new UDim2(0, 19, 0, 19)
 					}}
 				/>
 			)}
@@ -92,10 +92,10 @@ function Input(props: InputProps) {
 				{...props.TextboxProps}
 				Event={{
 					Focused: OnFocused,
-					FocusLost: OnFocusLost,
+					FocusLost: OnFocusLost
 				}}
 				Change={{
-					Text: OnTextChanged,
+					Text: OnTextChanged
 				}}
 				ref={props.Reference}
 			>

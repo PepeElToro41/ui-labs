@@ -1,9 +1,4 @@
-import {
-	CatppuchineFrappe,
-	CatppuchineLatte,
-	CatppuchineMacchiato,
-	CatppuchineMocha
-} from "./Catppuccin";
+import { CatppuchineFrappe, CatppuchineLatte, CatppuchineMacchiato, CatppuchineMocha } from "./Catppuccin";
 import Dark from "./DarkThemes/Dark";
 import Sour from "./DarkThemes/Sour";
 

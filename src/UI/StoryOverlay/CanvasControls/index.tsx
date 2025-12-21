@@ -3,11 +3,7 @@ import { useEventListener } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect, useState } from "@rbxts/react";
 import { useProducer } from "@rbxts/react-reflex";
 import { RunService } from "@rbxts/services";
-import {
-	useInputBegan,
-	useInputEnded,
-	useMousePos
-} from "Hooks/Context/UserInput";
+import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { Div } from "UI/Styles/Div";
 
@@ -38,18 +34,12 @@ function CanvasControls(props: CanvasControlsProps) {
 					if (ctrlClicked) {
 						const holder = props.PreviewEntry.Holder;
 						if (holder) {
-							const holderAnchorPos = holder.AbsolutePosition.add(
-								holder.AbsoluteSize.mul(holder.AnchorPoint)
-							);
+							const holderAnchorPos = holder.AbsolutePosition.add(holder.AbsoluteSize.mul(holder.AnchorPoint));
 							const currentPos = mousePos.getValue();
 							cursorRelativeToAnchor = currentPos.sub(holderAnchorPos);
 						}
 					}
-					addZoom(
-						props.PreviewEntry.Key,
-						input.Position.Z * 20,
-						cursorRelativeToAnchor
-					);
+					addZoom(props.PreviewEntry.Key, input.Position.Z * 20, cursorRelativeToAnchor);
 				}
 			}
 		},

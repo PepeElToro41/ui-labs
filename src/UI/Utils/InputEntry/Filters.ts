@@ -14,5 +14,5 @@ export const Filters = {
 
 		if (numberMatch === undefined) return old;
 		return numberMatch as string;
-	},
+	}
 };

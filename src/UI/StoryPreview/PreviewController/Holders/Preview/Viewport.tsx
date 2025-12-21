@@ -10,10 +10,7 @@ import { Div } from "UI/Styles/Div";
 function Viewport(props: StoryHolderProps) {
 	const mountRef = useRef<Frame>();
 	const widgetState = useWidgetStateContext();
-	const storyName = RemoveExtension(
-		props.PreviewEntry.Module.Name,
-		Configs.Extensions.Story
-	);
+	const storyName = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 
 	useDeferLifetime(props, 2);
 

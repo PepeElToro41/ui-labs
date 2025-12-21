@@ -46,10 +46,7 @@ function PreviewController(props: PreviewControllerProps) {
 		// generating schedulers
 		const children: ReactChildren = new Map();
 		for (const [uid, scheduler] of schedulersMap) {
-			children.set(
-				uid,
-				<EnvironmentScheduler RootEnvironment={uid} Environments={scheduler} />
-			);
+			children.set(uid, <EnvironmentScheduler RootEnvironment={uid} Environments={scheduler} />);
 		}
 		return children;
 	}, [previews]);
@@ -58,11 +55,7 @@ function PreviewController(props: PreviewControllerProps) {
 		<Div
 			key={"Stories"}
 			Interactable={storyLockers.isEmpty()}
-			Size={
-				pinned
-					? height.map((h) => new UDim2(1, 0, 1, -h))
-					: UDim2.fromScale(1, 1)
-			}
+			Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}
 			LayoutOrder={2}
 			Change={{
 				AbsoluteSize: (rbx) => setCanvasHeight(rbx.AbsoluteSize.Y - 10)

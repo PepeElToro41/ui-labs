@@ -4,5 +4,5 @@ import { NodesProducer } from "./Nodes";
 
 export const ExplorerProducer = combineProducers({
 	nodes: NodesProducer,
-	filter: FilterProducer,
+	filter: FilterProducer
 });

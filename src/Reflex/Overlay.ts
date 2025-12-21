@@ -20,25 +20,20 @@ interface OverlayState {
 
 const initialState: OverlayState = {
 	popup: undefined,
-	overlays: new Map(),
+	overlays: new Map()
 };
 
 export const selectPopup = (state: RootState) => state.overlay.popup;
 
 export const OverlayProducer = createProducer(initialState, {
-	setPopup: (
-		state,
-		key: string,
-		element: React.Element,
-		identifier?: unknown,
-	) => {
+	setPopup: (state, key: string, element: React.Element, identifier?: unknown) => {
 		return {
 			...state,
 			popup: {
 				Key: key,
 				Element: element,
-				Identifier: identifier,
-			},
+				Identifier: identifier
+			}
 		};
 	},
 	resetIdentifiedOverlay: (state, identifier: unknown) => {
@@ -48,13 +43,13 @@ export const OverlayProducer = createProducer(initialState, {
 		}
 		return {
 			...state,
-			popup: undefined,
+			popup: undefined
 		};
 	},
 	resetPopup: (state) => {
 		return {
 			...state,
-			popup: undefined,
+			popup: undefined
 		};
-	},
+	}
 });

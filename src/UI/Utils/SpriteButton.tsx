@@ -51,9 +51,7 @@ function SpriteButton(props: SpriteButtonProps) {
 	const [hovered, hoverApi] = useToggler(false);
 	const theme = useTheme();
 
-	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(
-		props.ButtonName
-	);
+	const { DisplayDescription, RemoveDescription } = useDescriptionDisplay(props.ButtonName);
 
 	const shortcutsEnabled = useSelector(selectShortcutsEnabled);
 	const inputBegan = useInputBegan();
@@ -72,14 +70,10 @@ function SpriteButton(props: SpriteButtonProps) {
 		}
 
 		if (shortcut) {
-			let shortcutName =
-				KeycodeMaps[shortcut.Name] ??
-				UserInputService.GetStringForKeyCode(shortcut.Name);
+			let shortcutName = KeycodeMaps[shortcut.Name] ?? UserInputService.GetStringForKeyCode(shortcut.Name);
 
 			if (props.ShortcutModifier) {
-				const modifierName =
-					ModifierKeyMaps[props.ShortcutModifier.Name] ??
-					props.ShortcutModifier.Name;
+				const modifierName = ModifierKeyMaps[props.ShortcutModifier.Name] ?? props.ShortcutModifier.Name;
 				shortcutName = `${modifierName}+${shortcutName}`;
 			}
 
@@ -88,13 +82,7 @@ function SpriteButton(props: SpriteButtonProps) {
 		}
 
 		DisplayDescription(props.Description);
-	}, [
-		props.Description,
-		shortcut,
-		hovered,
-		DisplayDescription,
-		RemoveDescription
-	]);
+	}, [props.Description, shortcut, hovered, DisplayDescription, RemoveDescription]);
 
 	useEffect(() => {
 		if (!shortcut) {
@@ -106,10 +94,7 @@ function SpriteButton(props: SpriteButtonProps) {
 				return;
 			}
 
-			if (
-				props.ShortcutModifier &&
-				!input.IsModifierKeyDown(props.ShortcutModifier)
-			) {
+			if (props.ShortcutModifier && !input.IsModifierKeyDown(props.ShortcutModifier)) {
 				return;
 			}
 

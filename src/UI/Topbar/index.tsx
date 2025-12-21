@@ -13,7 +13,13 @@ function TopBar(setprops: TopBarProps) {
 	const props = setProps(setprops);
 	const theme = useTheme();
 	return (
-		<frame key={"TopBar"} BackgroundColor3={theme.Topbar.Color} BorderSizePixel={0} Size={new UDim2(1, 0, 0, 32)} ZIndex={2}>
+		<frame
+			key={"TopBar"}
+			BackgroundColor3={theme.Topbar.Color}
+			BorderSizePixel={0}
+			Size={new UDim2(1, 0, 0, 32)}
+			ZIndex={2}
+		>
 			<Padding PaddingX={8}></Padding>
 			<Branding></Branding>
 		</frame>

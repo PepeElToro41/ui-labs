@@ -36,7 +36,7 @@ export function ToolsProvider(props: ToolsProps) {
 			ToolbarPosition: toolbarPosition,
 			ToolButtonsActive: toolButtonsActive,
 			SetToolbarPosition: setToolbarPosition,
-			SetToolButtonsActive: setToolButtonsActive,
+			SetToolButtonsActive: setToolButtonsActive
 		};
 		return context;
 	}, [toolbarPosition, toolButtonsActive]);

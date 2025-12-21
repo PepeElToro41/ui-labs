@@ -13,11 +13,7 @@ function EmptyFiller(props: EmptyFillerProps) {
 	const theme = useTheme();
 
 	return (
-		<Div
-			Size={UDim2.fromScale(1, 0)}
-			AutomaticSize={Enum.AutomaticSize.Y}
-			LayoutOrder={props.LayoutOrder}
-		>
+		<Div Size={UDim2.fromScale(1, 0)} AutomaticSize={Enum.AutomaticSize.Y} LayoutOrder={props.LayoutOrder}>
 			<imagelabel
 				Image={"rbxassetid://18544640276"}
 				ImageColor3={theme.Text.Disabled}

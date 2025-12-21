@@ -7,10 +7,7 @@ import { RemoveExtension } from "Hooks/Reflex/Control/ModuleList/Utils";
 import { useInstance } from "Hooks/Utils/Instance";
 import Configs from "Plugin/Configs";
 import { WARNINGS } from "Plugin/Warnings";
-import {
-	selectClearOutputOnReload,
-	selectStudioMode
-} from "Reflex/PluginSettings";
+import { selectClearOutputOnReload, selectStudioMode } from "Reflex/PluginSettings";
 import { selectStorySelected } from "Reflex/StorySelection";
 import { useStoryRequire } from "UI/StoryPreview/PreviewController/StoryRequire";
 import { UILabsWarn } from "Utils/MiscUtils";
@@ -32,10 +29,7 @@ export interface RecoverGroupEntry {
 	Controls: Record<string, RecoverControlEntry>;
 }
 
-export type RecoverControlsData = Record<
-	string,
-	RecoverControlEntry | RecoverGroupEntry
->;
+export type RecoverControlsData = Record<string, RecoverControlEntry | RecoverGroupEntry>;
 
 interface MountInfo {
 	Key: string;
@@ -51,18 +45,13 @@ function PreviewController(props: PreviewControllerProps) {
 	const studioMode = useSelector(selectStudioMode);
 
 	const [canReload, setCanReload] = useState(false);
-	const [result, reloader] = useStoryRequire(
-		props.PreviewEntry,
-		studioMode,
-		canReload
-	);
+	const [result, reloader] = useStoryRequire(props.PreviewEntry, studioMode, canReload);
 	const [renderer, setRenderer] = useState<{
 		Key: string;
 		MountType: MountType;
 		Renderer: React.Element;
 	}>();
-	const [recoverControlsData, setRecoverControlsData] =
-		useState<RecoverControlsData>();
+	const [recoverControlsData, setRecoverControlsData] = useState<RecoverControlsData>();
 
 	const entry = props.PreviewEntry;
 	const key = props.PreviewEntry.Key;
@@ -102,16 +91,11 @@ function PreviewController(props: PreviewControllerProps) {
 		const check = CheckStory(result);
 		if (!check.Sucess) return UILabsWarn(WARNINGS.StoryTypeError, check.Error);
 
-		mountFrame.Name = RemoveExtension(
-			props.PreviewEntry.Module.Name,
-			Configs.Extensions.Story
-		);
+		mountFrame.Name = RemoveExtension(props.PreviewEntry.Module.Name, Configs.Extensions.Story);
 		const unmountSignal = new Signal();
 
 		if (clearOutputOnReload) {
-			const isSelected =
-				selectedPreview === props.PreviewEntry.UID ||
-				selectedPreview === props.PreviewEntry.Key;
+			const isSelected = selectedPreview === props.PreviewEntry.UID || selectedPreview === props.PreviewEntry.Key;
 
 			if (selectedPreview === undefined || isSelected) {
 				LogService.ClearOutput();

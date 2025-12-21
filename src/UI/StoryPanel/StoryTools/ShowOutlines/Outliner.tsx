@@ -19,7 +19,7 @@ const OUTLINE_COLORS: OutlineColors = {
 	ImageLabel: Color3.fromRGB(18, 232, 18),
 	ImageButton: Color3.fromRGB(18, 232, 18),
 	TextButton: Color3.fromRGB(3, 108, 219),
-	ScrollingFrame: Color3.fromRGB(242, 33, 33),
+	ScrollingFrame: Color3.fromRGB(242, 33, 33)
 };
 
 function Outliner(props: OutlinerProps) {

@@ -25,10 +25,7 @@ function selectMaxOrder(state: RootState) {
 	return max;
 }
 
-function selectStoryByOrder(
-	previews: Map<string, PreviewEntry>,
-	order: number
-) {
+function selectStoryByOrder(previews: Map<string, PreviewEntry>, order: number) {
 	for (const [, entry] of previews) {
 		if (entry.Order === order) {
 			return entry;
@@ -83,9 +80,7 @@ function StoryContents(props: StoryContentsProps) {
 		<Div
 			key="StoryContents"
 			BackgroundTransparency={0}
-			BackgroundColor3={
-				theme.StoryPanel[isLightColor ? "LightColor" : "DarkColor"]
-			}
+			BackgroundColor3={theme.StoryPanel[isLightColor ? "LightColor" : "DarkColor"]}
 			LayoutOrder={1}
 		>
 			<uiflexitem FlexMode={Enum.UIFlexMode.Fill} />

@@ -27,7 +27,13 @@ function OrderFoldersFirst(storybooks: StorybookNode[]) {
 	});
 }
 
-function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNode: ParentNode, bookBind: StorybookNode, nodemap: NodeMap) {
+function IterateRoots(
+	storyList: ModuleScript[],
+	children: Instance[],
+	parentNode: ParentNode,
+	bookBind: StorybookNode,
+	nodemap: NodeMap
+) {
 	let found = 0;
 	const storyNodesPush: StoryNode[] = [];
 	children.forEach((child) => {
@@ -36,7 +42,7 @@ function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNod
 				Type: "Story",
 				Name: RemoveExtension(child.Name, Configs.Extensions.Story),
 				Module: child,
-				Parent: parentNode,
+				Parent: parentNode
 			};
 			storyNodesPush.push(storyNode);
 			storyList.remove(storyList.indexOf(child));
@@ -49,7 +55,7 @@ function IterateRoots(storyList: ModuleScript[], children: Instance[], parentNod
 				Instance: child,
 				Storybook: bookBind,
 				Parent: parentNode,
-				Children: [],
+				Children: []
 			};
 			const foundChildren = IterateRoots(storyList, child.GetChildren(), newFolder, bookBind, nodemap);
 			if (foundChildren <= 0) return;
@@ -72,7 +78,7 @@ export function GenerateStorybooks(storyList: ModuleScript[], storybooks: Storyb
 			Name: book.name ?? RemoveExtension(bookModule.Name, Configs.Extensions.Storybook),
 			Result: book,
 			Module: bookModule,
-			Children: [],
+			Children: []
 		};
 		if (book.groupRoots) {
 			IterateRoots(storyList, book.storyRoots, newNode, newNode, nodemap);
@@ -97,7 +103,7 @@ export function GenerateUnknown(storyList: ModuleScript[], nodemap: NodeMap) {
 				Type: "Story",
 				Name: RemoveExtension(module.Name, Configs.Extensions.Story),
 				Module: module,
-				Parent: mappedNode,
+				Parent: mappedNode
 			};
 			mappedNode.Children.push(storyNode);
 			nodemap.set(module, storyNode);
@@ -105,13 +111,13 @@ export function GenerateUnknown(storyList: ModuleScript[], nodemap: NodeMap) {
 			const newNode: UnknownNode = {
 				Type: "Unknown",
 				Instance: module.Parent,
-				Children: [],
+				Children: []
 			};
 			const storyNode: StoryNode = {
 				Type: "Story",
 				Name: RemoveExtension(module.Name, Configs.Extensions.Story),
 				Module: module,
-				Parent: newNode,
+				Parent: newNode
 			};
 			newNode.Children.push(storyNode);
 			mappedFolders.set(module.Parent, newNode);

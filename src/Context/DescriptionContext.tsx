@@ -68,7 +68,7 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 			setDescriptionVisible(true);
 		},
 		[descriptionName],
-		{ wait: 0.45 },
+		{ wait: 0.45 }
 	);
 
 	const contextValue = useMemo(() => {
@@ -76,7 +76,7 @@ export function DescriptionProvider(props: DescriptionProviderProps) {
 		const context: DescriptionContext = {
 			ActiveDescription: isActive ? currentDescription.Description : undefined,
 			SetDescription: SetDescription,
-			RemoveDescription: RemoveDescription,
+			RemoveDescription: RemoveDescription
 		};
 
 		return context;
@@ -104,7 +104,10 @@ export function useDescriptionControl() {
 export function useDescriptionDisplay(identifier: unknown) {
 	const context = useContext(DescriptionContext);
 
-	const DisplayDescription = useCallback((description: string) => context.SetDescription(identifier, description), [identifier]);
+	const DisplayDescription = useCallback(
+		(description: string) => context.SetDescription(identifier, description),
+		[identifier]
+	);
 	const RemoveDescription = useCallback(() => context.RemoveDescription(identifier), [identifier]);
 
 	const values = useMemo(() => {

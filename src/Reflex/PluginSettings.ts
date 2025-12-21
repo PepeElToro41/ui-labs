@@ -27,26 +27,19 @@ const initialState: PluginSettingsState = {
 
 export const selectPluginSettings = (state: RootState) => state.pluginSettings;
 
-export const selectToolbarPosition = (state: RootState) =>
-	selectPluginSettings(state).toolbarPosition;
+export const selectToolbarPosition = (state: RootState) => selectPluginSettings(state).toolbarPosition;
 
-export const selectClearOutputOnReload = (state: RootState) =>
-	selectPluginSettings(state).clearOutputOnReload;
+export const selectClearOutputOnReload = (state: RootState) => selectPluginSettings(state).clearOutputOnReload;
 
-export const selectShortcutsEnabled = (state: RootState) =>
-	selectPluginSettings(state).shortcutsEnabled;
+export const selectShortcutsEnabled = (state: RootState) => selectPluginSettings(state).shortcutsEnabled;
 
-export const selectKeepViewOnViewport = (state: RootState) =>
-	selectPluginSettings(state).keepViewOnViewport;
+export const selectKeepViewOnViewport = (state: RootState) => selectPluginSettings(state).keepViewOnViewport;
 
-export const selectActionsPinned = (state: RootState) =>
-	selectPluginSettings(state).actionsPinned;
+export const selectActionsPinned = (state: RootState) => selectPluginSettings(state).actionsPinned;
 
-export const selectStudioMode = (state: RootState) =>
-	selectPluginSettings(state).studioMode;
+export const selectStudioMode = (state: RootState) => selectPluginSettings(state).studioMode;
 
-export const selectSortMode = (state: RootState) =>
-	selectPluginSettings(state).sortMode;
+export const selectSortMode = (state: RootState) => selectPluginSettings(state).sortMode;
 
 export const PluginSettingsProducer = createProducer(initialState, {
 	setPluginSettings: (state, newSettings: Partial<PluginSettingsState>) => {

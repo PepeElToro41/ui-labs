@@ -1,8 +1,4 @@
-import {
-	useDebounceEffect,
-	useSpring,
-	useUpdateEffect
-} from "@rbxts/pretty-react-hooks";
+import { useDebounceEffect, useSpring, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useState } from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectStorySelected } from "Reflex/StorySelection";
@@ -40,10 +36,7 @@ function FloatingStoryTitle(props: FloatingStoryTitleProps) {
 
 	return (
 		<Div key={"FloatingStoryTitle"} Size={UDim2.fromScale(1, 0)}>
-			<Div
-				Size={new UDim2(1, 0, 0, 32)}
-				AnchorPoint={anchor.map((a) => new Vector2(0, a))}
-			>
+			<Div Size={new UDim2(1, 0, 0, 32)} AnchorPoint={anchor.map((a) => new Vector2(0, a))}>
 				<Padding PaddingX={6} />
 				<scrollingframe
 					ScrollingEnabled={false}
@@ -56,10 +49,7 @@ function FloatingStoryTitle(props: FloatingStoryTitleProps) {
 					ScrollBarThickness={0}
 					ref={setScroller}
 				>
-					<LeftList
-						VerticalAlignment={Enum.VerticalAlignment.Center}
-						Padding={new UDim(0, 5)}
-					/>
+					<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 5)} />
 					<Padding Top={3} Bottom={4} />
 					{entries}
 				</scrollingframe>

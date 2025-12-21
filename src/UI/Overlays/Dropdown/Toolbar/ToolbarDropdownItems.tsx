@@ -24,10 +24,10 @@ function ToolbarDropdownItems(props: ToolbarDropdownItemsProps) {
 		(buttonType: ToolButtonType) => {
 			toolbar.SetToolButtonsActive({
 				...buttonsActive,
-				[buttonType]: !buttonsActive[buttonType],
+				[buttonType]: !buttonsActive[buttonType]
 			});
 		},
-		[toolbar],
+		[toolbar]
 	);
 
 	const GenerateButtons = () => {
@@ -36,7 +36,12 @@ function ToolbarDropdownItems(props: ToolbarDropdownItemsProps) {
 			const buttonName = buttonInfo.DisplayName;
 			const active = buttonsActive[buttonInfo.Name];
 			elements.push(
-				<DropdownEntry LayoutOrder={count()} Text={buttonName} Active={active} OnClick={() => OnHideButtonType(buttonInfo.Name)} />,
+				<DropdownEntry
+					LayoutOrder={count()}
+					Text={buttonName}
+					Active={active}
+					OnClick={() => OnHideButtonType(buttonInfo.Name)}
+				/>
 			);
 		});
 		return elements;

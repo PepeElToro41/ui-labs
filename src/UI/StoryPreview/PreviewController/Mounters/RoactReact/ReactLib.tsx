@@ -8,12 +8,7 @@ import { selectPreview } from "Reflex/StoryPreview";
 import { UILabsWarn } from "Utils/MiscUtils";
 import type { MounterProps } from "..";
 import { useStoryUnmount } from "../../Utils";
-import {
-	useControls,
-	useParametrizedControls,
-	useStoryActionComponents,
-	useStoryPassedProps
-} from "../Hooks";
+import { useControls, useParametrizedControls, useStoryActionComponents, useStoryPassedProps } from "../Hooks";
 
 const REACT_ERR = WARNING_STORY_TYPES.React;
 
@@ -58,16 +53,12 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 			return result.reactRoblox.createRoot(props.MountFrame);
 		} else if (rendererType === "legacy") {
 			if (result.reactRoblox["createLegacyRoot"] === undefined) {
-				UILabsWarn(
-					'Legacy renderer requires the function "createLegacyRoot" inside React-Roblox'
-				);
+				UILabsWarn('Legacy renderer requires the function "createLegacyRoot" inside React-Roblox');
 				return result.reactRoblox.createRoot(props.MountFrame);
 			}
 			return result.reactRoblox.createLegacyRoot(props.MountFrame);
 		} else {
-			UILabsWarn(
-				`Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`
-			);
+			UILabsWarn(`Renderer Type is not a valid type, "legacy" or "deferred" expected, got: "${rendererType}"`);
 		}
 	}, []);
 
@@ -90,14 +81,7 @@ function ReactLib(props: MounterProps<"ReactLib">) {
 		}
 	});
 
-	useStoryActionComponents(
-		props.Entry.Key,
-		props.Result,
-		returnControls,
-		controls,
-		controlValues,
-		setControlValues
-	);
+	useStoryActionComponents(props.Entry.Key, props.Result, returnControls, controls, controlValues, setControlValues);
 
 	return <React.Fragment></React.Fragment>;
 }

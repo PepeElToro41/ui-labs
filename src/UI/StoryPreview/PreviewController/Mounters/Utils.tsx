@@ -7,25 +7,16 @@ import {
 } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { InferControlGroup } from "@rbxts/ui-labs/src/Typing/Typing";
 import { WARNINGS } from "Plugin/Warnings";
-import {
-	AllRecovererMap,
-	ControlRecoverer
-} from "UI/StoryControls/ControlRecovers";
+import { AllRecovererMap, ControlRecoverer } from "UI/StoryControls/ControlRecovers";
 import { UILabsWarn } from "Utils/MiscUtils";
-import {
-	RecoverControlEntry,
-	RecoverControlsData,
-	RecoverGroupEntry
-} from "..";
+import { RecoverControlEntry, RecoverControlsData, RecoverGroupEntry } from "..";
 
 declare global {
 	type ControlValue = InferControlType<ObjectControl>;
 	type ParametrizedControls = Record<string, ControlValue | InferControlGroup>;
 }
 
-export function TryConvertControl(
-	control: any
-): ObjectControl | ControlGroup<ConvertedControlList> | undefined {
+export function TryConvertControl(control: any): ObjectControl | ControlGroup<ConvertedControlList> | undefined {
 	const controlType = typeOf(control);
 	if (controlType === "table") {
 		return control;
@@ -58,18 +49,12 @@ export function ConvertLiterals(controls: ReturnControls) {
 	return converted;
 }
 
-export function CreateRecoverControlsData(
-	controls: ConvertedControls,
-	values: ParametrizedControls
-) {
+export function CreateRecoverControlsData(controls: ConvertedControls, values: ParametrizedControls) {
 	const recoverData: RecoverControlsData = {};
 
 	for (const [name, control] of pairs(controls)) {
 		if (control.EntryType === "ControlGroup") {
-			const groupData = CreateRecoverControlsData(
-				control.Controls,
-				values[name] as ParametrizedControls
-			);
+			const groupData = CreateRecoverControlsData(control.Controls, values[name] as ParametrizedControls);
 			recoverData[name] = {
 				RecoverType: "ControlGroup",
 				Controls: groupData as Record<string, RecoverControlEntry>
@@ -86,35 +71,19 @@ export function CreateRecoverControlsData(
 }
 
 //This function gets all controls and converts them to a list of values, ready to be send as story props
-export function ParametrizeControls(
-	controls: ConvertedControls,
-	defaults?: RecoverControlsData
-) {
+export function ParametrizeControls(controls: ConvertedControls, defaults?: RecoverControlsData) {
 	const controlValues: ParametrizedControls = {};
 	for (const [name, control] of pairs(controls)) {
 		if (control.EntryType === "ControlGroup") {
-			const recoverData = defaults
-				? (defaults[name] as RecoverGroupEntry).Controls
-				: undefined;
-			controlValues[name] = ParametrizeControls(
-				control.Controls,
-				recoverData
-			) as Record<string, ControlValue>;
+			const recoverData = defaults ? (defaults[name] as RecoverGroupEntry).Controls : undefined;
+			controlValues[name] = ParametrizeControls(control.Controls, recoverData) as Record<string, ControlValue>;
 			continue;
 		}
 		const recoverData = defaults && (defaults[name] as RecoverControlEntry);
 		if (recoverData) {
 			if (recoverData.Control.Type === control.Type) {
-				const Recoverer = AllRecovererMap[
-					control.Type
-				] as ControlRecoverer<ObjectControl>;
-				Recoverer(
-					name,
-					control,
-					recoverData.Control,
-					recoverData.Value,
-					controlValues
-				);
+				const Recoverer = AllRecovererMap[control.Type] as ControlRecoverer<ObjectControl>;
+				Recoverer(name, control, recoverData.Control, recoverData.Value, controlValues);
 				continue;
 			}
 		}
@@ -125,11 +94,7 @@ export function ParametrizeControls(
 
 type ControlsReconciler = Record<string, any> | (() => Record<string, any>);
 
-export function InjectStoryRuntime(
-	injection: Record<string, unknown>,
-	storyType: string,
-	props: unknown
-) {
+export function InjectStoryRuntime(injection: Record<string, unknown>, storyType: string, props: unknown) {
 	if (injection === undefined) return;
 	const runtime = (injection["Runtime"] ?? {}) as Record<string, unknown>;
 

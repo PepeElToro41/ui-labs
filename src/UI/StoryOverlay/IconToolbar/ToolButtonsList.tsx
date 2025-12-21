@@ -38,7 +38,7 @@ export const ToolButtonsList = [
 	{ Name: "MeasureTool", Render: MeasureTool, DisplayName: "Measure Tool" },
 	{ Name: "SelectElements", Render: SelectElements, DisplayName: "Select Elements" },
 	{ Name: "ShowOutlines", Render: ShowOutlines, DisplayName: "Show Outlines" },
-	{ Name: "MouseRules", Render: MouseRules, DisplayName: "Mouse Rules" },
+	{ Name: "MouseRules", Render: MouseRules, DisplayName: "Mouse Rules" }
 ] as const;
 
 export const ToolButtonNames = ToolButtonsList.reduce(
@@ -46,5 +46,5 @@ export const ToolButtonNames = ToolButtonsList.reduce(
 		old[button.Name] = button;
 		return old;
 	},
-	{} as Record<ToolButtonType, ButtonListEntry>,
+	{} as Record<ToolButtonType, ButtonListEntry>
 );

@@ -7,11 +7,7 @@ import type { Environment } from "./Environment";
  * @param module module that was loaded with loadstring()
  * @param environment Environment handler object
  */
-export function SetEnvironment(
-	virtualModule: Callback,
-	module: ModuleScript,
-	environment: Environment
-) {
+export function SetEnvironment(virtualModule: Callback, module: ModuleScript, environment: Environment) {
 	const globals = {
 		require: (dependency: ModuleScript) => {
 			return environment.LoadDependency(dependency).expect();
@@ -34,14 +30,8 @@ export function SetEnvironment(
  * @param module the module to laod
  * @param environment Environment handler object
  */
-export async function LoadVirtualModule(
-	module: ModuleScript,
-	environment: Environment
-) {
-	const [virtualModule, err] = loadstring(
-		ScriptEditorService.GetEditorSource(module),
-		module.GetFullName()
-	);
+export async function LoadVirtualModule(module: ModuleScript, environment: Environment) {
+	const [virtualModule, err] = loadstring(ScriptEditorService.GetEditorSource(module), module.GetFullName());
 
 	if (virtualModule === undefined) {
 		throw err;

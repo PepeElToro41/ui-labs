@@ -24,7 +24,7 @@ function ObjectControl(props: ControlElementProps<AdvancedTypes.Object<"Instance
 			}
 			props.Apply(object);
 		},
-		[props.Control, current, props.Apply],
+		[props.Control, current, props.Apply]
 	);
 	const OnClearObject = useCallback(() => {
 		props.Apply(undefined);
@@ -47,7 +47,11 @@ function ObjectControl(props: ControlElementProps<AdvancedTypes.Object<"Instance
 			<Padding PaddingY={4} />
 			<LeftList VerticalAlignment={Enum.VerticalAlignment.Center} Padding={new UDim(0, 12)} />
 			<ObjectHolder Object={props.Current} OnClearObject={OnClearObject} />
-			<SelectedObject OnAssignObject={OnAssignObject} CurrentObject={props.Current} ClassName={props.Control.ClassName} />
+			<SelectedObject
+				OnAssignObject={OnAssignObject}
+				CurrentObject={props.Current}
+				ClassName={props.Control.ClassName}
+			/>
 		</Div>
 	);
 }

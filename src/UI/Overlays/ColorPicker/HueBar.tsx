@@ -19,7 +19,7 @@ function HueBar(props: HueBarProps) {
 		<Div key="HuePicker" Size={new UDim2(1, -5, 0, 10)} LayoutOrder={props.Order ?? 0}>
 			<SlideDrag
 				DetectProps={{
-					Size: new UDim2(1, 0, 1, 5),
+					Size: new UDim2(1, 0, 1, 5)
 				}}
 				SlideDir="X"
 				PercentApply={OnApplyHue}

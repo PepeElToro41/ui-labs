@@ -11,8 +11,7 @@ export function CreateEntrySnapshot(entry: PreviewEntry, name?: string) {
 	const guiHolder = new Instance("ScreenGui");
 	guiHolder.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
 	guiHolder.Parent = StarterGui;
-	guiHolder.Name =
-		name ?? RemoveExtension(module.Name, Configs.Extensions.Story);
+	guiHolder.Name = name ?? RemoveExtension(module.Name, Configs.Extensions.Story);
 
 	holder.GetChildren().forEach((child) => {
 		const newChild = child.Clone();

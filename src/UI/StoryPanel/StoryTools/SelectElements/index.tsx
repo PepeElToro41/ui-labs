@@ -4,11 +4,7 @@ import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { Selection } from "@rbxts/services";
 import { setInterval } from "@rbxts/set-timeout";
 import { useToolbarHovered } from "Context/StoryPanelContext";
-import {
-	useInputBegan,
-	useInputEnded,
-	useMousePos
-} from "Hooks/Context/UserInput";
+import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
 import { selectPluginWidget } from "Reflex/Plugin";
 import { Div } from "UI/Styles/Div";
 import { useStoryLockAction } from "../Utils";
@@ -28,22 +24,16 @@ function GetSelectedGuis(root?: Frame) {
 		const selections = Selection.Get() as GuiObject[];
 		if (selections.isEmpty()) return [];
 
-		return selections.filter(
-			(selection) =>
-				selection.IsA("GuiObject") && selection.IsDescendantOf(root)
-		);
+		return selections.filter((selection) => selection.IsA("GuiObject") && selection.IsDescendantOf(root));
 	};
 }
 
 function SelectElements(props: SelectElementsProps) {
 	const mousePos = useMousePos();
 	const widget = useSelector(selectPluginWidget);
-	const { addMouseIconAction, removeMouseIconAction, unlockStoryFrame } =
-		useProducer<RootProducer>();
+	const { addMouseIconAction, removeMouseIconAction, unlockStoryFrame } = useProducer<RootProducer>();
 	const holder = props.PreviewEntry.Holder;
-	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(
-		GetSelectedGuis(holder)
-	);
+	const [selectedElements, setSelectedElements] = useState<GuiObject[]>(GetSelectedGuis(holder));
 	const [passThrough, setPassThrough] = useState(false);
 	const inputBegan = useInputBegan();
 	const inputEnded = useInputEnded();
@@ -140,12 +130,7 @@ function SelectElements(props: SelectElementsProps) {
 	return (
 		<Div key={"SelectElements"}>
 			{hoveredElement !== undefined && holder && (
-				<ComponentHighlight
-					key={"SelectedElement"}
-					UIComponent={hoveredElement}
-					Holder={holder}
-					Inset={props.Anchor}
-				/>
+				<ComponentHighlight key={"SelectedElement"} UIComponent={hoveredElement} Holder={holder} Inset={props.Anchor} />
 			)}
 		</Div>
 	);

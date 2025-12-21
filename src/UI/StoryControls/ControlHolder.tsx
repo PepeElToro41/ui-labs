@@ -23,10 +23,7 @@ function ControlHolder(props: ControlHolderProps) {
 
 	const OnDropdown = useCallback(() => {
 		const offset = mouseOffset.getValue();
-		setPopup(
-			"ControlDropdown",
-			<ControlDropdown ControlReset={props.ControlReset} Position={offset} />
-		);
+		setPopup("ControlDropdown", <ControlDropdown ControlReset={props.ControlReset} Position={offset} />);
 	}, [props.ControlReset]);
 
 	return (
@@ -48,12 +45,7 @@ function ControlHolder(props: ControlHolderProps) {
 					TextSize={13}
 					TextTruncate={Enum.TextTruncate.AtEnd}
 				/>
-				<Div
-					key={"ControlRender"}
-					Position={UDim2.fromOffset(195, 0)}
-					Size={new UDim2(1, -195, 1, 0)}
-					ZIndex={2}
-				>
+				<Div key={"ControlRender"} Position={UDim2.fromOffset(195, 0)} Size={new UDim2(1, -195, 1, 0)} ZIndex={2}>
 					{props["children"] ?? []}
 				</Div>
 				<Detector

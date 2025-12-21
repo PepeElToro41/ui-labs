@@ -54,8 +54,7 @@ const MIN_ZOOM = 10;
 const MAX_ZOOM = 26000;
 
 export const selectStoryPreview = (state: RootState) => state.storyPreview;
-export const selectStoryPreviews = (state: RootState) =>
-	selectStoryPreview(state).mountPreviews;
+export const selectStoryPreviews = (state: RootState) => selectStoryPreview(state).mountPreviews;
 export const selectPreview = (key?: string) => (state: RootState) => {
 	if (key === undefined) {
 		//key can be undefined mostly for react hooks purposes
@@ -66,17 +65,16 @@ export const selectPreview = (key?: string) => (state: RootState) => {
 
 //gives you the amount of previews of the given module
 
-export const selectMountAmount =
-	(module: ModuleScript) => (state: RootState) => {
-		const previews = selectStoryPreviews(state);
-		let found = 0;
-		previews.forEach((entry) => {
-			if (entry.Module === module) {
-				found++;
-			}
-		});
-		return found;
-	};
+export const selectMountAmount = (module: ModuleScript) => (state: RootState) => {
+	const previews = selectStoryPreviews(state);
+	let found = 0;
+	previews.forEach((entry) => {
+		if (entry.Module === module) {
+			found++;
+		}
+	});
+	return found;
+};
 
 function CreateNewEntry(module: ModuleScript, order: number) {
 	const uid = HttpService.GenerateGUID(false);
@@ -91,28 +89,18 @@ function CreateNewEntry(module: ModuleScript, order: number) {
 	};
 	return newEntry;
 }
-export function GetEntryByUID(
-	previews: Map<string, PreviewEntry>,
-	uid: string
-) {
+export function GetEntryByUID(previews: Map<string, PreviewEntry>, uid: string) {
 	for (const [_, entry] of previews) {
 		if (entry.UID === uid) {
 			return entry;
 		}
 	}
 }
-export function GetEntryByKey(
-	previews: Map<string, PreviewEntry>,
-	key: string
-) {
+export function GetEntryByKey(previews: Map<string, PreviewEntry>, key: string) {
 	return previews.get(key) ?? GetEntryByUID(previews, key);
 }
 
-function MountStory(
-	state: StoryPreviewState,
-	module: ModuleScript,
-	keepViewOnViewport: boolean
-) {
+function MountStory(state: StoryPreviewState, module: ModuleScript, keepViewOnViewport: boolean) {
 	const rootStory = state.mountPreviews.get(Configs.RootPreviewKey);
 	const listSize = rootStory ? rootStory.Order : state.mountPreviews.size();
 
@@ -195,28 +183,19 @@ export const StoryPreviewProducer = createProducer(initialState, {
 	unmountStory: (state, key: string = Configs.RootPreviewKey) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(
-				state.mountPreviews,
-				(entry) => entry.Key !== key
-			)
+			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Key !== key)
 		};
 	},
 	unmountByUID: (state, uid: string) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(
-				state.mountPreviews,
-				(entry) => entry.UID !== uid
-			)
+			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.UID !== uid)
 		};
 	},
 	unmountByModule: (state, module: ModuleScript) => {
 		return {
 			...state,
-			mountPreviews: FilterEntryMap(
-				state.mountPreviews,
-				(entry) => entry.Module !== module
-			)
+			mountPreviews: FilterEntryMap(state.mountPreviews, (entry) => entry.Module !== module)
 		};
 	},
 	toggleMount: (state, module: ModuleScript, keepViewOnViewport: boolean) => {
@@ -278,11 +257,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			draft.mountPreviews.set(key, updatedData);
 		});
 	},
-	updateMountData: (
-		state,
-		key: string,
-		updater: (current: PreviewEntry) => PreviewEntry
-	) => {
+	updateMountData: (state, key: string, updater: (current: PreviewEntry) => PreviewEntry) => {
 		const current = GetEntryByKey(state.mountPreviews, key);
 		if (!current) return state;
 
@@ -340,11 +315,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 		});
 	},
 
-	setActionComponents: (
-		state,
-		key: string,
-		components: Map<string, ActionTabEntry>
-	) => {
+	setActionComponents: (state, key: string, components: Map<string, ActionTabEntry>) => {
 		const entry = state.mountPreviews.get(key);
 		if (!entry) return state;
 
@@ -355,12 +326,7 @@ export const StoryPreviewProducer = createProducer(initialState, {
 			});
 		});
 	},
-	setActionComponent: (
-		state,
-		key: string,
-		index: string,
-		actionEntry: ActionTabEntry
-	) => {
+	setActionComponent: (state, key: string, index: string, actionEntry: ActionTabEntry) => {
 		const entry = state.mountPreviews.get(key);
 		if (!entry) return state;
 

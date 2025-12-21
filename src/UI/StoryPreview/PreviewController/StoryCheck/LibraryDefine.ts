@@ -17,14 +17,13 @@ type StoryTypeCheck<T> = Required<{
 	[K in keyof T]: t.check<T[K]>;
 }>;
 
-const STORY_TYPE: StoryTypeCheck<StoryBase & { use?: string; controls?: {} }> =
-	{
-		use: t.optional(t.string),
-		controls: t.optional(CONTROL_TYPE),
-		name: t.optional(t.string),
-		summary: t.optional(t.string),
-		cleanup: t.optional(t.function)
-	};
+const STORY_TYPE: StoryTypeCheck<StoryBase & { use?: string; controls?: {} }> = {
+	use: t.optional(t.string),
+	controls: t.optional(CONTROL_TYPE),
+	name: t.optional(t.string),
+	summary: t.optional(t.string),
+	cleanup: t.optional(t.function)
+};
 
 type LibraryType = keyof Omit<MountResults, "Functional">;
 
@@ -56,17 +55,10 @@ const LibraryKeys: Record<LibraryType, string[]> = {
 	VideLib: VideKeys,
 	Generic: GenericKeys
 };
-const AllKeys = Sift.Dictionary.values(LibraryKeys).reduce<string[]>(
-	(a, b) => [...a, ...b],
-	[]
-);
+const AllKeys = Sift.Dictionary.values(LibraryKeys).reduce<string[]>((a, b) => [...a, ...b], []);
 
 type ErrorFormat = (key: string) => string;
-function CheckExtraKeys(
-	storyReturn: Record<string, unknown>,
-	keys: string[],
-	err: ErrorFormat
-): "valid" | StoryError {
+function CheckExtraKeys(storyReturn: Record<string, unknown>, keys: string[], err: ErrorFormat): "valid" | StoryError {
 	for (const [key, check] of pairs(storyReturn)) {
 		if (check === undefined) continue;
 		if (key in STORY_TYPE) continue;
@@ -78,9 +70,7 @@ function CheckExtraKeys(
 	return "valid";
 }
 
-export function DefineStoryLibrary(
-	storyReturn: Record<string, unknown>
-): StoryCheck {
+export function DefineStoryLibrary(storyReturn: Record<string, unknown>): StoryCheck {
 	// step one: check the base indexes
 	for (const [key, check] of pairs(STORY_TYPE)) {
 		const value = storyReturn[key];
@@ -99,13 +89,9 @@ export function DefineStoryLibrary(
 		const result = checker(storyReturn);
 		if (result === "valid") {
 			// step four: check for extra keys for the specific library
-			const result = CheckExtraKeys(
-				storyReturn,
-				LibraryKeys[libraryType],
-				(key) => {
-					return `Unknown key "${key}" for ${LibraryNames[libraryType]}`;
-				}
-			);
+			const result = CheckExtraKeys(storyReturn, LibraryKeys[libraryType], (key) => {
+				return `Unknown key "${key}" for ${LibraryNames[libraryType]}`;
+			});
 			if (result !== "valid") return result;
 
 			// step five: check for story function

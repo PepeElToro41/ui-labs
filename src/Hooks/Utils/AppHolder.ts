@@ -17,7 +17,7 @@ export function usePosition() {
 			const anchor = holder.AbsolutePosition;
 			return mousePos.sub(anchor);
 		},
-		[holder],
+		[holder]
 	);
 	return PositionSet;
 }

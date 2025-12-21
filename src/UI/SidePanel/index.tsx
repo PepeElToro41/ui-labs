@@ -33,12 +33,12 @@ function SidePanel(props: SidePanelProps) {
 				AnchorPoint: new Vector2(0, 1),
 				Position: new UDim2(0, 0, 1, 0),
 				ZIndex: 2,
-				Visible: !fullscreen,
+				Visible: !fullscreen
 			}}
 			FrameProps={{
 				BackgroundColor3: theme.SidePanel,
 				BackgroundTransparency: 0,
-				BorderSizePixel: 0,
+				BorderSizePixel: 0
 			}}
 		>
 			<Padding Padding={12} Top={8} />
@@ -48,10 +48,10 @@ function SidePanel(props: SidePanelProps) {
 				key="SearchInput"
 				HolderProps={{
 					LayoutOrder: 1,
-					Size: new UDim2(1, 0, 0, 27),
+					Size: new UDim2(1, 0, 0, 27)
 				}}
 				TextboxProps={{
-					PlaceholderText: "Search Story",
+					PlaceholderText: "Search Story"
 				}}
 				Sprite={"Search"}
 				OnTextChanged={OnTextChanged}

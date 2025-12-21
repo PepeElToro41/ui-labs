@@ -7,5 +7,5 @@ export const Parsers = {
 			}
 			return tostring(value);
 		};
-	},
+	}
 };

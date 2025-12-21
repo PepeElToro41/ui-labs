@@ -21,7 +21,10 @@ function Branding(setprops: BrandingProps) {
 	return (
 		<Div key="Branding" Size={UDim2.fromScale(0, 1)} AutomaticSize={Enum.AutomaticSize.X}>
 			<LeftList VerticalAlignment={"Center"} Padding={new UDim(0, 7)}></LeftList>
-			<Sprite Sprite={"UILogo"} ImageProps={{ ImageColor3: theme.Topbar.Logo, Size: UDim2.fromOffset(28, 28) }}></Sprite>
+			<Sprite
+				Sprite={"UILogo"}
+				ImageProps={{ ImageColor3: theme.Topbar.Logo, Size: UDim2.fromOffset(28, 28) }}
+			></Sprite>
 			<Text
 				key="PluginName"
 				TextSize={16}

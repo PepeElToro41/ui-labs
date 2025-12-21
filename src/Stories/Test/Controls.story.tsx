@@ -1,11 +1,6 @@
 import React from "@rbxts/react";
 import ReactRoblox from "@rbxts/react-roblox";
-import {
-	CreateReactStory,
-	EnumList,
-	InferControls,
-	Number
-} from "@rbxts/ui-labs";
+import { CreateReactStory, EnumList, InferControls, Number } from "@rbxts/ui-labs";
 import { Counter } from "Utils/NumberUtils";
 
 const count = Counter(0);

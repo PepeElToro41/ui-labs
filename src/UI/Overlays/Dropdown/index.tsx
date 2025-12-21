@@ -40,7 +40,7 @@ function Dropdown(props: DropdownProps) {
 				AutomaticSize={Enum.AutomaticSize.Y}
 				ZIndex={2}
 				Change={{
-					AbsoluteSize: OnAbsoluteSizeChanged,
+					AbsoluteSize: OnAbsoluteSizeChanged
 				}}
 			>
 				<Corner Radius={4} />
@@ -50,7 +50,12 @@ function Dropdown(props: DropdownProps) {
 					{props["children"] ?? []}
 				</Detector>
 			</frame>
-			<FrameFill key={"ShadowHolder"} FillDir="Y" Size={UDim2.fromScale(1, 0)} FrameProps={{ BackgroundTransparency: 1 }}>
+			<FrameFill
+				key={"ShadowHolder"}
+				FillDir="Y"
+				Size={UDim2.fromScale(1, 0)}
+				FrameProps={{ BackgroundTransparency: 1 }}
+			>
 				<DropShadow />
 			</FrameFill>
 		</Overlay>

@@ -11,7 +11,12 @@ interface ColorPointerProps {
 function ColorPointer(props: ColorPointerProps) {
 	return (
 		<Div key={"ColorPointer"} Size={new UDim2(1, 2, 0, 8)} LayoutOrder={props.Order}>
-			<frame key={"Holder"} BackgroundColor3={props.Color} Position={UDim2.fromOffset(0, 1)} Size={UDim2.fromScale(1, 1)}>
+			<frame
+				key={"Holder"}
+				BackgroundColor3={props.Color}
+				Position={UDim2.fromOffset(0, 1)}
+				Size={UDim2.fromScale(1, 1)}
+			>
 				<Corner Radius={6} />
 				<frame
 					key={"Squared"}

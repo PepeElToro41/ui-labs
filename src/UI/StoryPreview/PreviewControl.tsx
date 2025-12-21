@@ -31,11 +31,7 @@ function PreviewControl(props: PreviewControlProps) {
 		<Div
 			key={"Stories"}
 			Interactable={storyLockers.isEmpty()}
-			Size={
-				pinned
-					? height.map((h) => new UDim2(1, 0, 1, -h))
-					: UDim2.fromScale(1, 1)
-			}
+			Size={pinned ? height.map((h) => new UDim2(1, 0, 1, -h)) : UDim2.fromScale(1, 1)}
 			LayoutOrder={2}
 			Change={{
 				AbsoluteSize: (rbx) => setCanvasHeight(rbx.AbsoluteSize.Y - 10)

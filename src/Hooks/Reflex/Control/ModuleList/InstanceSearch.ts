@@ -8,7 +8,7 @@ import { useState, useCallback, useEffect } from "@rbxts/react";
 export function useInstanceSearch<T extends keyof Instances>(
 	className: T,
 	filterPredicator: (instance: Instances[T]) => boolean,
-	searchIn: Instance[] = Config.DefaultSearch,
+	searchIn: Instance[] = Config.DefaultSearch
 ) {
 	type ClassType = Instances[T];
 	const Predicator = ClassPredicator(className, filterPredicator);
@@ -79,10 +79,10 @@ export function useInstanceSearch<T extends keyof Instances>(
 						connections.push(
 							(instance as Instance).GetPropertyChangedSignal("Name").Connect(() => {
 								OnInstanceAdded(instance);
-							}),
+							})
 						);
 					}
-				}),
+				})
 			);
 		});
 
@@ -92,7 +92,7 @@ export function useInstanceSearch<T extends keyof Instances>(
 			connections.push(
 				(instance as Instance).GetPropertyChangedSignal("Name").Connect(() => {
 					OnInstanceAdded(instance);
-				}),
+				})
 			);
 			if (Predicator(instance)) {
 				//If it's a valid instance we connect when it's removed
@@ -102,7 +102,7 @@ export function useInstanceSearch<T extends keyof Instances>(
 							const removed = PropagateEvent(instance, ancestry, instanceList); //I dont know why but roblox wont detect the descendants
 							OnInstancesRemoving(removed);
 						}
-					}),
+					})
 				);
 			}
 		});
