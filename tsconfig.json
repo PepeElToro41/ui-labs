@@ -1,28 +1,30 @@
 {
 	"compilerOptions": {
-		// required
 		"allowSyntheticDefaultImports": true,
 		"downlevelIteration": true,
+		"target": "ESNext",
 		"jsx": "react",
 		"jsxFactory": "React.createElement",
 		"jsxFragmentFactory": "React.Fragment",
+		"moduleDetection": "force",
+		"noLib": true,
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"baseUrl": "src",
+		"rootDirs": ["src", "./common/src"],
 		"module": "commonjs",
 		"moduleResolution": "Node",
-		"noLib": true,
-		"resolveJsonModule": true,
-		"experimentalDecorators": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"moduleDetection": "force",
-		"strict": true,
-		"target": "ESNext",
+		"paths": {
+			"common/*": ["common/src/*"]
+		},
 		"typeRoots": ["node_modules/@rbxts"],
 		"types": ["types/plugin", "services/plugin"],
-		// configurable
-		"rootDir": "src",
+		"strict": true,
 		"outDir": "out",
-		"baseUrl": "src",
 		"incremental": true,
 		"tsBuildInfoFile": "out/tsconfig.tsbuildinfo"
-	}
+	},
+	"include": ["**/*", "./common/src/**/*"],
+	"exclude": ["**/*eslint.config.ts", "**/*commitlint.config.ts"]
 }
