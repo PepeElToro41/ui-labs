@@ -7,7 +7,7 @@
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "always"
 	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"[typescript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
 	}
 }

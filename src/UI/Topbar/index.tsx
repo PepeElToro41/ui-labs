@@ -1,7 +1,8 @@
 import React from "@rbxts/react";
-import Branding from "./Branding";
-import Padding from "UI/Styles/Padding";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import Padding from "UI/Styles/Padding";
+
+import Branding from "./Branding";
 
 interface TopBarProps {}
 
