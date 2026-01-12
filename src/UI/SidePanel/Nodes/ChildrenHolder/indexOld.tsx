@@ -104,7 +104,7 @@ function ChildrenHolder(setprops: ChildrenHolderProps) {
 						Text={name}
 						LayoutOrder={2}
 						Size={new UDim2(1, -46, 1, 0)}
-						TextTruncate={Enum.TextTruncate.SplitWord}
+						TextTruncate={Enum.TextTruncate.AtEnd}
 						TextColor3={theme.Text.Color}
 						TextXAlignment={Enum.TextXAlignment.Left}
 					/>

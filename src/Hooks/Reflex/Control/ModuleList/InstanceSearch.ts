@@ -1,5 +1,5 @@
 import { useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useState, useCallback, useEffect } from "@rbxts/react";
+import { useCallback, useEffect, useState } from "@rbxts/react";
 import { Array } from "@rbxts/sift";
 import Config from "Plugin/Configs";
 import { ArrayDescendants } from "Utils/InstanceUtils";
@@ -115,5 +115,5 @@ export function useInstanceSearch<T extends keyof Instances>(
 		};
 	}, [instanceList]);
 
-	return [instanceList, Recompute];
+	return [instanceList, Recompute] as const;
 }

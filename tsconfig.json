@@ -12,12 +12,9 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"baseUrl": "src",
-		"rootDirs": ["src", "./common/src"],
+		"rootDirs": ["src"],
 		"module": "commonjs",
 		"moduleResolution": "Node",
-		"paths": {
-			"common/*": ["common/src/*"]
-		},
 		"typeRoots": ["node_modules/@rbxts"],
 		"types": ["types/plugin", "services/plugin"],
 		"strict": true,
