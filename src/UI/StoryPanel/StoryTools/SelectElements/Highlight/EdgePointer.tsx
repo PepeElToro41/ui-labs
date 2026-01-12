@@ -1,10 +1,11 @@
-import React, { Binding } from "@rbxts/react";
 import { composeBindings } from "@rbxts/pretty-react-hooks";
-import Text from "UI/Styles/Text";
+import React, { Binding } from "@rbxts/react";
+import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
 import Rounder from "UI/Styles/Rounder";
+import Text from "UI/Styles/Text";
+
 import { useShapeInfo } from "../../Utils";
-import { Div } from "UI/Styles/Div";
 
 interface DistanceLabelProps {
 	Distance: Binding<Vector2>;

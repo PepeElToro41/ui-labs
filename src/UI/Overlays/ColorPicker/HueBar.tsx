@@ -1,9 +1,10 @@
 import React, { useCallback } from "@rbxts/react";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
+
 import type { HSV } from ".";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
 
 interface HueBarProps {
 	HSV: React.Binding<HSV>;

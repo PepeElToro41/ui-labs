@@ -1,6 +1,7 @@
 import React, { useMemo } from "@rbxts/react";
-import ChildrenHolder from ".";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+
+import ChildrenHolder from ".";
 import Story from "../Story";
 import UnknownCover from "../UnknownCover";
 

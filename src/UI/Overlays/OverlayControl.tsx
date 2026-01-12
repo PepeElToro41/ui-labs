@@ -2,6 +2,7 @@ import React from "@rbxts/react";
 import { useSelector } from "@rbxts/react-reflex";
 import { selectPopup } from "Reflex/Overlay";
 import { Div } from "UI/Styles/Div";
+
 import DescriptionDisplay from "./DescriptionDisplay";
 import MouseIconActions from "./MouseIconActions";
 

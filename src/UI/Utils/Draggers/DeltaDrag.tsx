@@ -1,4 +1,5 @@
 import React, { useCallback } from "@rbxts/react";
+
 import DragBase, { DragBaseProps, SlideReturn } from "./DragBase";
 
 interface DeltaDragProps<T extends keyof SlideReturn> extends Omit<DragBaseProps, "MapCallback"> {

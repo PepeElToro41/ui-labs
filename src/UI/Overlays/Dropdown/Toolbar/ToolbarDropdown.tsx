@@ -1,7 +1,8 @@
 import React from "@rbxts/react";
+import Divisor from "UI/Utils/Divisor";
+
 import Dropdown from "..";
 import DropdownEntry from "../DropdownEntry";
-import Divisor from "UI/Utils/Divisor";
 import ToolbarDropdownItems from "./ToolbarDropdownItems";
 
 interface ToolbarDropdownProps {

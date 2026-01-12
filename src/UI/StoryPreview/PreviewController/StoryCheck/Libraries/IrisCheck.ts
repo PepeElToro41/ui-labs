@@ -1,4 +1,5 @@
 import { t } from "@rbxts/t";
+
 import { LibCheckReturn } from "../LibraryDefine";
 
 export const IrisKeys: string[] = ["iris"];

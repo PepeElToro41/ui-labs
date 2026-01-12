@@ -1,14 +1,15 @@
 import React, { Binding } from "@rbxts/react";
-import Text from "UI/Styles/Text";
+import Corner from "UI/Styles/Corner";
+import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
 import Rounder from "UI/Styles/Rounder";
-import Corner from "UI/Styles/Corner";
-import EdgePointer from "./EdgePointer";
-import { Div } from "UI/Styles/Div";
-import FollowComponent from "../../Utils/FollowComponent";
+import Text from "UI/Styles/Text";
+
 import { useShapeInfo } from "../../Utils";
-import { GetNonFullscreenParent } from "./Utils";
+import FollowComponent from "../../Utils/FollowComponent";
+import EdgePointer from "./EdgePointer";
 import TitleLabel from "./TitleLabel";
+import { GetNonFullscreenParent } from "./Utils";
 
 interface BaseProps {
 	Color: Color3;

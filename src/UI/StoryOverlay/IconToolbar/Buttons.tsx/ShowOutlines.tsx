@@ -1,8 +1,9 @@
 import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectShowOutlines } from "Reflex/Interface";
+import SpriteButton from "UI/Utils/SpriteButton";
+
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function ShowOutlines(props: ToolButtonProps) {
 	const { setShowOutlines } = useProducer<RootProducer>();

@@ -1,14 +1,14 @@
-import Reload from "./Buttons.tsx/Reload";
-import ZoomIn from "./Buttons.tsx/ZoomIn";
-import ZoomOut from "./Buttons.tsx/ZoomOut";
-import Viewport from "./Buttons.tsx/Viewport";
 import Explorer from "./Buttons.tsx/Explorer";
 import FullscreenMode from "./Buttons.tsx/FullscreenMode";
+import LightBackground from "./Buttons.tsx/LightBackground";
 import MeasureTool from "./Buttons.tsx/MeasureTool";
+import MouseRules from "./Buttons.tsx/MouseRules";
+import Reload from "./Buttons.tsx/Reload";
 import SelectElements from "./Buttons.tsx/SelectElements";
 import ShowOutlines from "./Buttons.tsx/ShowOutlines";
-import MouseRules from "./Buttons.tsx/MouseRules";
-import LightBackground from "./Buttons.tsx/LightBackground";
+import Viewport from "./Buttons.tsx/Viewport";
+import ZoomIn from "./Buttons.tsx/ZoomIn";
+import ZoomOut from "./Buttons.tsx/ZoomOut";
 
 type ToolButtonsList = typeof ToolButtonsList;
 export type ToolButtonType = ToolButtonsList[number]["Name"];

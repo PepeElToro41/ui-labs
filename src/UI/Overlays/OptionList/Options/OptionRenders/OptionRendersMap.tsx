@@ -1,7 +1,8 @@
 import React from "@rbxts/react";
-import TextRenderer from "./TextRenderer";
+
 import Color3Renderer from "./Color3";
 import FunctionRenderer from "./FunctionRenderer";
+import TextRenderer from "./TextRenderer";
 
 export type OptionRendererFactory<T extends keyof CheckableTypes = keyof CheckableTypes> = (props: {
 	Value: CheckableTypes[T];

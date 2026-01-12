@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useCallback } from "@rbxts/react";
 import { Filter } from "@rbxts/ui-labs/src/ControlTypings/Primitives";
-import InputBase from "../InputBase";
 import { ApplyFilters } from "Utils/StringUtils";
+
+import InputBase from "../InputBase";
 import { Decoders } from "./Decoders";
 import { Parsers } from "./Parsers";
 

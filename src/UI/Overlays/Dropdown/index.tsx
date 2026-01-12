@@ -1,14 +1,15 @@
 import React, { PropsWithChildren, useCallback } from "@rbxts/react";
+import { useProducer } from "@rbxts/react-reflex";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useOverlayWrapXY } from "Hooks/Utils/OutsideWrapper";
 import FrameFill from "UI/Holders/FrameFill";
 import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
 import TopList from "UI/Styles/List/TopList";
 import Padding from "UI/Styles/Padding";
 import DropShadow from "UI/Utils/DropShadow";
+
 import Overlay from "../Overlay";
-import { useProducer } from "@rbxts/react-reflex";
-import { Detector } from "UI/Styles/Detector";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { useOverlayWrapXY } from "Hooks/Utils/OutsideWrapper";
 
 interface DropdownProps extends PropsWithChildren {
 	Position: UDim2 | React.Binding<UDim2>;

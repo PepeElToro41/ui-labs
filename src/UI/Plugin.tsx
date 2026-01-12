@@ -1,7 +1,8 @@
-import { useProducer } from "@rbxts/react-reflex";
 import React, { useEffect } from "@rbxts/react";
-import App from "./App";
+import { useProducer } from "@rbxts/react-reflex";
 import { WidgetStateProvider } from "Context/WidgetStateContext";
+
+import App from "./App";
 
 interface PluginProps {
 	Plugin: Plugin;

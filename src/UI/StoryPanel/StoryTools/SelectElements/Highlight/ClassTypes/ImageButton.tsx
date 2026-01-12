@@ -1,6 +1,7 @@
 import React from "@rbxts/react";
-import { HighlightProps } from "../Mapping";
+
 import Base from "../Base";
+import { HighlightProps } from "../Mapping";
 
 function ImageButtonHighlight(props: HighlightProps<ImageButton>) {
 	return (

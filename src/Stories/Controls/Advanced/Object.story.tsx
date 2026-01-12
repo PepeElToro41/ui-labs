@@ -1,18 +1,18 @@
 import React, { useMemo, useState } from "@rbxts/react";
-import { createLegacyRoot } from "@rbxts/react-roblox";
-import ControlHolder from "UI/StoryControls/ControlHolder";
 import { ReflexProvider } from "@rbxts/react-reflex";
-import { RootProducer } from "Reflex";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Corner from "UI/Styles/Corner";
+import { createLegacyRoot } from "@rbxts/react-roblox";
 import { FunctionStory, Object } from "@rbxts/ui-labs";
+import { EnumList } from "@rbxts/ui-labs";
+import { DescriptionProvider } from "Context/DescriptionContext";
 import { UserInputProvider } from "Context/UserInputContext";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { RootProducer } from "Reflex";
 import AppHolder from "UI/AppHolder";
 import OverlayControl from "UI/Overlays/OverlayControl";
-import { EnumList } from "@rbxts/ui-labs";
-import EnumListControl from "UI/StoryControls/Controls/Advanced/OptionList/EnumList";
+import ControlHolder from "UI/StoryControls/ControlHolder";
 import ObjectControl from "UI/StoryControls/Controls/Advanced/Object";
-import { DescriptionProvider } from "Context/DescriptionContext";
+import EnumListControl from "UI/StoryControls/Controls/Advanced/OptionList/EnumList";
+import Corner from "UI/Styles/Corner";
 
 function Story(props: {}) {
 	const theme = useTheme();

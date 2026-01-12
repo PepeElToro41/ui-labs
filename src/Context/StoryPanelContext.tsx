@@ -8,11 +8,9 @@ import React, {
 	useMemo,
 	useState
 } from "@rbxts/react";
-
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectActionsPinned } from "Reflex/PluginSettings";
 import { CreateTuple } from "Utils/MiscUtils";
-
-import { useProducer, useSelector } from "@rbxts/react-reflex";
 
 interface StoryPanelContext {
 	ActionsPinned: boolean;

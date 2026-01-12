@@ -1,17 +1,14 @@
 import React, { useEffect } from "@rbxts/react";
-
-import Corner from "UI/Styles/Corner";
-import { Detector } from "UI/Styles/Detector";
-import Sprite from "UI/Utils/Sprite";
-
 import { useSelector } from "@rbxts/react-reflex";
+import { GuiService, UserInputService } from "@rbxts/services";
 import { useDescriptionDisplay } from "Context/DescriptionContext";
 import { useInputBegan } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
-
-import { GuiService, UserInputService } from "@rbxts/services";
 import { selectShortcutsEnabled } from "Reflex/PluginSettings";
+import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import Sprite from "UI/Utils/Sprite";
 
 type ValidModifierKeys = Exclude<Enum.ModifierKey, Enum.ModifierKey.Meta>;
 

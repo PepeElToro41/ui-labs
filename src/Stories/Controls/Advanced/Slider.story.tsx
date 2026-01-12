@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from "@rbxts/react";
-import { createLegacyRoot } from "@rbxts/react-roblox";
-import ControlHolder from "UI/StoryControls/ControlHolder";
-import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";
 import { ReflexProvider } from "@rbxts/react-reflex";
-import { RootProducer } from "Reflex";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Corner from "UI/Styles/Corner";
+import { createLegacyRoot } from "@rbxts/react-roblox";
 import { FunctionStory, Slider } from "@rbxts/ui-labs";
 import { UserInputProvider } from "Context/UserInputContext";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { RootProducer } from "Reflex";
 import AppHolder from "UI/AppHolder";
+import ControlHolder from "UI/StoryControls/ControlHolder";
+import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";
+import Corner from "UI/Styles/Corner";
 
 function Story(props: {}) {
 	const theme = useTheme();

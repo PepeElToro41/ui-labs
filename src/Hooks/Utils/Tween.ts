@@ -82,5 +82,5 @@ export function useTween<T extends Tweeneable>(
 		[instance, valueBind]
 	);
 
-	return $tuple(valueBind, tween, set);
+	return [valueBind, tween, set];
 }

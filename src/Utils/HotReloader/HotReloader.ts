@@ -1,4 +1,5 @@
 import Signal from "@rbxts/lemon-signal";
+
 import { Environment } from "./Environment";
 
 export class HotReloader<T = unknown> {

@@ -1,11 +1,12 @@
 import { useDeferCallback } from "@rbxts/pretty-react-hooks";
 import React, { Binding, useEffect, useMemo } from "@rbxts/react";
-import { useRerender } from "Hooks/Utils/ReRender";
-import { GetOutlinedComponents } from "./Utils";
-import Outliner from "./Outliner";
-import { Div } from "UI/Styles/Div";
-import Listener from "./Listener";
 import { useProducer } from "@rbxts/react-reflex";
+import { useRerender } from "Hooks/Utils/ReRender";
+import { Div } from "UI/Styles/Div";
+
+import Listener from "./Listener";
+import Outliner from "./Outliner";
+import { GetOutlinedComponents } from "./Utils";
 
 interface ShowOutlinesProps {
 	PreviewEntry: PreviewEntry;

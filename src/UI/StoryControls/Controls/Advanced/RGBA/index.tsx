@@ -1,6 +1,6 @@
 import { useUnmountEffect, lerp } from "@rbxts/pretty-react-hooks";
-import { useProducer } from "@rbxts/react-reflex";
 import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
+import { useProducer } from "@rbxts/react-reflex";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { usePosition } from "Hooks/Utils/AppHolder";
 import { useToggler } from "Hooks/Utils/Toggler";
@@ -12,6 +12,7 @@ import LeftList from "UI/Styles/List/LeftList";
 import Rounder from "UI/Styles/Rounder";
 import Text from "UI/Styles/Text";
 import Sprite from "UI/Utils/Sprite";
+
 import { GetContrastColor } from "../../Datatypes/Color3";
 
 const BUBBLE_INFO = new TweenInfo(0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out);

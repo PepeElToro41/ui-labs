@@ -1,10 +1,11 @@
 import React from "@rbxts/react";
-import { Counter } from "Utils/NumberUtils";
-import DropdownEntry from "../DropdownEntry";
 import { useToolsContext } from "Context/ToolsContext";
 import { useOverlayAction } from "UI/Overlays/Utils";
 import { ToolButtonsList, ToolButtonType } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
 import Divisor from "UI/Utils/Divisor";
+import { Counter } from "Utils/NumberUtils";
+
+import DropdownEntry from "../DropdownEntry";
 
 interface ToolbarDropdownItemsProps {
 	OrderStart: number;

@@ -1,15 +1,16 @@
 import { lerp } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useEffect } from "@rbxts/react";
+import { useSelector, useProducer } from "@rbxts/react-reflex";
+import { useMouseOffset } from "Hooks/Context/UserInput.js";
 import { useToggler } from "Hooks/Utils/Toggler";
 import { useTween } from "Hooks/Utils/Tween";
+import { selectPopup } from "Reflex/Overlay.js";
+import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown.js";
 import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
+
 import RenderToolButtons from "./Buttons.tsx";
-import { useSelector, useProducer } from "@rbxts/react-reflex";
-import { useMouseOffset } from "Hooks/Context/UserInput.js";
-import { selectPopup } from "Reflex/Overlay.js";
-import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown.js";
 
 interface RightToolbarProps {
 	PreviewEntry: PreviewEntry;

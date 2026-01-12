@@ -1,15 +1,16 @@
 import React, { useMemo } from "@rbxts/react";
-import { Detector } from "UI/Styles/Detector";
-import TopList from "UI/Styles/List/TopList";
 import { useSelector } from "@rbxts/react-reflex";
-import { FilterNodes } from "./SearchFilter";
-import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectFilter } from "Reflex/Explorer/Filter";
-import Storybook from "../Nodes/ChildrenHolder/Storybook";
+import { selectNodes } from "Reflex/Explorer/Nodes";
 import { selectPopup } from "Reflex/Overlay";
-import UnknownNode from "../Nodes/ChildrenHolder/UnknownNode";
-import Divisor from "UI/Utils/Divisor";
+import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
+import TopList from "UI/Styles/List/TopList";
+import Divisor from "UI/Utils/Divisor";
+
+import Storybook from "../Nodes/ChildrenHolder/Storybook";
+import UnknownNode from "../Nodes/ChildrenHolder/UnknownNode";
+import { FilterNodes } from "./SearchFilter";
 
 interface StoryTreeProps {}
 

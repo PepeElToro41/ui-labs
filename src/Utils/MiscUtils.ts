@@ -29,7 +29,7 @@ export function YCall<T, U>(fn: (arg: T) => U, arg: T, err: (didYield: boolean, 
 		return err(true, "") as undefined;
 	}
 
-	if (!resume_ok || !run_ok) return err(false, result as never) as undefined;
+	if (!resume_ok || !(run_ok as boolean)) return err(false, result as never) as undefined;
 
 	return result as U;
 }

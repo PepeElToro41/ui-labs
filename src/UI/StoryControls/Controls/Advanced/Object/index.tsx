@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from "@rbxts/react";
+import { ReplicatedStorage, Workspace } from "@rbxts/services";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
-import Padding from "UI/Styles/Padding";
-import ObjectHolder from "./ObjectHolder";
-import { ReplicatedStorage, Workspace } from "@rbxts/services";
-import Text from "UI/Styles/Text";
 import LeftList from "UI/Styles/List/LeftList";
+import Padding from "UI/Styles/Padding";
+import Text from "UI/Styles/Text";
+
+import ObjectHolder from "./ObjectHolder";
 import SelectedObject from "./SelectedObject";
 
 function ObjectControl(props: ControlElementProps<AdvancedTypes.Object<"Instance">>) {

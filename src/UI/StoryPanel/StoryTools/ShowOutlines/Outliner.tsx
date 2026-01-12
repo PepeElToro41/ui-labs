@@ -1,8 +1,9 @@
 import React, { Binding, useEffect } from "@rbxts/react";
-import FollowComponent from "../Utils/FollowComponent";
-import { Div } from "UI/Styles/Div";
 import Corner from "UI/Styles/Corner";
+import { Div } from "UI/Styles/Div";
 import Padding from "UI/Styles/Padding";
+
+import FollowComponent from "../Utils/FollowComponent";
 import { MIN_SIZE } from "./Utils";
 
 interface OutlinerProps {

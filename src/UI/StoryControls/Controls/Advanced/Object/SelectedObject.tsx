@@ -6,9 +6,10 @@ import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
-import ObjectName from "./ObjectName";
-import AssignButton from "./AssignButton";
 import Divisor from "UI/Utils/Divisor";
+
+import AssignButton from "./AssignButton";
+import ObjectName from "./ObjectName";
 
 interface SelectedObjectProps {
 	CurrentObject?: Instance;

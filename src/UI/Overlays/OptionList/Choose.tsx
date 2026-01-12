@@ -1,15 +1,16 @@
+import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
 import React, { useCallback, useMemo } from "@rbxts/react";
-import Overlay from "../Overlay";
 import { useProducer } from "@rbxts/react-reflex";
-import TopList from "UI/Styles/List/TopList";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
-import ChooseOption from "./Options/ChooseOption";
-import { useOverlayAction } from "../Utils";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useOverlayWrap } from "Hooks/Utils/OutsideWrapper";
 import { Div } from "UI/Styles/Div";
-import { useUnmountEffect } from "@rbxts/pretty-react-hooks";
+import TopList from "UI/Styles/List/TopList";
+
+import Overlay from "../Overlay";
+import { useOverlayAction } from "../Utils";
 import ListHolder from "./ListHolder";
+import ChooseOption from "./Options/ChooseOption";
 
 interface ChooseListOverlayProps {
 	Position: UDim2 | React.Binding<UDim2>;

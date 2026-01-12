@@ -1,8 +1,9 @@
-import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
-import { useProducer } from "@rbxts/react-reflex";
 import Immut from "@rbxts/immut";
+import React, { useCallback } from "@rbxts/react";
+import { useProducer } from "@rbxts/react-reflex";
+import SpriteButton from "UI/Utils/SpriteButton";
+
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function Viewport(props: ToolButtonProps) {
 	const { updateMountData } = useProducer<RootProducer>();

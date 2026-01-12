@@ -1,7 +1,8 @@
-import React, { Binding, PropsWithChildren } from "@rbxts/react";
-import { useShapeInfo, VectorToUDim2 } from ".";
-import { Div } from "UI/Styles/Div";
 import { composeBindings } from "@rbxts/pretty-react-hooks";
+import React, { Binding, PropsWithChildren } from "@rbxts/react";
+import { Div } from "UI/Styles/Div";
+
+import { useShapeInfo, VectorToUDim2 } from ".";
 
 interface FollowComponentProps extends PropsWithChildren {
 	Component: GuiObject;

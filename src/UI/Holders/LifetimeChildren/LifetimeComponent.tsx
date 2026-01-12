@@ -1,5 +1,6 @@
 import { useUpdate } from "@rbxts/pretty-react-hooks";
 import React, { PropsWithChildren, useMemo } from "@rbxts/react";
+
 import { LifetimeController } from "./LifetimeController";
 
 interface LifetimeComponentProps extends PropsWithChildren {}

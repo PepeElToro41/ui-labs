@@ -1,4 +1,5 @@
 import { RunService } from "@rbxts/services";
+
 import { Environment } from "./Environment";
 
 export class EnvironmentHolder {

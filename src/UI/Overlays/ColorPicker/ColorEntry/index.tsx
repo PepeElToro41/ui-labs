@@ -1,8 +1,9 @@
 import React from "@rbxts/react";
-import { Decoder, Parser, Widen } from "./Utils";
 import { Div } from "UI/Styles/Div";
 import Text from "UI/Styles/Text";
 import InputEntry from "UI/Utils/InputEntry";
+
+import { Decoder, Parser, Widen } from "./Utils";
 
 interface ColorEntryProps<T extends Color3 | number> {
 	Title: string;

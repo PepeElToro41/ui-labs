@@ -1,9 +1,10 @@
 import React, { PropsWithChildren, useBinding, useCallback, useMemo, useState } from "@rbxts/react";
-import Corner from "UI/Styles/Corner";
-import Sprite from "../Sprite";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import StrokeEffect from "./StrokeEffect";
+import Corner from "UI/Styles/Corner";
 import Padding from "UI/Styles/Padding";
+
+import Sprite from "../Sprite";
+import StrokeEffect from "./StrokeEffect";
 
 interface InputProps extends PropsWithChildren {
 	TextboxProps?: React.InstanceAttributes<TextBox>;

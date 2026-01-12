@@ -1,24 +1,25 @@
+import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
 import React, { useBinding, useCallback, useEffect, useState } from "@rbxts/react";
+import { useProducer } from "@rbxts/react-reflex";
+import { RunService } from "@rbxts/services";
+import { useInputBegan } from "Hooks/Context/UserInput";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useConnection } from "Hooks/Utils/Connection";
+import { useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
+import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
 import TopList from "UI/Styles/List/TopList";
-import ColorPointer from "./ColorPointer";
 import Padding from "UI/Styles/Padding";
-import ValuePicker from "./ValuePicker";
-import HueBar from "./HueBar";
+import { FixColor3 } from "Utils/MiscUtils";
+import { Counter } from "Utils/NumberUtils";
+
+import AlphaBar from "./AlphaBar";
 import ColorEntry from "./ColorEntry";
 import { ColorDecoders, ColorParsers } from "./ColorEntry/Utils";
-import { useToggler } from "Hooks/Utils/Toggler";
-import { useProducer } from "@rbxts/react-reflex";
-import { useInputBegan } from "Hooks/Context/UserInput";
-import { useConnection } from "Hooks/Utils/Connection";
-import { useUnmountEffect, useUpdateEffect } from "@rbxts/pretty-react-hooks";
-import { useOutsideCheck } from "Hooks/Utils/OutsideWrapper";
-import { RunService } from "@rbxts/services";
-import { Counter } from "Utils/NumberUtils";
-import AlphaBar from "./AlphaBar";
-import { FixColor3 } from "Utils/MiscUtils";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
+import ColorPointer from "./ColorPointer";
+import HueBar from "./HueBar";
+import ValuePicker from "./ValuePicker";
 
 export interface PickedValue {
 	Color: Color3;

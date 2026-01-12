@@ -1,4 +1,5 @@
 import Configs from "Plugin/Configs";
+
 import { RemoveExtension } from "../ModuleList/Utils";
 
 export function GenerateNodes(storyList: ModuleScript[], requiredStorybooks: Storybooks) {

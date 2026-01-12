@@ -1,7 +1,8 @@
 import React, { useMemo } from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import Story from "../Story";
+
 import ChildrenHolder from ".";
+import Story from "../Story";
 
 interface FolderProps {
 	Order: number;

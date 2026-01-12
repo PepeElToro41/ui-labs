@@ -1,4 +1,5 @@
 import React from "@rbxts/react";
+import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
@@ -6,9 +7,9 @@ import { Detector } from "UI/Styles/Detector";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
-import { OptionsRendersMap, DefaultOptionRenderer, OptionRendererFactory } from "./OptionRenders/OptionRendersMap";
-import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import Text from "UI/Styles/Text";
+
+import { OptionsRendersMap, DefaultOptionRenderer, OptionRendererFactory } from "./OptionRenders/OptionRendersMap";
 
 interface EnumOptionProps {
 	Option: ChooseOptionType;

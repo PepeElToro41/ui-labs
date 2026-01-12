@@ -1,9 +1,10 @@
 import React, { useCallback } from "@rbxts/react";
-import SpriteButton from "UI/Utils/SpriteButton";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { selectFullscreen } from "Reflex/Interface";
 import Divisor from "UI/Utils/Divisor";
+import SpriteButton from "UI/Utils/SpriteButton";
+
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function FullscreenMode(props: ToolButtonProps) {
 	const { setFullscreen } = useProducer<RootProducer>();

@@ -1,5 +1,6 @@
 import React, { useMemo } from "@rbxts/react";
 import LifetimeComponent from "UI/Holders/LifetimeChildren/LifetimeComponent";
+
 import { CreateHolder } from ".";
 
 interface HolderParenterProps {

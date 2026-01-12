@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "@rbxts/react";
-
+import { useActionsHeight, useActionsPinned } from "Context/StoryPanelContext";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useTween } from "Hooks/Utils/Tween";
 import ResizableFrame from "UI/Holders/ResizableFrame";
 import { Div } from "UI/Styles/Div";
 import TopList from "UI/Styles/List/TopList";
 import DropShadow from "UI/Utils/DropShadow";
 import ImageButton from "UI/Utils/ImageButton";
-import ControlTabs, { TabEntry } from "./ControlTabs";
 
-import { useActionsHeight, useActionsPinned } from "Context/StoryPanelContext";
-import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { useTween } from "Hooks/Utils/Tween";
+import ControlTabs, { TabEntry } from "./ControlTabs";
 
 declare global {
 	interface ActionTabEntry {

@@ -16,6 +16,7 @@ import InputEntry from "UI/Utils/InputEntry";
 import { Decoders } from "UI/Utils/InputEntry/Decoders";
 import { Filters } from "UI/Utils/InputEntry/Filters";
 import { Parsers } from "UI/Utils/InputEntry/Parsers";
+
 import Mark from "./Mark";
 
 const MIN_MARK_SEPARATION = 15;

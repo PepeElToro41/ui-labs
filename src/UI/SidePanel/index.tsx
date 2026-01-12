@@ -1,14 +1,15 @@
 import React, { useCallback } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { selectFullscreen } from "Reflex/Interface";
 import ResizableFrame from "UI/Holders/ResizableFrame";
+import TopList from "UI/Styles/List/TopList";
 import Padding from "UI/Styles/Padding";
+import InputBase from "UI/Utils/InputBase";
+
+import Branding from "./Branding";
 import PanelTools from "./PanelTools";
 import StoryTree from "./StoryTree";
-import { useProducer, useSelector } from "@rbxts/react-reflex";
-import InputBase from "UI/Utils/InputBase";
-import TopList from "UI/Styles/List/TopList";
-import Branding from "./Branding";
-import { selectFullscreen } from "Reflex/Interface";
 
 interface SidePanelProps {}
 

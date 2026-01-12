@@ -2,8 +2,9 @@ import React, { useCallback } from "@rbxts/react";
 import Corner from "UI/Styles/Corner";
 import { Div } from "UI/Styles/Div";
 import Rounder from "UI/Styles/Rounder";
-import { HSV } from ".";
 import SlideDrag from "UI/Utils/Draggers/SlideDrag";
+
+import { HSV } from ".";
 
 interface ValuePickerProps {
 	HSV: React.Binding<HSV>;

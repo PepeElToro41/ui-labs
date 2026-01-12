@@ -13,6 +13,7 @@ import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
 import { IsCanaryPlugin } from "Utils/MiscUtils";
+
 import Logo from "./Logo";
 
 interface BrandingProps {}

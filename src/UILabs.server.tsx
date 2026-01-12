@@ -9,8 +9,6 @@ import Plugin from "UI/Plugin";
 import { Div } from "UI/Styles/Div";
 import { IsCanaryPlugin, IsLocalPlugin } from "Utils/MiscUtils";
 
-/* eslint-disable roblox-ts/lua-truthiness */
-
 if (!RunService.IsRunning() || RunService.IsEdit()) {
 	const isLocal = IsLocalPlugin(plugin);
 	const isCanary = IsCanaryPlugin(plugin);

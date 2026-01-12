@@ -1,6 +1,7 @@
 import React, { Binding } from "@rbxts/react";
-import { ComponentHighlightRenderes, GuiInstances } from "./Mapping";
+
 import FrameHighlight from "./ClassTypes/Frame";
+import { ComponentHighlightRenderes, GuiInstances } from "./Mapping";
 
 interface ComponentHighlightProps {
 	UIComponent: GuiObject;

@@ -1,6 +1,7 @@
 import React from "@rbxts/react";
-import Sprites from "./SpriteMap";
 import Configs from "Plugin/Configs";
+
+import Sprites from "./SpriteMap";
 
 interface SpriteProps {
 	Sprite: SpriteName;

@@ -1,10 +1,11 @@
 import React, { useMemo } from "@rbxts/react";
-import LeftList from "UI/Styles/List/LeftList";
-import Padding from "UI/Styles/Padding";
-import TabItem from "./TabItem";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
 import { Div } from "UI/Styles/Div";
+import LeftList from "UI/Styles/List/LeftList";
 import RightList from "UI/Styles/List/RightList";
+import Padding from "UI/Styles/Padding";
+
+import TabItem from "./TabItem";
 
 export interface TabEntry {
 	DisplayName: string;

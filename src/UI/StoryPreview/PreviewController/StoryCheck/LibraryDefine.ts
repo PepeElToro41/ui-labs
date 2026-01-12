@@ -2,6 +2,7 @@ import Sift from "@rbxts/sift";
 import { t } from "@rbxts/t";
 import { StoryBase } from "@rbxts/ui-labs/src/Typing/Typing";
 import { Cast } from "Utils/MiscUtils";
+
 import { FusionChecker, FusionKeys } from "./Libraries/FusionCheck";
 import { GenericChecker, GenericKeys } from "./Libraries/GenericCheck";
 import { IrisChecker, IrisKeys } from "./Libraries/IrisCheck";

@@ -1,8 +1,9 @@
 import { composeBindings, useEventListener } from "@rbxts/pretty-react-hooks";
 import React, { Binding, useBinding } from "@rbxts/react";
-import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
-import { useStoryLockAction } from "./Utils";
 import { useToolbarHovered } from "Context/StoryPanelContext";
+import { useInputBegan, useInputEnded, useMousePos } from "Hooks/Context/UserInput";
+
+import { useStoryLockAction } from "./Utils";
 
 interface MeasureToolProps {
 	Inside: boolean;

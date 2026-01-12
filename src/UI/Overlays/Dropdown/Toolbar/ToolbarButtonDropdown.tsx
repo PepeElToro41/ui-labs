@@ -1,12 +1,13 @@
 import React, { useCallback, useMemo } from "@rbxts/react";
+import { useToolsContext } from "Context/ToolsContext";
 import { useOverlayAction } from "UI/Overlays/Utils";
+import { ToolButtonNames, ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
+import Divisor from "UI/Utils/Divisor";
+import { Counter } from "Utils/NumberUtils";
+
 import Dropdown from "..";
 import DropdownEntry from "../DropdownEntry";
-import Divisor from "UI/Utils/Divisor";
 import ToolbarDropdownItems from "./ToolbarDropdownItems";
-import { ToolButtonNames, ToolButtonType, ToolButtonsList } from "UI/StoryOverlay/IconToolbar/ToolButtonsList";
-import { Counter } from "Utils/NumberUtils";
-import { useToolsContext } from "Context/ToolsContext";
 
 interface ToolbarButtonDropdownProps {
 	Position: UDim2 | React.Binding<UDim2>;

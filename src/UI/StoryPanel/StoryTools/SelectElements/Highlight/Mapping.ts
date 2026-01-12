@@ -1,10 +1,11 @@
 import React, { Binding } from "@rbxts/react";
+
 import FrameHighlight from "./ClassTypes/Frame";
-import TextLabelHighlight from "./ClassTypes/TextLabel";
 import ImageButtonHighlight from "./ClassTypes/ImageButton";
 import ImageLabelHighlight from "./ClassTypes/ImageLabel";
 import TextButtonHighlight from "./ClassTypes/TextButton";
 import TextBoxHighlight from "./ClassTypes/TextInput";
+import TextLabelHighlight from "./ClassTypes/TextLabel";
 
 export interface HighlightProps<T extends GuiObject> {
 	UIComponent: T;

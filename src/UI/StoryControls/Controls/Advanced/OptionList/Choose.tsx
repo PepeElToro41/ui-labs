@@ -6,6 +6,7 @@ import {
 	OptionsRendersMap,
 	OptionRendererFactory
 } from "UI/Overlays/OptionList/Options/OptionRenders/OptionRendersMap";
+
 import OptionListControl from ".";
 
 function ChooseControl(props: ControlElementProps<AdvancedTypes.Choose>) {

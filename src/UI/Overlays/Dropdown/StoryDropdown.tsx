@@ -7,6 +7,7 @@ import { selectKeepViewOnViewport } from "Reflex/PluginSettings";
 import { selectMountAmount, selectPreview } from "Reflex/StoryPreview";
 import Divisor from "UI/Utils/Divisor";
 import { Counter } from "Utils/NumberUtils";
+
 import Dropdown from ".";
 import { useOverlayAction } from "../Utils";
 import DropdownEntry from "./DropdownEntry";

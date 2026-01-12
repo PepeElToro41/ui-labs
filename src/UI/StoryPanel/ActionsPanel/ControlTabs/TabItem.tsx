@@ -1,10 +1,10 @@
 import React from "@rbxts/react";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
-import { Detector } from "UI/Styles/Detector";
+import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
-import { useToggler } from "Hooks/Utils/Toggler";
 
 interface TabItemProps {
 	TabName: string;

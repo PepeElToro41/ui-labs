@@ -1,9 +1,11 @@
 import type Iris from "@rbxts/iris";
+
 import { useEffect, useMemo } from "@rbxts/react";
 import { CreateControlStates, InferIrisControls, UpdateControlStates } from "@rbxts/ui-labs";
 import { ConvertedControls } from "@rbxts/ui-labs/src/ControlTypings/Typing";
 import { useGetInputSignalsFromFrame, useInputSignals } from "Context/UserInputContext";
 import { useMousePos } from "Hooks/Context/UserInput";
+
 import UserInputMock from "./UserInputMock";
 
 export function CreateIrisStates(iris: typeof Iris, controls: ConvertedControls, controlValues: ParametrizedControls) {

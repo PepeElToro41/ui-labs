@@ -1,6 +1,7 @@
 import React from "@rbxts/react";
-import { MouseActionInfo } from "./ActionsList";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+
+import { MouseActionInfo } from "./ActionsList";
 
 interface MouseActionLabelProps {
 	ActionInfo: MouseActionInfo;

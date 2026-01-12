@@ -1,8 +1,9 @@
 import { Binding, useBinding, useCallback, useEffect, useState } from "@rbxts/react";
-import { useAppHolder } from "./AppHolder";
-import { Lerp } from "Utils/NumberUtils";
 import { RunService } from "@rbxts/services";
 import { CreateTuple } from "Utils/MiscUtils";
+import { Lerp } from "Utils/NumberUtils";
+
+import { useAppHolder } from "./AppHolder";
 
 type PropertySet<T> = T | Binding<T>;
 type VectorLike = PropertySet<Vector2> | PropertySet<UDim2>;

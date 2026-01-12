@@ -1,4 +1,5 @@
 import React, { useEffect } from "@rbxts/react";
+
 import { MIN_SIZE } from "./Utils";
 
 interface ListenerProps {

@@ -1,7 +1,8 @@
 import React, { useCallback } from "@rbxts/react";
-import { ToolButtonProps } from "../ToolButtonsList";
 import { Selection } from "@rbxts/services";
 import SpriteButton from "UI/Utils/SpriteButton";
+
+import { ToolButtonProps } from "../ToolButtonsList";
 
 function Explorer(props: ToolButtonProps) {
 	const entry = props.PreviewEntry;

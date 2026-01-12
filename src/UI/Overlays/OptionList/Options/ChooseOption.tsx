@@ -1,14 +1,15 @@
 import React from "@rbxts/react";
 import { ChooseOptionType } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { useToggler } from "Hooks/Utils/Toggler";
 import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
+import LeftList from "UI/Styles/List/LeftList";
 import Padding from "UI/Styles/Padding";
 import Text from "UI/Styles/Text";
+
 import { DefaultOptionRenderer, OptionsRendersMap, OptionRendererFactory } from "./OptionRenders/OptionRendersMap";
-import LeftList from "UI/Styles/List/LeftList";
-import { useToggler } from "Hooks/Utils/Toggler";
-import { Div } from "UI/Styles/Div";
-import { Detector } from "UI/Styles/Detector";
 
 interface ChooseOptionProps {
 	Option: ChooseOptionType;

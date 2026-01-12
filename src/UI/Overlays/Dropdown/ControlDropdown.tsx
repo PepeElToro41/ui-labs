@@ -1,6 +1,7 @@
 import React from "@rbxts/react";
-import { useOverlayAction } from "../Utils";
+
 import Dropdown from ".";
+import { useOverlayAction } from "../Utils";
 import DropdownEntry from "./DropdownEntry";
 
 interface ControlDropdownProps {

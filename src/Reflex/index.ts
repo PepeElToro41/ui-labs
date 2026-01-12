@@ -1,14 +1,15 @@
 import { InferState, combineProducers } from "@rbxts/reflex";
-import { ThemeProducer } from "./Theme";
+
 import { ExplorerProducer } from "./Explorer";
+import { InterfaceProducer } from "./Interface";
 import { ModuleListProducer } from "./ModuleList";
 import { ModuleRequireProducer } from "./ModuleRequire";
-import { StoryPreviewProducer } from "./StoryPreview";
 import { OverlayProducer } from "./Overlay";
-import { InterfaceProducer } from "./Interface";
-import { StorySelectionProducer } from "./StorySelection";
 import { PluginProducer } from "./Plugin";
 import { PluginSettingsProducer } from "./PluginSettings";
+import { StoryPreviewProducer } from "./StoryPreview";
+import { StorySelectionProducer } from "./StorySelection";
+import { ThemeProducer } from "./Theme";
 
 declare global {
 	type RootProducer = typeof RootProducer;

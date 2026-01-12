@@ -1,11 +1,10 @@
 import React, { useMemo } from "@rbxts/react";
-
 import { useSelector } from "@rbxts/react-reflex";
 import { useActionsData, useCanvasHeight } from "Context/StoryPanelContext";
-import { selectStoryPreviews } from "Reflex/StoryPreview";
-
 import { selectStoryLock } from "Reflex/Interface";
+import { selectStoryPreviews } from "Reflex/StoryPreview";
 import { Div } from "UI/Styles/Div";
+
 import PreviewController from "./PreviewController";
 
 interface PreviewControlProps {}

@@ -1,16 +1,14 @@
 import React, { useCallback } from "@rbxts/react";
-
-import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown";
-import RenderToolButtons from "UI/StoryOverlay/IconToolbar/Buttons.tsx";
-import { Detector } from "UI/Styles/Detector";
-import { Div } from "UI/Styles/Div";
-import Padding from "UI/Styles/Padding";
-
 import { useProducer } from "@rbxts/react-reflex";
 import { useCanvasHeight } from "Context/StoryPanelContext";
 import { useMouseOffset } from "Hooks/Context/UserInput";
 import { useTheme } from "Hooks/Reflex/Use/Theme";
+import ToolbarDropdown from "UI/Overlays/Dropdown/Toolbar/ToolbarDropdown";
+import RenderToolButtons from "UI/StoryOverlay/IconToolbar/Buttons.tsx";
 import Corner from "UI/Styles/Corner";
+import { Detector } from "UI/Styles/Detector";
+import { Div } from "UI/Styles/Div";
+import Padding from "UI/Styles/Padding";
 
 interface AnchoredToolbarProps {
 	PreviewEntry: PreviewEntry;

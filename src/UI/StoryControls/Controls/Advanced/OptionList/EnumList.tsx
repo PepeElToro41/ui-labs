@@ -1,15 +1,16 @@
 import React, { useCallback } from "@rbxts/react";
 import { AdvancedTypes } from "@rbxts/ui-labs/src/ControlTypings/Advanced";
+import EnumListOverlay from "UI/Overlays/OptionList/Enum";
 import {
 	DefaultOptionRenderer,
 	OptionRendererFactory,
 	OptionsRendersMap
 } from "UI/Overlays/OptionList/Options/OptionRenders/OptionRendersMap";
-import OptionListControl from ".";
-import EnumListOverlay from "UI/Overlays/OptionList/Enum";
 import { Div } from "UI/Styles/Div";
 import LeftList from "UI/Styles/List/LeftList";
 import Text from "UI/Styles/Text";
+
+import OptionListControl from ".";
 
 function EnumListControl(props: ControlElementProps<AdvancedTypes.EnumList>) {
 	const OnSetOption = useCallback(

@@ -1,4 +1,5 @@
 import { ScriptEditorService } from "@rbxts/services";
+
 import type { Environment } from "./Environment";
 
 /**
