@@ -78,7 +78,7 @@ export function ResolveStringPath(root: Instance, path: string) {
 	let current: Instance = root.Parent!;
 
 	if (parts.size() === 0) error(`Invalid relative path: ${path}`, 2);
-	if (parts[0] !== "." && parts[0] !== ".." && parts[0] !== "@self") {
+	if (parts[0] !== "." && parts[0] !== ".." && parts[0] !== "@self" && parts[0] !== "@game") {
 		error(`Invalid path start: "${parts[0]}" in ${path}`, 2);
 	}
 
@@ -96,6 +96,8 @@ export function ResolveStringPath(root: Instance, path: string) {
 			// do nothing
 		} else if (part === "@self") {
 			current = root;
+		} else if (part === "@game") {
+			current = game;
 		} else {
 			const child = current.FindFirstChild(part);
 			if (child === undefined) error(`Unknown script ${part} in: ${current}`, 2);
