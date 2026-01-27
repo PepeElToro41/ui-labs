@@ -1,151 +1,161 @@
-local Vide = require "@pkg/vide"
-local init_source = require("@utils/vide").init_source
-
-local UDimOffset = require("@utils/number").UDimOffset
-local actions = require "@actions"
-
-local Div = require "@base/div"
-local Frame = require "@base/frame"
-local Detector = require "@base/detector"
-local DragDetector = require "@base/drag-detector"
-
-type Source<T> = Vide.Source<T>
-
-local source = Vide.source
-local untrack = Vide.untrack
-local effect = Vide.effect
-local cleanup = Vide.cleanup
+local vide = require "@pkg/vide"
+local click_detector = require "@ui/styles/click-detector"
+local div = require "@ui/styles/div"
+local drag_detector = require "@ui/styles/drag-detector"
+local frame = require "@ui/styles/frame"
+local conversion = require "@utils/conversion"
+local actions = require "@utils/vide/actions"
+local videx = require "@utils/vide/videx"
 
 type ResizablePanelProps = {
 	Name: string?,
-	HandleThickness: number?,
-	HandleAxis: ("Top" | "Bottom" | "Left" | "Right")?,
-	Size: Derivable<UDim2>?,
-	PanelNative: Vide.vFrame?,
-	ContentsNative: Vide.vFrame?,
+	handle_thickness: number?,
+	handle_axis: ("top" | "bottom" | "left" | "right")?,
+	size: Derivable<UDim2>?,
+	panel_native: vide.vFrame?,
+	contents_native: vide.vFrame?,
 
-	PanelSize: number | Source<number>,
-	MinimumSize: number?,
-	MaximumSize: number?,
+	panel_size: number | Source<number>,
+	minimum_size: number?,
+	maximum_size: number?,
 
-	CollapseThreshold: number?,
-	UncollapseThreshold: number?,
+	collapse_threshold: number?,
+	uncollapse_threshold: number?,
 
-	Collapsed: Source<boolean>?,
+	collapsed: Source<boolean>?,
 
 	children: any?,
 }
 
-function ResizablePanel(props: ResizablePanelProps)
-	local dragging = source(false)
-	local hovered = source(false)
-	local collapsed: Source<boolean> = props.Collapsed or source(false)
-	local panelSize = init_source(props.PanelSize) :: Source<number>
+local function resizable_panel(props: ResizablePanelProps)
+	local dragging = vide.source(false)
+	local hovered = vide.source(false)
+	local current_detector = vide.source() :: Source<UIDragDetector>
+	local panel_size = videx.source_from(props.panel_size) :: Source<number>
+	local collapsed: Source<boolean> = props.collapsed or vide.source(false)
 
-	local detector = source() :: Source<UIDragDetector>
+	local handle_anchor = props.handle_axis or "right"
+	local uses_width = handle_anchor == "left" or handle_anchor == "right"
+	local handlex = if handle_anchor == "left" then 0 elseif handle_anchor == "right" then 1 else 0.5
+	local handley = if handle_anchor == "top" then 0 elseif handle_anchor == "bottom" then 1 else 0.5
 
-	local handleAnchor = props.HandleAxis or "Right"
-	local usesWith = handleAnchor == "Left" or handleAnchor == "Right"
-	local handleX = if handleAnchor == "Left" then 0 elseif handleAnchor == "Right" then 1 else 0.5
-	local handleY = if handleAnchor == "Top" then 0 elseif handleAnchor == "Bottom" then 1 else 0.5
-
-	local function OffsetUDim2(usesWith: boolean, offset: number, base: UDim2)
-		if usesWith then return UDim2.new(0, offset, base.Y.Scale, base.Y.Offset) end
+	local function offset_udim2(uses_width: boolean, offset: number, base: UDim2)
+		if uses_width then
+			return UDim2.new(0, offset, base.Y.Scale, base.Y.Offset)
+		end
 		return UDim2.new(base.X.Scale, base.X.Offset, 0, offset)
 	end
-	local function ClampedPanelSize()
-		return math.clamp(panelSize(), props.MinimumSize or 0, props.MaximumSize or math.huge)
+
+	local function clamped_panel_size()
+		return math.clamp(panel_size(), props.minimum_size or 0, props.maximum_size or math.huge)
 	end
 
-	local function ResetDragging()
-		if untrack(collapsed) then
-			panelSize(0) -- if collapsed, panel size should reset back to 0
+	local function reset_dragging()
+		if vide.untrack(collapsed) then
+			-- if collapsed, panel size should reset back to 0
+			panel_size(0)
 		else
-			panelSize(untrack(ClampedPanelSize))
+			panel_size(vide.untrack(clamped_panel_size))
 		end
 	end
 
-	effect(function()
-		local detector = detector()
+	vide.effect(function()
+		local current_detector = current_detector()
 
-		cleanup(ResetDragging)
-		if not dragging() then return end
+		vide.cleanup(reset_dragging)
+		if not dragging() then
+			return
+		end
 
-		local multiplier = handleX * 2 - 1 + (handleY * 2 - 1)
-		local start = UDimOffset(detector.DragUDim2)
-		local base = untrack(panelSize)
+		local multiplier = handlex * 2 - 1 + (handley * 2 - 1)
+		local start = conversion.udim_offset(current_detector.DragUDim2)
+		local base = vide.untrack(panel_size)
 
-		cleanup(detector.DragContinue:Connect(function()
-			local delta = (UDimOffset(detector.DragUDim2) - start) * multiplier
-			panelSize(math.clamp(base + delta, 0, props.MaximumSize or math.huge))
+		vide.cleanup(current_detector.DragContinue:Connect(function()
+			local delta = (conversion.udim_offset(current_detector.DragUDim2) - start) * multiplier
+			panel_size(math.clamp(base + delta, 0, props.maximum_size or math.huge))
 		end))
 	end)
 
-	effect(function()
-		if props.CollapseThreshold ~= nil then
-			if panelSize() < props.CollapseThreshold then collapsed(true) end
+	vide.effect(function()
+		if props.collapse_threshold ~= nil then
+			if panel_size() < props.collapse_threshold then
+				collapsed(true)
+			end
 		end
-		if props.UncollapseThreshold ~= nil then
-			if panelSize() >= props.UncollapseThreshold then collapsed(false) end
+		if props.uncollapse_threshold ~= nil then
+			if panel_size() >= props.uncollapse_threshold then
+				collapsed(false)
+			end
 		end
 	end)
 
-	effect(function()
-		if collapsed() then panelSize(0) end
+	vide.effect(function()
+		if collapsed() then
+			panel_size(0)
+		end
 	end)
 
-	local computedSize = function()
-		if collapsed() then return OffsetUDim2(usesWith, 0, UDim2.fromScale(1, 1)) end
-		return OffsetUDim2(usesWith, ClampedPanelSize(), UDim2.fromScale(1, 1))
+	local computed_size = function()
+		if collapsed() then
+			return offset_udim2(uses_width, 0, UDim2.fromScale(1, 1))
+		end
+		return offset_udim2(uses_width, clamped_panel_size(), UDim2.fromScale(1, 1))
 	end
 
 	return (
-		Div {
+		div {
 			Name = props.Name or "ResizablePanel",
-			AnchorPoint = Vector2.new(1 - math.floor(handleX), 1 - math.floor(handleY)),
-			props.PanelNative,
-			{ Size = computedSize },
+			AnchorPoint = Vector2.new(1 - math.floor(handlex), 1 - math.floor(handley)),
 
-			Frame {
+			props.panel_native or {},
+			{ Size = computed_size },
+
+			frame {
 				Name = "DragAdornee",
 				BackgroundColor3 = Color3.fromRGB(56, 165, 255),
-				Position = UDim2.fromScale(handleX, handleY),
-				AnchorPoint = Vector2.new(usesWith and (1 - handleX) or 0.5, (not usesWith) and (1 - handleY) or 0.5),
+				Position = UDim2.fromScale(handlex, handley),
+				AnchorPoint = Vector2.new(
+					uses_width and (1 - handlex) or 0.5,
+					(not uses_width) and (1 - handley) or 0.5
+				),
 				Visible = function()
 					return dragging() or hovered()
 				end,
 				Size = function()
-					return OffsetUDim2(usesWith, (dragging() and 2) or 1, UDim2.fromScale(1, 1))
+					return offset_udim2(uses_width, (dragging() and 2) or 1, UDim2.fromScale(1, 1))
 				end,
 				ZIndex = 2,
 			},
-			Detector {
-				Position = UDim2.fromScale(handleX, handleY),
+			click_detector {
+				Position = UDim2.fromScale(handlex, handley),
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Size = OffsetUDim2(usesWith, props.HandleThickness or 10, UDim2.fromScale(1, 1)),
+				Size = offset_udim2(uses_width, props.handle_thickness or 10, UDim2.fromScale(1, 1)),
 				ZIndex = 2,
 
-				actions.Hovered(hovered),
-				DragDetector {
+				actions.hovered(hovered),
+				drag_detector {
 					DragRelativity = Enum.UIDragDetectorDragRelativity.Relative,
 					ResponseStyle = Enum.UIDragDetectorResponseStyle.CustomOffset,
 					DragStyle = Enum.UIDragDetectorDragStyle.TranslateLine,
-					DragAxis = Vector2.new(handleX * 2 - 1, handleY * 2 - 1),
-					Dragging = dragging,
-					Vide.action(detector),
+					DragAxis = Vector2.new(handlex * 2 - 1, handley * 2 - 1),
+
+					actions.dragging(dragging),
+					vide.action(current_detector),
 				},
 			},
-			Frame {
+			frame {
 				Name = "Contents",
 				Size = UDim2.fromScale(1, 1),
 				Visible = function()
 					return not collapsed()
 				end,
-				props.ContentsNative,
-				props.children,
+
+				props.contents_native or {},
+				props.children or {},
 			},
 		}
 	)
 end
 
-return ResizablePanel
+return resizable_panel

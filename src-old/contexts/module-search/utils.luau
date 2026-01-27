@@ -20,8 +20,12 @@ function ClassPredicator(className: string, predicate: Predicate)
 		local success = pcall(function()
 			return instance.Name
 		end)
-		if not success then return false end
-		if not instance:IsA(className) then return false end
+		if not success then
+			return false
+		end
+		if not instance:IsA(className) then
+			return false
+		end
 		return instance.Parent ~= nil and predicate(instance)
 	end
 end
@@ -34,8 +38,12 @@ function PropagateEvent(instance: Instance, ancestry: Instance, search: { Instan
 	local all: { Instance } = { instance }
 
 	for _, child in ipairs(ancestry:GetDescendants()) do
-		if child == instance then continue end
-		if child:IsDescendantOf(ancestry) then table.insert(all, child) end
+		if child == instance then
+			continue
+		end
+		if child:IsDescendantOf(ancestry) then
+			table.insert(all, child)
+		end
 	end
 	return all
 end

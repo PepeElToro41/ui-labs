@@ -2,16 +2,15 @@
     "languageMode": "strict",
     "aliases": {
          "pkg": "roblox_packages/",
-         "system": "src/system",
-         "store": "src/store",
+         "vendor": "vendor/",
          "constants": "src/constants",
          "contexts": "src/contexts",
          "hooks": "src/hooks",
          "utils": "src/utils",
-         "base": "src/ui/base",
+         "src": "src/",
          "actions": "src/utils/vide/actions",
          "ui": "src/ui",
-         "themes": "src/themes",
+         "themes": "src/constants/themes",
          "lune": "~/.lune/.typedefs/0.8.9/"
     }
 }

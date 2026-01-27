@@ -6,6 +6,10 @@ repository = "https://github.com/PepeElToro41/ui-labs"
 license = "GPL"
 private = true
 
+[engines]
+lune = "^0.10.2"
+pesde = "^0.7.0"
+
 [target]
 environment = "roblox"
 
@@ -20,8 +24,7 @@ roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau
 sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
 
 [dev_dependencies]
-scripts = { name = "pesde/scripts_rojo", version = "^0.1.0", target = "lune" }
-rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
+scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
 
 [dependencies]
 rsml = { wally = "cameronpcampbell/rsml", version = "^1.0.10" }
@@ -38,4 +41,3 @@ charm = { wally = "pepeeltoro41/charm-with-dispatchers", version = "^0.0.3" }
 ui-labs = { name = "pepeeltoro41/ui_labs", version = "^2.3.8" }
 
 [patches]
-"wally#alicesaidhi/vide" = { "0.3.1-lite.656 roblox" = "patches/wally#alicesaidhi+vide-0.3.1-lite.656+roblox.patch" }

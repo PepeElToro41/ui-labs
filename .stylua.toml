@@ -1,2 +1,4 @@
 call_parentheses = "None"
-collapse_simple_statement = "ConditionalOnly"
+collapse_simple_statement = "Never"
+
+syntax = "Luau"

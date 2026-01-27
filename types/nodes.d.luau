@@ -1,10 +1,10 @@
-type Storybook = {
+export type Storybook = {
 	name: string,
 	storyRoots: { Instance },
 	groupRoots: boolean,
 }
 
-export type Storybooks = Map<ModuleScript, Storybook>
+export type Storybooks = { [ModuleScript]: Storybook }
 
 -- entry point
 export type RootNodes = {

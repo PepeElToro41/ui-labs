@@ -1,6 +1,6 @@
 {
-   "name": "ui-labs-vide",
-   "tree": {
-      "$path": "src"
-   }
+	"name": "ui-labs-vide",
+	"tree": {
+		"$path": "src"
+	}
 }

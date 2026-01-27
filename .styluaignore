@@ -1,4 +1,4 @@
-roblox_packages/
-luau_packages/
-lune_packages/
-serve/
+roblox_packages/**
+luau_packages/**
+lune_packages/**
+serve/**

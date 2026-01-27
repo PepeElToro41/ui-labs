@@ -1,14 +1,17 @@
 {
-   "name": "ui-labs-vide-dev",
-   "tree": {
-      "$className": "DataModel",
-      "ServerScriptService": {
-         "ui-labs": {
-            "$path": "src/",
-            "packages": {
-               "$path": "roblox_packages/"
-            }
-         }
-      }
-   }
+	"name": "ui-labs-vide-dev",
+	"tree": {
+		"$className": "DataModel",
+		"ServerScriptService": {
+			"ui-labs-ecs": {
+				"$path": "src/",
+				"packages": {
+					"$path": "roblox_packages/"
+				},
+				"vendor": {
+					"$path": "vendor/"
+				}
+			}
+		}
+	}
 }

@@ -1,13 +1,9 @@
---!nonstrict
-local Vide = require "@pkg/vide"
+local vide = require "@pkg/vide"
 
-local cleanup = Vide.cleanup
-local action = Vide.action
+local actions = {}
 
-type Source<T> = Vide.Source<T>
-
-function Hovered(output: Source<boolean>)
-	return action(function(instance: TextButton)
+function actions.hovered(output: Source<boolean>)
+	return vide.action(function(instance: TextButton)
 		local enter = instance.MouseEnter:Connect(function()
 			output(true)
 		end)
@@ -15,15 +11,15 @@ function Hovered(output: Source<boolean>)
 			output(false)
 		end)
 
-		cleanup(function()
+		vide.cleanup(function()
 			enter:Disconnect()
 			leave:Disconnect()
 		end)
 	end)
 end
 
-function Clicked(output: Source<boolean>)
-	return action(function(instance: TextButton)
+function actions.clicked(output: Source<boolean>)
+	return vide.action(function(instance: TextButton)
 		local clicked = instance.MouseButton1Down:Connect(function()
 			output(true)
 		end)
@@ -34,7 +30,7 @@ function Clicked(output: Source<boolean>)
 			output(false)
 		end)
 
-		cleanup(function()
+		vide.cleanup(function()
 			clicked:Disconnect()
 			unclicked:Disconnect()
 			leave:Disconnect()
@@ -42,65 +38,36 @@ function Clicked(output: Source<boolean>)
 	end)
 end
 
-function Focused(output: Source<boolean>)
-	return action(function(instance: TextBox)
+function actions.focused(output: Source<boolean>)
+	return vide.action(function(instance: TextBox)
 		local focus = instance.Focused:Connect(function()
 			output(true)
 		end)
-		local focusLost = instance.FocusLost:Connect(function()
+		local focus_lost = instance.FocusLost:Connect(function()
 			output(false)
 		end)
 
-		cleanup(function()
+		vide.cleanup(function()
 			focus:Disconnect()
-			focusLost:Disconnect()
+			focus_lost:Disconnect()
 		end)
 	end)
 end
 
-function Dragging(output: Source<boolean>)
-	return action(function(drag: UIDragDetector)
-		local dragStart = drag.DragStart:Connect(function()
+function actions.dragging(output: Source<boolean>)
+	return vide.action(function(drag: UIDragDetector)
+		local drag_start = drag.DragStart:Connect(function()
 			output(true)
 		end)
-		local dragEnd = drag.DragEnd:Connect(function()
+		local drag_end = drag.DragEnd:Connect(function()
 			output(false)
 		end)
 
-		cleanup(function()
-			dragStart:Disconnect()
-			dragEnd:Disconnect()
+		vide.cleanup(function()
+			drag_start:Disconnect()
+			drag_end:Disconnect()
 		end)
 	end)
 end
 
-function Shape(output: Source<{ AbsoluteSize: Vector2, AbsolutePosition: Vector2 }>)
-	return action(function(instance: GuiObject)
-		local value = { AbsoluteSize = instance.AbsoluteSize, AbsolutePosition = instance.AbsolutePosition }
-
-		local connection1 = instance:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-			value.AbsoluteSize = instance.AbsoluteSize
-			value.AbsolutePosition = instance.AbsolutePosition
-			output(value)
-		end)
-		local connection2 = instance:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-			value.AbsoluteSize = instance.AbsoluteSize
-			value.AbsolutePosition = instance.AbsolutePosition
-			output(value)
-		end)
-		output(value)
-
-		cleanup(function()
-			connection1:Disconnect()
-			connection2:Disconnect()
-		end)
-	end)
-end
-
-return table.freeze {
-	Hovered = Hovered,
-	Dragging = Dragging,
-	Focused = Focused,
-	Clicked = Clicked,
-	Shape = Shape,
-}
+return actions
