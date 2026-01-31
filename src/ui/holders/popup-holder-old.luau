@@ -1,40 +1,28 @@
-local Vide = require "@pkg/vide"
-local useTheme = require("@contexts/theme").useTheme
-local connect = require("@utils/vide").connect
-local useOverlayHolder = require("@contexts/app-render/overlay-holder").useOverlayHolder
-local Shape = require("@actions").Shape
+local vide = require "@pkg/vide"
 
-local changed = Vide.changed
-local source = Vide.source
-local effect = Vide.effect
---local read = Vide.read
-local derive = Vide.derive
-local untrack = Vide.untrack
-local action = Vide.action
-
-local Div = require "@base/div"
-local Frame = require "@base/frame"
-local Scroller = require "@base/scroller"
-local Padding = require "@base/padding"
+local div = require "@ui/styles/div"
+local scroller = require "@ui/styles/scroller"
+local padding = require "@ui/styles/padding"
 
 type OverlayHolderProps = {
-	HolderNative: Vide.vFrame,
-	Padding: Derivable<number>?,
-	AnchorPosition: Derivable<Vector2 | GuiObject>,
-	AnchorSize: Derivable<(Vector2 | GuiObject)?>,
-	DominantAxis: Derivable<Enum.DominantAxis>,
-	Wrappeable: { Vector2 },
-	LimitSize: boolean?,
-	Scrollable: boolean?,
-	AddPosition: ((wrap: Vector2) -> Vector2)?,
-	CanvasPadding: number?,
-	InnerPadding: number?,
+	anchor_position: Derivable<Vector2 | GuiObject>,
+	anchor_size: Derivable<(Vector2 | GuiObject)?>,
+	dominant_axis: Derivable<Enum.DominantAxis>,
+	wrappeable: { Vector2 },
 
-	Children: (wrap: Vector2) -> any,
-	TopChildren: Derivable<any>,
+	limit_size: boolean?,
+	scrollable: boolean?,
+	add_position: ((wrap: Vector2) -> Vector2)?,
+	padding: Derivable<number>?,
+	canvas_padding: number?,
+	inner_padding: number?,
+
+	native: vide.vFrame,
+	children: (wrap: Vector2) -> any,
+	top_overlay: Derivable<any>,
 }
 
-function GetAnchorPosition(position: Vector2 | GuiObject)
+function get_anchor_position(position: Vector2 | GuiObject)
 	if typeof(position) == "Vector2" then
 		return position
 	else
@@ -42,7 +30,7 @@ function GetAnchorPosition(position: Vector2 | GuiObject)
 	end
 end
 
-function GetAnchorSize(size: (Vector2 | GuiObject)?)
+function get_anchor_size(size: (Vector2 | GuiObject)?)
 	if size then
 		if typeof(size) == "Vector2" then
 			return size
@@ -54,10 +42,10 @@ function GetAnchorSize(size: (Vector2 | GuiObject)?)
 	end
 end
 
-function GetOverlayFinalPosition(
+function get_overlay_final_position(
 	wrap: Vector2,
-	anchorPos: Vector2,
-	anchorSize: Vector2,
+	anchor_pos: Vector2,
+	anchor_size: Vector2,
 	canvasShape: { AbsoluteSize: Vector2, AbsolutePosition: Vector2 },
 	padding: number,
 	addPosition: ((wrap: Vector2) -> Vector2)?
@@ -83,22 +71,26 @@ function GetOverlayAnchorPoint(wrap: Vector2)
 	)
 end
 
-function OverlayHolder(props: OverlayHolderProps)
-	local theme = useTheme()
-	local overlayHolder = useOverlayHolder()
-	local canvasShape = source({} :: { AbsoluteSize: Vector2, AbsolutePosition: Vector2 })
+local function read<T>(value: (() -> T) | T): T
+	return if type(value) == "function" then value() else value
+end
+
+function overlay_holder(props: OverlayHolderProps)
+	local canvasShape = vide.source({} :: { AbsoluteSize: Vector2, AbsolutePosition: Vector2 })
 	local innerPadding = (props.InnerPadding or 0)
 
 	local limitSize = if props.LimitSize == nil then true else props.LimitSize
 	local scrollable = if props.Scrollable == nil then true else props.Scrollable
 	local padding = function()
-		return if props.Padding == nil then 0 else vide.read(props.Padding)
+		return if props.Padding == nil then 0 else read(props.Padding)
 	end
 
 	local overlayInnerSize = source(Vector2.zero)
 	local overlaySize = function()
 		return overlayInnerSize() + (Vector2.one * innerPadding * 2)
 	end
+
+	local test = read(props.AnchorPosition)
 
 	local anchorSize = source(GetAnchorSize(read(props.AnchorSize)))
 	local anchorPos = source(GetAnchorPosition(read(props.AnchorPosition)))
@@ -246,4 +238,4 @@ function OverlayHolder(props: OverlayHolderProps)
 	}
 end
 
-return OverlayHolder
+return overlay_holder

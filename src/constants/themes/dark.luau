@@ -1,4 +1,8 @@
-local Dark = {
+local types = require "./types"
+
+local Dark: types.Theme = {
+	display_name = "Dark",
+
 	background1 = Color3.fromRGB(18, 20, 24),
 	background2 = Color3.fromRGB(28, 30, 32),
 	background3 = Color3.fromRGB(34, 37, 44),
@@ -25,11 +29,9 @@ local Dark = {
 
 	border = Color3.fromHSV(0, 0, 0.5),
 
-	colors = {
-		red1 = Color3.fromRGB(199, 89, 89),
-		green1 = Color3.fromRGB(135, 255, 176),
-		blue1 = Color3.fromRGB(0, 0, 255),
-	},
+	red1 = Color3.fromRGB(199, 89, 89),
+	green1 = Color3.fromRGB(135, 255, 176),
+	blue1 = Color3.fromRGB(0, 0, 255),
 
 	storybook = Color3.fromRGB(143, 240, 176),
 	folder = Color3.fromRGB(237, 166, 222),

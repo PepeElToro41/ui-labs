@@ -11,6 +11,7 @@ local function ui_labs(props: {}?)
 		left_list {},
 		resizable_panel {
 			Name = "SidePanel",
+
 			panel_size = 250,
 			minimum_size = 90,
 			maximum_size = 600,

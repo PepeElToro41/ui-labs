@@ -40,7 +40,7 @@ local function app(props: {
 				client.unmount_all()
 			end)
 
-			--return ui_labs {}
+			return ui_labs {}
 		end,
 	}
 end

@@ -63,10 +63,49 @@ function actions.dragging(output: Source<boolean>)
 			output(false)
 		end)
 
-		vide.cleanup(function()
-			drag_start:Disconnect()
-			drag_end:Disconnect()
+		vide.cleanup(drag_start)
+		vide.cleanup(drag_end)
+	end)
+end
+
+function actions.absolute_position(output: Source<Vector2>)
+	return vide.action(function(gui: GuiObject)
+		local changed = gui:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+			output(gui.AbsolutePosition)
 		end)
+		output(gui.AbsolutePosition)
+		vide.cleanup(changed)
+	end)
+end
+
+function actions.absolute_size(output: Source<Vector2>)
+	return vide.action(function(gui: GuiObject)
+		local changed = gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+			output(gui.AbsoluteSize)
+		end)
+		output(gui.AbsoluteSize)
+		vide.cleanup(changed)
+	end)
+end
+
+export type GuiShape = {
+	position: Vector2,
+	size: Vector2,
+}
+
+function actions.absolute_shape(output: Source<GuiShape>)
+	return vide.action(function(gui: GuiObject)
+		local position_changed = gui:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+			output().position = gui.AbsolutePosition
+			output(output())
+		end)
+		local size_changed = gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+			output().size = gui.AbsoluteSize
+			output(output())
+		end)
+
+		vide.cleanup(position_changed)
+		vide.cleanup(size_changed)
 	end)
 end
 

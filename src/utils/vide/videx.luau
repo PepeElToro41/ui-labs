@@ -129,6 +129,18 @@ function utils.source_from<T>(init: (T | Source<T>)?, def: T?): Source<T>
 	return vide.source(init)
 end
 
+function utils.show(value: any, render: () -> any): any
+	if typeof(value) == "function" then
+		return vide.show(value, render)
+	else
+		if value then
+			return render()
+		else
+			return {}
+		end
+	end
+end
+
 type Connection = {
 	Disconnect: (self: any) -> (),
 }

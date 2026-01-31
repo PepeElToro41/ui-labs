@@ -103,59 +103,54 @@ local function resizable_panel(props: ResizablePanelProps)
 		return offset_udim2(uses_width, clamped_panel_size(), UDim2.fromScale(1, 1))
 	end
 
-	return (
-		div {
-			Name = props.Name or "ResizablePanel",
-			AnchorPoint = Vector2.new(1 - math.floor(handlex), 1 - math.floor(handley)),
+	return div {
+		Name = props.Name or "ResizablePanel",
+		AnchorPoint = Vector2.new(1 - math.floor(handlex), 1 - math.floor(handley)),
 
-			props.panel_native or {},
-			{ Size = computed_size },
+		props.panel_native or {},
+		{ Size = computed_size },
 
-			frame {
-				Name = "DragAdornee",
-				BackgroundColor3 = Color3.fromRGB(56, 165, 255),
-				Position = UDim2.fromScale(handlex, handley),
-				AnchorPoint = Vector2.new(
-					uses_width and (1 - handlex) or 0.5,
-					(not uses_width) and (1 - handley) or 0.5
-				),
-				Visible = function()
-					return dragging() or hovered()
-				end,
-				Size = function()
-					return offset_udim2(uses_width, (dragging() and 2) or 1, UDim2.fromScale(1, 1))
-				end,
-				ZIndex = 2,
+		frame {
+			Name = "DragAdornee",
+			BackgroundColor3 = Color3.fromRGB(56, 165, 255),
+			Position = UDim2.fromScale(handlex, handley),
+			AnchorPoint = Vector2.new(uses_width and (1 - handlex) or 0.5, (not uses_width) and (1 - handley) or 0.5),
+			Visible = function()
+				return dragging() or hovered()
+			end,
+			Size = function()
+				return offset_udim2(uses_width, (dragging() and 2) or 1, UDim2.fromScale(1, 1))
+			end,
+			ZIndex = 2,
+		},
+		click_detector {
+			Position = UDim2.fromScale(handlex, handley),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Size = offset_udim2(uses_width, props.handle_thickness or 10, UDim2.fromScale(1, 1)),
+			ZIndex = 2,
+
+			actions.hovered(hovered),
+			drag_detector {
+				DragRelativity = Enum.UIDragDetectorDragRelativity.Relative,
+				ResponseStyle = Enum.UIDragDetectorResponseStyle.CustomOffset,
+				DragStyle = Enum.UIDragDetectorDragStyle.TranslateLine,
+				DragAxis = Vector2.new(handlex * 2 - 1, handley * 2 - 1),
+
+				actions.dragging(dragging),
+				vide.action(current_detector),
 			},
-			click_detector {
-				Position = UDim2.fromScale(handlex, handley),
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Size = offset_udim2(uses_width, props.handle_thickness or 10, UDim2.fromScale(1, 1)),
-				ZIndex = 2,
+		},
+		frame {
+			Name = "Contents",
+			Size = UDim2.fromScale(1, 1),
+			Visible = function()
+				return not collapsed()
+			end,
 
-				actions.hovered(hovered),
-				drag_detector {
-					DragRelativity = Enum.UIDragDetectorDragRelativity.Relative,
-					ResponseStyle = Enum.UIDragDetectorResponseStyle.CustomOffset,
-					DragStyle = Enum.UIDragDetectorDragStyle.TranslateLine,
-					DragAxis = Vector2.new(handlex * 2 - 1, handley * 2 - 1),
-
-					actions.dragging(dragging),
-					vide.action(current_detector),
-				},
-			},
-			frame {
-				Name = "Contents",
-				Size = UDim2.fromScale(1, 1),
-				Visible = function()
-					return not collapsed()
-				end,
-
-				props.contents_native or {},
-				props.children or {},
-			},
-		}
-	)
+			props.contents_native or {},
+			props.children or {},
+		},
+	}
 end
 
 return resizable_panel

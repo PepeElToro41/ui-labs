@@ -9,4 +9,12 @@ function utils.counter(start: number?)
 	end
 end
 
+function utils.nonnil<T>(value: T?, default: T): T
+	if value == nil then
+		return default
+	else
+		return value
+	end
+end
+
 return utils

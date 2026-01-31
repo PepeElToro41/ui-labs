@@ -8,7 +8,6 @@
          "hooks": "src/hooks",
          "utils": "src/utils",
          "src": "src/",
-         "actions": "src/utils/vide/actions",
          "ui": "src/ui",
          "themes": "src/constants/themes",
          "lune": "~/.lune/.typedefs/0.8.9/"
