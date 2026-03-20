@@ -1,0 +1,66 @@
+{
+	"name": "ui-labs",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"private": true,
+	"scripts": {
+		"build": "rbxtsc",
+		"watch": "rbxtsc -w",
+		"build:local": "npm run build && rojo build default.project.json --plugin ui-labs.rbxm",
+		"build:rbxm": "npm run build && rojo build default.project.json --output ui-labs.rbxm",
+		"format": "prettier --write .",
+		"lint": "eslint ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@eslint/compat": "^2.0.1",
+		"@eslint/eslintrc": "^3.3.3",
+		"@eslint/js": "^9.39.2",
+		"@rbxts/compiler-types": "=2.3.0-types.2",
+		"@rbxts/fusion": "^0.2.0",
+		"@rbxts/roact": "^1.4.4-ts.0",
+		"@rbxts/types": "=1.0.758",
+		"@typescript-eslint/eslint-plugin": "^8.53.0",
+		"@typescript-eslint/parser": "^8.53.0",
+		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-perfectionist": "^5.3.1",
+		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-roblox-ts": "=1.3.1",
+		"prettier": "^3.7.4",
+		"roblox-ts": "=3.0.0",
+		"typescript": "=5.5.3",
+		"typescript-eslint": "^8.53.0"
+	},
+	"dependencies": {
+		"@rbxts/catppuccin": "^1.0.2",
+		"@rbxts/colour-utils": "^1.4.1",
+		"@rbxts/flipper": "^2.0.1",
+		"@rbxts/immut": "^0.4.4-ts.0",
+		"@rbxts/iris": "^2.3.1-ts.0",
+		"@rbxts/janitor": "^1.15.7-ts.0",
+		"@rbxts/lemon-signal": "^1.2.0",
+		"@rbxts/pretty-react-hooks": "^0.6.2",
+		"@rbxts/react": "17.3.7-alpha.1",
+		"@rbxts/react-reflex": "^0.3.4",
+		"@rbxts/react-roblox": "17.3.7-alpha.1",
+		"@rbxts/reflex": "^4.3.1",
+		"@rbxts/remap": "^0.2.2",
+		"@rbxts/services": "^1.5.1",
+		"@rbxts/set-timeout": "^1.1.2",
+		"@rbxts/sift": "^0.0.6",
+		"@rbxts/t": "^3.1.1",
+		"@rbxts/ui-labs": "^2.4.0",
+		"@rbxts/vide": "^0.4.5"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"@rbxts/roact": "patches/@rbxts__roact.patch",
+			"@rbxts/vide": "patches/@rbxts__vide.patch"
+		}
+	}
+}

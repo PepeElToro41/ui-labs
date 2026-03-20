@@ -1,0 +1,30 @@
+import React, { useCallback } from "@rbxts/react";
+import { useProducer, useSelector } from "@rbxts/react-reflex";
+import { selectShowOutlines } from "Reflex/Interface";
+import SpriteButton from "UI/Utils/SpriteButton";
+
+import { ToolButtonProps } from "../ToolButtonsList";
+
+function ShowOutlines(props: ToolButtonProps) {
+	const { setShowOutlines } = useProducer<RootProducer>();
+	const showOutlines = useSelector(selectShowOutlines);
+
+	const OnSetShowOutlines = useCallback(() => {
+		setShowOutlines(!showOutlines);
+	}, [showOutlines]);
+
+	return (
+		<SpriteButton
+			ButtonName={props.ButtonName}
+			Sprite="ShowOutlines"
+			Shortcut={Enum.KeyCode.S}
+			Description="Show Outlines"
+			Active={showOutlines}
+			OnClick={OnSetShowOutlines}
+			OnRightClick={props.OnRightClick}
+			Order={props.Order}
+		/>
+	);
+}
+
+export default ShowOutlines;

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="267" height="267" viewBox="0 0 267 267" xml:space="preserve">
+<g transform="matrix(1 0 0 1 -185.5 248.05)" id="backgroundrect">
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" x="-50" y="-50" rx="0" ry="0" width="100" height="100"/>
+</g>
+<g transform="matrix(1 0 0 1 36.76 413.28)" id="svg_2">
+<polyline style="stroke: rgb(255,255,255); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" points="-8.7,-12.59 -13.52,-20.74 -12.41,-21.11 -11.67,-21.48 -10.56,-21.48 -8.7,-21.48 -7.22,-21.48 -5.74,-21.48 -5,-21.11 -3.52,-20.74 -2.78,-20.74 -2.04,-20.37 -2.04,-20.37 -0.93,-19.26 0.19,-18.52 0.93,-17.78 1.67,-16.67 2.41,-15.56 3.15,-14.81 3.52,-13.7 3.89,-12.59 8.7,4.81 9.44,7.78 10.93,14.07 11.67,16.67 12.04,17.78 12.41,18.89 13.15,20.37 13.15,21.11 13.52,21.11 13.52,21.48 "/>
+</g>
+<g transform="matrix(4.39 0 0 4.39 133.58 133.61)">
+<path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" translate(-73.13, -26.88)" d="M 57.6 0 L 46.26 42.4 l 42.4 11.35 L 100 11.35 Z m 11.2 19.47 l 11.83 3.17 l -3.17 11.83 l -11.84 -3.17 z" stroke-linecap="round"/>
+</g>
+</svg>

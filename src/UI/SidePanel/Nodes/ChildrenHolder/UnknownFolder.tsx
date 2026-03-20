@@ -1,0 +1,39 @@
+import React, { useMemo } from "@rbxts/react";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+
+import ChildrenHolder from ".";
+import Story from "../Story";
+import UnknownCover from "../UnknownCover";
+
+interface UnknownFolderProps {
+	Order: number;
+	Node: UnknownNode;
+}
+
+function setProps(props: UnknownFolderProps) {
+	return props as Required<UnknownFolderProps>;
+}
+
+function UnknownFolder(setprops: UnknownFolderProps) {
+	const props = setProps(setprops);
+	const theme = useTheme();
+
+	const children = useMemo(() => {
+		return props.Node.Children.map((child, index) => {
+			return <Story Node={child} Visible={true} Unknown={true} />;
+		});
+	}, [props.Node.Children]);
+	return (
+		<ChildrenHolder
+			Prefix="1"
+			Name={props.Node.Instance}
+			Sprite={"FolderIcon"}
+			SpriteColor={theme.Normal.FolderIcon}
+			Children={children}
+		>
+			<UnknownCover />
+		</ChildrenHolder>
+	);
+}
+
+export default UnknownFolder;

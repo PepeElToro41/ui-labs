@@ -1,0 +1,17 @@
+diff --git a/src/jsx.d.ts b/src/jsx.d.ts
+index e818a0bb7de7a7d962f46449de93677bff73b9ff..2815f7d05b64708856d4e64eba0e143a49856676 100644
+--- a/src/jsx.d.ts	
++++ b/src/jsx.d.ts	
+@@ -19,7 +19,6 @@ type JsxChild =
+ 
+ type JsxNode = JsxChild | JsxChild[];
+ 
+-declare global {
+ 	namespace JSX {
+ 		type Element = Roact.Element;
+ 
+@@ -70,4 +69,3 @@ declare global {
+ 			viewportframe: IntrinsicElement<ViewportFrame>;
+ 		}
+ 	}
+-}

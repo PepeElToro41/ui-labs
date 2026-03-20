@@ -1,0 +1,19 @@
+{
+	"name": "ui-labs-plugin",
+	"globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
+	"tree": {
+		"$path": "out",
+		"include": {
+			"$path": "include",
+			"node_modules": {
+				"$className": "Folder",
+				"@rbxts": {
+					"$path": "node_modules/@rbxts"
+				},
+				"@rbxts-js": {
+					"$path": "node_modules/@rbxts-js"
+				}
+			}
+		}
+	}
+}

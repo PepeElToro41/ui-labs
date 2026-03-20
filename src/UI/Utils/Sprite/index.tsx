@@ -1,0 +1,28 @@
+import React from "@rbxts/react";
+import Configs from "Plugin/Configs";
+
+import Sprites from "./SpriteMap";
+
+interface SpriteProps {
+	Sprite: SpriteName;
+	ImageProps?: Omit<React.InstanceAttributes<ImageLabel>, "Image" | "ImageRectOffset" | "ImageRectSize">;
+}
+
+function setProps(props: SpriteProps) {
+	return props;
+}
+
+export default (setprops: SpriteProps) => {
+	const props = setProps(setprops);
+	const spriteInfo = Sprites[props.Sprite] as Sprite;
+	return (
+		<imagelabel
+			BackgroundTransparency={1}
+			Size={UDim2.fromScale(1, 1)}
+			{...props.ImageProps}
+			Image={Configs.SpriteIcon}
+			ImageRectOffset={spriteInfo.RectOffset}
+			ImageRectSize={spriteInfo.RectSize ?? new Vector2(64, 64)}
+		></imagelabel>
+	);
+};

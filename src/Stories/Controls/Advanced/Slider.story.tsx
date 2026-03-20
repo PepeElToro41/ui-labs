@@ -1,0 +1,47 @@
+import React, { useMemo, useState } from "@rbxts/react";
+import { ReflexProvider } from "@rbxts/react-reflex";
+import { createLegacyRoot } from "@rbxts/react-roblox";
+import { FunctionStory, Slider } from "@rbxts/ui-labs";
+import { UserInputProvider } from "Context/UserInputContext";
+import { useTheme } from "Hooks/Reflex/Use/Theme";
+import { RootProducer } from "Reflex";
+import AppHolder from "UI/AppHolder";
+import ControlHolder from "UI/StoryControls/ControlHolder";
+import SliderControl from "UI/StoryControls/Controls/Advanced/Slider";
+import Corner from "UI/Styles/Corner";
+
+function Story(props: {}) {
+	const theme = useTheme();
+	const control = useMemo(() => {
+		return Slider(5, 0, 100);
+	}, []);
+
+	const [sliderValue, setSliderValue] = useState(control.ControlValue);
+
+	return (
+		<frame Position={UDim2.fromOffset(0, 0)} Size={new UDim2(1, -0, 1, 0)} BackgroundColor3={theme.ActionsPanel.Color}>
+			<Corner Radius={4} />
+			<ControlHolder ControlName="Slider Control" ControlReset={() => {}}>
+				<SliderControl Control={control} Current={sliderValue} Apply={setSliderValue} />
+			</ControlHolder>
+		</frame>
+	);
+}
+
+const story: FunctionStory = (target) => {
+	const component = (
+		<ReflexProvider producer={RootProducer}>
+			<UserInputProvider>
+				<AppHolder>
+					<Story></Story>
+				</AppHolder>
+			</UserInputProvider>
+		</ReflexProvider>
+	);
+	const root = createLegacyRoot(target);
+	root.render(component);
+	return () => {
+		root.unmount();
+	};
+};
+export = story;
