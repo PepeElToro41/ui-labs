@@ -1,4 +1,4 @@
-import { RunService, ScriptEditorService } from "@rbxts/services";
+import { ReplicatedStorage, ScriptEditorService } from "@rbxts/services";
 
 import type { Environment } from "./Environment";
 
@@ -9,110 +9,9 @@ import type { Environment } from "./Environment";
  * @param environment Environment handler object
  */
 export function SetEnvironment(virtualModule: Callback, module: ModuleScript, environment: Environment) {
-	const currentlyLoading = ((
-		environment.Shared as unknown as {
-			__currentlyLoading?: Map<Instance, Instance | undefined>;
-		}
-	).__currentlyLoading ??= new Map<Instance, Instance | undefined>());
-
-	const registeredLibraries = ((
-		environment.Shared as unknown as {
-			__registeredLibraries?: Map<Instance, boolean>;
-		}
-	).__registeredLibraries ??= new Map<Instance, boolean>());
-
-	const getModule = (context: Instance, scope?: string, moduleName?: string) => {
-		if (scope !== undefined && moduleName) {
-			let pkg: Instance | undefined = undefined;
-
-			// ServerScriptService/rbxts_include (only on server) - for server-only packages
-			if (RunService.IsServer()) {
-				const serverScriptService = game.GetService("ServerScriptService");
-				const serverInclude = serverScriptService.FindFirstChild("rbxts_include") as Instance | undefined;
-				if (serverInclude) {
-					const nodeModules = serverInclude.FindFirstChild("node_modules") as Instance | undefined;
-					if (nodeModules) {
-						const rbxtsScope = nodeModules.FindFirstChild("@rbxts") as Instance | undefined;
-						if (rbxtsScope) {
-							pkg = rbxtsScope.FindFirstChild(moduleName) as Instance | undefined;
-						}
-					}
-				}
-			}
-
-			// ReplicatedStorage/rbxts_include (shared packages) - fallback
-			if (!pkg) {
-				const replInclude = game.FindFirstChild("ReplicatedStorage")?.FindFirstChild("rbxts_include") as
-					| Instance
-					| undefined;
-				if (replInclude) {
-					const nodeModules = replInclude.FindFirstChild("node_modules") as Instance | undefined;
-					if (nodeModules) {
-						const rbxtsScope = nodeModules.FindFirstChild("@rbxts") as Instance | undefined;
-						if (rbxtsScope) {
-							pkg = rbxtsScope.FindFirstChild(moduleName) as Instance | undefined;
-						}
-					}
-				}
-			}
-
-			if (!pkg) {
-				error(`roblox-ts: Could not find module ${moduleName}`, 2);
-			}
-
-			return pkg;
-		}
-
-		// fallback
-		return context;
-	};
-
-	const importFn = (context: Instance, ...args: unknown[]) => {
-		if (args.size() === 0) {
-			error(`Invalid TS.import call in ${module.GetFullName()}`, 2);
-		}
-
-		let target = args[0] as Instance;
-		for (let i = 1; i < args.size(); i++) {
-			target = target.WaitForChild(args[i] as string);
-		}
-
-		if (!target.IsA("ModuleScript")) {
-			error(`roblox-ts: Failed to import! Expected ModuleScript, got ${target.ClassName}`, 2);
-		}
-
-		const moduleToLoad = target as ModuleScript;
-
-		currentlyLoading.set(context, moduleToLoad);
-
-		// register runtime (prevents multiple TS runtimes)
-		if (!registeredLibraries.has(moduleToLoad)) {
-			if (environment.Shared[moduleToLoad as never]) {
-				error(`roblox-ts: Invalid module access! Do you have multiple TS runtimes? ${moduleToLoad.GetFullName()}`, 2);
-			}
-			environment.Shared[moduleToLoad as never] = tsRuntime as never;
-			registeredLibraries.set(moduleToLoad, true);
-		}
-
-		const data = environment.LoadDependency(moduleToLoad).expect();
-
-		if (currentlyLoading.get(context) === moduleToLoad) {
-			currentlyLoading.delete(context);
-		}
-
-		return data;
-	};
-
-	const tsRuntime = {
-		getModule,
-		import: importFn,
-		require: (dependency: ModuleScript | string) => {
-			if (typeIs(dependency, "string")) {
-				return globals.require(dependency);
-			}
-			return importFn(module, dependency);
-		}
-	} as Record<string, unknown>;
+	const tsRuntime = require(
+		ReplicatedStorage.FindFirstChild("rbxts_include")?.FindFirstChild("RuntimeLib") as ModuleScript
+	) as Record<string, unknown>;
 
 	const globals = {
 		require: (dependency: ModuleScript | string) => {
