@@ -52,6 +52,11 @@ type PopupHolderProps = {
 	--- optional function to derive an extra position to be added to anchor_position dependening on the current wrapped place
 	wrap_padding: ((wrap: Vector2) -> Vector2)?,
 
+	--- optional generator for the popup size, receives the size the popup is trying to reach
+	--- and returns the size to actually use, meant for animating it (springs, tweens).
+	--- wrapping is always computed with the target size, and the popup clips its contents while a generator is used
+	size_generator: ((target: Reactive<Vector2>) -> Reactive<Vector2>)?,
+
 	--- function that renders the popup children, also receives a reactive value that contains the place the popup is wrapped.
 	children: (wrap: Reactive<Vector2>) -> any,
 
@@ -140,9 +145,9 @@ local function popup_holder(props: PopupHolderProps)
 	-- parent of the popup, used as the canvas when props.canvas is not provided
 	local popup_parent = vide.source(nil :: GuiObject?)
 
-	-- contents size + inner padding on both sides
+	-- popup_contents already includes the inner padding in its automatic size
 	local popup_area = function(): Vector2
-		return popup_contents_area() + get_padding_vector(vide.read(inner_padding)) * 2
+		return popup_contents_area()
 	end
 
 	vide.effect(function()
@@ -246,19 +251,50 @@ local function popup_holder(props: PopupHolderProps)
 	end)
 
 	-- size is content driven so it never depends on the holder size,
-	-- otherwise shrinking the holder would shrink the contents and cause a feedback loop
+	-- otherwise shrinking the holder would shrink the contents and cause a feedback loop.
+	-- the inner padding lives here, inside the scroller, so strokes and shadows drawn
+	-- outside the popup frame are not clipped by it
 	local popup_contents = div {
 		Name = "popup_contents",
-		props.native or {},
-		{
-			AnchorPoint = Vector2.new(0, 0),
-			Position = UDim2.fromScale(0, 0),
-			Size = UDim2.fromOffset(0, 0),
-			AutomaticSize = Enum.AutomaticSize.XY,
-		},
+		AnchorPoint = Vector2.new(0, 0),
+		Position = UDim2.fromScale(0, 0),
+		Size = UDim2.fromOffset(0, 0),
+		AutomaticSize = Enum.AutomaticSize.XY,
 		vide.changed("AbsoluteSize", popup_contents_area),
-		props.children(wrapped_place),
+
+		videx.show(props.inner_padding, function()
+			return padding {
+				paddingx = function()
+					return get_padding_vector(vide.read(inner_padding)).X
+				end,
+				paddingy = function()
+					return get_padding_vector(vide.read(inner_padding)).Y
+				end,
+			}
+		end),
+		div {
+			Name = "popup_frame",
+			props.native or {},
+			{
+				AnchorPoint = Vector2.new(0, 0),
+				Position = UDim2.fromScale(0, 0),
+				Size = UDim2.fromOffset(0, 0),
+				AutomaticSize = Enum.AutomaticSize.XY,
+			},
+			props.children(wrapped_place),
+		},
 	}
+
+	-- size the popup is trying to reach: the contents, cropped to what can be visible
+	local target_size = function(): Vector2
+		local area = popup_area()
+		local limited = limited_visible_area()
+		if limited then
+			area = Vector2.min(area, limited)
+		end
+		return area
+	end
+	local popup_size = if props.size_generator then props.size_generator(target_size) else target_size
 
 	return div {
 		Name = props.Name or "popup",
@@ -267,14 +303,13 @@ local function popup_holder(props: PopupHolderProps)
 			return get_wrap_anchor_point(wrapped_place())
 		end,
 		Size = function()
-			local area = popup_area()
-			local limited = limited_visible_area()
-			if limited then
-				area = Vector2.min(area, limited)
-			end
-			return UDim2.fromOffset(area.X, area.Y)
+			local size = popup_size()
+			return UDim2.fromOffset(size.X, size.Y)
 		end,
 		ClipsDescendants = function()
+			if props.size_generator then
+				return true
+			end
 			return not scrollable and limited_visible_area() ~= nil
 		end,
 		vide.action(function(frame: Frame)
@@ -288,16 +323,6 @@ local function popup_holder(props: PopupHolderProps)
 
 		div {
 			Name = "popup_children",
-			videx.show(props.inner_padding, function()
-				return padding {
-					paddingx = function()
-						return get_padding_vector(vide.read(inner_padding)).X
-					end,
-					paddingy = function()
-						return get_padding_vector(vide.read(inner_padding)).Y
-					end,
-				}
-			end),
 			videx.switch(scrollable) {
 				[true] = function()
 					return scroller {

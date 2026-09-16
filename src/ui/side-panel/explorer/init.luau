@@ -12,13 +12,19 @@ local padding = require "@ui/styles/padding"
 local scroller = require "@ui/styles/scroller"
 local text = require "@ui/styles/text"
 local container_node = require "@self/nodes/container"
+local use_visible_nodes = require "@self/use-visible-nodes"
+local ecs = require "@vendor/ecs"
+
+local STORYBOOK_NODE = ecs.pair(c.r_node, c.storybook)
+local UNKNOWN_NODE = ecs.pair(c.r_node, c.unknown)
 
 local function explorer(props: {}?)
 	local world = use_world()
 	local theme = use_theme()
 
-	local storybooks = use_query(world.query(c.storybook_node))
-	local unknown = use_query(world.query(c.unknown_node))
+	local storybooks = use_query(world.query():with(STORYBOOK_NODE))
+	local unknown = use_query(world.query():with(UNKNOWN_NODE))
+	local visible = use_visible_nodes()
 
 	return div {
 		Name = "explorer",
@@ -60,10 +66,10 @@ local function explorer(props: {}?)
 					bottom = 5,
 				},
 				vide.values(storybooks, function(entity)
-					return container_node { entity = entity }
+					return container_node { entity = entity, visible = visible }
 				end),
 				vide.values(unknown, function(entity)
-					return container_node { entity = entity }
+					return container_node { entity = entity, visible = visible }
 				end),
 			},
 		},

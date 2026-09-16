@@ -21,9 +21,15 @@ local videx = require "@utils/vide/videx"
 local ecs = require "@vendor/ecs"
 local container_title = require "./container-title"
 local story_node = require "./story"
+local use_visible_nodes = require "../use-visible-nodes"
+
+local STORYBOOK_NODE = ecs.pair(c.r_node, c.storybook)
+local FOLDER_NODE = ecs.pair(c.r_node, c.folder)
+local STORY_NODE = ecs.pair(c.r_node, c.story)
 
 type ContainerNodeProps = {
 	entity: ecs.Entity,
+	visible: use_visible_nodes.VisibleNodes,
 	is_child: boolean?,
 }
 
@@ -36,7 +42,7 @@ local function container_node(props: ContainerNodeProps)
 	local expanded = use_tag(entity, c.expanded)
 	local order = use_component(entity, c.node_order)
 
-	local is_storybook = use_tag(entity, c.storybook_node)
+	local is_storybook = use_tag(entity, STORYBOOK_NODE)
 	local node_name = use_component(entity, c.node_name)
 	local instance_name = use_instance_name(use_component(entity, c.node_instance))
 
@@ -46,6 +52,16 @@ local function container_node(props: ContainerNodeProps)
 	end
 
 	local children = use_query(world.query():with(ecs.pair(ecs.ChildOf, entity)))
+
+	-- an active search shows only the nodes with a matching descendant and forces them open,
+	-- the expanded tag is left alone so the tree snaps back once the search is cleared
+	local shown = function()
+		local visible = props.visible()
+		return visible == nil or visible[entity] == true
+	end
+	local opened = function()
+		return expanded() or props.visible() ~= nil
+	end
 
 	local function toggle_expanded()
 		if world.has(entity, c.expanded) then
@@ -59,6 +75,7 @@ local function container_node(props: ContainerNodeProps)
 		Name = name,
 		Size = UDim2.fromScale(1, 0),
 		AutomaticSize = Enum.AutomaticSize.Y,
+		Visible = shown,
 		LayoutOrder = function()
 			return order() or 0
 		end,
@@ -77,7 +94,7 @@ local function container_node(props: ContainerNodeProps)
 			},
 			container_title {
 				name = name,
-				expanded = expanded,
+				expanded = opened,
 				icon = function()
 					return if is_storybook() then IMAGES.storybook else IMAGES.folder
 				end,
@@ -110,7 +127,7 @@ local function container_node(props: ContainerNodeProps)
 				size = UDim.new(1, -13),
 				anchor = 0,
 			},
-			videx.show(expanded, function()
+			videx.show(opened, function()
 				return div {
 					Name = "children",
 					Size = UDim2.fromScale(1, 0),
@@ -123,10 +140,10 @@ local function container_node(props: ContainerNodeProps)
 						left = 16,
 					},
 					vide.values(children, function(child): Instance?
-						if world.has(child, c.folder_node) then
-							return container_node { entity = child, is_child = true }
-						elseif world.has(child, c.story_node) then
-							return story_node { entity = child, is_child = true }
+						if world.has(child, FOLDER_NODE) then
+							return container_node { entity = child, visible = props.visible, is_child = true }
+						elseif world.has(child, STORY_NODE) then
+							return story_node { entity = child, visible = props.visible, is_child = true }
 						end
 						return nil
 					end) :: any,

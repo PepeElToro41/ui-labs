@@ -9,7 +9,6 @@ local image = require "@ui/styles/image"
 local padding = require "@ui/styles/padding"
 local text = require "@ui/styles/text"
 local actions = require "@utils/vide/actions"
-local derivers = require "@utils/vide/derivers"
 local videx = require "@utils/vide/videx"
 
 export type DropdownItemProps = {
@@ -20,6 +19,8 @@ export type DropdownItemProps = {
 	icon: Derivable<string?>?,
 
 	order: number?,
+	--- a disabled item is greyed out, never hovers and never activates
+	disabled: Derivable<boolean>?,
 	--- called when the item is clicked
 	activated: (() -> ())?,
 	--- optional source that receives the hovered state of the item
@@ -38,7 +39,21 @@ local function dropdown_item(props: DropdownItemProps)
 	local theme = use_theme()
 	local hovered = props.hovered or vide.source(false)
 
-	local hover_transparency = vide.spring(derivers.boolean(hovered, 0, 1), 0.1, 1)
+	local disabled = function()
+		return vide.read(props.disabled) == true
+	end
+	local hover_transparency = vide.spring(function()
+		return if hovered() and not disabled() then 0 else 1
+	end, 0.1, 1)
+
+	local function on_activated()
+		if disabled() then
+			return
+		end
+		if props.activated then
+			props.activated()
+		end
+	end
 
 	return div {
 		Name = "dropdown_item",
@@ -66,7 +81,9 @@ local function dropdown_item(props: DropdownItemProps)
 				Size = UDim2.fromScale(1, 1),
 				ClipsDescendants = true,
 				Text = props.text,
-				TextColor3 = theme(themes.text1),
+				TextColor3 = function()
+					return theme()[if disabled() then themes.text3 else themes.text1]
+				end,
 				TextXAlignment = Enum.TextXAlignment.Left,
 			},
 			videx.show(props.shortcut, function()
@@ -90,7 +107,7 @@ local function dropdown_item(props: DropdownItemProps)
 			end),
 		},
 		click_detector {
-			Activated = props.activated,
+			Activated = on_activated,
 
 			actions.hovered(hovered),
 		},

@@ -13,12 +13,15 @@ local function use_target(entity: Derivable<ecs.Entity?>, relation: ecs.Id): Rea
 	vide.effect(function()
 		local entity = vide.read(entity) :: ecs.Entity?
 
-		vide.cleanup(world.added(relation, function(e)
+		-- hooks on the bare relation never fire for pairs, only the wildcard pair does
+		local listen = ecs.pair(relation, ecs.Wildcard)
+
+		vide.cleanup(world.added(listen, function(e)
 			if e == entity then
 				output(get(world, entity, relation))
 			end
 		end))
-		vide.cleanup(world.removed(relation, function(e)
+		vide.cleanup(world.removed(listen, function(e)
 			if e ~= entity then
 				return nil
 			end

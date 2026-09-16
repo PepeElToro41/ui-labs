@@ -30,4 +30,11 @@ export type StringControl = {
 	MultiLine: boolean,
 }
 
+export type ObjectPredicator = (instance: Instance) -> boolean
+
+export type ObjectControl = {
+	ClassName: string,
+	Predicator: ObjectPredicator?,
+}
+
 return nil

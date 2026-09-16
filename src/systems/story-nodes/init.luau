@@ -8,11 +8,14 @@ local ecs = require "@vendor/ecs"
 --[[
 	Builds the story explorer tree as entities.
 
-	- storybook node: the storybook module entity itself (storybook_node, node_name, node_order)
-	- folder node:    folder_node, node_instance, node_order, ChildOf(parent)
-	- story node:     story_node, node_name, node_order, (r_module, story entity), ChildOf(parent)
-	- unknown root:   unknown_node, node_name "Unknown", node_order (single top level node holding one
-	                  folder node per parent instance for stories outside every storybook)
+	Every node carries `(r_node, kind)`, so `(r_node, Wildcard)` matches any node and a query can
+	walk `ChildOf` upwards through folders to the storybook without knowing each node's kind.
+
+	- storybook node: the storybook module entity itself ((r_node, storybook), node_name, node_order)
+	- folder node:    (r_node, folder), node_instance, node_order, ChildOf(parent)
+	- story node:     (r_node, story), node_name, node_order, (r_module, story entity), ChildOf(parent)
+	- unknown root:   (r_node, unknown), node_name "Unknown", node_order (single top level node holding
+	                  one folder node per parent instance for stories outside every storybook)
 
 	A story is claimed by the nearest ancestor that is a storybook root (the storybook sorted first by
 	name wins a shared root), so any change runs a single reconcile pass that diffs the desired tree
@@ -27,6 +30,11 @@ local story_nodes = {}
 
 local STORY_EXTENSION = ecs.pair(c.r_extension, c.story)
 local STORYBOOK_EXTENSION = ecs.pair(c.r_extension, c.storybook)
+
+local STORYBOOK_NODE = ecs.pair(c.r_node, c.storybook)
+local FOLDER_NODE = ecs.pair(c.r_node, c.folder)
+local STORY_NODE = ecs.pair(c.r_node, c.story)
+local UNKNOWN_NODE = ecs.pair(c.r_node, c.unknown)
 
 local STORY_SUFFIX = CONFIG.file_extensions.story
 local STORYBOOK_SUFFIX = CONFIG.file_extensions.storybook
@@ -177,7 +185,7 @@ function story_nodes.system()
 		end
 
 		local node = ensure_node(folder_nodes, instance)
-		world.add(node, c.folder_node)
+		world.add(node, FOLDER_NODE)
 		world.set(node, c.node_instance, instance)
 		connect(instance, instance:GetPropertyChangedSignal("Name"):Connect(mark_dirty))
 		return node
@@ -388,7 +396,7 @@ function story_nodes.system()
 			tagged_storybooks[book.entity] = true
 			set_if_changed(book.entity, c.node_name, book.name)
 			set_if_changed(book.entity, c.node_order, order[book.entity])
-			world.add(book.entity, c.storybook_node)
+			world.add(book.entity, STORYBOOK_NODE)
 		end
 		for entity in tagged_storybooks do
 			if wanted_books[entity] then
@@ -396,7 +404,7 @@ function story_nodes.system()
 			end
 			tagged_storybooks[entity] = nil
 			if world.exists(entity) then
-				world.remove(entity, c.storybook_node)
+				world.remove(entity, STORYBOOK_NODE)
 				world.remove(entity, c.node_name)
 				world.remove(entity, c.node_order)
 			end
@@ -416,7 +424,7 @@ function story_nodes.system()
 				continue
 			end
 			local node = ensure_node(story_nodes, story.entity)
-			world.add(node, c.story_node)
+			world.add(node, STORY_NODE)
 			world.add(node, ecs.pair(c.r_module, story.entity))
 			set_if_changed(node, c.node_name, module_search.remove_extension(story.module.Name, STORY_SUFFIX))
 			set_if_changed(node, c.node_order, order[story.entity])
@@ -431,9 +439,9 @@ function story_nodes.system()
 		if children[unknown_node] then
 			set_if_changed(unknown_node, c.node_name, UNKNOWN_NAME)
 			set_if_changed(unknown_node, c.node_order, order[unknown_node])
-			world.add(unknown_node, c.unknown_node)
+			world.add(unknown_node, UNKNOWN_NODE)
 		else
-			world.remove(unknown_node, c.unknown_node)
+			world.remove(unknown_node, UNKNOWN_NODE)
 		end
 
 		-- every live node was re-parented above, so only other orphans can still hang off these
@@ -460,7 +468,7 @@ function story_nodes.owning_storybook(world: ecs.World, node: ecs.Entity): Story
 		-- stylua: ignore
 		query = world
 			.query_build()
-			:with(c.story_node)
+			:with(STORY_NODE)
 			:term(c.storybook_result):up(ecs.ChildOf)
 			:build()
 

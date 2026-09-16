@@ -5,7 +5,5 @@ local app = require "@ui/app"
 vide.strict = false
 
 return ui_labs.CreateVideStory({ vide = vide }, function(props)
-	return app {
-		target = props.target,
-	}
+	return app {}
 end)

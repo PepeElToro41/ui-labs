@@ -3,6 +3,7 @@ local SYSTEM_ORDER = {
 	module_loading = 10,
 	storybooks = 20,
 	story_nodes = 30,
+	previews = 40,
 
 	default = 10,
 }

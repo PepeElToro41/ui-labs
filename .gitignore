@@ -19,6 +19,9 @@ node_modules
 
 Packages
 
+# TS source from main, reference only for luau rewrite
+src-ts
+
 # Added by cargo
 
 /target

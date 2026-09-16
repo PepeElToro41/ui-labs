@@ -2,6 +2,8 @@ local add_names = require "@utils/ecs/add-names"
 local environment = require "@utils/hot-reloading/environment"
 local ecs = require "@vendor/ecs"
 
+export type StoryType = "Functional" | "React" | "Roact" | "Fusion" | "Iris" | "Vide" | "Generic"
+
 local components = {
 	module_script = ecs.component() :: ecs.Component<ModuleScript>,
 
@@ -10,7 +12,6 @@ local components = {
 	storybook = ecs.tag(),
 	uilabs_config = ecs.tag(),
 
-	folder = ecs.component() :: ecs.Component<Folder>,
 	expanded = ecs.tag(),
 
 	-- hot reloading --
@@ -24,19 +25,24 @@ local components = {
 	module_error = ecs.component() :: ecs.Component<string>,
 	storybook_result = ecs.component() :: ecs.Component<Storybook>,
 
-	-- story nodes --
-	storybook_node = ecs.tag(), -- lives on the storybook module entity itself
-	folder_node = ecs.tag(),
-	story_node = ecs.tag(),
-	unknown_node = ecs.tag(),
+	-- story nodes: every node carries (r_node, kind) so one wildcard term matches any node --
+	r_node = ecs.tag(), -- relation: node -> kind (storybook / folder / story / unknown)
+	folder = ecs.tag(), -- node kind
+	unknown = ecs.tag(), -- node kind (storybook / story kinds reuse the extension tags)
+	-- the storybook node lives on the storybook module entity itself
 
 	node_name = ecs.component() :: ecs.Component<string>, -- storybook / story display name
 	node_instance = ecs.component() :: ecs.Component<Instance>, -- folder / unknown bound instance (name read live)
 	node_order = ecs.component() :: ecs.Component<number>, -- layout order inside the parent
 	r_module = ecs.tag(), -- relation: story node -> story module entity
 
-	-- tab preview --
-	tab_preview = ecs.tag(),
+	-- previews (each preview loads the story module in its own environment, ChildOf its story node) --
+	story_preview = ecs.tag(),
+	quick_mounted = ecs.tag(), -- the single preview swapped by a plain click
+	selected_preview = ecs.tag(), -- active tab
+	preview_order = ecs.component() :: ecs.Component<number>, -- tab layout order, contiguous 1..n
+	story_type = ecs.component() :: ecs.Component<StoryType>, -- detected from the preview's module_result
+	story_error = ecs.component() :: ecs.Component<string>, -- why the result is not a valid story
 
 	preview_holder = ecs.component() :: ecs.Component<Frame>,
 	preview_holder_override = ecs.component() :: ecs.Component<Frame>,
@@ -49,6 +55,9 @@ local components = {
 
 add_names(components)
 ecs.meta(components.r_extension, ecs.Exclusive)
+
+-- a node has exactly one kind
+ecs.meta(components.r_node, ecs.Exclusive)
 
 -- a story node belongs to exactly one story module and is deleted with it
 ecs.meta(components.r_module, ecs.Exclusive)
