@@ -103,10 +103,10 @@ end
 function actions.absolute_shape(output: Source<GuiShape>)
 	return vide.action(function(gui: GuiObject)
 		local function update()
-			output({
+			output {
 				position = gui.AbsolutePosition,
 				size = gui.AbsoluteSize,
-			})
+			}
 		end
 
 		local position_changed = gui:GetPropertyChangedSignal("AbsolutePosition"):Connect(update)

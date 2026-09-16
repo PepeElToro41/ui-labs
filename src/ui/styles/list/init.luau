@@ -1,7 +1,7 @@
 local vide = require "@pkg/vide"
 
 export type ListProps = vide.vUIListLayout & {
-	gap: Derivable<number>?,
+	gap: Derivable<number?>,
 }
 
 local function list(props: ListProps)
