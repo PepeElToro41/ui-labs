@@ -4,10 +4,16 @@ type EnvironmentClass = {
 	create: () -> Environment,
 }
 
+export type Dependency = {
+	result: any?,
+	error: any?,
+}
+
 export type Environment = EnvironmentClass & {
 	uuid: string,
 	shared: { [any]: any },
-	dependencies: { [ModuleScript]: { result: any } },
+	injection: { [any]: any }?,
+	dependencies: { [ModuleScript]: Dependency },
 	loading_dependencies: { [ModuleScript]: { (result: any) -> () } },
 
 	connected: boolean,
@@ -18,8 +24,8 @@ export type Environment = EnvironmentClass & {
 	connect_dependency: (Environment, dependency: ModuleScript) -> (),
 
 	inject: (Environment, key: string, value: any) -> (),
-	get_injection: (Environment) -> { [any]: any },
-	load_dependency: (Environment, dependency: ModuleScript) -> (),
+	get_injection: (Environment) -> { [any]: any }?,
+	load_dependency: (Environment, dependency: ModuleScript) -> any,
 }
 
 return nil

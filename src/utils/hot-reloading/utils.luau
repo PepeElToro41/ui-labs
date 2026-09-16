@@ -6,8 +6,11 @@ function utils.set_environment(virtual_module: () -> any, module: ModuleScript, 
 	local globals = {
 		_G = environment.shared,
 		script = module,
-		require = function()
-			return environment:load_dependency(module)
+		require = function(target: any)
+			if typeof(target) ~= "Instance" or not target:IsA "ModuleScript" then
+				error("require must be called with a ModuleScript", 2)
+			end
+			return environment:load_dependency(target)
 		end,
 	}
 	local env = getfenv()
