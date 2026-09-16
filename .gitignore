@@ -5,6 +5,7 @@ roblox.yml
 roblox.toml
 
 globalTypes.d.lua
+generated.d.luau
 serve
 include
 *.tsbuildinfo

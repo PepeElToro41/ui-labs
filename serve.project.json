@@ -1,5 +1,5 @@
 {
-	"name": "ui-labs-vide-dev",
+	"name": "ui-labs-ecs",
 	"tree": {
 		"$className": "DataModel",
 		"ServerScriptService": {
