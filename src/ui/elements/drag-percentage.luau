@@ -29,6 +29,7 @@ local function drag_percentage(props: DragPercentageProps)
 
 	return click_detector {
 		Name = props.name or "drag_percentage",
+		props.native or {},
 
 		actions.absolute_shape(slider_shape),
 		props.hovered and actions.hovered(props.hovered) :: any,
@@ -47,6 +48,7 @@ local function drag_percentage(props: DragPercentageProps)
 			end,
 
 			props.dragging and actions.dragging(props.dragging) :: any,
+			props.drag_native or {},
 		},
 	}
 end

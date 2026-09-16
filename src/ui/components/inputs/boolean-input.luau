@@ -1,6 +1,5 @@
 local use_theme = require "@contexts/theme/use-theme"
 local vide = require "@pkg/vide"
-local themes = require "@themes"
 local interaction_hover = require "@ui/elements/interaction-hover"
 local click_detector = require "@ui/styles/click-detector"
 local div = require "@ui/styles/div"
