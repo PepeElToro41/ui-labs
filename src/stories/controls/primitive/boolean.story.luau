@@ -1,20 +1,23 @@
 local ui_labs = require "@pkg/ui-labs"
 local vide = require "@pkg/vide"
 local boolean_control = require "@ui/main-panel/control-rendering/primitive/boolean"
-local div = require "@ui/styles/div"
+local utils = require "../utils"
+
+vide.strict = false
 
 return ui_labs.CreateVideStory({ vide = vide }, function(props)
-	local value = vide.source(false)
+	local default = false
+	local value = vide.source(default)
 
-	return div {
-		Position = UDim2.fromScale(0.5, 0.5),
-
-		boolean_control {
+	return utils.story_control {
+		controls = boolean_control {
 			name = "boolean control",
-			reset = function() end,
+			control = {},
 			value = value,
 			apply = value,
-			control = {},
+			reset = function()
+				value(default)
+			end,
 		},
 	}
 end)
