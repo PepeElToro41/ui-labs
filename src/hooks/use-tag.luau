@@ -3,7 +3,7 @@ local use_world = require "@src/contexts/world/use-world"
 local ecs = require "@vendor/ecs"
 
 local function has(world: ecs.World, entity: ecs.Entity?, tag: ecs.Id)
-	return if entity then world.has(entity, tag) else false
+	return if entity and world.exists(entity) then world.has(entity, tag) else false
 end
 
 local function use_tag(entity: Derivable<ecs.Entity>, tag: ecs.Id): Reactive<boolean>

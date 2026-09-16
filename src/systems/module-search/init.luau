@@ -1,6 +1,5 @@
 local ecs = require "@vendor/ecs"
 local CONFIG = require "@constants/config"
-local use_system = require "@contexts/scheduler/use-system"
 local use_world = require "@contexts/world/use-world"
 local vide = require "@pkg/vide"
 local c = require "@src/components"
@@ -13,7 +12,7 @@ local function match_extension(name: string, extension: string)
 	return name:match("%" .. extension .. "$")
 end
 
-function search_modules(roots: { Instance })
+local function search_modules(roots: { Instance })
 	local modules: { ModuleScript } = {}
 
 	for _, parent in roots do
@@ -28,8 +27,9 @@ function search_modules(roots: { Instance })
 	return modules
 end
 
-function module_search.remove_extension(name: string, extension: string)
-	return name:gsub("%" .. extension .. "$", "")
+function module_search.remove_extension(name: string, extension: string): string
+	local removed = name:gsub("%" .. extension .. "$", "")
+	return removed
 end
 
 function module_search.match_module_extension(world: ecs.World, entity: ecs.Entity, module: ModuleScript)
@@ -59,6 +59,11 @@ function module_search.system()
 	local name_changed_connections: Map<ModuleScript, RBXScriptConnection> = {}
 
 	local function on_module_added(module: ModuleScript)
+		-- a module removed and re-added in the same frame keeps its entity
+		if module_map[module] then
+			return
+		end
+
 		local entity = world.entity()
 		world.set(entity, c.module_script, module)
 
@@ -71,8 +76,24 @@ function module_search.system()
 		name_changed_connections[module] = changed
 	end
 
+	local function on_module_removed(module: ModuleScript)
+		local changed = name_changed_connections[module]
+		if changed then
+			changed:Disconnect()
+			name_changed_connections[module] = nil
+		end
+
+		local entity = module_map[module]
+		if entity then
+			world.delete(entity)
+			module_map[module] = nil
+		end
+	end
+
+	-- the initial scan is drained on the first frame so every other system
+	-- already has its monitors registered when the entities appear
 	for _, module in search_modules(CONFIG.story_search) do
-		on_module_added(module)
+		on_descendant_added[module] = true
 	end
 
 	for _, search in CONFIG.story_search do
@@ -90,7 +111,21 @@ function module_search.system()
 		end))
 	end
 
+	vide.cleanup(function()
+		for _, connection in name_changed_connections do
+			connection:Disconnect()
+		end
+		table.clear(name_changed_connections)
+	end)
+
 	return function()
+		-- removals before additions: a remove + add of the same module in one
+		-- frame must end with exactly one entity
+		for _, module in on_descendant_removed do
+			on_module_removed(module)
+		end
+		table.clear(on_descendant_removed)
+
 		for module in on_descendant_added do
 			on_module_added(module)
 		end
@@ -103,21 +138,6 @@ function module_search.system()
 			end
 		end
 		table.clear(on_name_changed)
-
-		for _, module in on_descendant_removed do
-			local changed = name_changed_connections[module]
-			if changed then
-				changed:Disconnect()
-				name_changed_connections[module] = nil
-			end
-
-			local entity = module_map[module]
-			if entity then
-				world.delete(entity)
-				module_map[module] = nil
-			end
-		end
-		table.clear(on_descendant_removed)
 	end
 end
 

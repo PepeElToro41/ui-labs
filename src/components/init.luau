@@ -21,7 +21,19 @@ local components = {
 	reload_postponed = ecs.tag(),
 
 	module_result = ecs.component() :: ecs.Component<unknown>,
+	module_error = ecs.component() :: ecs.Component<string>,
 	storybook_result = ecs.component() :: ecs.Component<Storybook>,
+
+	-- story nodes --
+	storybook_node = ecs.tag(), -- lives on the storybook module entity itself
+	folder_node = ecs.tag(),
+	story_node = ecs.tag(),
+	unknown_node = ecs.tag(),
+
+	node_name = ecs.component() :: ecs.Component<string>, -- storybook / story display name
+	node_instance = ecs.component() :: ecs.Component<Instance>, -- folder / unknown bound instance (name read live)
+	node_order = ecs.component() :: ecs.Component<number>, -- layout order inside the parent
+	r_module = ecs.tag(), -- relation: story node -> story module entity
 
 	-- tab preview --
 	tab_preview = ecs.tag(),
@@ -37,5 +49,9 @@ local components = {
 
 add_names(components)
 ecs.meta(components.r_extension, ecs.Exclusive)
+
+-- a story node belongs to exactly one story module and is deleted with it
+ecs.meta(components.r_module, ecs.Exclusive)
+ecs.meta(components.r_module, ecs.pair(ecs.OnDeleteTarget, ecs.Delete))
 
 return components

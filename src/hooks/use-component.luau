@@ -2,8 +2,11 @@ local vide = require "@pkg/vide"
 local use_world = require "@src/contexts/world/use-world"
 local ecs = require "@vendor/ecs"
 
-local function get(world: ecs.World, entity: ecs.Entity?, id: ecs.Component)
-	return if entity then world.get(entity, id) else nil
+local function get(world: ecs.World, entity: ecs.Entity, id: ecs.Component)
+	if not world.exists(entity) then
+		return nil
+	end
+	return world.get(entity, id)
 end
 
 function use_component<T>(entity: Derivable<ecs.Entity>, id: ecs.Component<T>): Reactive<T>
@@ -12,24 +15,36 @@ function use_component<T>(entity: Derivable<ecs.Entity>, id: ecs.Component<T>): 
 
 	vide.effect(function()
 		local entity = vide.read(entity) :: ecs.Entity
+		if not entity then
+			output(nil)
+			return
+		end
+
+		local live = true
+		vide.cleanup(function()
+			live = false
+		end)
+
 		local listen = ecs.is_pair(id) and world.pair_first(id) or id
 
-		vide.cleanup(world.added(listen, function(entity, _, value)
-			if entity == entity then
+		vide.cleanup(world.added(listen, function(e)
+			if e == entity then
 				output(get(world, entity, id))
 			end
 		end))
-		vide.cleanup(world.changed(listen, function(entity, _, value)
-			if entity == entity then
+		vide.cleanup(world.changed(listen, function(e)
+			if e == entity then
 				output(get(world, entity, id))
 			end
 		end))
-		vide.cleanup(world.removed(listen, function(entity, removed)
-			if entity ~= entity then
+		vide.cleanup(world.removed(listen, function(e)
+			if e ~= entity then
 				return nil
 			end
 			return function()
-				output(get(world, entity, id))
+				if live then
+					output(get(world, entity, id))
+				end
 			end
 		end))
 

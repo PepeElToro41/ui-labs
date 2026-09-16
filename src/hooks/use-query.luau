@@ -15,6 +15,7 @@ local function use_query(query: Derivable<ecs.Query<any>?>): Reactive<Array<ecs.
 
 		if not query then
 			output(entities)
+			return
 		end
 
 		local monitor = query:monitor()
