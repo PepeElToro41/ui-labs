@@ -8,7 +8,7 @@ local function right_list(props: list.ListProps)
 		Name = "RightList",
 		FillDirection = Enum.FillDirection.Horizontal,
 		HorizontalAlignment = Enum.HorizontalAlignment.Right,
-		Gap = gap,
+		gap = gap,
 		props,
 	} :: any)
 end

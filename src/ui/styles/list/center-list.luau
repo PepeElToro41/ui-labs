@@ -8,7 +8,7 @@ local function center_list(props: list.ListProps)
 		Name = "CenterList",
 		HorizontalAlignment = Enum.HorizontalAlignment.Center,
 		VerticalAlignment = Enum.VerticalAlignment.Center,
-		Gap = gap,
+		gap = gap,
 		props,
 	} :: any)
 end

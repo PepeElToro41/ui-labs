@@ -1,45 +1,37 @@
 local IMAGES = {
-
 	-- Effects
-	Blur = "rbxassetid://14120516187", -- from littensy slither
-	Vignette = "rbxassetid://14120516929", -- from littensy slither
-
+	blur = "rbxassetid://14120516187", -- from littensy slither
+	vignette = "rbxassetid://14120516929", -- from littensy slither
 	-- UI
-	Search = "rbxassetid://104056395953555",
-	Logo = "rbxassetid://18977714894",
-	Cross = "rbxassetid://18992233200",
-	Pattern = "rbxassetid://18992659430",
-	StoryApp = "rbxassetid://16442161953",
-	HamburgerMenu = "rbxassetid://75204011324189",
-	ToolbarLayout = "rbxassetid://121773742274698",
-	Close = "rbxassetid://121502092628708",
-	Corner = "rbxassetid://86339120976263",
-	RightArrow = "rbxassetid://98515959792894",
-	Anchor = "rbxassetid://124902076781627",
-
-	Dot = "rbxassetid://90763872297559",
-	DotOptions = "rbxassetid://18977916731",
-
+	search = "rbxassetid://104056395953555",
+	logo = "rbxassetid://18977714894",
+	cross = "rbxassetid://18992233200",
+	pattern = "rbxassetid://18992659430",
+	story_app = "rbxassetid://16442161953",
+	hamburger_menu = "rbxassetid://75204011324189",
+	toolbar_layout = "rbxassetid://121773742274698",
+	close = "rbxassetid://121502092628708",
+	corner = "rbxassetid://86339120976263",
+	right_arrow = "rbxassetid://98515959792894",
+	anchor = "rbxassetid://124902076781627",
+	dot = "rbxassetid://90763872297559",
+	dot_options = "rbxassetid://18977916731",
 	-- Tabs Panel
-	PinOn = "rbxassetid://81592042672386",
-	PinOff = "rbxassetid://106299441873088",
-	PanelBottom = "rbxassetid://115599519069654",
-	PanelRight = "rbxassetid://102977980943227",
-	FollowOverlayOn = "rbxassetid://94809684153731",
-	FollowOverlayOff = "rbxassetid://106330709817575",
-
+	pin_on = "rbxassetid://81592042672386",
+	pin_off = "rbxassetid://106299441873088",
+	panel_bottom = "rbxassetid://115599519069654",
+	panel_right = "rbxassetid://102977980943227",
+	follow_overlay_on = "rbxassetid://94809684153731",
+	follow_overlay_off = "rbxassetid://106330709817575",
 	-- Explorer
-	Folder = "rbxassetid://84281705413893",
-	Storybook = "rbxassetid://114927816867059",
-	Story = "rbxassetid://137046521780742",
-
-	Expanded = "rbxassetid://80464345551642",
-	Collapsed = "rbxassetid://98515959792894",
-
+	folder = "rbxassetid://84281705413893",
+	storybook = "rbxassetid://114927816867059",
+	story = "rbxassetid://137046521780742",
+	expanded = "rbxassetid://80464345551642",
+	collapsed = "rbxassetid://98515959792894",
 	-- Toolbar
-	Reload = "rbxassetid://137661226785658",
-	ZoomIn = "rbxassetid://107054653929042",
-	ZoomOut = "rbxassetid://94778654264767",
+	reload = "rbxassetid://137661226785658",
+	zoom_in = "rbxassetid://107054653929042",
+	zoom_out = "rbxassetid://94778654264767",
 }
-
 return IMAGES

@@ -1,8 +1,11 @@
 local vide = require "@pkg/vide"
 local div = require "@ui/styles/div"
+local padding = require "@ui/styles/padding"
+local scroller = require "@ui/styles/scroller"
 local utils = require "@utils"
 local actions = require "@utils/vide/actions"
 local videx = require "@utils/vide/videx"
+
 -- anchor points for wrapping the popup. This is per-axis.
 -- these are all 5 possible spots for each axis, 25 in total.
 -- -1: Position: 0, AnchorPoint: 1
@@ -15,7 +18,7 @@ export type WrappeablePlaces = { Vector2 }
 type PopupHolderProps = {
 	Name: string?,
 	--- optional GuiObject that represents the visible canvas area where the popup can be.
-	--- the overlay_holder context is used as a default automatically
+	--- if not provided, the popup's parent is used as the canvas
 	canvas: Derivable<GuiObject?>?,
 
 	--- what axis is used when calculating what wrapping place gives the most visible area
@@ -31,7 +34,7 @@ type PopupHolderProps = {
 	--- padding that gets added to where the popup originates.
 	padding: Derivable<(number | Vector2)?>?,
 	--- padding that gets applied inside the popup.
-	--- this wont get applied to the top_overlay
+	--- this wont get applied to the overlay_native
 	inner_padding: Derivable<(number | Vector2)?>?,
 	--- padding that gets applied outside the popup.
 	--- this doesnt affect how the popup looks or its position
@@ -47,16 +50,19 @@ type PopupHolderProps = {
 	wrappable_places: WrappeablePlaces,
 
 	--- optional function to derive an extra position to be added to anchor_position dependening on the current wrapped place
-	wrap_padding: (() -> Vector2)?,
+	wrap_padding: ((wrap: Vector2) -> Vector2)?,
 
 	--- function that renders the popup children, also receives a reactive value that contains the place the popup is wrapped.
 	children: (wrap: Reactive<Vector2>) -> any,
 
-	--- children that get placed on top of the popup, these are outside of the popup frame
-	--- so they wont affect AutomaticSize and will not cause the popup to get wrapped if its outside of the canvas
-	top_overlay: any,
+	-- props and children that get applied to the scroller that holds the popup, this is only relevant if props.scrollable is true
+	scroller_native: vide.vScrollingFrame?,
 
-	--- extra properties that get applied to the popup frame, you cant change: AnchorPoint, Position
+	--- props and children that get applied to the popup overlay, these are outside of the popup frame
+	--- so they wont affect AutomaticSize and will not cause the popup to get wrapped if any children is outside of the canvas
+	overlay_native: any,
+
+	--- extra properties that get applied to the popup frame, you cant change: AnchorPoint, Position, Size, AutomaticSize
 	native: vide.vFrame?,
 }
 
@@ -109,8 +115,10 @@ function get_final_anchor_position(
 	return final
 end
 
-local function get_padding_vector(padding: Vector2 | number)
-	if typeof(padding) == "number" then
+local function get_padding_vector(padding: (Vector2 | number)?)
+	if padding == nil then
+		return Vector2.zero
+	elseif typeof(padding) == "number" then
 		return Vector2.one * padding
 	else
 		return padding
@@ -118,32 +126,95 @@ local function get_padding_vector(padding: Vector2 | number)
 end
 
 local function popup_holder(props: PopupHolderProps)
-	local canvas = props.canvas
-	local padding = props.padding or 0
+	local anchor_padding = props.padding or 0
+	local inner_padding = props.inner_padding or 0
+	local outer_padding = props.outer_padding or 0
 	local scrollable = utils.nonnil(props.scrollable, true)
 
-	local canvas_shape = vide.source({} :: actions.GuiShape)
-	local anchor_pos = vide.source(get_anchor_position(vide.read(props.anchor_position)))
-	local anchor_size = vide.source(get_anchor_size(vide.read(props.anchor_size or Vector2.zero)))
+	local canvas_shape = actions.shape_source()
+	local popup_contents_area = vide.source(Vector2.zero)
+	local anchor_pos = vide.source(Vector2.zero)
+	local anchor_size = vide.source(Vector2.zero)
 	local wrapped_place = vide.source(props.wrappable_places[1])
-	local visible_area = vide.source(Vector2.zero)
-	local inner_size = vide.source(Vector2.zero)
+	local limited_visible_area = vide.source(nil :: Vector2?)
+	-- parent of the popup, used as the canvas when props.canvas is not provided
+	local popup_parent = vide.source(nil :: GuiObject?)
 
-	local inner_padding = props.inner_padding or 0
-	local final_inner_size = function()
-		return inner_size() + get_padding_vector(vide.read(inner_padding))
+	-- contents size + inner padding on both sides
+	local popup_area = function(): Vector2
+		return popup_contents_area() + get_padding_vector(vide.read(inner_padding)) * 2
 	end
 
-	local outer_padding = props.outer_padding or 0
-
 	vide.effect(function()
-		local canvas = vide.read(canvas)
-		actions.absolute_shape(canvas_shape).callback(canvas)
+		local canvas = vide.read(props.canvas) or popup_parent()
+		if canvas then
+			actions.absolute_shape(canvas_shape).callback(canvas)
+		end
 	end)
 
 	vide.effect(function()
-		local current_pos = vide.read(props.anchor_position) :: GuiObject
-		local current_size = vide.read(props.anchor_size) :: GuiObject
+		local area = popup_area()
+		local anchor_pos = anchor_pos()
+		local anchor_size = anchor_size()
+		local canvas_shape = canvas_shape()
+		local dominant_axis = vide.read(props.dominant_axis)
+		local anchor_padding = vide.read(anchor_padding)
+		local canvas_margin = get_padding_vector(vide.read(outer_padding))
+
+		local best_fit: Vector2? = nil
+		local best_fit_visible = Vector2.zero
+
+		for _, possible_wrap in props.wrappable_places do
+			local position = get_final_anchor_position(
+				canvas_shape,
+				anchor_pos,
+				anchor_size,
+				anchor_padding,
+				possible_wrap,
+				props.wrap_padding
+			)
+			local anchor = get_wrap_anchor_point(possible_wrap)
+			local start_pos = position - (anchor * area)
+			local final_pos = start_pos + area
+
+			local cropped_start = Vector2.max(start_pos, canvas_margin)
+			local cropped_final = Vector2.min(final_pos, canvas_shape.size - canvas_margin)
+
+			local visible_size = Vector2.max(cropped_final - cropped_start, Vector2.zero)
+
+			if visible_size.X >= area.X and visible_size.Y >= area.Y then
+				-- popup is completely visible
+				limited_visible_area(nil)
+				wrapped_place(possible_wrap)
+				return
+			else
+				--	popup is only partially visible
+				if dominant_axis == Enum.DominantAxis.Width then
+					if best_fit_visible.X < visible_size.X then
+						best_fit = possible_wrap
+						best_fit_visible = visible_size
+					end
+				else
+					if best_fit_visible.Y < visible_size.Y then
+						best_fit = possible_wrap
+						best_fit_visible = visible_size
+					end
+				end
+			end
+		end
+
+		if best_fit then
+			wrapped_place(best_fit)
+			limited_visible_area(best_fit_visible)
+		else
+			wrapped_place(props.wrappable_places[1])
+			limited_visible_area(nil)
+		end
+	end)
+
+	vide.effect(function()
+		local current_pos = vide.read(props.anchor_position)
+		local current_size = vide.read(props.anchor_size)
 
 		anchor_pos(get_anchor_position(current_pos))
 		anchor_size(get_anchor_size(current_size))
@@ -165,12 +236,27 @@ local function popup_holder(props: PopupHolderProps)
 			canvas_shape(),
 			anchor_pos(),
 			anchor_size(),
-			vide.read(padding),
+			vide.read(anchor_padding),
 			wrapped_place(),
 			props.wrap_padding
 		)
 		return UDim2.fromOffset(final.X, final.Y)
 	end)
+
+	-- size is content driven so it never depends on the holder size,
+	-- otherwise shrinking the holder would shrink the contents and cause a feedback loop
+	local popup_contents = div {
+		Name = "popup_contents",
+		props.native or {},
+		{
+			AnchorPoint = Vector2.new(0, 0),
+			Position = UDim2.fromScale(0, 0),
+			Size = UDim2.fromOffset(0, 0),
+			AutomaticSize = Enum.AutomaticSize.XY,
+		},
+		vide.changed("AbsoluteSize", popup_contents_area),
+		props.children(wrapped_place),
+	}
 
 	return div {
 		Name = props.Name or "popup",
@@ -179,20 +265,65 @@ local function popup_holder(props: PopupHolderProps)
 			return get_wrap_anchor_point(wrapped_place())
 		end,
 		Size = function()
-			local inner = final_inner_size()
-			if visible_area() then
-				local cropped = Vector2.min(inner, visible_area() :: any)
-				return UDim2.fromOffset(cropped.X, cropped.Y)
-			else
-				return UDim2.fromOffset(inner.X, inner.Y)
+			local area = popup_area()
+			local limited = limited_visible_area()
+			if limited then
+				area = Vector2.min(area, limited)
 			end
+			return UDim2.fromOffset(area.X, area.Y)
 		end,
+		ClipsDescendants = function()
+			return not scrollable and limited_visible_area() ~= nil
+		end,
+		vide.action(function(frame: Frame)
+			local function update()
+				local parent = frame.Parent
+				popup_parent(if parent and parent:IsA "GuiObject" then parent else nil)
+			end
+			videx.connect(frame:GetPropertyChangedSignal "Parent", update)
+			update()
+		end),
 
 		div {
 			Name = "popup_children",
-			videx.show(props.inner_padding, function() end),
+			videx.show(props.inner_padding, function()
+				return padding {
+					paddingx = function()
+						return get_padding_vector(vide.read(inner_padding)).X
+					end,
+					paddingy = function()
+						return get_padding_vector(vide.read(inner_padding)).Y
+					end,
+				}
+			end),
+			videx.switch(scrollable) {
+				[true] = function()
+					return scroller {
+						Name = "popup_scroller",
+						props.scroller_native or {},
+						{
+							Size = function()
+								if limited_visible_area() then
+									return UDim2.new(1, 4, 1, 4)
+								else
+									return UDim2.fromScale(1, 1)
+								end
+							end,
+							AutomaticCanvasSize = Enum.AutomaticSize.None,
+							CanvasSize = function()
+								local area = popup_contents_area()
+								return UDim2.fromOffset(area.X, area.Y)
+							end,
+						},
+						popup_contents,
+					}
+				end,
+				[false] = function()
+					return popup_contents
+				end,
+			},
 		},
-		props.top_overlay,
+		props.overlay_native,
 	}
 end
 

@@ -1,3 +1,13 @@
+export type ControlProps<T, V> = {
+	name: string,
+	control: T,
+	order: number?,
+
+	value: Reactive<V>,
+	apply: (val: V) -> any,
+	reset: () -> (),
+}
+
 export type SliderControl = {
 	Min: number,
 	Max: number,
@@ -20,4 +30,4 @@ export type StringControl = {
 	MultiLine: boolean,
 }
 
-type BooleanControl = {}
+return nil

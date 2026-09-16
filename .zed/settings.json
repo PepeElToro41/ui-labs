@@ -29,7 +29,6 @@
 					},
 					"types": {
 						"definitionFiles": [
-							"types/controls.d.luau",
 							"types/nodes.d.luau",
 							"types/services.d.luau",
 							"types/types.d.luau",

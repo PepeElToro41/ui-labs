@@ -93,16 +93,25 @@ export type GuiShape = {
 	size: Vector2,
 }
 
+function actions.shape_source(): Source<GuiShape>
+	return vide.source({
+		position = Vector2.zero,
+		size = Vector2.zero,
+	} :: GuiShape)
+end
+
 function actions.absolute_shape(output: Source<GuiShape>)
 	return vide.action(function(gui: GuiObject)
-		local position_changed = gui:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-			output().position = gui.AbsolutePosition
-			output(output())
-		end)
-		local size_changed = gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-			output().size = gui.AbsoluteSize
-			output(output())
-		end)
+		local function update()
+			output({
+				position = gui.AbsolutePosition,
+				size = gui.AbsoluteSize,
+			})
+		end
+
+		local position_changed = gui:GetPropertyChangedSignal("AbsolutePosition"):Connect(update)
+		local size_changed = gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(update)
+		update()
 
 		vide.cleanup(position_changed)
 		vide.cleanup(size_changed)

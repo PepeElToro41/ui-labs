@@ -12,14 +12,13 @@ local function use_tag(entity: Derivable<ecs.Entity>, tag: ecs.Id): Reactive<boo
 
 	vide.effect(function()
 		local entity = vide.read(entity) :: ecs.Entity
-		local listen = ecs.is_pair(tag) and world.pair_first(tag) or tag
 
-		vide.cleanup(world.added(listen, function(e)
+		vide.cleanup(world.added(tag, function(e)
 			if e == entity then
 				output(has(world, entity, tag))
 			end
 		end))
-		vide.cleanup(world.removed(listen, function(e)
+		vide.cleanup(world.removed(tag, function(e)
 			if e ~= entity then
 				return nil
 			end

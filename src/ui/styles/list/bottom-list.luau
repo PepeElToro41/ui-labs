@@ -8,7 +8,7 @@ local function bottom_list(props: list.ListProps)
 		Name = "BottomList",
 		FillDirection = Enum.FillDirection.Vertical,
 		VerticalAlignment = Enum.VerticalAlignment.Bottom,
-		Gap = gap,
+		gap = gap,
 		props,
 	} :: any)
 end

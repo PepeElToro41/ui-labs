@@ -1,6 +1,6 @@
-local images = require "@constants/images"
-local use_theme = require "@contexts/theme/use-theme"
 local vide = require "@pkg/vide"
+local use_theme = require "@contexts/theme/use-theme"
+local IMAGES = require "@constants/images"
 
 local div = require "@ui/styles/div"
 local frame = require "@ui/styles/frame"
@@ -31,7 +31,7 @@ function drag_handle(props: {})
 		},
 		image {
 			AnchorPoint = Vector2.new(0, 0.5),
-			Image = images.RightArrow,
+			Image = IMAGES.right_arrow,
 			ImageColor3 = function()
 				if clicked() then
 					return theme().text1
@@ -44,7 +44,7 @@ function drag_handle(props: {})
 		},
 		image {
 			AnchorPoint = Vector2.new(1, 0.5),
-			Image = images.RightArrow,
+			Image = IMAGES.right_arrow,
 			ImageColor3 = function()
 				if clicked() then
 					return theme().text1
@@ -67,7 +67,7 @@ type NumberEntryProps = {
 	max: number?,
 	step: number?,
 	prefix: string?,
-	native: vide.vTextButton,
+	native: vide.vTextButton?,
 }
 
 local MIN_SIZE = 75
@@ -88,7 +88,7 @@ function number_entry(props: NumberEntryProps)
 				out_input.CursorPosition = #out_input.Text + 1
 			end
 		end,
-		props.native,
+		props.native or {},
 
 		div {
 			Size = UDim2.fromScale(0, 1),

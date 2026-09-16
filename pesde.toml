@@ -29,7 +29,7 @@ scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
 [dependencies]
 rsml = { wally = "cameronpcampbell/rsml", version = "^1.0.10" }
 immut = { wally = "solarhorizon/immut", version = "^0.4.4" }
-ripple = { wally = "littensy/ripple", version = "^0.9.1" }
+ripple = { wally = "littensy/ripple", version = "^0.10.1" }
 collections = { wally = "jsdotlua/collections", version = "^1.2.7" }
 promise = { wally = "howmanysmall/typed-promise", version = "^4.0.3" }
 signal = { wally = "data-oriented-house/lemonsignal", version = "^1.10.0" }

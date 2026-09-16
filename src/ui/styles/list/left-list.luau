@@ -8,7 +8,7 @@ local function left_list(props: list.ListProps)
 		Name = "LeftList",
 		FillDirection = Enum.FillDirection.Horizontal,
 		HorizontalAlignment = Enum.HorizontalAlignment.Left,
-		Gap = gap,
+		gap = gap,
 		props,
 	} :: any)
 end

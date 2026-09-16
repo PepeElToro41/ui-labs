@@ -18,6 +18,7 @@ local components = {
 	r_shared_environment = ecs.tag(),
 	auto_reload = ecs.tag(),
 	reload_queued = ecs.tag(),
+	reload_postponed = ecs.tag(),
 
 	module_result = ecs.component() :: ecs.Component<unknown>,
 	storybook_result = ecs.component() :: ecs.Component<Storybook>,

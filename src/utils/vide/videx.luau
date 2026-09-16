@@ -141,6 +141,20 @@ function utils.show(value: any, render: () -> any): any
 	end
 end
 
+function utils.switch(value: any): (map: { [any]: any }) -> any
+	return function(map)
+		if typeof(value) == "function" then
+			return vide.switch(value)(map)
+		else
+			local render = map[value]
+			if render then
+				return render()
+			end
+			return nil
+		end
+	end
+end
+
 type Connection = {
 	Disconnect: (self: any) -> (),
 }

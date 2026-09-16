@@ -216,19 +216,12 @@ index_url = "https://github.com/UpliftGames/wally-index"
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
 
-[graph."wally#littensy/ripple@0.9.3 roblox"]
-direct = ["ripple", { wally = "wally#littensy/ripple", version = "^0.9.1", index = "default" }, "standard"]
+[graph."wally#littensy/ripple@0.10.1 roblox"]
+direct = ["ripple", { wally = "wally#littensy/ripple", version = "^0.10.1", index = "default" }, "standard"]
 
-[graph."wally#littensy/ripple@0.9.3 roblox".dependencies]
-Promise = ["wally#evaera/promise@4.0.0 roblox", "standard"]
-
-[graph."wally#littensy/ripple@0.9.3 roblox".pkg_ref]
+[graph."wally#littensy/ripple@0.10.1 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
-
-[graph."wally#littensy/ripple@0.9.3 roblox".pkg_ref.dependencies]
-Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
-TestEZ = [{ wally = "wally#roblox/testez", version = ">=0.4.1, <0.5.0", index = "https://github.com/UpliftGames/wally-index" }, "dev"]
 
 [graph."wally#osyrisrblx/t@3.1.1 roblox"]
 direct = ["t", { wally = "wally#osyrisrblx/t", version = "^3.1.1", index = "default" }, "standard"]

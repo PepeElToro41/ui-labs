@@ -8,7 +8,7 @@ local function top_list(props: list.ListProps)
 		Name = "TopList",
 		FillDirection = Enum.FillDirection.Vertical,
 		VerticalAlignment = Enum.VerticalAlignment.Top,
-		Gap = gap,
+		gap = gap,
 		props,
 	} :: any)
 end
