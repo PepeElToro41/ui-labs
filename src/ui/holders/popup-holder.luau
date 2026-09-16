@@ -220,13 +220,15 @@ local function popup_holder(props: PopupHolderProps)
 		anchor_size(get_anchor_size(current_size))
 
 		if typeof(current_pos) == "Instance" then
-			videx.connect(current_pos:GetPropertyChangedSignal "AbsolutePosition", function()
-				anchor_pos(current_pos.AbsolutePosition)
+			local gui = current_pos :: GuiObject
+			videx.connect(gui:GetPropertyChangedSignal "AbsolutePosition", function()
+				anchor_pos(gui.AbsolutePosition)
 			end)
 		end
 		if typeof(current_size) == "Instance" then
-			videx.connect(current_size:GetPropertyChangedSignal "AbsoluteSize", function()
-				anchor_size(current_size.AbsoluteSize)
+			local gui = current_size :: GuiObject
+			videx.connect(gui:GetPropertyChangedSignal "AbsoluteSize", function()
+				anchor_size(gui.AbsoluteSize)
 			end)
 		end
 	end)

@@ -140,7 +140,7 @@ local function resizable_panel(props: ResizablePanelProps)
 				vide.action(current_detector),
 			},
 		},
-		frame {
+		div {
 			Name = "Contents",
 			Size = UDim2.fromScale(1, 1),
 			Visible = function()

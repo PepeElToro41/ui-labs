@@ -23,7 +23,6 @@ export type Services = {
 	CalloutService: CalloutService,
 	CaptureService: CaptureService,
 	Chat: Chat,
-	ChatbotUIService: ChatbotUIService,
 	CollaboratorsService: CollaboratorsService,
 	CollectionService: CollectionService,
 	CommerceService: CommerceService,
@@ -32,11 +31,9 @@ export type Services = {
 	ContentProvider: ContentProvider,
 	ContextActionService: ContextActionService,
 	ControllerService: ControllerService,
-	ConversationalAIAcceptanceService: ConversationalAIAcceptanceService,
 	CoreScriptDebuggingManagerHelper: CoreScriptDebuggingManagerHelper,
 	CreationDBService: CreationDBService,
 	CrossDMScriptChangeListener: CrossDMScriptChangeListener,
-	DataModelPatchService: DataModelPatchService,
 	DataStoreService: DataStoreService,
 	Debris: Debris,
 	DebuggablePluginWatcher: DebuggablePluginWatcher,
@@ -76,7 +73,6 @@ export type Services = {
 	LodDataService: LodDataService,
 	LogReporterService: LogReporterService,
 	LogService: LogService,
-	LSPFileSyncService: LSPFileSyncService,
 	LuauScriptAnalyzerService: LuauScriptAnalyzerService,
 	MarketplaceService: MarketplaceService,
 	MaterialGenerationService: MaterialGenerationService,
@@ -138,7 +134,6 @@ export type Services = {
 	StarterPlayer: StarterPlayer,
 	StartupMessageService: StartupMessageService,
 	Stats: Stats,
-	StreamingService: StreamingService,
 	StudioAssetService: StudioAssetService,
 	StudioDeviceEmulatorService: StudioDeviceEmulatorService,
 	StudioPublishService: StudioPublishService,
@@ -202,7 +197,6 @@ export type ServiceName = (
 	| "CalloutService"
 	| "CaptureService"
 	| "Chat"
-	| "ChatbotUIService"
 	| "CollaboratorsService"
 	| "CollectionService"
 	| "CommandService"
@@ -212,11 +206,9 @@ export type ServiceName = (
 	| "ContentProvider"
 	| "ContextActionService"
 	| "ControllerService"
-	| "ConversationalAIAcceptanceService"
 	| "CoreScriptDebuggingManagerHelper"
 	| "CreationDBService"
 	| "CrossDMScriptChangeListener"
-	| "DataModelPatchService"
 	| "DataStoreService"
 	| "Debris"
 	| "DebuggablePluginWatcher"
@@ -257,7 +249,6 @@ export type ServiceName = (
 	| "LodDataService"
 	| "LogReporterService"
 	| "LogService"
-	| "LSPFileSyncService"
 	| "LuauScriptAnalyzerService"
 	| "MarketplaceService"
 	| "MaterialGenerationService"
@@ -320,7 +311,6 @@ export type ServiceName = (
 	| "StarterPlayer"
 	| "StartupMessageService"
 	| "Stats"
-	| "StreamingService"
 	| "StudioAssetService"
 	| "StudioDeviceEmulatorService"
 	| "StudioPublishService"
