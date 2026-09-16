@@ -53,7 +53,7 @@ local function slider_control(props: types.ControlProps<types.SliderControl, num
 
 			native = {
 				Size = UDim2.fromScale(0, 1),
-				flex_fill(),
+				flex_fill() :: any,
 			},
 		},
 		text {

@@ -86,7 +86,7 @@ local function slider_input(props: SliderInputProps)
 		return separation >= MIN_MARK_SEPARATION
 	end)
 
-	local spring_percent = vide.spring(percent, 0.15, 1)
+	local spring_percent = vide.spring(percent, 0.2, 1)
 	local display_percent = function()
 		-- when dragging freely (no marks to snap to) follow the mouse directly
 		if dragging() and not marks_visible() then

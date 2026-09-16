@@ -1,0 +1,22 @@
+diff --git a/src/show.luau b/src/show.luau
+index 2c23d02..5d8f2bd 100644
+--- a/src/show.luau
++++ b/src/show.luau
+@@ -3,7 +3,7 @@ local derive = require "./derive"
+ local effect = require "./effect"
+ local untrack = require "./untrack"
+ 
+-local function show<T, U>(input: () -> T?, component: (() -> T) -> U, fallback: (() -> U)?): () -> U?
++local function show<T, U>(input: () -> T?, component: (() -> T) -> U, fallback: (() -> U)?): () -> U
+     local filtered_input = source()
+ 
+     effect(function()
+@@ -22,7 +22,7 @@ local function show<T, U>(input: () -> T?, component: (() -> T) -> U, fallback:
+     --     return not not filtered_input()
+     -- end)
+ 
+-    return derive(function()
++    return derive(function(): any
+         return
+             if input_is_truthy() then untrack(function() return component(filtered_input :: () -> T) end)
+             elseif fallback then untrack(fallback)

@@ -41,3 +41,4 @@ charm = { wally = "pepeeltoro41/charm-with-dispatchers", version = "^0.0.3" }
 ui-labs = { name = "pepeeltoro41/ui_labs", version = "^2.3.8" }
 
 [patches]
+"wally#alicesaidhi/vide" = { "0.3.1-lite.672 roblox" = "patches/wally#alicesaidhi+vide-0.3.1-lite.672+roblox.patch" }

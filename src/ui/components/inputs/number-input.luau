@@ -121,16 +121,16 @@ function number_entry(props: NumberEntryProps)
 				TextSize = 13,
 				Size = UDim2.fromOffset(0, 28),
 				AutomaticSize = Enum.AutomaticSize.X,
-				GetFocused = focused,
 
 				vide.action(out_input),
+				actions.focused(focused),
 				vide.create "UISizeConstraint" {
 					MinSize = Vector2.new(1, 0),
-				},
+				} :: any,
 				padding {
 					left = 4,
 					right = props.prefix and -2 or 0,
-				},
+				} :: any,
 			},
 			videx.show(props.prefix, function()
 				return text {
