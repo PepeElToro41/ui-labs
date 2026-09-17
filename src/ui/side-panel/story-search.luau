@@ -30,7 +30,7 @@ local function story_search(props: {}?)
 
 	return div {
 		Name = "story_search",
-		Size = UDim2.new(1, 0, 0, 25),
+		Size = UDim2.new(1, 0, 0, 27),
 
 		padding {
 			paddingx = 2,
@@ -52,7 +52,9 @@ local function story_search(props: {}?)
 			},
 			vide.create "UIStroke" {
 				Thickness = 1,
-				Transparency = 0.5,
+				Transparency = function()
+					return math.lerp(0.8, 0.5, focus_alpha())
+				end,
 				Color = function()
 					return theme().border:Lerp(theme().emphasis, focus_alpha())
 				end,

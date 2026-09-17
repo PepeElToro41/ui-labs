@@ -9,6 +9,7 @@ type MeasuredFrameProps = {
 	native: vide.vFrame,
 	-- children of the outer frame, these can use full size (1, 1) safely
 	outer_native: vide.vFrame?,
+	outer_children: { Instance }?,
 }
 
 --[[
@@ -47,6 +48,7 @@ local function measured_frame(props: MeasuredFrameProps)
 		LayoutOrder = native.LayoutOrder,
 
 		props.outer_native or {},
+		props.outer_children or {},
 		div {
 			Name = "measured",
 			native,

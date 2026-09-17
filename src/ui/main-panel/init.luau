@@ -6,6 +6,7 @@ local frame = require "@ui/styles/frame"
 local top_list = require "@ui/styles/list/top-list"
 local background = require "@self/background"
 local preview_tabs = require "@self/preview-tabs"
+local story_content = require "@self/story-content"
 
 local function main_panel(props: {}?)
 	local theme = use_theme()
@@ -21,11 +22,7 @@ local function main_panel(props: {}?)
 
 			top_list {},
 			preview_tabs {},
-			div {
-				Name = "content", -- story rendering lands here
-
-				flex_fill(),
-			},
+			story_content {},
 		},
 	}
 end

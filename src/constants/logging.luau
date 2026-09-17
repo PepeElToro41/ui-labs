@@ -7,6 +7,7 @@ local LOG_MESSAGES = {
 
 	NO_CLEANUP = "The story cleanup was not found, likely due to the story error. This can cause a memory leak.",
 	CLEANUP_ERROR = "The story cleanup errored when called. This can cause a memory leak.",
+	UNMOUNT_ERROR = "%s errored when unmounting. This can cause a memory leak.",
 }
 
 local STORY_NAMES = {

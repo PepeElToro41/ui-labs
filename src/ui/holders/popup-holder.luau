@@ -294,7 +294,10 @@ local function popup_holder(props: PopupHolderProps)
 		end
 		return area
 	end
-	local popup_size = if props.size_generator then props.size_generator(target_size) else target_size
+	local popup_size: Reactive<Vector2> = target_size
+	if props.size_generator then
+		popup_size = props.size_generator(target_size)
+	end
 
 	return div {
 		Name = props.Name or "popup",

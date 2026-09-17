@@ -5,6 +5,7 @@ local use_system = require "@contexts/scheduler/use-system"
 local world_provider = require "@contexts/world/world-provider"
 local module_loading = require "@src/systems/module-loading"
 local module_search = require "@src/systems/module-search"
+local mounters = require "@src/systems/mounters"
 local previews = require "@src/systems/previews"
 local story_nodes = require "@src/systems/story-nodes"
 local storybooks = require "@src/systems/storybooks"
@@ -24,6 +25,7 @@ local function app(props: {}?)
 			use_system(storybooks.system(), SYSTEM_ORDER.storybooks)
 			use_system(story_nodes.system(), SYSTEM_ORDER.story_nodes)
 			use_system(previews.system(), SYSTEM_ORDER.previews)
+			use_system(mounters.system(), SYSTEM_ORDER.mounters)
 
 			return ui_labs {}
 		end,

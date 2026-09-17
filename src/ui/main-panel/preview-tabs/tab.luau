@@ -73,7 +73,7 @@ local function preview_tab(props: PreviewTabProps)
 
 	-- the glow and the detector need full size, so the automatic sizing lives in the inner frame
 	return measured_frame {
-		outer_native = {
+		outer_children = {
 			glow {
 				name = "hover_glow",
 				extends = GLOW_EXTENDS,
@@ -82,10 +82,12 @@ local function preview_tab(props: PreviewTabProps)
 				transparency = derivers.lerp(hover_alpha, 1, 0),
 			},
 			click_detector {
+				-- below the measured frame so the close button receives its own clicks
+				ZIndex = 0,
 				Activated = on_selected,
 				actions.hovered(hovered),
 			},
-		},
+		} :: Array<Instance>,
 		native = {
 			Name = name,
 			AutomaticSize = Enum.AutomaticSize.X,

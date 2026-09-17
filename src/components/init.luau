@@ -1,6 +1,7 @@
 local add_names = require "@utils/ecs/add-names"
 local environment = require "@utils/hot-reloading/environment"
 local ecs = require "@vendor/ecs"
+local control_types = require "@src/systems/controls/types"
 
 export type StoryType = "Functional" | "React" | "Roact" | "Fusion" | "Iris" | "Vide" | "Generic"
 
@@ -46,6 +47,15 @@ local components = {
 
 	preview_holder = ecs.component() :: ecs.Component<Frame>,
 	preview_holder_override = ecs.component() :: ecs.Component<Frame>,
+
+	-- controls (one entity per story control, ChildOf the preview or of a control_group) --
+	control = ecs.component() :: ecs.Component<control_types.Control>, -- the converted ui-labs control object
+	control_value = ecs.component() :: ecs.Component<unknown>, -- live value: written by the ui, observed by mounters
+	control_name = ecs.component() :: ecs.Component<string>, -- key in the story's controls table
+	control_order = ecs.component() :: ecs.Component<number>, -- only when the control declares `Order`
+	control_group = ecs.tag(), -- a ControlGroup entity, its controls are ChildOf it
+	keep_controls = ecs.tag(), -- on a preview: values are recovered across reloads
+	control_recovery = ecs.component() :: ecs.Component<control_types.RecoverData>, -- on a preview: last values, per control name
 
 	hidden = ecs.tag(),
 	transparency = ecs.component() :: ecs.Component<number>,

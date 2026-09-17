@@ -112,6 +112,7 @@ local function create_preview(world: ecs.World, node: ecs.Entity, order: number,
 	end
 	world.add(preview, c.auto_reload)
 	world.add(preview, c.reload_queued)
+	world.add(preview, c.keep_controls)
 	world.add(preview, c.story_preview)
 
 	previews.select(world, preview)

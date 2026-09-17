@@ -4,6 +4,7 @@ local SYSTEM_ORDER = {
 	storybooks = 20,
 	story_nodes = 30,
 	previews = 40,
+	mounters = 50,
 
 	default = 10,
 }
