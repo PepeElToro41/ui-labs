@@ -138,14 +138,7 @@ function mounters.system()
 			return
 		end
 
-		local prefix = `[UI Labs] {module:GetFullName()}:`
 		local story = if type(result) == "table" then result :: any else nil
-
-		local converted: controls.ConvertedControls = {}
-		if story and story.controls then
-			converted = controls.convert(story.controls, prefix)
-		end
-		controls.create(world, entity, converted, world.get(entity, c.control_recovery))
 
 		local root = create_root(holder)
 		local cleanup = mounter {
@@ -154,7 +147,6 @@ function mounters.system()
 			module = module,
 			result = result,
 			target = root,
-			controls = converted,
 		}
 		-- stored even without a cleanup so the root and the controls go away on unmount
 		mounted[entity] = {

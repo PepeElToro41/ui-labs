@@ -6,18 +6,18 @@ local c = require "@src/components"
 local themes = require "@themes"
 local divisor = require "@ui/elements/divisor"
 local frame = require "@ui/styles/frame"
-local left_list = require "@ui/styles/list/left-list"
 local padding = require "@ui/styles/padding"
 local scroller = require "@ui/styles/scroller"
+local tab_layout = require "@self/layout"
 local preview_tab = require "@self/tab"
 
---- Horizontal strip with one tab per mounted preview
 local function preview_tabs(props: {}?)
 	local world = use_world()
 	local theme = use_theme()
 
-	-- use_query swap-removes, so the array order is meaningless: tabs sort by preview_order
 	local entities = use_query(world.query():with(c.story_preview))
+
+	local layout = tab_layout.create()
 
 	return frame {
 		Name = "preview_tabs",
@@ -36,21 +36,21 @@ local function preview_tabs(props: {}?)
 		scroller {
 			Name = "tabs",
 			ScrollingDirection = Enum.ScrollingDirection.X,
-			AutomaticCanvasSize = Enum.AutomaticSize.X,
+			AutomaticCanvasSize = Enum.AutomaticSize.None,
+			CanvasSize = function()
+				return UDim2.fromOffset(layout.total(), 0)
+			end,
 			ScrollBarThickness = 1,
 			ScrollBarImageColor3 = theme(themes.border),
 
-			left_list {
-				VerticalAlignment = Enum.VerticalAlignment.Center,
-				gap = 5,
-			},
+			vide.action(layout.scroller),
+
 			padding {
-				paddingx = 6,
-				top = 3,
-				bottom = 4,
+				top = tab_layout.PADDING_TOP,
+				bottom = tab_layout.PADDING_BOTTOM,
 			},
 			vide.values(entities, function(entity)
-				return preview_tab { entity = entity }
+				return preview_tab { entity = entity, layout = layout }
 			end),
 		},
 	}

@@ -2,6 +2,7 @@ local logging = require "@constants/logging"
 local controls = require "@src/systems/controls"
 local run_protected = require "./run-protected"
 local types = require "./types"
+local c = require "@src/components"
 
 local LOG_MESSAGES = logging.LOG_MESSAGES
 local STORY_NAME = logging.STORY_NAMES.vide
@@ -29,6 +30,12 @@ local vide_mounter: types.Mounter<VideStory> = function(props)
 			return lib.source(value)
 		end)
 	end)
+
+	local converted: controls.ConvertedControls = {}
+	if props.result and props.result.controls then
+		converted = controls.convert(props.result.controls, prefix)
+	end
+	controls.create(world, props.entity, converted, world.get(props.entity, c.control_recovery))
 
 	local stop_observing = controls.observe(world, by_entity, function(_, source, value)
 		source(value)

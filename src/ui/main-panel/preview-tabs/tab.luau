@@ -1,9 +1,12 @@
 local CONFIG = require "@constants/config"
 local IMAGES = require "@constants/images"
+local use_app_render = require "@contexts/app-render/use-app-render"
+local use_popup = require "@contexts/app-render/use-popup"
 local use_theme = require "@contexts/theme/use-theme"
 local use_world = require "@contexts/world/use-world"
 local use_component = require "@hooks/use-component"
 local use_instance_name = require "@hooks/use-instance-name"
+local use_spring = require "@hooks/use-spring"
 local use_tag = require "@hooks/use-tag"
 local vide = require "@pkg/vide"
 local c = require "@src/components"
@@ -15,6 +18,7 @@ local measured_frame = require "@ui/holders/measured-frame"
 local click_detector = require "@ui/styles/click-detector"
 local corner = require "@ui/styles/corner"
 local div = require "@ui/styles/div"
+local drag_detector = require "@ui/styles/drag-detector"
 local frame = require "@ui/styles/frame"
 local image = require "@ui/styles/image"
 local left_list = require "@ui/styles/list/left-list"
@@ -23,30 +27,136 @@ local text = require "@ui/styles/text"
 local actions = require "@utils/vide/actions"
 local derivers = require "@utils/vide/derivers"
 local ecs = require "@vendor/ecs"
+local tab_layout = require "./layout"
+local tab_dropdown = require "./tab-dropdown"
 
 type PreviewTabProps = {
 	entity: ecs.Entity,
+	--- shared strip layout, the tab reports its width and reads its slot from it
+	layout: tab_layout.TabLayout,
 }
 
 local STORY_SUFFIX = CONFIG.file_extensions.story
 local GLOW_EXTENDS = Vector2.new(14, 14)
+local DRAG_THRESHOLD = 4
 
 local function preview_tab(props: PreviewTabProps)
 	local world = use_world()
 	local theme = use_theme()
 	local entity = props.entity
+	local layout = props.layout
 
 	local hovered = vide.source(false)
 	local close_hovered = vide.source(false)
+	
+	local popup = use_popup(entity)
+	local app_render = use_app_render()
 
-	-- the preview owns a copy of the story module, so the name is read straight from it
 	local module = use_component(entity, c.module_script)
 	local module_name = use_instance_name(module)
-	local order = use_component(entity, c.preview_order)
 	local quick = use_tag(entity, c.quick_mounted)
 	local selected = use_tag(entity, c.selected_preview)
 
-	local hover_alpha = vide.spring(derivers.boolean(hovered, 1, 0), 0.2, 1)
+	local dragging = function()
+		return layout.dragging() == entity
+	end
+
+	local hover_alpha = vide.spring(function()
+		return if hovered() and (layout.dragging() == nil or dragging()) then 1 else 0
+	end, 0.2, 1)
+
+	-- the measured width feeds the strip layout, which hands back the slot to sit in
+	local width = layout.register(entity)
+	local measured = vide.source(Vector2.zero)
+	vide.effect(function()
+		width(measured().X)
+	end)
+
+	-- the spring renders a frame behind the cursor, so the dragged tab reads raw_x directly
+	local raw_x = vide.source(0)
+	local x, x_spring = use_spring(vide.untrack(function()
+		return layout.slot_x(entity)
+	end))
+	x_spring:configure { dampingRatio = 1, frequency = 5, precision = 0.25 }
+
+	local settled = false
+	vide.effect(function()
+		local slot = layout.slot(entity)
+		local goal = if slot then slot.x else tab_layout.PADDING_X
+		if layout.dragging() == entity then
+			return
+		end
+		if not settled then
+			x_spring:setPosition(goal)
+		end
+		x_spring:setGoal(goal)
+		if slot and slot.settled then
+			settled = true
+		end
+	end)
+
+	local function stop_drag()
+		if layout.dragging() == entity then
+			layout.dragging(nil)
+		end
+	end
+
+	vide.effect(function()
+		if app_render.popup() then
+			hovered(false)
+			close_hovered(false)
+			stop_drag()
+		end
+	end)
+
+	local press_x: number? = nil
+	local grab = 0
+	local moved = false
+
+	local function on_drag_start(mouse: Vector2)
+		press_x = mouse.X
+		moved = false
+		grab = layout.to_canvas_x(mouse.X) - x()
+	end
+
+	local function on_drag_continue(mouse: Vector2)
+		if not press_x then
+			return
+		end
+		if not moved then
+			if math.abs(mouse.X - press_x) < DRAG_THRESHOLD then
+				return
+			end
+			moved = true
+			layout.dragging(entity)
+		end
+		if layout.dragging() ~= entity then
+			-- cancelled by a popup, the press is ignored until released
+			return
+		end
+
+		local tab_width = width()
+		local target = layout.clamp_x(layout.to_canvas_x(mouse.X) - grab, tab_width)
+		raw_x(target)
+		-- glued to the cursor with no velocity, so the drop springs home from where it was let go
+		x_spring:setPosition(target)
+		x_spring:setGoal(target)
+		x_spring:halt()
+
+		local slot = layout.slot(entity)
+		local index = layout.index_for_bounds(entity, target, target + tab_width)
+		if slot and index ~= slot.index then
+			previews.move(world, entity, index)
+		end
+	end
+
+	local function on_drag_end()
+		press_x = nil
+		stop_drag()
+		task.defer(function()
+			moved = false
+		end)
+	end
 
 	local name = function()
 		if not module() then
@@ -64,6 +174,9 @@ local function preview_tab(props: PreviewTabProps)
 	end
 
 	local function on_selected()
+		if moved then
+			return
+		end
 		previews.select(world, entity)
 	end
 
@@ -71,7 +184,16 @@ local function preview_tab(props: PreviewTabProps)
 		previews.unmount(world, entity)
 	end
 
-	-- the glow and the detector need full size, so the automatic sizing lives in the inner frame
+	local function on_dropdown(mouse_x: number, mouse_y: number)
+		popup.open(function()
+			return tab_dropdown {
+				entity = entity,
+				position = Vector2.new(mouse_x, mouse_y),
+				popup = popup,
+			}
+		end)
+	end
+
 	return measured_frame {
 		outer_children = {
 			glow {
@@ -85,20 +207,33 @@ local function preview_tab(props: PreviewTabProps)
 				-- below the measured frame so the close button receives its own clicks
 				ZIndex = 0,
 				Activated = on_selected,
+				MouseButton2Up = on_dropdown,
 				actions.hovered(hovered),
+
+				drag_detector {
+					DragStyle = Enum.UIDragDetectorDragStyle.Scriptable,
+					DragAxis = Vector2.new(1, 0),
+					DragStart = on_drag_start,
+					DragContinue = on_drag_continue,
+					DragEnd = on_drag_end,
+				},
 			},
 		} :: Array<Instance>,
+		measured = measured,
+		outer_native = {
+			Position = function()
+				return UDim2.fromOffset(if dragging() then raw_x() else x(), 0)
+			end,
+			-- the dragged tab renders over the ones it passes
+			ZIndex = derivers.boolean(dragging, 2, 1),
+		},
 		native = {
 			Name = name,
 			AutomaticSize = Enum.AutomaticSize.X,
 			Size = UDim2.fromScale(0, 1),
-			-- measured_frame renders native inside a div, so the transparency must be forced
 			BackgroundTransparency = 0,
 			BackgroundColor3 = function()
 				return theme()[if selected() then themes.emphasis else themes.background3]
-			end,
-			LayoutOrder = function()
-				return order() or 0
 			end,
 
 			corner {

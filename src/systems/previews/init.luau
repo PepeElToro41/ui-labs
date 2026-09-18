@@ -18,7 +18,8 @@ local check_story = require "@self/check-story"
 	through `r_module`, and `ChildOf` cascades that delete into the preview.
 
 	`quick_mounted` marks the single preview a plain click on a story node swaps.
-	`selected_preview` marks the active tab. `preview_order` is kept contiguous by the system.
+	`selected_preview` marks the active tab. `preview_order` is kept contiguous by the system,
+	`move` reorders tabs and keeps that invariant itself.
 	`story_type` / `story_error` are derived from the preview's `module_result`.
 
 	Non-cached queries are only correct on their first iteration, so every helper builds a
@@ -63,6 +64,7 @@ function previews.select(world: ecs.World, preview: ecs.Entity)
 	for entity in world.query():with(c.selected_preview):iter() do
 		table.insert(current, entity)
 	end
+
 	for _, entity in current do
 		if entity ~= preview then
 			world.remove(entity, c.selected_preview)
@@ -89,6 +91,7 @@ local function node_module(world: ecs.World, node: ecs.Entity): ModuleScript?
 	if not world.exists(node) then
 		return nil
 	end
+
 	local story = world.target(node, c.r_module)
 	if not story then
 		return nil
@@ -110,12 +113,17 @@ local function create_preview(world: ecs.World, node: ecs.Entity, order: number,
 	if quick then
 		world.add(preview, c.quick_mounted)
 	end
+
 	world.add(preview, c.auto_reload)
 	world.add(preview, c.reload_queued)
 	world.add(preview, c.keep_controls)
 	world.add(preview, c.story_preview)
 
-	previews.select(world, preview)
+	-- a new tab only takes focus when no tab is active, so opening more previews never
+	-- steals the one the user is looking at
+	if world.query(c.selected_preview):empty() then
+		previews.select(world, preview)
+	end
 	return preview
 end
 
@@ -149,6 +157,46 @@ function previews.unmount(world: ecs.World, preview: ecs.Entity)
 		world.delete(preview)
 	end
 	reselect(world)
+end
+
+--- Forces a reload of `preview`: module_loading drops its environment and requires the story
+--- again, the new result then remounts it (same as auto reload, without a source change)
+function previews.reload(world: ecs.World, preview: ecs.Entity)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+	if not world.has(preview, c.reload_queued) then
+		world.add(preview, c.reload_queued)
+	end
+end
+
+--- Moves `preview` to tab slot `index` (clamped). Orders stay contiguous 1..n so quick_mount
+--- slot reuse and reselect keep working. Does not touch the system's dirty flag.
+function previews.move(world: ecs.World, preview: ecs.Entity, index: number)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+
+	local ordered = collect_ordered(world)
+	local from: number? = nil
+	for position, entry in ordered do
+		if entry.entity == preview then
+			from = position
+			break
+		end
+	end
+	if not from then
+		return
+	end
+
+	local entry = table.remove(ordered, from) :: Ordered
+	table.insert(ordered, math.clamp(index, 1, #ordered + 1), entry)
+
+	for position, moved in ordered do
+		if moved.order ~= position then
+			world.set(moved.entity, c.preview_order, position)
+		end
+	end
 end
 
 function previews.system()

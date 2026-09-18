@@ -10,6 +10,8 @@ type MeasuredFrameProps = {
 	-- children of the outer frame, these can use full size (1, 1) safely
 	outer_native: vide.vFrame?,
 	outer_children: { Instance }?,
+	-- receives the AbsoluteSize of the inner frame, for callers that need the measured size
+	measured: Source<Vector2>?,
 }
 
 --[[
@@ -25,7 +27,7 @@ type MeasuredFrameProps = {
 ]]
 local function measured_frame(props: MeasuredFrameProps)
 	local native = props.native
-	local measured = vide.source(Vector2.zero)
+	local measured = props.measured or vide.source(Vector2.zero)
 
 	local function automatic_axis(axis: "X" | "Y")
 		local automatic = read(native.AutomaticSize) or Enum.AutomaticSize.None

@@ -1,3 +1,4 @@
+local app_render_provider = require "@contexts/app-render/app-render-provider"
 local scheduler_provider = require "@contexts/scheduler/scheduler-provider"
 local SYSTEM_ORDER = require "@contexts/scheduler/system-order"
 local use_system = require "@contexts/scheduler/use-system"
@@ -16,13 +17,16 @@ local ecs = require "@vendor/ecs"
 
 vide.strict = false
 
-local FAKE_STORIES = { "button", "dropdown", "slider" }
+-- widely varying names, the tabs size to their label and the strip has to keep up
+local FAKE_STORIES = { "button", "a-very-long-story-name", "x", "dropdown", "slider-with-more-text", "ok" }
 
 return ui_labs.CreateVideStory({ vide = vide }, function(props)
 	return videx.provider_stack {
 		providers = {
 			world_provider,
 			scheduler_provider,
+			-- the tab dropdown renders in the app overlay
+			app_render_provider,
 		},
 		children = function()
 			local world = use_world()

@@ -4,6 +4,7 @@ local vide = require "@pkg/vide"
 local use_theme = require "@contexts/theme/use-theme"
 local themes = require "@themes"
 local border = require "@ui/elements/border"
+local glow = require "@ui/elements/glow"
 local corner = require "@ui/styles/corner"
 local frame = require "@ui/styles/frame"
 local image = require "@ui/styles/image"
@@ -16,7 +17,11 @@ local div = require "@ui/styles/div"
 local flex_fill = require "@ui/styles/flex-fill"
 local left_list = require "@ui/styles/list/left-list"
 local text = require "@ui/styles/text"
+local actions = require "@utils/vide/actions"
+local derivers = require "@utils/vide/derivers"
 local videx = require "@utils/vide/videx"
+
+local GLOW_EXTENDS = Vector2.new(15, 15)
 
 type InputDropdownProps = {
 	native: vide.vFrame?,
@@ -62,54 +67,75 @@ type InputBoxProps = {
 local function input_box(props: InputBoxProps)
 	local theme = use_theme()
 
+	local focused = vide.source(false)
+	local focus_alpha = vide.spring(derivers.boolean(focused, 1, 0), 0.3, 1)
+
 	local textbox_native: vide.vTextBox = {
 		FontFace = Font.fromName("GothamSSm", Enum.FontWeight.Medium),
 		TextSize = 14,
 		padding {
 			paddingx = 4,
 		},
+		actions.focused(focused),
 	}
 
-	return frame {
-		BackgroundColor3 = theme(themes.background2),
-
+	return div {
 		flex_fill(),
-		border {},
-		padding { paddingx = 4 },
-		corner { radius = 6 },
-		vide.switch(props.input_type) {
-			hex = function()
-				local input_props: decoded_input.DecodedInputProps<Color3> = {
-					parser = color_decoding.parsers.hex,
-					decoder = color_decoding.decoders.hex,
-					textbox_native = textbox_native,
-					value = props.color,
-					apply_value = props.apply_color,
-				}
+		frame {
+			Name = "input_box",
+			Size = UDim2.fromScale(1, 1),
+			BackgroundColor3 = theme(themes.background2),
+			ZIndex = 2,
 
-				return decoded_input(input_props)
-			end,
-			rgb = function()
-				local input_props: decoded_input.DecodedInputProps<Color3> = {
-					parser = color_decoding.parsers.rgb,
-					decoder = color_decoding.decoders.rbg,
-					textbox_native = textbox_native,
-					value = props.color,
-					apply_value = props.apply_color,
-				}
-				return decoded_input(input_props)
-			end,
-			hsv = function()
-				local input_props: decoded_input.DecodedInputProps<Color3> = {
-					parser = color_decoding.parsers.hsv,
-					decoder = color_decoding.decoders.hsv,
-					textbox_native = textbox_native,
-					value = props.color,
-					apply_value = props.apply_color,
-				}
-				return decoded_input(input_props)
-			end,
-		} :: any,
+			border {
+				transparency = derivers.lerp(focus_alpha, 0.7, 0.5),
+				color = function()
+					return theme().border:Lerp(theme().emphasis, focus_alpha())
+				end,
+			},
+			padding { paddingx = 4 },
+			corner { radius = 6 },
+			vide.switch(props.input_type) {
+				hex = function()
+					local input_props: decoded_input.DecodedInputProps<Color3> = {
+						parser = color_decoding.parsers.hex,
+						decoder = color_decoding.decoders.hex,
+						textbox_native = textbox_native,
+						value = props.color,
+						apply_value = props.apply_color,
+					}
+
+					return decoded_input(input_props)
+				end,
+				rgb = function()
+					local input_props: decoded_input.DecodedInputProps<Color3> = {
+						parser = color_decoding.parsers.rgb,
+						decoder = color_decoding.decoders.rbg,
+						textbox_native = textbox_native,
+						value = props.color,
+						apply_value = props.apply_color,
+					}
+					return decoded_input(input_props)
+				end,
+				hsv = function()
+					local input_props: decoded_input.DecodedInputProps<Color3> = {
+						parser = color_decoding.parsers.hsv,
+						decoder = color_decoding.decoders.hsv,
+						textbox_native = textbox_native,
+						value = props.color,
+						apply_value = props.apply_color,
+					}
+					return decoded_input(input_props)
+				end,
+			} :: any,
+		},
+		glow {
+			name = "focus_glow",
+			extends = GLOW_EXTENDS,
+			blur = 0.8,
+			color = theme(themes.emphasis),
+			transparency = derivers.lerp(focus_alpha, 1, 0),
+		},
 	}
 end
 
