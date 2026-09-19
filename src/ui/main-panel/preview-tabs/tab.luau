@@ -48,7 +48,7 @@ local function preview_tab(props: PreviewTabProps)
 
 	local hovered = vide.source(false)
 	local close_hovered = vide.source(false)
-	
+
 	local popup = use_popup(entity)
 	local app_render = use_app_render()
 
@@ -151,11 +151,14 @@ local function preview_tab(props: PreviewTabProps)
 	end
 
 	local function on_drag_end()
+		-- the detector swallows the button clicks, so a press released without dragging is the click
+		local clicked = press_x ~= nil and not moved
 		press_x = nil
+		moved = false
 		stop_drag()
-		task.defer(function()
-			moved = false
-		end)
+		if clicked then
+			previews.select(world, entity)
+		end
 	end
 
 	local name = function()
@@ -173,22 +176,20 @@ local function preview_tab(props: PreviewTabProps)
 		return theme()[if selected() then themes.text_active1 else themes.text2]
 	end
 
-	local function on_selected()
-		if moved then
-			return
-		end
-		previews.select(world, entity)
-	end
-
 	local function on_closed()
 		previews.unmount(world, entity)
 	end
 
-	local function on_dropdown(mouse_x: number, mouse_y: number)
+	-- MouseButton2Up is swallowed by the detector too, the outer frame still sees the raw input
+	local function on_input_ended(input: InputObject)
+		if input.UserInputType ~= Enum.UserInputType.MouseButton2 then
+			return
+		end
+		local position = Vector2.new(input.Position.X, input.Position.Y)
 		popup.open(function()
 			return tab_dropdown {
 				entity = entity,
-				position = Vector2.new(mouse_x, mouse_y),
+				position = position,
 				popup = popup,
 			}
 		end)
@@ -206,8 +207,6 @@ local function preview_tab(props: PreviewTabProps)
 			click_detector {
 				-- below the measured frame so the close button receives its own clicks
 				ZIndex = 0,
-				Activated = on_selected,
-				MouseButton2Up = on_dropdown,
 				actions.hovered(hovered),
 
 				drag_detector {
@@ -226,6 +225,7 @@ local function preview_tab(props: PreviewTabProps)
 			end,
 			-- the dragged tab renders over the ones it passes
 			ZIndex = derivers.boolean(dragging, 2, 1),
+			InputEnded = on_input_ended,
 		},
 		native = {
 			Name = name,

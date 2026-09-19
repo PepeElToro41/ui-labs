@@ -6,7 +6,7 @@ local types = require "../types"
 
 local function boolean_control(props: types.ControlProps<{}, boolean>)
 	return div {
-		Size = UDim2.new(1, 0, 0, 32),
+		Size = UDim2.new(1, 0, 0, 36),
 
 		padding {
 			paddingy = 4,

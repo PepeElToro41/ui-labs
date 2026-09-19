@@ -2,11 +2,11 @@ local use_theme = require "@contexts/theme/use-theme"
 local vide = require "@pkg/vide"
 local themes = require "@themes"
 local divisor = require "@ui/elements/divisor"
+local icon_button = require "@ui/elements/icon-button"
 local div = require "@ui/styles/div"
 local left_list = require "@ui/styles/list/left-list"
 local text = require "@ui/styles/text"
 local videx = require "@utils/vide/videx"
-local icon_button = require "./icon-button"
 local instance_label = require "./instance-label"
 
 local Selection = game:GetService "Selection"
@@ -115,7 +115,7 @@ local function selected_object(props: SelectedObjectProps)
 						return `{#selection()} items`
 					end)
 				end,
-				single = function()
+				single = function(): Instance
 					return instance_label {
 						instance = selected,
 						icon_size = 15,
@@ -123,7 +123,7 @@ local function selected_object(props: SelectedObjectProps)
 						max_width = 200,
 					}
 				end,
-			},
+			} :: any,
 		},
 		divisor {
 			direction = "Y",

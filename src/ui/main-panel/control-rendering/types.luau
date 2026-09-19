@@ -18,8 +18,8 @@ export type NumberControl = {
 	Min: number?,
 	Max: number?,
 	Step: number?,
-	Dragger: boolean,
-	Sensitivity: number,
+	Dragger: boolean?,
+	Sensitivity: number?,
 	Prefix: string?,
 }
 

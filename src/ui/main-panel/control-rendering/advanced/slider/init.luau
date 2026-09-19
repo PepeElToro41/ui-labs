@@ -13,7 +13,7 @@ local function slider_control(props: types.ControlProps<types.SliderControl, num
 	local theme = use_theme()
 
 	return div {
-		Size = UDim2.new(1, 0, 0, 32),
+		Size = UDim2.new(1, 0, 0, 36),
 
 		left_list {
 			gap = 10,

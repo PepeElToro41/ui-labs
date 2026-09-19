@@ -10,6 +10,12 @@ vim.filetype.add({
   },
 })
 
+-- Project root (exrc can also be picked up from a subdirectory).
+local root = vim.fs.dirname(vim.fs.find(".nvim.lua", { upward = true, path = vim.fn.getcwd() })[1])
+local function rel(path)
+  return vim.fs.joinpath(root, path)
+end
+
 -- Plugin-level options (what Zed's "ext" section controlled)
 require("luau-lsp").config({
   platform = { type = "roblox" },
@@ -24,13 +30,27 @@ require("luau-lsp").config({
   },
   types = {
     roblox_security_level = "PluginSecurity",
-    documentation_files = { ".zune/zune.d.json" },
+    -- Global definition files. These must go here: the plugin turns them into
+    -- `--definitions:@name=path` server args. The `luau-lsp.types.definitionFiles`
+    -- server setting is NOT picked up from Neovim.
+    definition_files = {
+      zune = rel(".zune/zune.d.luau"),
+      types = rel("types/types.d.luau"),
+      vide = rel("types/vide.d.luau"),
+      nodes = rel("types/nodes.d.luau"),
+      services = rel("types/services.d.luau"),
+    },
+    documentation_files = { rel(".zune/zune.d.json") },
   },
   fflags = {
     enable_by_default = false,
     enable_new_solver = false,
     sync = true,
-    override = {},
+    override = {
+      -- Roblox's synced flags turn this on, which rejects the `declare class`
+      -- syntax used by .zune/zune.d.luau and makes the whole file fail to load.
+      LuauDisallowExternClassInTypeDefinitions = false,
+    },
   },
 })
 
@@ -39,17 +59,6 @@ vim.lsp.config("luau-lsp", {
   settings = {
     ["luau-lsp"] = {
       ignoreGlobs = { "**/.pesde/**", "**/serve/**" },
-      types = {
-        -- Loaded after the Roblox globals, so files that reference Roblox
-        -- types resolve. Order here is preserved.
-        definitionFiles = {
-          ".zune/zune.d.luau",
-          "types/types.d.luau",
-          "types/vide.d.luau",
-          "types/nodes.d.luau",
-          "types/services.d.luau",
-        },
-      },
       completion = {
         enabled = true,
         autocompleteEnd = true,

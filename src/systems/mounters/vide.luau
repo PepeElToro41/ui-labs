@@ -24,18 +24,20 @@ local vide_mounter: types.Mounter<VideStory> = function(props)
 	local lib = props.result.vide
 	local world = props.world
 
+	-- the entities go first: the sources are mapped from them, and an unmount destroys them all,
+	-- so every mount starts with none
+	local converted: controls.ConvertedControls = {}
+	if props.result and props.result.controls then
+		converted = controls.convert(props.result.controls, prefix)
+	end
+	controls.create(world, props.entity, converted, world.get(props.entity, c.control_recovery))
+
 	-- the sources live in their own root so they can outlive a story that errored
 	local destroy_sources, sources, by_entity = lib.root(function()
 		return controls.map_states(world, props.entity, function(_, _, value)
 			return lib.source(value)
 		end)
 	end)
-
-	local converted: controls.ConvertedControls = {}
-	if props.result and props.result.controls then
-		converted = controls.convert(props.result.controls, prefix)
-	end
-	controls.create(world, props.entity, converted, world.get(props.entity, c.control_recovery))
 
 	local stop_observing = controls.observe(world, by_entity, function(_, source, value)
 		source(value)

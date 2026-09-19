@@ -135,8 +135,10 @@ local function create_control(world: ecs.World, parent: ecs.Entity, name: string
 	if type(control.Order) == "number" then
 		world.set(entity, c.control_order, control.Order)
 	end
-	world.add(entity, ecs.pair(ecs.ChildOf, parent))
+	-- the value goes before the parent: joining it fires the ui monitors synchronously, a row
+	-- mounted without its value would show the default and then animate to the recovered one
 	world.set(entity, c.control_value, controls.recover(control, entry))
+	world.add(entity, ecs.pair(ecs.ChildOf, parent))
 	return entity
 end
 

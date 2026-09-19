@@ -66,16 +66,77 @@ type NumberEntryProps = {
 	min: number?,
 	max: number?,
 	step: number?,
+	--- most decimals the input shows, the value itself is never rounded.
+	--- Defaults to what `step` needs, or DEFAULT_DECIMALS without one
+	decimals: number?,
 	prefix: string?,
 	native: vide.vTextButton?,
 }
 
 local MIN_SIZE = 75
+local DEFAULT_DECIMALS = 3
+-- a step can ask for more than the default, but never for float noise
+local MAX_DECIMALS = 6
+
+--- Fixed decimals with the trailing zeros dropped: 0.5 stays "0.5", 2 stays "2"
+local function format_number(value: number, decimals: number): string
+	local formatted = string.format(`%.{decimals}f`, value)
+	if decimals > 0 then
+		formatted = string.gsub(string.gsub(formatted, "0+$", ""), "%.$", "")
+	end
+	-- a tiny negative rounds to "-0"
+	return if formatted == "-0" then "0" else formatted
+end
+
+--- How many decimals a step needs to be told apart: 0.25 takes 2, 10 takes 0
+local function step_decimals(step: number): number
+	-- finer than what can be shown, it would format as a plain 0
+	if step < 10 ^ -MAX_DECIMALS then
+		return MAX_DECIMALS
+	end
+	local formatted = format_number(step, MAX_DECIMALS)
+	local point = string.find(formatted, ".", 1, true)
+	return if point then #formatted - point else 0
+end
 
 function number_entry(props: NumberEntryProps)
 	local theme = use_theme()
 	local out_input = vide.source(nil :: TextBox?)
 	local focused = vide.source(false)
+
+	local decimals = math.clamp(
+		props.decimals or (if props.step and props.step > 0 then step_decimals(props.step) else DEFAULT_DECIMALS),
+		0,
+		MAX_DECIMALS
+	)
+
+	local display = function()
+		return format_number(props.value(), decimals)
+	end
+
+	local function constrain(value: number): number
+		if props.step and props.step > 0 then
+			-- steps count from the minimum when there is one, so the minimum itself stays reachable
+			local origin = props.min or 0
+			value = origin + math.round((value - origin) / props.step) * props.step
+		end
+		return math.clamp(value, props.min or -math.huge, props.max or math.huge)
+	end
+
+	local function on_focus_lost()
+		local textbox = out_input()
+		if not textbox then
+			return
+		end
+
+		-- the text is a rounded view of the value, leaving it untouched must not write the rounding back
+		local typed = tonumber(textbox.Text)
+		if typed and typed == typed and textbox.Text ~= vide.untrack(display) then
+			props.apply(constrain(typed))
+		end
+		-- resync, the text was not a number or the applied value got constrained
+		textbox.Text = vide.untrack(display)
+	end
 
 	return click_detector {
 		AutomaticSize = Enum.AutomaticSize.X,
@@ -117,7 +178,8 @@ function number_entry(props: NumberEntryProps)
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 			},
 			text_input {
-				Text = "1550",
+				Text = display,
+				FocusLost = on_focus_lost,
 				TextSize = 13,
 				Size = UDim2.fromOffset(0, 28),
 				AutomaticSize = Enum.AutomaticSize.X,

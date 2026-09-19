@@ -4,10 +4,10 @@
 # New tools can be added by running `rokit add <tool>` in a terminal.
 
 [tools]
-selene = "kampfkarren/selene@0.29.0"
+selene = "kampfkarren/selene@0.31.0"
 rojo = "rojo-rbx/rojo@7.7.0"
 wally = "UpliftGames/wally@0.3.2"
-stylua = "JohnnyMorganz/stylua@2.1.0"
-darklua = "seaofvoices/darklua@0.17.2"
+stylua = "JohnnyMorganz/stylua@2.5.2"
+darklua = "seaofvoices/darklua@0.19.0"
 zune = "Scythe-Technology/zune@0.5.9"
 luau-lsp = "JohnnyMorganz/luau-lsp@1.69.0"

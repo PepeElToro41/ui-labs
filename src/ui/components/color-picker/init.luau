@@ -20,9 +20,10 @@ local INPUT_TYPES = {
 	HSV = 3,
 }
 
+-- the box has white at the top left: saturation and value are stored inverted
 local function coords_from_color(color: Color3)
 	local h, s, v = color:ToHSV()
-	return Vector3.new(h, s, v)
+	return Vector3.new(h, 1 - s, 1 - v)
 end
 
 function color_picker(props: ColorPickerProps)
@@ -36,9 +37,20 @@ function color_picker(props: ColorPickerProps)
 	end
 
 	local function apply_color(color: Color3)
-		local h, s, v = color:ToHSV()
-		coords(Vector3.new(h, 1 - s, 1 - v))
+		coords(coords_from_color(color))
 	end
+
+	-- the first run is the start color coming back from its hsv round trip, reporting it would
+	-- rewrite the owner's value with float noise just for opening the picker
+	local reported = false
+	vide.effect(function()
+		local current = color()
+		if not reported then
+			reported = true
+			return
+		end
+		props.update_color(current)
+	end)
 
 	return frame {
 		BackgroundColor3 = theme(themes.background2),

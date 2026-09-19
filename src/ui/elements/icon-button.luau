@@ -10,7 +10,10 @@ local read = vide.read
 
 type IconButtonProps = {
 	name: string?,
-	icon: string,
+	-- derivable so a toggle can swap its icon
+	icon: Derivable<string>,
+	-- tint of the icon while enabled, the primary text color without it
+	color: Derivable<Color3>?,
 	size: number,
 	icon_size: number,
 	order: number?,
@@ -48,7 +51,10 @@ local function icon_button(props: IconButtonProps)
 			Position = UDim2.fromScale(0.5, 0.5),
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			ImageColor3 = function()
-				return if disabled() then theme().text3 else theme().text1
+				if disabled() then
+					return theme().text3
+				end
+				return read(props.color) or theme().text1
 			end,
 			ImageTransparency = function()
 				return if disabled() then 0.4 else 0
