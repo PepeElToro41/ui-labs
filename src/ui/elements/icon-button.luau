@@ -1,6 +1,7 @@
 local use_theme = require "@contexts/theme/use-theme"
 local vide = require "@pkg/vide"
 local interaction_hover = require "@ui/elements/interaction-hover"
+local hover_hint = require "@ui/overlays/hover-hint"
 local click_detector = require "@ui/styles/click-detector"
 local div = require "@ui/styles/div"
 local image = require "@ui/styles/image"
@@ -19,8 +20,15 @@ type IconButtonProps = {
 	order: number?,
 	-- when disabled the icon grays out and clicks are ignored
 	disabled: Derivable<boolean>?,
+	--- shown next to the button while it is hovered, also while disabled
+	hint: Derivable<string>?,
+	--- where the hint sits around the button, see `hint_popup.anchor`
+	hint_anchor: (Vector2 | hover_hint.WrappeablePlaces)?,
 	activated: () -> (),
 }
+
+-- the hover effect extends past the button, the hint stays clear of it
+local HINT_PADDING = 6
 
 local function icon_button(props: IconButtonProps)
 	local theme = use_theme()
@@ -69,6 +77,12 @@ local function icon_button(props: IconButtonProps)
 			end,
 
 			actions.hovered(hovered),
+		},
+		hover_hint {
+			hovered = hovered,
+			text = props.hint,
+			anchor = props.hint_anchor,
+			padding = HINT_PADDING,
 		},
 	}
 end

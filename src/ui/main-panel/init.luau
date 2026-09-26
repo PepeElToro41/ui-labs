@@ -8,10 +8,12 @@ local top_list = require "@ui/styles/list/top-list"
 local background = require "@self/background"
 local preview_tabs = require "@self/preview-tabs"
 local story_content = require "@self/story-content"
+local toolbar = require "@self/toolbar"
 local action_panel = require "@self/action-panel"
 local story_tabs = require "@self/action-panel/story-tabs"
 local use_story_info = require "@self/action-panel/use-story-info"
 local resizable_panel = require "@ui/holders/resizable-panel"
+local actions = require "@utils/vide/actions"
 
 local function main_panel(props: {}?)
 	local theme = use_theme()
@@ -19,6 +21,8 @@ local function main_panel(props: {}?)
 	local story_info = use_story_info()
 	-- shared with the resizable panel, dragging it below the threshold collapses it too
 	local action_panel_collapsed = vide.source(false)
+	-- size of the area the stories render in
+	local story_size = vide.source(Vector2.zero)
 
 	return frame {
 		Name = "main_panel",
@@ -31,7 +35,15 @@ local function main_panel(props: {}?)
 
 			top_list {},
 			preview_tabs {},
-			story_content {},
+			div {
+				Name = "story_render",
+
+				flex_fill(),
+				story_content { preview = story_info.preview },
+				toolbar { preview = story_info.preview, view_size = story_size },
+
+				actions.absolute_size(story_size),
+			},
 		},
 
 		resizable_panel {

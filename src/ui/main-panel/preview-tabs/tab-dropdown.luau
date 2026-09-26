@@ -39,6 +39,21 @@ local function tab_dropdown(props: TabDropdownProps)
 					previews.reload(world, entity)
 				end),
 			},
+			dropdown_divider { order = 4 },
+			dropdown_item {
+				order = 5,
+				text = "Reset Zoom",
+				activated = popup.action(function()
+					previews.reset_zoom(world, entity)
+				end),
+			},
+			dropdown_item {
+				order = 6,
+				text = "Reset Position",
+				activated = popup.action(function()
+					previews.reset_position(world, entity)
+				end),
+			},
 		},
 	}
 end

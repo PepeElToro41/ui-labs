@@ -18,7 +18,7 @@ local function use_tag(entity: Derivable<ecs.Entity>, tag: ecs.Id): Reactive<boo
 				output(has(world, entity, tag))
 			end
 		end))
-		vide.cleanup(world.removed(tag, function(e)
+		vide.cleanup(world.removed(tag, function(e): any
 			if e ~= entity then
 				return nil
 			end

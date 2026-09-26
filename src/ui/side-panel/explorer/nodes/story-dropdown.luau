@@ -11,11 +11,8 @@ local dropdown_popup = require "@ui/overlays/dropdown/popup"
 local ecs = require "@vendor/ecs"
 
 type StoryDropdownProps = {
-	--- the story node the dropdown acts on
 	node: ecs.Entity,
-	--- absolute position the dropdown originates from
 	position: Vector2,
-	--- popup handle of the node, items close it before running
 	popup: use_popup.Popup,
 }
 
@@ -25,7 +22,8 @@ local function story_dropdown(props: StoryDropdownProps)
 	local node = props.node
 	local popup = props.popup
 
-	-- the quick preview already shows this story, mounting it again would only close it
+	local mounted_amount = use_query(world.query(c.story_preview):with(ecs.pair(ecs.ChildOf, props.node)))
+	
 	local quick_mounted = use_query(world.query():with(c.story_preview, c.quick_mounted, ecs.pair(ecs.ChildOf, node)))
 	local is_quick = function()
 		return #quick_mounted() > 0
@@ -36,7 +34,7 @@ local function story_dropdown(props: StoryDropdownProps)
 		local story = world.target(node, c.r_module)
 		local module = story and world.get(story, c.module_script)
 		if module then
-			Selection:Set({ module })
+			Selection:Set { module }
 		end
 	end
 
@@ -63,6 +61,16 @@ local function story_dropdown(props: StoryDropdownProps)
 				order = 4,
 				text = "Select Module",
 				activated = popup.action(select_module),
+			},
+			dropdown_item {
+				order = 5,
+				text = "Unmount All",
+				disabled = function()
+					return #mounted_amount() <= 0
+				end,	
+				activated = popup.action(function()
+					previews.unmount_node(world, node)
+				end),
 			},
 		},
 	}

@@ -6,8 +6,8 @@
 [tools]
 selene = "kampfkarren/selene@0.31.0"
 rojo = "rojo-rbx/rojo@7.7.0"
-wally = "UpliftGames/wally@0.3.2"
+zap = "red-blox/zap@0.6.29"
 stylua = "JohnnyMorganz/stylua@2.5.2"
 darklua = "seaofvoices/darklua@0.19.0"
+luau-lsp = "JohnnyMorganz/luau-lsp@1.70.0"
 zune = "Scythe-Technology/zune@0.5.9"
-luau-lsp = "JohnnyMorganz/luau-lsp@1.69.0"

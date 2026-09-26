@@ -1,3 +1,4 @@
+local BUILD = require "@constants/build"
 local instances = require "@utils/instances"
 
 local CONFIG = {
@@ -14,11 +15,8 @@ local CONFIG = {
 	},
 	global_injection_key = "__hotreload_env_global_injection__",
 
-	version = { -- this might be automated eventually
-		mayor = 2,
-		minor = 0,
-		fix = 0,
-	},
+	-- generated into the build file by CI, see scripts/build-info.luau
+	version = BUILD.version,
 
 	file_extensions = {
 		story = ".story",

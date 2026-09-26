@@ -17,6 +17,13 @@ type HeaderActionsProps = {
 local BUTTON_SIZE = 20
 local ICON_SIZE = 16
 
+-- the buttons sit at the right end of the header: above them with the right edges aligned,
+-- below when it doesnt fit
+local HINT_ANCHOR = {
+	Vector2.new(1, -1),
+	Vector2.new(1, 2),
+}
+
 --- The buttons at the end of the table header, they act on every control of the preview.
 --- Returned as children for a horizontal list
 local function header_actions(props: HeaderActionsProps)
@@ -56,6 +63,8 @@ local function header_actions(props: HeaderActionsProps)
 			size = BUTTON_SIZE,
 			icon_size = ICON_SIZE,
 			order = 1,
+			hint = "Keep Controls",
+			hint_anchor = HINT_ANCHOR,
 			activated = toggle_keep_controls,
 		},
 		icon_button {
@@ -65,6 +74,8 @@ local function header_actions(props: HeaderActionsProps)
 			size = BUTTON_SIZE,
 			icon_size = ICON_SIZE,
 			order = 2,
+			hint = "Reset Controls",
+			hint_anchor = HINT_ANCHOR,
 			activated = reset,
 		},
 	}

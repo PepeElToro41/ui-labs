@@ -13,6 +13,8 @@ local IMAGES = {
 	close = "rbxassetid://121502092628708",
 	corner = "rbxassetid://86339120976263",
 	right_arrow = "rbxassetid://98515959792894",
+	hint_arrow = "rbxassetid://14015191273", -- points upwards
+
 	anchor = "rbxassetid://124902076781627",
 	dot = "rbxassetid://90763872297559",
 	dot_options = "rbxassetid://18977916731",
@@ -33,5 +35,10 @@ local IMAGES = {
 	reload = "rbxassetid://137661226785658",
 	zoom_in = "rbxassetid://107054653929042",
 	zoom_out = "rbxassetid://94778654264767",
+	-- Plugin toolbar buttons
+	plugin_open = "rbxassetid://13858107432",
+	plugin_open_dev = "rbxassetid://16652065460",
+	plugin_open_canary = "rbxassetid://88856573487980",
+	plugin_stop = "rbxassetid://13960086023",
 }
 return IMAGES

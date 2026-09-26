@@ -1,6 +1,12 @@
 {
-	"name": "ui-labs-vide",
+	"name": "ui-labs-ecs",
 	"tree": {
-		"$path": "src"
+		"$path": "src",
+		"packages": {
+			"$path": "roblox_packages"
+		},
+		"vendor": {
+			"$path": "vendor"
+		}
 	}
 }

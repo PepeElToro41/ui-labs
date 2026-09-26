@@ -168,7 +168,7 @@ function number_entry(props: NumberEntryProps)
 			vide.create "UISizeConstraint" {
 				MinSize = Vector2.new(MIN_SIZE, 0),
 			},
-			corner { Radius = 6 },
+			corner { radius = 10 },
 			padding {
 				left = 4,
 				right = props.drag_handle and 6 or 8,

@@ -7,6 +7,8 @@ roblox.toml
 globalTypes.d.lua
 generated.d.luau
 serve
+build
+publish
 include
 *.tsbuildinfo
 lune_packages

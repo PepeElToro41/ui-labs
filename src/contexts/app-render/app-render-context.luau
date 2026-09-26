@@ -7,6 +7,13 @@ export type Popup = {
 	render: () -> Instance,
 }
 
+export type Overlay = {
+	--- whoever shows the overlay, each owner has a single overlay
+	owner: unknown,
+	--- called inside the overlay layer scope, returns the overlay instance
+	render: () -> Instance,
+}
+
 export type AppRender = {
 	--- the whole app
 	holder: Source<Frame?>,
@@ -20,6 +27,13 @@ export type AppRender = {
 	open_popup: (owner: unknown, render: () -> Instance) -> (),
 	--- closes the open popup. When an owner is given, only if that owner opened it
 	close_popup: (owner: unknown?) -> (),
+
+	--- overlays that dont take over the app like a popup does (hints), any amount can exist at once
+	--- and the contents stay interactable. They render on top of the popup
+	overlays: Source<{ Overlay }>,
+	--- shows the overlay of this owner, replacing the one it was already showing
+	show_overlay: (owner: unknown, render: () -> Instance) -> (),
+	hide_overlay: (owner: unknown) -> (),
 }
 
 local APP_RENDER_CONTEXT = vide.context() :: vide.Context<AppRender>

@@ -21,6 +21,8 @@ local check_story = require "@self/check-story"
 	`selected_preview` marks the active tab. `preview_order` is kept contiguous by the system,
 	`move` reorders tabs and keeps that invariant itself.
 	`story_type` / `story_error` are derived from the preview's `module_result`.
+	`preview_scale` / `preview_offset` are the zoom and position of the mounted story, the
+	story_holder ui applies them to the holder frame.
 
 	Non-cached queries are only correct on their first iteration, so every helper builds a
 	fresh one and collects entities with `:iter()` before writing.
@@ -29,6 +31,9 @@ local check_story = require "@self/check-story"
 local previews = {}
 
 export type StoryType = c.StoryType
+
+previews.MIN_SCALE = 0.1
+previews.MAX_SCALE = 10
 
 type Ordered = { entity: ecs.Entity, order: number }
 
@@ -108,6 +113,8 @@ local function create_preview(world: ecs.World, node: ecs.Entity, order: number,
 	local preview = world.entity()
 	world.set(preview, c.preview_order, order)
 	world.set(preview, c.module_script, module)
+	world.set(preview, c.preview_scale, 1)
+	world.set(preview, c.preview_offset, Vector2.zero)
 	world.add(preview, ecs.pair(ecs.ChildOf, node))
 
 	if quick then
@@ -159,6 +166,18 @@ function previews.unmount(world: ecs.World, preview: ecs.Entity)
 	reselect(world)
 end
 
+function previews.unmount_all(world: ecs.World) 
+	for _, entity in world.query(c.story_preview):entities() do
+		world.delete(entity)
+	end
+end
+
+function previews.unmount_node(world: ecs.World, node: ecs.Entity)
+	for _, entity in world.query(c.story_preview, ecs.pair(ecs.ChildOf, node)):entities() do
+		world.delete(entity)
+	end
+end
+
 --- Forces a reload of `preview`: module_loading drops its environment and requires the story
 --- again, the new result then remounts it (same as auto reload, without a source change)
 function previews.reload(world: ecs.World, preview: ecs.Entity)
@@ -168,6 +187,51 @@ function previews.reload(world: ecs.World, preview: ecs.Entity)
 	if not world.has(preview, c.reload_queued) then
 		world.add(preview, c.reload_queued)
 	end
+end
+
+--- Zooms the story of `preview` to `scale` (clamped). The story scales from its top left corner,
+--- so with a `pivot` (relative to where the holders live) the offset is moved to keep the
+--- point of the story under it in place.
+function previews.zoom(world: ecs.World, preview: ecs.Entity, scale: number, pivot: Vector2?)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+
+	local current = world.get(preview, c.preview_scale) or 1
+	local target = math.clamp(scale, previews.MIN_SCALE, previews.MAX_SCALE)
+	if target == current then
+		return
+	end
+
+	if pivot then
+		local offset = world.get(preview, c.preview_offset) or Vector2.zero
+		world.set(preview, c.preview_offset, pivot - (pivot - offset) * (target / current))
+	end
+	world.set(preview, c.preview_scale, target)
+end
+
+--- Moves the story of `preview` to `offset`, in pixels from its original position
+function previews.set_offset(world: ecs.World, preview: ecs.Entity, offset: Vector2)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+	world.set(preview, c.preview_offset, offset)
+end
+
+--- Puts the story of `preview` back at its original zoom
+function previews.reset_zoom(world: ecs.World, preview: ecs.Entity)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+	world.set(preview, c.preview_scale, 1)
+end
+
+--- Puts the story of `preview` back at its original position
+function previews.reset_position(world: ecs.World, preview: ecs.Entity)
+	if not world.exists(preview) or not world.has(preview, c.story_preview) then
+		return
+	end
+	world.set(preview, c.preview_offset, Vector2.zero)
 end
 
 --- Moves `preview` to tab slot `index` (clamped). Orders stay contiguous 1..n so quick_mount

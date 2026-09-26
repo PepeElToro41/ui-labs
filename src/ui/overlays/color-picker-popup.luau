@@ -27,7 +27,6 @@ local CANVAS_PADDING = 4
 local HANDLE_ROOM = 10
 local COVER_CORNER_RADIUS = 8
 
-
 local function aligned_offset(place: number): number
 	return if place == 0 then -HANDLE_ROOM elseif place == 1 then HANDLE_ROOM else 0
 end

@@ -11,7 +11,7 @@ end
 
 function use_component<T>(entity: Derivable<ecs.Entity>, id: ecs.Component<T>): Reactive<T>
 	local world = use_world()
-	local output = vide.source()
+	local output = vide.source(nil :: any)
 
 	vide.effect(function()
 		local entity = vide.read(entity) :: ecs.Entity
@@ -37,7 +37,7 @@ function use_component<T>(entity: Derivable<ecs.Entity>, id: ecs.Component<T>): 
 				output(get(world, entity, id))
 			end
 		end))
-		vide.cleanup(world.removed(listen, function(e)
+		vide.cleanup(world.removed(listen, function(e): any
 			if e ~= entity then
 				return nil
 			end

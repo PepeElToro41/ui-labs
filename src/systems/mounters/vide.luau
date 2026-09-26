@@ -24,8 +24,6 @@ local vide_mounter: types.Mounter<VideStory> = function(props)
 	local lib = props.result.vide
 	local world = props.world
 
-	-- the entities go first: the sources are mapped from them, and an unmount destroys them all,
-	-- so every mount starts with none
 	local converted: controls.ConvertedControls = {}
 	if props.result and props.result.controls then
 		converted = controls.convert(props.result.controls, prefix)

@@ -86,7 +86,7 @@ local function slider_input(props: SliderInputProps)
 		return separation >= MIN_MARK_SEPARATION
 	end)
 
-	local spring_percent = vide.spring(percent, 0.2, 1)
+	local spring_percent, set_spring_percent = vide.spring(percent, 0.2, 1)
 	local display_percent = function()
 		-- when dragging freely (no marks to snap to) follow the mouse directly
 		if dragging() and not marks_visible() then
@@ -108,7 +108,17 @@ local function slider_input(props: SliderInputProps)
 
 	local function drag_update(new_percent: number)
 		local value = get_stepped_value(props, get_value(props, new_percent))
-		percent(get_percent(props, value))
+		local stepped_percent = get_percent(props, value)
+		percent(stepped_percent)
+
+		-- while dragging freely the handle follows the mouse directly and the spring
+		-- keeps lagging behind, so keep it in sync or the handle bounces back once
+		-- the drag ends and the handle switches back to the spring.
+		-- (checked here instead of `dragging` since `apply` and the dragging
+		-- source both hang off DragEnd and their order is not guaranteed)
+		if not vide.untrack(marks_visible) then
+			set_spring_percent { position = stepped_percent, velocity = 0 }
+		end
 		return value
 	end
 

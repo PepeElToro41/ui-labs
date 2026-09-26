@@ -29,8 +29,22 @@ local function story_holder(props: StoryHolderProps)
 		return module_search.remove_extension(module_name(), STORY_SUFFIX)
 	end
 
+	local scale = use_component(entity, c.preview_scale)
+	local offset = use_component(entity, c.preview_offset)
+
 	local holder = div {
 		Name = name,
+		Position = function()
+			local pixels = offset() or Vector2.zero
+			return UDim2.fromOffset(pixels.X, pixels.Y)
+		end,
+
+		vide.create "UIScale" {
+			Name = "preview_scale",
+			Scale = function()
+				return scale() or 1
+			end,
+		},
 	}
 
 	local outer = div {

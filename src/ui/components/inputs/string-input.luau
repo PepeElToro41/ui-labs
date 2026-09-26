@@ -89,7 +89,7 @@ local function string_input(props: StringInputProps)
 					return theme().border:Lerp(theme().emphasis, focus_alpha())
 				end,
 			},
-			corner { radius = 6 },
+			corner { radius = 10 },
 			padding { paddingx = 8 },
 			-- this covers the last bit of the text in multiline
 			-- this is done because the text next line is visible at the bottom

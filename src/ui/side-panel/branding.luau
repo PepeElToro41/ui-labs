@@ -1,3 +1,4 @@
+local BUILD = require "@constants/build"
 local CONFIG = require "@constants/config"
 local IMAGES = require "@constants/images"
 local use_theme = require "@contexts/theme/use-theme"
@@ -12,6 +13,14 @@ local text = require "@ui/styles/text"
 
 local VERSION = CONFIG.version
 local LOGO_COLOR = Color3.fromRGB(245, 179, 255)
+
+-- release builds show the plain version, the others say what they are
+local VERSION_TEXT = `v{VERSION.mayor}.{VERSION.minor}.{VERSION.fix}`
+if BUILD.channel == "canary" then
+	VERSION_TEXT ..= ` canary {BUILD.commit or "?"}`
+elseif BUILD.channel == "dev" then
+	VERSION_TEXT ..= " dev"
+end
 
 local function logo()
 	return div {
@@ -56,7 +65,7 @@ local function branding(props: {}?)
 			},
 			text {
 				Name = "version",
-				Text = `v{VERSION.mayor}.{VERSION.minor}.{VERSION.fix}`,
+				Text = VERSION_TEXT,
 				TextColor3 = theme(themes.text2),
 				weight = Enum.FontWeight.Light,
 				TextSize = 10,

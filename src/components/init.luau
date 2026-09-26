@@ -47,6 +47,8 @@ local components = {
 
 	preview_holder = ecs.component() :: ecs.Component<Frame>,
 	preview_holder_override = ecs.component() :: ecs.Component<Frame>,
+	preview_scale = ecs.component() :: ecs.Component<number>, -- multiplier of the holder's UIScale
+	preview_offset = ecs.component() :: ecs.Component<Vector2>, -- holder position, in pixels
 
 	-- controls (one entity per story control, ChildOf the preview or of a control_group) --
 	control = ecs.component() :: ecs.Component<control_types.Control>, -- the converted ui-labs control object
