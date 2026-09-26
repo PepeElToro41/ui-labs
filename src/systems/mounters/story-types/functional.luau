@@ -1,6 +1,6 @@
 local logging = require "@constants/logging"
-local run_protected = require "./run-protected"
-local types = require "./types"
+local run_protected = require "../run-protected"
+local types = require "../types"
 
 local LOG_MESSAGES = logging.LOG_MESSAGES
 local STORY_NAME = logging.STORY_NAMES.functional

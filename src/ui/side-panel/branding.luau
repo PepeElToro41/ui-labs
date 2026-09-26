@@ -14,13 +14,11 @@ local text = require "@ui/styles/text"
 local VERSION = CONFIG.version
 local LOGO_COLOR = Color3.fromRGB(245, 179, 255)
 
--- release builds show the plain version, the others say what they are
-local VERSION_TEXT = `v{VERSION.mayor}.{VERSION.minor}.{VERSION.fix}`
-if BUILD.channel == "canary" then
-	VERSION_TEXT ..= ` canary {BUILD.commit or "?"}`
-elseif BUILD.channel == "dev" then
-	VERSION_TEXT ..= " dev"
-end
+-- release builds show the version, canary builds the commit they were made from
+local VERSION_TEXT = if BUILD.channel == "canary"
+	then BUILD.commit or "canary"
+	elseif BUILD.channel == "dev" then `v{VERSION.mayor}.{VERSION.minor}.{VERSION.fix} dev`
+	else `v{VERSION.mayor}.{VERSION.minor}.{VERSION.fix}`
 
 local function logo()
 	return div {

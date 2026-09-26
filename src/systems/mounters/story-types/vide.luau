@@ -1,8 +1,8 @@
 local logging = require "@constants/logging"
 local controls = require "@src/systems/controls"
-local run_protected = require "./run-protected"
-local types = require "./types"
-local c = require "@src/components"
+local create_controls = require "../create-controls"
+local run_protected = require "../run-protected"
+local types = require "../types"
 
 local LOG_MESSAGES = logging.LOG_MESSAGES
 local STORY_NAME = logging.STORY_NAMES.vide
@@ -24,11 +24,7 @@ local vide_mounter: types.Mounter<VideStory> = function(props)
 	local lib = props.result.vide
 	local world = props.world
 
-	local converted: controls.ConvertedControls = {}
-	if props.result and props.result.controls then
-		converted = controls.convert(props.result.controls, prefix)
-	end
-	controls.create(world, props.entity, converted, world.get(props.entity, c.control_recovery))
+	create_controls(world, props.entity, props.result.controls, prefix)
 
 	-- the sources live in their own root so they can outlive a story that errored
 	local destroy_sources, sources, by_entity = lib.root(function()

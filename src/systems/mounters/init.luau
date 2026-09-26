@@ -4,10 +4,13 @@ local vide = require "@pkg/vide"
 local c = require "@src/components"
 local controls = require "@src/systems/controls"
 local ecs = require "@vendor/ecs"
-local functional = require "@self/functional"
 local run_protected = require "@self/run-protected"
+local functional = require "@self/story-types/functional"
+local fusion_mounter = require "@self/story-types/fusion"
+local react_mounter = require "@self/story-types/react"
+local roact_mounter = require "@self/story-types/roact"
+local vide_mounter = require "@self/story-types/vide"
 local types = require "@self/types"
-local vide_mounter = require "@self/vide"
 
 --[[
 	Story mounters: executes a preview's story into its holder frame.
@@ -23,6 +26,9 @@ local vide_mounter = require "@self/vide"
 
 	`story_type` is re-set every time the module result changes, which re-queues the preview in
 	the changed query: the old mount is cleaned up before the new result is mounted, same tick.
+
+	Each story type has its mounter under `story-types/`: it receives `MounterProps`, runs the
+	story into `target` and returns the cleanup that undoes the mount (see `types.luau`).
 
 	Unmounting happens synchronously in the `preview_holder` / `story_type` removed hooks. Those
 	fire before the entity leaves its archetype (and before the monitors that tear the holder ui
@@ -40,6 +46,9 @@ local LOG_MESSAGES = logging.LOG_MESSAGES
 
 local MOUNTERS: { [c.StoryType]: Mounter<any> } = {
 	Functional = functional,
+	React = react_mounter,
+	Roact = roact_mounter,
+	Fusion = fusion_mounter,
 	Vide = vide_mounter,
 }
 

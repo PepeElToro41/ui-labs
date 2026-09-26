@@ -208,7 +208,8 @@ local function run_task(script: string): { [string]: string }
 	local variables: { [string]: string } = {}
 	for _, line in messages do
 		log(`  {line}`)
-		local key, value = line:match "^(%w+)=(.+)$"
+		-- `%w` does not include `_`, so the class is spelled out
+		local key, value = line:match "^([%w_]+)=(.-)%s*$"
 		if key and value then
 			variables[key] = value
 		end
