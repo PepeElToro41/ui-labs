@@ -1,0 +1,64 @@
+name: Canary
+
+# Publishes a canary build of the plugin to the Creator Store on every commit that
+# touches it. Needs the `ROBLOX_API_KEY` secret (see scripts/publish.luau for scopes)
+# and the ids in scripts/publish-targets.luau.
+
+on:
+  push:
+    branches: [main, luau]
+    paths:
+      - "src/**"
+      - "vendor/**"
+      - "patches/**"
+      - "pesde.toml"
+      - "pesde.lock"
+      - "rokit.toml"
+      - "build.project.json"
+      - ".darklua.json"
+      - ".luaurc"
+      - "scripts/**"
+      - ".github/workflows/canary.yml"
+  workflow_dispatch:
+
+# one publish at a time, in commit order
+concurrency:
+  group: canary
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: canary
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install rokit tools
+        uses: CompeyDev/setup-rokit@v0.2.1
+
+      - name: Install pesde
+        uses: pesde-pkg/setup-pesde@fd77031c12ecfc3031e141a8fe0c8dbf811bb526
+        with:
+          version: "0.7.4"
+          cache: true
+
+      - name: Install packages
+        run: pesde install
+
+      - name: Write build info
+        run: zune run scripts/build-info.luau --channel canary --commit "${GITHUB_SHA::7}"
+
+      - name: Build plugin
+        run: zune run scripts/build.luau --output UILabs.rbxm --skip-install
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UILabs-canary-${{ github.sha }}
+          path: UILabs.rbxm
+
+      - name: Publish to the Creator Store
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+        run: zune run scripts/publish.luau --target canary --model UILabs.rbxm --commit "${GITHUB_SHA::7}"
