@@ -8,6 +8,7 @@ local top_list = require "@ui/styles/list/top-list"
 local background = require "@self/background"
 local preview_tabs = require "@self/preview-tabs"
 local story_content = require "@self/story-content"
+local story_tools = require "@self/story-content/tools"
 local toolbar = require "@self/toolbar"
 local action_panel = require "@self/action-panel"
 local story_tabs = require "@self/action-panel/story-tabs"
@@ -40,6 +41,7 @@ local function main_panel(props: {}?)
 
 				flex_fill(),
 				story_content { preview = story_info.preview },
+				story_tools { preview = story_info.preview },
 				toolbar { preview = story_info.preview, view_size = story_size },
 
 				actions.absolute_size(story_size),

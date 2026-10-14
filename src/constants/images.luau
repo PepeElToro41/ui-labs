@@ -35,6 +35,7 @@ local IMAGES = {
 	reload = "rbxassetid://137661226785658",
 	zoom_in = "rbxassetid://107054653929042",
 	zoom_out = "rbxassetid://94778654264767",
+	icon_atlas = "rbxassetid://110765369713957", -- sprite sheet, the frames are picked with image rects
 	-- Plugin toolbar buttons
 	plugin_open = "rbxassetid://13858107432",
 	plugin_open_dev = "rbxassetid://16652065460",

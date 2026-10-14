@@ -59,7 +59,9 @@ end
 
 function utils.set_environment(virtual_module: () -> any, module: ModuleScript, environment: types.Environment)
 	local globals = {
+		-- both globals point at the environment table so nothing leaks into the real ones
 		_G = environment.shared,
+		shared = environment.shared,
 		script = module,
 		require = function(target: any)
 			local resolved: ModuleScript

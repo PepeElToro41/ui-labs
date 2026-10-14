@@ -12,7 +12,9 @@ type StoryContentProps = {
 	preview: Reactive<ecs.Entity?>,
 }
 
---- Hosts one holder frame per preview, where the mounted stories render
+--- Hosts one holder frame per preview, where the mounted stories render. Every preview is
+--- drawn, the holders stack by tab order inside a frame of their own so the draw order of
+--- the stories never reaches what is laid over them
 local function story_content(props: StoryContentProps)
 	local world = use_world()
 
@@ -21,9 +23,13 @@ local function story_content(props: StoryContentProps)
 	return div {
 		Name = "content",
 
-		vide.values(entities, function(entity)
-			return story_holder { entity = entity }
-		end),
+		div {
+			Name = "previews",
+
+			vide.values(entities, function(entity)
+				return story_holder { entity = entity }
+			end),
+		},
 		view_listener { preview = props.preview },
 	}
 end

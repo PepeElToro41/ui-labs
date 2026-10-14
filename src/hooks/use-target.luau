@@ -21,7 +21,7 @@ local function use_target(entity: Derivable<ecs.Entity?>, relation: ecs.Id): Rea
 				output(get(world, entity, relation))
 			end
 		end))
-		vide.cleanup(world.removed(listen, function(e)
+		vide.cleanup(world.removed(listen, function(e): any
 			if e ~= entity then
 				return nil
 			end

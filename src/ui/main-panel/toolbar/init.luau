@@ -51,8 +51,8 @@ local function toolbar(props: ToolbarProps)
 		Position = UDim2.fromOffset(6, 4),
 		Size = size,
 		Visible = visible,
-		-- over the story holders
-		ZIndex = 2,
+		-- over the story holders and the tools drawn over them
+		ZIndex = 3,
 
 		actions.hovered(hovered),
 		frame {

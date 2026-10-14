@@ -126,7 +126,6 @@ export type Services = {
 	SessionService: SessionService,
 	SharedTableRegistry: SharedTableRegistry,
 	SmoothVoxelsUpgraderService: SmoothVoxelsUpgraderService,
-	SnippetService: SnippetService,
 	SocialService: SocialService,
 	SoundService: SoundService,
 	StarterGui: StarterGui,
@@ -303,7 +302,6 @@ export type ServiceName = (
 	| "SharedTableRegistry"
 	| "ShorelineUpgraderService"
 	| "SmoothVoxelsUpgraderService"
-	| "SnippetService"
 	| "SocialService"
 	| "SoundService"
 	| "StarterGui"

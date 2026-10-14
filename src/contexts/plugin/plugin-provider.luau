@@ -7,11 +7,13 @@ type PluginHandle = PLUGIN_CONTEXT.PluginHandle
 local function plugin_provider(props: {
 	plugin: Plugin?,
 	widget: DockWidgetPluginGui?,
+	widget_id: string?,
 	children: () -> any,
 })
 	local handle: PluginHandle = {
 		plugin = props.plugin,
 		widget = props.widget,
+		widget_id = props.widget_id,
 	}
 	return PLUGIN_CONTEXT(handle, props.children)
 end

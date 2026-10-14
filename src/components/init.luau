@@ -4,6 +4,10 @@ local ecs = require "@vendor/ecs"
 local control_types = require "@src/systems/controls/types"
 
 export type StoryType = "Functional" | "React" | "Roact" | "Fusion" | "Iris" | "Vide" | "Generic"
+--- the places a mounted story can be shown in, see ui/main-panel/story-content/holders
+export type HolderType = "editor" | "viewport" | "widget"
+--- the tools that can be used over a mounted story, see ui/main-panel/story-content/tools
+export type ToolType = "measure" | "select" | "outlines"
 
 local components = {
 	module_script = ecs.component() :: ecs.Component<ModuleScript>,
@@ -17,7 +21,7 @@ local components = {
 
 	-- hot reloading --
 	environment = ecs.component() :: ecs.Component<environment.Environment>,
-	r_shared_environment = ecs.tag(),
+	r_shared_environment = ecs.tag(), -- relation: entity -> the entity whose environment it loads in
 	auto_reload = ecs.tag(),
 	reload_queued = ecs.tag(),
 	reload_postponed = ecs.tag(),
@@ -45,6 +49,19 @@ local components = {
 	story_type = ecs.component() :: ecs.Component<StoryType>, -- detected from the preview's module_result
 	story_error = ecs.component() :: ecs.Component<string>, -- why the result is not a valid story
 
+	-- holders: the editor slot always exists, these open the other two. Several can be open
+	-- at once, the story itself is only ever in one of them (viewport > widget > editor)
+	in_viewport = ecs.tag(),
+	in_widget = ecs.tag(),
+
+	-- on a preview: its story frame is invisible, in every holder it could be shown in
+	hidden = ecs.tag(),
+
+	-- story tools: the overlays drawn over a mounted story, one tag per tool
+	measure_tool = ecs.tag(),
+	select_tool = ecs.tag(),
+	outline_marker = ecs.tag(),
+
 	preview_holder = ecs.component() :: ecs.Component<Frame>,
 	preview_holder_override = ecs.component() :: ecs.Component<Frame>,
 	preview_scale = ecs.component() :: ecs.Component<number>, -- multiplier of the holder's UIScale
@@ -59,7 +76,6 @@ local components = {
 	keep_controls = ecs.tag(), -- on a preview: values are recovered across reloads
 	control_recovery = ecs.component() :: ecs.Component<control_types.RecoverData>, -- on a preview: last values, per control name
 
-	hidden = ecs.tag(),
 	transparency = ecs.component() :: ecs.Component<number>,
 	zoom = ecs.component() :: ecs.Component<number>,
 	padding = ecs.component() :: ecs.Component<number>,
@@ -70,6 +86,10 @@ ecs.meta(components.r_extension, ecs.Exclusive)
 
 -- a node has exactly one kind
 ecs.meta(components.r_node, ecs.Exclusive)
+
+-- an entity loads in exactly one environment, its own or a single shared one. The pair is
+-- dropped when the owner is deleted, the entity then loads its own environment again
+ecs.meta(components.r_shared_environment, ecs.Exclusive)
 
 -- a story node belongs to exactly one story module and is deleted with it
 ecs.meta(components.r_module, ecs.Exclusive)

@@ -11,14 +11,25 @@ local derivers = require "@utils/vide/derivers"
 
 local read = vide.read
 
+export type IconRect = {
+	offset: Vector2,
+	size: Vector2,
+}
+
 type ToolbarButtonProps = {
 	name: string?,
 	icon: string,
+	--- the part of the icon to draw, when it is one frame of a sprite sheet
+	icon_rect: IconRect?,
+	--- multiplier over the default icon size, for icons drawn with more padding than the rest
+	scale: number?,
 	order: number?,
 	--- shown next to the button while it is hovered
-	hint: string?,
+	hint: Derivable<string>?,
 	--- whether the toolbar is hovered, the button can only be hovered while it is
 	toolbar_hovered: Reactive<boolean>?,
+	-- a toggle that is on: the icon takes the accent color
+	active: Derivable<boolean>?,
 	-- when disabled the icon grays out and clicks are ignored
 	disabled: Derivable<boolean>?,
 	activated: () -> (),
@@ -36,10 +47,14 @@ local HINT_PADDING = 6
 
 local function toolbar_button(props: ToolbarButtonProps)
 	local theme = use_theme()
+	local icon_size = ICON_SIZE * (props.scale or 1)
 	local hovered = vide.source(false)
 
 	local disabled = function()
 		return read(props.disabled) == true
+	end
+	local active = function()
+		return read(props.active) == true
 	end
 	local hover_active = function()
 		return hovered() and not disabled()
@@ -64,11 +79,13 @@ local function toolbar_button(props: ToolbarButtonProps)
 		image {
 			Name = "icon",
 			Image = props.icon,
-			Size = UDim2.fromOffset(ICON_SIZE, ICON_SIZE),
+			ImageRectOffset = if props.icon_rect then props.icon_rect.offset else Vector2.zero,
+			ImageRectSize = if props.icon_rect then props.icon_rect.size else Vector2.zero,
+			Size = UDim2.fromOffset(icon_size, icon_size),
 			Position = UDim2.fromScale(0.5, 0.5),
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			ImageColor3 = function()
-				return if disabled() then theme().text3 else theme().text1
+				return if disabled() then theme().text3 elseif active() then theme().emphasis else theme().text1
 			end,
 			ImageTransparency = function()
 				return if disabled() then 0.4 else 0

@@ -26,6 +26,7 @@ local padding = require "@ui/styles/padding"
 local text = require "@ui/styles/text"
 local actions = require "@utils/vide/actions"
 local derivers = require "@utils/vide/derivers"
+local videx = require "@utils/vide/videx"
 local ecs = require "@vendor/ecs"
 local tab_layout = require "./layout"
 local tab_dropdown = require "./tab-dropdown"
@@ -39,6 +40,8 @@ type PreviewTabProps = {
 local STORY_SUFFIX = CONFIG.file_extensions.story
 local GLOW_EXTENDS = Vector2.new(14, 14)
 local DRAG_THRESHOLD = 4
+-- the marker shown on the quick mounted tab
+local DOT_SIZE = 8
 
 local function preview_tab(props: PreviewTabProps)
 	local world = use_world()
@@ -168,10 +171,6 @@ local function preview_tab(props: PreviewTabProps)
 		return module_search.remove_extension(module_name(), STORY_SUFFIX)
 	end
 
-	local label = function()
-		return (if quick() then "• " else "") .. name()
-	end
-
 	local text_color = function()
 		return theme()[if selected() then themes.text_active1 else themes.text2]
 	end
@@ -258,9 +257,21 @@ local function preview_tab(props: PreviewTabProps)
 					VerticalAlignment = Enum.VerticalAlignment.Center,
 					gap = 5,
 				},
+				-- marks the quick preview, the tab a plain click on a story swaps
+				videx.show(quick, function()
+					return image {
+						Name = "dot",
+						Image = IMAGES.dot,
+						ImageColor3 = text_color,
+						ImageTransparency = 0.3,
+						ScaleType = Enum.ScaleType.Fit,
+						Size = UDim2.fromOffset(DOT_SIZE, DOT_SIZE),
+						LayoutOrder = 0,
+					}
+				end),
 				text {
 					Name = "label",
-					Text = label,
+					Text = name,
 					TextColor3 = text_color,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.X,

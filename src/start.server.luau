@@ -69,6 +69,8 @@ local function mount_app()
 		return app {
 			plugin = plugin,
 			widget = widget,
+			widget_id = settings.widget_id,
+			api = { id = settings.widget_id, variant = variant },
 		}
 	end, widget)
 end
